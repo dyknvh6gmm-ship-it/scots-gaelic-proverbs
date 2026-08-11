@@ -1,50 +1,1297 @@
-# Sean-fhaclan & Auld Sayins
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sean-fhaclan | Scots, Gaelic &amp; English Proverbs</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Sean-fhaclan" />
+<style>
+  :root {
+    --saltire: #0065bd;
+    --thistle: #5b2a86;
+    --amber: #a3691f;
+    --heather: #8e6c9c;
+    --parchment: #faf6ee;
+    --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  ::selection { background: var(--thistle); color: #fff; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
 
-A searchable Scots ⇄ Scottish Gaelic proverb app. Single file, no build step.
+  header.app-header {
+    background: linear-gradient(to right, var(--saltire), var(--thistle));
+    color: #fff;
+    padding: 32px 20px;
+  }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 2rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 620px; }
 
-## Run it
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
 
-Just open `index.html` in a browser — double-click it, or drag it into a browser window. It works offline.
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px; }
 
-## Deploy it as a real website
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
 
-Any static host works, since it's one self-contained HTML file:
+  .toggle-group {
+    display: inline-flex; border-radius: 999px; background: #fff;
+    border: 1px solid rgba(142,108,156,0.3); padding: 4px; flex-wrap: wrap;
+  }
+  .toggle-group button {
+    border: none; background: transparent; padding: 7px 14px; border-radius: 999px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer; color: rgba(43,35,32,0.7);
+  }
+  .toggle-group button.active.scots { background: var(--saltire); color: #fff; }
+  .toggle-group button.active.gaelic { background: var(--thistle); color: #fff; }
+  .toggle-group button.active.english { background: var(--amber); color: #fff; }
 
-- **Netlify Drop**: go to app.netlify.com/drop and drag `index.html` in — live in seconds.
-- **GitHub Pages**: push this file to a repo, enable Pages in repo settings, pointing at the root.
-- **Vercel**: `vercel deploy` from this folder (or drag-and-drop via the dashboard).
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(142,108,156,0.3);
+    background: #fff; font-size: 0.875rem; color: rgba(43,35,32,0.7); cursor: pointer;
+  }
+  .link-btn {
+    margin-left: auto; font-size: 0.875rem; color: rgba(43,35,32,0.5);
+    text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer;
+  }
 
-No npm install, no build — the app loads React, Babel, and Tailwind from CDNs at runtime.
+  #search-input {
+    width: 100%; border-radius: 10px; border: 1px solid rgba(142,108,156,0.3);
+    padding: 12px 16px; font-size: 1.125rem; font-family: Georgia, serif;
+    background: #fff; color: var(--ink);
+  }
+  #search-input:focus { outline: 2px solid rgba(91,42,134,0.5); }
 
-## What's inside
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; font-size: 0.875rem; }
+  .filters select {
+    border-radius: 6px; border: 1px solid rgba(142,108,156,0.3); padding: 6px 8px; background: #fff;
+  }
+  .filters label { display: inline-flex; align-items: center; gap: 6px; color: rgba(43,35,32,0.7); }
+  .filters .count { margin-left: auto; color: rgba(43,35,32,0.4); }
 
-- **Toggle search**: switch between "Scots → Gàidhlig" and "Gàidhlig → Scots".
-- **Theme filter** and a **"has confirmed equivalent"** filter.
-- **Favourites**, saved in your browser (localStorage).
-- **Random proverb** button.
-- **Suggest a proverb** form — saved locally, exportable as JSON so you can fold new entries into the dataset.
+  .results { display: grid; gap: 16px; margin-top: 20px; }
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 40px 0; text-align: center; }
 
-## The data
+  .card {
+    background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .theme-tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--heather); font-weight: 600; }
+  .fav-btn { background: none; border: none; cursor: pointer; padding: 0; line-height: 0; }
 
-All 40 proverbs live in the `<script type="application/json" id="proverb-data">` block near the top of `index.html`. To add or edit entries, edit that JSON array directly — each entry looks like:
+  .lang-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; margin-bottom: 4px; }
+  .lang-label.scots { color: var(--saltire); }
+  .lang-label.gaelic { color: var(--thistle); }
+  .lang-label.english { color: var(--amber); }
+  .card p.text { font-size: 1.125rem; margin: 0; line-height: 1.4; }
+  .card p.gloss { font-size: 0.875rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .card .secondary-block { border-top: 1px solid rgba(142,108,156,0.15); padding-top: 12px; }
+  .card .no-match { font-size: 0.875rem; font-style: italic; color: rgba(43,35,32,0.5); }
+  .card .source { font-size: 0.75rem; color: rgba(43,35,32,0.4); margin: 0; }
 
-```json
-{
-  "id": 41,
-  "theme": "Money & Value",
-  "linked": false,
-  "scots": { "text": "...", "gloss": "plain-English meaning" },
-  "gaelic": { "text": "...", "gloss": "plain-English meaning" },
-  "source": "where this came from"
-}
-```
+  .contribute-toggle {
+    margin-top: 40px; border-top: 1px solid rgba(142,108,156,0.2); padding-top: 24px;
+  }
+  .contribute-toggle > button {
+    background: none; border: none; color: var(--thistle); font-weight: 600; cursor: pointer; font-size: 1rem;
+    text-decoration: none;
+  }
+  .contribute-toggle > button:hover { text-decoration: underline; }
 
-Set `"scots"` or `"gaelic"` to `null` if you only have one side. Set `"linked": true` only when both sides are a genuine matched pair (not just two proverbs that happen to sit in the same entry).
+  form#contribute-form {
+    margin-top: 16px; background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 12px;
+    padding: 20px; display: grid; gap: 12px;
+  }
+  form#contribute-form .row3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { form#contribute-form .row3 { grid-template-columns: 1fr 1fr 1fr; } }
+  form#contribute-form label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; color: rgba(43,35,32,0.6); }
+  form#contribute-form input, form#contribute-form textarea {
+    width: 100%; border-radius: 6px; border: 1px solid rgba(142,108,156,0.3); padding: 8px 10px; margin-top: 4px;
+    font-family: inherit; font-size: 0.95rem;
+  }
+  form#contribute-form .actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--thistle); color: #fff; border: none; padding: 9px 18px; border-radius: 6px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .export-link { font-size: 0.875rem; color: rgba(43,35,32,0.6); background: none; border: none; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  form#contribute-form .hint { font-size: 0.75rem; color: rgba(43,35,32,0.4); margin: 0; }
 
-### On accuracy
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: #fff; font-size: 0.875rem; padding: 10px 18px; border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: none;
+  }
 
-5 of the 40 entries are **matched pairs** — a Scots proverb and a Gaelic proverb judged, by meaning, to carry the same wisdom. They are not translations of each other; Scots and Gaelic are two distinct traditions, and most proverbs in one don't have a documented counterpart in the other. The remaining 35 entries are real, sourced proverbs in a single language, clearly marked as not (yet) having a confirmed equivalent — rather than forcing weak or invented matches.
+  #about-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    align-items: center; justify-content: center; padding: 16px; z-index: 50;
+  }
+  #about-overlay .modal {
+    background: #fff; border-radius: 12px; max-width: 560px; width: 100%; padding: 24px;
+    max-height: 80vh; overflow-y: auto;
+  }
+  #about-overlay .modal h2 { margin-top: 0; }
+  #about-overlay .modal p { font-size: 0.9rem; color: rgba(43,35,32,0.75); line-height: 1.5; }
+  #about-overlay .modal button.close { margin-top: 8px; background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; font-size: 0.9rem; }
 
-Sources are cited per-card and summarised in the app's "About & sources" panel: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page (drawing on Alexander Nicolson 1882, Edward Dwelly 1911, Gyula Paczolay 1997, BBC Alba's *Litir do Luchd-ionnsachaidh*); and Lingalot's Scottish Gaelic proverbs guide.
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
 
-This is a starter set, built to be extended — the suggestion form and the plain-JSON data format are meant to make that easy.
+  .potd { margin-bottom: 20px; }
+  .potd-card {
+    background: linear-gradient(135deg, rgba(0,101,189,0.07), rgba(91,42,134,0.07));
+    border: 1px solid rgba(142,108,156,0.25); border-radius: 14px; padding: 20px;
+  }
+  .potd-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 12px; }
+  .potd-badge {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--amber); background: rgba(163,105,31,0.12); padding: 5px 12px; border-radius: 999px;
+  }
+  .potd-nav button {
+    background: #fff; border: 1px solid rgba(142,108,156,0.3); width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--ink); margin-left: 6px; line-height: 1;
+  }
+  .potd-nav button:hover { background: rgba(142,108,156,0.1); }
+  .potd-body { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .potd-body { grid-template-columns: 1fr 1fr 1fr; } }
+  .potd-lang-block p.text { font-size: 1.05rem; margin: 0; line-height: 1.35; }
+  .potd-lang-block p.gloss { font-size: 0.8rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .potd-lang-block p.no-match { font-size: 0.8rem; font-style: italic; color: rgba(43,35,32,0.4); margin: 0; }
+  .potd-dots { display: flex; gap: 6px; justify-content: center; margin-top: 16px; }
+  .potd-dots button { width: 8px; height: 8px; border-radius: 50%; border: none; background: rgba(142,108,156,0.3); padding: 0; cursor: pointer; }
+  .potd-dots button.active { background: var(--thistle); }
+
+  /* Install banner (mobile only) */
+  #install-banner {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: #fff; border-top: 1px solid rgba(142,108,156,0.3);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.12); padding: 14px 16px;
+  }
+  #install-banner .row { display: flex; align-items: center; gap: 12px; max-width: 640px; margin: 0 auto; }
+  #install-banner img { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
+  #install-banner .msg { flex: 1; min-width: 0; }
+  #install-banner .msg strong { display: block; font-size: 0.9rem; }
+  #install-banner .msg span { display: block; font-size: 0.78rem; color: rgba(43,35,32,0.6); margin-top: 2px; }
+  #install-banner .actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  #install-banner button.install { background: var(--thistle); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  #install-banner button.dismiss { background: none; border: none; color: rgba(43,35,32,0.4); font-size: 1.2rem; cursor: pointer; padding: 4px 6px; line-height: 1; }
+
+  /* Newsletter */
+  .newsletter {
+    margin-top: 36px; background: linear-gradient(135deg, rgba(0,101,189,0.06), rgba(163,105,31,0.06));
+    border: 1px solid rgba(142,108,156,0.2); border-radius: 14px; padding: 22px;
+  }
+  .newsletter h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .newsletter p { margin: 0 0 14px; font-size: 0.875rem; color: rgba(43,35,32,0.65); max-width: 480px; }
+  .newsletter form { display: flex; flex-wrap: wrap; gap: 10px; }
+  .newsletter input[type="email"] {
+    flex: 1; min-width: 200px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+    padding: 10px 12px; font-size: 0.9rem;
+  }
+  .newsletter .hint { margin-top: 10px; }
+
+  /* Map section */
+  .map-section {
+    margin-top: 36px; background: #fff; border: 1px solid rgba(142,108,156,0.2);
+    border-radius: 14px; padding: 22px;
+  }
+  .map-section h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .map-section > p { margin: 0 0 14px; font-size: 0.875rem; color: rgba(43,35,32,0.65); max-width: 520px; }
+  .map-frame-wrap {
+    border-radius: 10px; overflow: hidden; border: 1px solid rgba(142,108,156,0.25);
+    height: 320px; background: #eee;
+  }
+  .map-frame { width: 100%; height: 100%; border: 0; }
+  .map-info {
+    margin-top: 12px; padding: 12px 14px; background: rgba(91,42,134,0.05);
+    border-radius: 8px; font-size: 0.9rem;
+  }
+  .map-info .place { font-weight: 600; font-size: 0.8rem; color: var(--thistle); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .map-info p.text { font-size: 1.05rem; margin: 4px 0 0; }
+  .map-info p.gloss { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .map-info p.credit { font-size: 0.75rem; color: rgba(43,35,32,0.45); margin: 8px 0 0; }
+  #map-view-larger { display: inline-block; margin-top: 8px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    <h1 class="proverb-text">Sean-fhaclan &amp; Auld Sayins</h1>
+    <p data-i18n="appSubtitle">Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.</p>
+  </div>
+</header>
+
+<main>
+  <section class="potd" id="potd">
+    <div class="potd-card">
+      <div class="potd-head">
+        <span class="potd-badge" id="potd-badge">★ Proverb of the Day</span>
+        <div class="potd-nav">
+          <button id="potd-prev" aria-label="Previous proverb">‹</button>
+          <button id="potd-next" aria-label="Next proverb">›</button>
+        </div>
+      </div>
+      <div class="potd-body" id="potd-body"></div>
+      <div class="potd-dots" id="potd-dots"></div>
+    </div>
+  </section>
+
+  <div class="toolbar">
+    <div class="toggle-group">
+      <button id="btn-lang-scots" class="active scots"></button>
+      <button id="btn-lang-gaelic" class="gaelic"></button>
+      <button id="btn-lang-english" class="english"></button>
+    </div>
+    <button id="btn-random" class="btn-outline" data-i18n="randomBtn">🎲 Random proverb</button>
+    <button id="btn-about" class="link-btn" data-i18n="aboutBtn">About &amp; sources</button>
+  </div>
+
+  <input type="text" id="search-input" placeholder="Search a Scots word or proverb…" />
+
+  <div class="filters">
+    <select id="theme-select"></select>
+    <label><input type="checkbox" id="chk-linked" /> <span data-i18n="filterAllThree">Recorded in all three languages</span></label>
+    <label><input type="checkbox" id="chk-favs" /> <span data-i18n="filterFavs">Favourites only</span></label>
+    <span class="count" id="result-count"></span>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <div class="contribute-toggle">
+    <button id="btn-contribute-toggle" data-i18n="contributeToggleClosed">Know a pairing we're missing? Suggest a proverb →</button>
+    <form id="contribute-form" style="display:none;">
+      <div class="row3">
+        <div>
+          <label class="lang-label scots" id="contribute-label-scots"></label>
+          <input name="scotsText" placeholder="Scots proverb" />
+        </div>
+        <div>
+          <label class="lang-label gaelic" id="contribute-label-gaelic"></label>
+          <input name="gaelicText" placeholder="Seanfhacal Gàidhlig" />
+        </div>
+        <div>
+          <label class="lang-label english" id="contribute-label-english"></label>
+          <input name="englishText" placeholder="English proverb" />
+        </div>
+      </div>
+      <div>
+        <label data-i18n="formLabelMeaning">Meaning / notes</label>
+        <textarea name="meaning" rows="2" placeholder="What does it mean, and where's it from?" data-i18n-attr="placeholder" data-i18n="formPlaceholderMeaning"></textarea>
+      </div>
+      <div>
+        <label data-i18n="formLabelName">Your name (optional)</label>
+        <input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" />
+      </div>
+      <div class="actions">
+        <button type="submit" class="btn-primary" data-i18n="saveSuggestionBtn">Save suggestion</button>
+        <button type="button" id="btn-export" class="export-link" style="display:none;">Export suggestions as JSON</button>
+      </div>
+      <p class="hint" data-i18n="suggestionsHint">Suggestions are saved in this browser only. Export them and add to the data file to make them permanent — see the README.</p>
+    </form>
+  </div>
+
+  <section class="map-section" id="map-section">
+    <h3 data-i18n="mapHeading">Where are the proverbs from?</h3>
+    <p data-i18n="mapIntro">We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.</p>
+    <div class="map-frame-wrap">
+      <iframe id="map-frame" class="map-frame" loading="lazy" title="Map"></iframe>
+    </div>
+    <div class="map-info" id="map-info"></div>
+    <a id="map-view-larger" href="#" target="_blank" rel="noopener" class="export-link" data-i18n="mapViewLarger">View larger map ↗</a>
+
+    <div class="contribute-toggle" style="margin-top:24px;">
+      <button id="btn-location-toggle" data-i18n="suggestLocationHeading">Suggest where a proverb is from</button>
+      <form id="location-form" style="display:none;">
+        <div>
+          <label id="location-label-proverb" data-i18n="suggestLocationProverbLabel">Gaelic proverb</label>
+          <input name="proverbText" placeholder="Seanfhacal Gàidhlig" required />
+        </div>
+        <div>
+          <label data-i18n="suggestLocationPlaceLabel">Place (town, island, area)</label>
+          <input name="place" placeholder="e.g. Steòrnabhagh, Eilean Leòdhais" />
+        </div>
+        <div>
+          <label data-i18n="suggestLocationCommentsLabel">Comments</label>
+          <textarea name="comments" rows="2"></textarea>
+        </div>
+        <div>
+          <label data-i18n="formLabelName">Your name (optional)</label>
+          <input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" />
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn-primary" data-i18n="suggestLocationSubmitBtn">Submit for review</button>
+          <button type="button" id="btn-location-export" class="export-link" style="display:none;"></button>
+        </div>
+        <p class="hint" data-i18n="suggestLocationHint">Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.</p>
+      </form>
+    </div>
+  </section>
+
+  <div class="newsletter">
+    <h3 data-i18n="newsletterHeading">Get the proverb of the day by email</h3>
+    <p data-i18n="newsletterBody">Leave your email and we'll let you know when this goes live — no spam, just the odd bit of Scots and Gaelic wisdom.</p>
+    <form id="newsletter-form">
+      <input type="email" id="newsletter-email" required placeholder="you@example.com" />
+      <button type="submit" class="btn-primary" data-i18n="subscribeBtn">Subscribe</button>
+    </form>
+    <p class="hint" id="newsletter-hint" data-i18n="newsletterHintDefault">Saved in this browser for now — see the README for how to connect this to a real mailing list.</p>
+  </div>
+</main>
+
+<div id="install-banner">
+  <div class="row">
+    <img src="icons/icon-192.png" alt="" />
+    <div class="msg">
+      <strong data-i18n="installBannerTitle">Install Sean-fhaclan</strong>
+      <span id="install-banner-text">Add this to your home screen for quick, offline access.</span>
+    </div>
+    <div class="actions">
+      <button class="install" id="install-banner-btn" data-i18n="installBtn">Install</button>
+      <button class="dismiss" id="install-banner-dismiss" aria-label="Dismiss">&times;</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div id="about-overlay">
+  <div class="modal">
+    <h2 data-i18n="aboutHeading">About this collection</h2>
+    <p id="about-summary"></p>
+    <p data-i18n-html="aboutSources">Sources: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page, drawing on Alexander Nicolson's <em>A Collection of Gaelic Proverbs</em> (1882), Edward Dwelly's <em>Scottish Gaelic-English Dictionary</em> (1911), Gyula Paczolay's <em>European Proverbs in 55 Languages</em> (1997), and BBC Alba's <em>Litir do Luchd-ionnsachaidh</em>; and Lingalot's Scottish Gaelic proverbs guide. English equivalents are standard, widely documented English proverbs and sayings where one genuinely exists; where none does, the English text is a plain rendering of the meaning rather than a separate fixed saying (noted on the card).</p>
+    <p data-i18n="aboutFooterNote">Each card's source line credits where it was drawn from. Spotted an error, or have a better-attested equivalent? Use the suggestion form.</p>
+    <button class="close" id="btn-about-close" data-i18n="aboutCloseBtn">Close</button>
+  </div>
+</div>
+
+<footer class="app-footer" data-i18n="footerText">Made for browsing, learning, and the odd argument doon the pub.</footer>
+<p style="text-align:center; margin:-16px 0 24px; font-size:0.75rem;"><a href="manager.html" style="color:rgba(43,35,32,0.35);">+ Add a proverb</a></p>
+
+<script type="application/json" id="proverb-data">
+[
+  {"id":1,"theme":"Fate & Meeting",
+   "scots":{"text":"Thay gang faur that disna meet ae day.","gloss":"It's a small world — paths cross again."},
+   "gaelic":{"text":"Coinnichidh na daoine far nach coinnich na cnuic.","gloss":"People will meet where the hills never will — it's a small world."},
+   "english":{"text":"It's a small world.","gloss":"A well-known English idiom with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 480 (Ruairidh MacIlleathain, 2008)."},
+
+  {"id":2,"theme":"Hardship & Change",
+   "scots":{"text":"It's a bare muir that ye gang throu and no find a heather cou.","gloss":"It's a long lane that has no turning — hard times ease eventually."},
+   "gaelic":{"text":"Chan eil tuil air nach tig traoghadh.","gloss":"There isn't a flood that will not subside."},
+   "english":{"text":"It's a long lane that has no turning.","gloss":"A traditional English proverb with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: Colin B. D. Mark, The Gaelic-English Dictionary (2003), via Wikiquote."},
+
+  {"id":3,"theme":"Work & Home",
+   "scots":{"text":"The sowter's wife is aye the warst shod.","gloss":"The cobbler's wife is worst shod — working hard for others, we neglect our own."},
+   "gaelic":{"text":"Is minig a bha droch bhròg air mnaoi griasaiche.","gloss":"Often a shoemaker's wife has bad shoes."},
+   "english":{"text":"The cobbler's wife is always the worst shod.","gloss":"The standard English form of this proverb."},
+   "source":"Scots: traditional, recorded from 1598. Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":4,"theme":"Caution & Value",
+   "scots":{"text":"Better a moose in the pat nor nae flesh.","gloss":"A bird in the hand is worth two in the bush."},
+   "gaelic":{"text":"Is fheàrr an t-iasg na thig na làimh na dhà a' dol às.","gloss":"Better the fish that comes to hand than two that get away."},
+   "english":{"text":"A bird in the hand is worth two in the bush.","gloss":"The standard English proverb — same meaning, different creature."},
+   "source":"Scots: scots-online.org. Gaelic: traditional Gaelic proverb collections (CeltGuide)."},
+
+  {"id":5,"theme":"Work & Effort",
+   "scots":{"text":"A man o wirds but no o deeds is like a gairden fou wi weeds.","gloss":"Action speaks louder than words."},
+   "gaelic":{"text":"Is fheàrr obair na beul.","gloss":"Work is better than talk."},
+   "english":{"text":"Actions speak louder than words.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: traditional Gaelic proverb collections (CeltGuide)."},
+
+  {"id":6,"theme":"Money & Value",
+   "scots":{"text":"A fuil and his siller's easy pairtit.","gloss":"A fool and his money are easily parted."},
+   "gaelic":null,
+   "english":{"text":"A fool and his money are soon parted.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":7,"theme":"Reputation",
+   "scots":{"text":"A guid name's suiner tint nor wun.","gloss":"A good name is sooner lost than gained."},
+   "gaelic":null,
+   "english":{"text":"A good name is easier lost than won.","gloss":"A widely used English rendering of the same proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":8,"theme":"Gifts & Gratitude",
+   "scots":{"text":"A gien cou shoudna be leukit in the mou.","gloss":"Don't look a gift horse in the mouth."},
+   "gaelic":null,
+   "english":{"text":"Don't look a gift horse in the mouth.","gloss":"The standard English idiom — horse rather than cow, same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":9,"theme":"Change & Restlessness",
+   "scots":{"text":"A rowin stane gaithers nae fog.","gloss":"A rolling stone gathers no moss."},
+   "gaelic":null,
+   "english":{"text":"A rolling stone gathers no moss.","gloss":"Near-identical wording in both languages."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":10,"theme":"Work & Effort",
+   "scots":{"text":"An ill shearer aye blames his tuils.","gloss":"A bad workman always blames his tools."},
+   "gaelic":null,
+   "english":{"text":"A bad workman always blames his tools.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":11,"theme":"Opportunity",
+   "scots":{"text":"As ae door's steekit anither appens.","gloss":"As one door closes, another opens."},
+   "gaelic":null,
+   "english":{"text":"When one door closes, another opens.","gloss":"A widely used English saying with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":12,"theme":"Age & Habit",
+   "scots":{"text":"Auld speugies is ill tae tame.","gloss":"You can't teach an old dog new tricks (old sparrows are hard to tame)."},
+   "gaelic":null,
+   "english":{"text":"You can't teach an old dog new tricks.","gloss":"The standard English proverb — dogs rather than sparrows, same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":13,"theme":"Timing",
+   "scots":{"text":"Better suin nor syne.","gloss":"Better sooner than later."},
+   "gaelic":null,
+   "english":{"text":"Better sooner than later.","gloss":"A plain-English rendering — no widely fixed English proverb matches this one."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":14,"theme":"Home & Family",
+   "scots":{"text":"It's an ill bird that fyles it's ain nest.","gloss":"Don't foul your own nest."},
+   "gaelic":null,
+   "english":{"text":"Don't foul your own nest.","gloss":"The standard English idiom with the same wording and meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":15,"theme":"Regret",
+   "scots":{"text":"It's like butter in the black dug's hause.","gloss":"There's no use crying over spilt milk."},
+   "gaelic":null,
+   "english":{"text":"Don't cry over spilt milk.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":16,"theme":"Home & Family",
+   "scots":{"text":"Keep yer ain fish-guts tae yer ain seamaws.","gloss":"Charity begins at home."},
+   "gaelic":null,
+   "english":{"text":"Charity begins at home.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":17,"theme":"Judgement",
+   "scots":{"text":"Ne'er find faut wi ma shuin unless ye pey ma souter.","gloss":"Don't criticise something that's none of your business."},
+   "gaelic":null,
+   "english":{"text":"Don't criticise something that's none of your business.","gloss":"A plain-English rendering — no single fixed English proverb matches this one exactly."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":18,"theme":"Truth",
+   "scots":{"text":"The pruif o the pudden's in the preein o't.","gloss":"The proof of the pudding is in the eating."},
+   "gaelic":null,
+   "english":{"text":"The proof of the pudding is in the eating.","gloss":"Near-identical wording in both languages."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":19,"theme":"Age & Habit",
+   "scots":{"text":"Ye canna pit a young heid on auld shouders.","gloss":"You can't give the young the wisdom of the old."},
+   "gaelic":null,
+   "english":{"text":"You can't put an old head on young shoulders.","gloss":"A widely used English rendering of the same proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":20,"theme":"Timing",
+   "scots":{"text":"Gae tae bed wi the lamm and rise wi the laverock.","gloss":"Early to bed, early to rise."},
+   "gaelic":null,
+   "english":{"text":"Early to bed, early to rise, makes a man healthy, wealthy, and wise.","gloss":"The fuller, well-known English proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":21,"theme":"Hunger & Need",
+   "scots":{"text":"Hunger's a guid kitchen.","gloss":"Hunger is the best sauce."},
+   "gaelic":null,
+   "english":{"text":"Hunger is the best sauce.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":22,"theme":"Money & Value",
+   "scots":{"text":"Mony a puckle maks a muckle.","gloss":"Many a little makes a lot."},
+   "gaelic":null,
+   "english":{"text":"Many a little makes a mickle.","gloss":"A well-known English/Scots crossover proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":23,"theme":"Truth",
+   "scots":{"text":"Facts is chields that winna ding.","gloss":"Facts are stubborn things."},
+   "gaelic":null,
+   "english":{"text":"Facts are stubborn things.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":24,"theme":"Friendship & Society",
+   "scots":{"text":"He that sleeps wi dugs maun rise wi flaes.","gloss":"Keep bad company and you'll suffer for it."},
+   "gaelic":null,
+   "english":{"text":"He that lies down with dogs will rise with fleas.","gloss":"The standard English proverb, nearly identical wording."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":25,"theme":"Family","scots":null,
+   "gaelic":{"text":"Am mac mar an t-athair.","gloss":"Like father, like son."},
+   "english":{"text":"Like father, like son.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":26,"theme":"Family","scots":null,
+   "gaelic":{"text":"A' nighean mar a màthair.","gloss":"Like mother, like daughter."},
+   "english":{"text":"Like mother, like daughter.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":27,"theme":"Advice","scots":null,
+   "gaelic":{"text":"A-staigh air an dàrna cluais 's a-mach air a' chluais eile.","gloss":"In one ear and out the other — advice most needed is least heeded."},
+   "english":{"text":"In one ear and out the other.","gloss":"The standard English idiom with the same wording and meaning."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":28,"theme":"Learning","scots":null,
+   "gaelic":{"text":"Chan eil thu tuilleadh 's sean airson ionnsachadh fhathast.","gloss":"We learn as long as we live."},
+   "english":{"text":"Live and learn.","gloss":"A close English rendering — not an exact match, but the same sentiment."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":29,"theme":"Nature & Fate","scots":null,
+   "gaelic":{"text":"A' bhiast as mutha ag ithe na beiste as lugha.","gloss":"The big fish eats the little fish — the strong overcome the weak."},
+   "english":{"text":"Big fish eat little fish.","gloss":"A close English idiom with the same meaning."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":30,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Èist ri gaoth nam beann gus an tràogh na h-uisgeachan.","gloss":"Listen to the wind on the hill till the waters abate — keep a low profile until trouble passes."},
+   "english":{"text":"Keep a low profile until the trouble passes.","gloss":"A plain-English rendering — no widely fixed English proverb matches this one."},
+   "source":"Gaelic: Wikiquote, quoting Sir Walter Scott, Wizards of Waverley Place (1884)."},
+
+  {"id":31,"theme":"Effort","scots":null,
+   "gaelic":{"text":"Is dà thrian tionnsgnadh.","gloss":"Begun is two-thirds done — well begun is half done."},
+   "english":{"text":"Well begun is half done.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":32,"theme":"Language & Identity","scots":null,
+   "gaelic":{"text":"Is fheàrr Gàidhlig bhriste na Gàidhlig sa chiste.","gloss":"Better broken Gaelic than dead Gaelic."},
+   "english":{"text":"Better broken Gaelic than dead Gaelic.","gloss":"A direct translation, describing the Gaelic proverb itself rather than a separate English saying."},
+   "source":"Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 622 (Ruairidh MacIlleathain, 2011)."},
+
+  {"id":33,"theme":"Friendship","scots":null,
+   "gaelic":{"text":"'S fheàrr càirdeas na òr.","gloss":"Friendship is better than gold."},
+   "english":{"text":"Friendship is better than gold.","gloss":"A plain-English rendering of the Gaelic proverb."},
+   "source":"Gaelic: traditional Gaelic proverb collections."},
+
+  {"id":34,"theme":"Mood & Outlook","scots":null,
+   "gaelic":{"text":"Is fheàrr gàire na bròn.","gloss":"Laughter is better than sorrow."},
+   "english":{"text":"Laughter is better than sorrow.","gloss":"A plain-English rendering of the Gaelic proverb."},
+   "source":"Gaelic: traditional Gaelic proverb collections."},
+
+  {"id":35,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Na toir breith air rèir coltais, faodaidh cridhe beartach a bhith fo chòta bochd.","gloss":"Judge not by appearances — a rich heart may be under a poor coat."},
+   "english":{"text":"Don't judge a book by its cover.","gloss":"A close English proverb with the same meaning."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":36,"theme":"Fate & Emotion","scots":null,
+   "gaelic":{"text":"Triùir a thig gun iarraidh – gaol, eud is eagal.","gloss":"Three things come unbidden: love, jealousy and fear."},
+   "english":{"text":"Three things come unbidden: love, jealousy, and fear.","gloss":"A plain-English rendering — no separate fixed English proverb found."},
+   "source":"Gaelic: Wikiquote / Lingalot, citing Alexander Nicolson's collection (1882)."},
+
+  {"id":37,"theme":"Home & Watchfulness","scots":null,
+   "gaelic":{"text":"Tha fios aig an luch nach eil an cat 's an taigh.","gloss":"The mouse knows the cat's not home — when the cat's away, the mice will play."},
+   "english":{"text":"When the cat's away, the mice will play.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Manser, The Facts on File Dictionary of Proverbs (2007)."},
+
+  {"id":38,"theme":"Trouble","scots":null,
+   "gaelic":{"text":"Chuir sin an clamhan gobhlach am measg nan cearc.","gloss":"That put the red kite among the hens — like putting the cat among the pigeons."},
+   "english":{"text":"That put the cat among the pigeons.","gloss":"The standard English idiom with the same meaning."},
+   "source":"Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 480 (2008)."},
+
+  {"id":39,"theme":"Appearance","scots":null,
+   "gaelic":{"text":"Cha tèid bòidhchead na's doimhne na an craiceann.","gloss":"Beauty is but skin deep."},
+   "english":{"text":"Beauty is only skin deep.","gloss":"Near-identical wording in both languages."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":40,"theme":"Limits","scots":null,
+   "gaelic":{"text":"Cha shìn duine a chas ach mar a ruigeas aodach.","gloss":"A man stretches his foot no farther than his clothes allow — live within your means."},
+   "english":{"text":"Cut your coat according to your cloth.","gloss":"A close English proverb with the same meaning."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":41,"theme":"Farewell & Dismissal","scots":null,
+   "gaelic":{"text":"Duine an dòras bhon taobh eile.","gloss":"Go on, away with you — a blunt, everyday way of telling someone to leave."},
+   "english":{"text":"Out you go, the other way.","gloss":"A plain-English rendering — a local saying, not a fixed English proverb."},
+   "source":"Contributed by Fiobh — a saying from Steòrnabhagh (Stornoway), Eilean Leòdhais (Isle of Lewis). Not from a published collection; recorded here as a genuine local/community saying.",
+   "origin":{"place":"Steòrnabhagh (Stornoway), Eilean Leòdhais (Isle of Lewis)","lat":58.2085,"lng":-6.3897,"contributedBy":"Fiobh","status":"approved"}}
+]
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('proverb-data').textContent);
+  var LANGS = ['scots', 'gaelic', 'english'];
+
+  // These three names are fixed in Gaelic regardless of the interface language,
+  // by design — see the chat / README for why.
+  var LABELS = { scots: 'Beurla Ghallda', gaelic: 'Gàidhlig', english: 'Beurla' };
+
+  // ---- i18n: interface chrome only (not the language names above, not proverb text) ----
+  // NOTE: Gaelic ("gd") strings here are a best-effort translation, not reviewed by a
+  // fluent speaker yet. See GAELIC_TRANSLATIONS_REVIEW.md to check/correct them.
+  var I18N = {
+    appSubtitle: {
+      en: "Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.",
+      gd: "Dèan lorg air seanfhaclan ann am Beurla Ghallda, Gàidhlig, no Beurla, agus faic dè tha aig an dà chànan eile ri ràdh air an aon chuspair."
+    },
+    randomBtn: { en: "🎲 Random proverb", gd: "🎲 Seanfhacal air thuaiream" },
+    aboutBtn: { en: "About & sources", gd: "Mun dèidhinn 's tùsan" },
+    filterAllThree: { en: "Recorded in all three languages", gd: "Clàraichte anns na trì cànain" },
+    filterFavs: { en: "Favourites only", gd: "Feadhainn as fheàrr leam a-mhàin" },
+    emptyState: { en: "Nae results. Try a different word, or clear yer filters.", gd: "Chan eil toradh ann. Feuch facal eile, no falamhaich na sìoltachain agad." },
+    notRecordedYet: { en: "Not recorded yet.", gd: "Gun chlàradh fhathast." },
+    contributeToggleClosed: { en: "Know a pairing we're missing? Suggest a proverb →", gd: "A bheil fios agad air seanfhacal a tha a dhìth oirnn? Mol fear →" },
+    contributeToggleOpen: { en: "Hide", gd: "Falaich" },
+    formLabelMeaning: { en: "Meaning / notes", gd: "Ciall / notaichean" },
+    formPlaceholderMeaning: { en: "What does it mean, and where's it from?", gd: "Dè tha e a' ciallachadh, agus cò às a tha e?" },
+    formLabelName: { en: "Your name (optional)", gd: "D'ainm (roghainneil)" },
+    formPlaceholderName: { en: "Optional", gd: "Roghainneil" },
+    saveSuggestionBtn: { en: "Save suggestion", gd: "Sàbhail am moladh" },
+    suggestionsHint: {
+      en: "Suggestions are saved in this browser only. Export them and add to the data file to make them permanent — see the README.",
+      gd: "Chan eil molaidhean air an sàbhaladh ach san brobhsair seo. Às-phortaich iad agus cuir ris an fhaidhle dàta iad gus am fàgail buan — faic an README."
+    },
+    suggestionToast: {
+      en: "Thanks — saved to your suggestions. Export them any time from the Contribute panel.",
+      gd: "Taing — air a shàbhaladh nad mholaidhean. Às-phortaich iad uair sam bith bhon phanail Cuir Ris."
+    },
+    newsletterHeading: { en: "Get the proverb of the day by email", gd: "Faigh seanfhacal an latha air post-d" },
+    newsletterBody: {
+      en: "Leave your email and we'll let you know when this goes live — no spam, just the odd bit of Scots and Gaelic wisdom.",
+      gd: "Fàg do phost-d agus innsidh sinn dhut nuair a bhios seo beò — gun spama, dìreach criomag de ghliocas Beurla Ghallda is Gàidhlig an-dràsta 's a-rithist."
+    },
+    subscribeBtn: { en: "Subscribe", gd: "Fo-sgrìobh" },
+    newsletterHintDefault: {
+      en: "Saved in this browser for now — see the README for how to connect this to a real mailing list.",
+      gd: "Air a shàbhaladh san brobhsair seo an-dràsta — faic an README airson mar a cheanglas tu seo ri fìor liosta puist."
+    },
+    newsletterToast: {
+      en: "Thanks — you're on the list (saved in this browser for now).",
+      gd: "Taing — tha thu air an liosta (air a shàbhaladh san brobhsair seo an-dràsta)."
+    },
+    installBannerTitle: { en: "Install Sean-fhaclan", gd: "Stàlaich Sean-fhaclan" },
+    installBtn: { en: "Install", gd: "Stàlaich" },
+    aboutHeading: { en: "About this collection", gd: "Mun dèidhinn a' chruinneachaidh seo" },
+    aboutSources: {
+      en: 'Sources: scots-online.org (Andy Eagle); Wikiquote\'s Scottish Gaelic proverbs page, drawing on Alexander Nicolson\'s <em>A Collection of Gaelic Proverbs</em> (1882), Edward Dwelly\'s <em>Scottish Gaelic-English Dictionary</em> (1911), Gyula Paczolay\'s <em>European Proverbs in 55 Languages</em> (1997), and BBC Alba\'s <em>Litir do Luchd-ionnsachaidh</em>; and Lingalot\'s Scottish Gaelic proverbs guide. English equivalents are standard, widely documented English proverbs and sayings where one genuinely exists; where none does, the English text is a plain rendering of the meaning rather than a separate fixed saying (noted on the card).',
+      gd: 'Tùsan: scots-online.org (Andy Eagle); duilleag sheanfhaclan Gàidhlig Wikiquote, a\' tarraing air Cruinneachadh Sheanfhaclan Gàidhlig Alexander Nicolson (1882), Faclair Gàidhlig-Beurla Edward Dwelly (1911), <em>European Proverbs in 55 Languages</em> le Gyula Paczolay (1997), agus Litir do Luchd-ionnsachaidh BBC Alba; agus stiùireadh sheanfhaclan Gàidhlig Lingalot. Tha na co-ionannan Beurla nan seanfhaclan is nan gnàthasan-cainnte àbhaisteach, aithnichte gu farsaing, far a bheil fear ann dha-rìribh; far nach eil, \'s e eadar-theangachadh sìmplidh air a\' chiall a tha ann seach seanfhacal fa leth (air a chomharrachadh air a\' chairt).'
+    },
+    aboutFooterNote: {
+      en: "Each card's source line credits where it was drawn from. Spotted an error, or have a better-attested equivalent? Use the suggestion form.",
+      gd: "Tha loidhne tùsail gach cairt ag innse cò às a thàinig i. An do lorg thu mearachd, no a bheil seanfhacal nas fheàrr agad? Cleachd am foirm molaidh."
+    },
+    aboutCloseBtn: { en: "Close", gd: "Dùin" },
+    footerText: {
+      en: "Made for browsing, learning, and the odd argument doon the pub.",
+      gd: "Air a dhèanamh airson brabhsadh, ionnsachadh, agus an connsachadh neo-àbhaisteach san taigh-sheinnse."
+    },
+    potdBadgeToday: { en: "★ Proverb of the Day", gd: "★ Seanfhacal an Latha" },
+    potdBadgeFeatured: { en: "✦ Featured Proverb", gd: "✦ Seanfhacal Sònraichte" },
+    mapHeading: { en: "Where are the proverbs from?", gd: "Cò às a tha na seanfhaclan?" },
+    mapIntro: {
+      en: "We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.",
+      gd: "Tha sinn a' tòiseachadh beag — aon seanfhacal, aon àite. A bheil fios agad cò às a tha seanfhacal Gàidhlig? Innis dhuinn gu h-ìosal."
+    },
+    mapViewLarger: { en: "View larger map ↗", gd: "Seall màp nas motha ↗" },
+    mapContributedBy: { en: "Contributed by {name}", gd: "Air a thoirt seachad le {name}" },
+    suggestLocationHeading: { en: "Suggest where a proverb is from", gd: "Mol cò às a tha seanfhacal" },
+    suggestLocationProverbLabel: { en: "Gaelic proverb", gd: "Seanfhacal Gàidhlig" },
+    suggestLocationPlaceLabel: { en: "Place (town, island, area)", gd: "Àite (baile, eilean, sgìre)" },
+    suggestLocationCommentsLabel: { en: "Comments", gd: "Beachdan" },
+    suggestLocationSubmitBtn: { en: "Submit for review", gd: "Cuir a-steach airson sgrùdaidh" },
+    suggestLocationHint: {
+      en: "Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.",
+      gd: "Tha molaidhean air an sàbhaladh san brobhsair seo a-mhàin an-dràsta — faic an README airson mar a dh'fhàsas seo na fhìor mhàp le sgrùdadh."
+    },
+    installTextAndroid: { en: "Add this to your home screen for quick, offline access.", gd: "Cuir seo ri sgrìn dachaigh do fhòn airson cothrom luath, fiù 's far loidhne." },
+    installTextIOS: { en: 'Tap the Share icon, then "Add to Home Screen".', gd: 'Brùth air an ìomhaigh Share, an uair sin "Add to Home Screen".' },
+    searchPlaceholder: {
+      scots: { en: "Search a Scots word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla Ghallda…" },
+      gaelic: { en: "Search a Gaelic word or proverb…", gd: "Dèan lorg air facal no seanfhacal Gàidhlig…" },
+      english: { en: "Search an English word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla…" }
+    },
+    noEquivalent: {
+      en: "No {lang} equivalent recorded yet — know one? Suggest it below.",
+      gd: "Chan eil dad ann fhathast ann am {lang} — a bheil fios agad air fear? Mol fear gu h-ìosal."
+    },
+    resultCount: { en: "{n} result{s}", gd: "{n} toradh" },
+    aboutSummary: {
+      en: "This is a starter set of {total} proverbs. {allThree} of them are recorded in all three languages, matched by meaning rather than word-for-word translation. The rest are documented proverbs in one or two languages without a confirmed match yet in the third — genuine gaps, not errors.",
+      gd: "'S e seata tòiseachaidh de {total} seanfhaclan a tha seo. Tha {allThree} dhiubh clàraichte anns na trì cànain, air an càradh a rèir ciall seach eadar-theangachadh facal air an fhacal. Tha an fheadhainn eile nan seanfhaclan clàraichte ann an aon chànan no dhà, gun cho-fhreagairt dhearbhte fhathast san treas fear — beàrnan fìrinneach, chan e mearachdan."
+    },
+    exportSuggestions: {
+      en: "Export {n} saved suggestion{s} as JSON",
+      gd: "Às-phortaich {n} moladh air a shàbhaladh mar JSON"
+    },
+    exportLocations: {
+      en: "Export {n} saved location{s} as JSON",
+      gd: "Às-phortaich {n} àite air a shàbhaladh mar JSON"
+    }
+  };
+
+  function t(key, vars) {
+    var entry = I18N[key];
+    if (!entry) return key;
+    var str = entry[state.uiLang] || entry.en || '';
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        str = str.split('{' + k + '}').join(vars[k]);
+      });
+    }
+    return str;
+  }
+
+  function applyI18n() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (elm) {
+      var key = elm.getAttribute('data-i18n');
+      var text = t(key);
+      if (elm.hasAttribute('data-i18n-attr')) {
+        elm.setAttribute(elm.getAttribute('data-i18n-attr'), text);
+      } else {
+        elm.textContent = text;
+      }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-html]'), function (elm) {
+      elm.innerHTML = t(elm.getAttribute('data-i18n-html'));
+    });
+  }
+
+  var state = {
+    lang: 'scots',
+    uiLang: 'en',
+    query: '',
+    theme: 'All',
+    onlyFavourites: false,
+    onlyAllThree: false,
+    favourites: loadJSON('sf-favourites', []),
+    suggestions: loadJSON('sf-suggestions', []),
+    locationSuggestions: loadJSON('sf-location-suggestions', [])
+  };
+
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  function normalise(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---- DOM refs ----
+  var el = {
+    btnLang: {
+      scots: document.getElementById('btn-lang-scots'),
+      gaelic: document.getElementById('btn-lang-gaelic'),
+      english: document.getElementById('btn-lang-english')
+    },
+    btnRandom: document.getElementById('btn-random'),
+    btnAbout: document.getElementById('btn-about'),
+    aboutOverlay: document.getElementById('about-overlay'),
+    aboutClose: document.getElementById('btn-about-close'),
+    aboutSummary: document.getElementById('about-summary'),
+    searchInput: document.getElementById('search-input'),
+    themeSelect: document.getElementById('theme-select'),
+    chkLinked: document.getElementById('chk-linked'),
+    chkFavs: document.getElementById('chk-favs'),
+    resultCount: document.getElementById('result-count'),
+    results: document.getElementById('results'),
+    contributeToggle: document.getElementById('btn-contribute-toggle'),
+    contributeForm: document.getElementById('contribute-form'),
+    btnExport: document.getElementById('btn-export'),
+    toast: document.getElementById('toast'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd')
+  };
+
+  // Language-tab buttons and card language-name labels always show the fixed
+  // Gaelic terms (Gàidhlig / Beurla Ghallda / Beurla), regardless of uiLang.
+  LANGS.forEach(function (l) { el.btnLang[l].textContent = LABELS[l]; });
+  var contributeLabelEls = {
+    scots: document.getElementById('contribute-label-scots'),
+    gaelic: document.getElementById('contribute-label-gaelic'),
+    english: document.getElementById('contribute-label-english')
+  };
+  LANGS.forEach(function (l) { contributeLabelEls[l].textContent = LABELS[l]; });
+
+  // ---- populate theme filter ----
+  var themes = ['All'].concat(Array.from(new Set(DATA.map(function (d) { return d.theme; }))).sort());
+  el.themeSelect.innerHTML = themes.map(function (th) { return '<option value="' + esc(th) + '">' + esc(th) + '</option>'; }).join('');
+
+  // ---- about text ----
+  var allThreeCount = DATA.filter(function (d) { return d.scots && d.gaelic && d.english; }).length;
+  function renderAboutSummary() {
+    el.aboutSummary.textContent = t('aboutSummary', { total: DATA.length, allThree: allThreeCount });
+  }
+
+  // ---- rendering ----
+  function render() {
+    var q = normalise(state.query);
+    var langKey = state.lang;
+
+    var filtered = DATA.filter(function (entry) {
+      var field = entry[langKey];
+      if (!field) return false;
+      if (state.theme !== 'All' && entry.theme !== state.theme) return false;
+      if (state.onlyFavourites && state.favourites.indexOf(entry.id) === -1) return false;
+      if (state.onlyAllThree && !(entry.scots && entry.gaelic && entry.english)) return false;
+      if (!q) return true;
+      var hay = normalise(field.text + ' ' + field.gloss);
+      return hay.indexOf(q) !== -1;
+    });
+
+    el.resultCount.textContent = t('resultCount', { n: filtered.length, s: filtered.length === 1 ? '' : 's' });
+
+    if (filtered.length === 0) {
+      el.results.innerHTML = '<p class="empty">' + esc(t('emptyState')) + '</p>';
+      return;
+    }
+
+    var otherLangs = LANGS.filter(function (l) { return l !== langKey; });
+
+    el.results.innerHTML = filtered.map(function (entry) {
+      var primary = entry[langKey];
+      var isFav = state.favourites.indexOf(entry.id) !== -1;
+      var heart = isFav
+        ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="#5b2a86" stroke="#5b2a86" stroke-width="1.8"><path d="M12 21s-7.2-4.5-9.6-9.1C.7 8.6 2.1 5 5.6 4.2 8 3.6 10 4.7 12 7.2c2-2.5 4-3.6 6.4-3 3.5.8 4.9 4.4 3.2 7.7C19.2 16.5 12 21 12 21z"/></svg>'
+        : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#5b2a86" stroke-width="1.8"><path d="M12 21s-7.2-4.5-9.6-9.1C.7 8.6 2.1 5 5.6 4.2 8 3.6 10 4.7 12 7.2c2-2.5 4-3.6 6.4-3 3.5.8 4.9 4.4 3.2 7.7C19.2 16.5 12 21 12 21z"/></svg>';
+
+      var otherBlocks = otherLangs.map(function (l) {
+        var val = entry[l];
+        if (val) {
+          return '<div class="secondary-block">' +
+              '<div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div>' +
+              '<p class="text proverb-text">' + esc(val.text) + '</p>' +
+              '<p class="gloss">' + esc(val.gloss) + '</p>' +
+            '</div>';
+        }
+        return '<div class="secondary-block">' +
+            '<p class="no-match">' + esc(t('noEquivalent', { lang: LABELS[l] })) + '</p>' +
+          '</div>';
+      }).join('');
+
+      return (
+        '<div class="card" id="card-' + entry.id + '">' +
+          '<div class="card-top">' +
+            '<span class="theme-tag">' + esc(entry.theme) + '</span>' +
+            '<button class="fav-btn" data-fav="' + entry.id + '" aria-label="Toggle favourite">' + heart + '</button>' +
+          '</div>' +
+          '<div>' +
+            '<div class="lang-label ' + langKey + '">' + esc(LABELS[langKey]) + '</div>' +
+            '<p class="text proverb-text">' + esc(primary.text) + '</p>' +
+            '<p class="gloss">' + esc(primary.gloss) + '</p>' +
+          '</div>' +
+          otherBlocks +
+          '<p class="source">' + esc(entry.source) + '</p>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(el.results.querySelectorAll('[data-fav]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = Number(btn.getAttribute('data-fav'));
+        var idx = state.favourites.indexOf(id);
+        if (idx === -1) state.favourites.push(id); else state.favourites.splice(idx, 1);
+        saveJSON('sf-favourites', state.favourites);
+        render();
+      });
+    });
+  }
+
+  function setLanguage(lang) {
+    state.lang = lang;
+    LANGS.forEach(function (l) {
+      el.btnLang[l].classList.toggle('active', l === lang);
+    });
+    el.searchInput.placeholder = I18N.searchPlaceholder[lang][state.uiLang];
+    render();
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyI18n();
+    renderAboutSummary();
+    el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
+    updateInstallBannerText();
+    refreshNewsletterHint();
+    refreshLocationUI();
+    render();
+  }
+
+  // ---- events ----
+  LANGS.forEach(function (l) {
+    el.btnLang[l].addEventListener('click', function () { setLanguage(l); });
+  });
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  el.searchInput.addEventListener('input', function () { state.query = el.searchInput.value; render(); });
+  el.themeSelect.addEventListener('change', function () { state.theme = el.themeSelect.value; render(); });
+  el.chkLinked.addEventListener('change', function () { state.onlyAllThree = el.chkLinked.checked; render(); });
+  el.chkFavs.addEventListener('change', function () { state.onlyFavourites = el.chkFavs.checked; render(); });
+
+  el.btnRandom.addEventListener('click', function () {
+    var pool = DATA.filter(function (e) { return e[state.lang]; });
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    state.query = ''; state.theme = 'All'; state.onlyFavourites = false; state.onlyAllThree = false;
+    el.searchInput.value = ''; el.themeSelect.value = 'All'; el.chkFavs.checked = false; el.chkLinked.checked = false;
+    render();
+    setTimeout(function () {
+      var card = document.getElementById('card-' + pick.id);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 30);
+  });
+
+  el.btnAbout.addEventListener('click', function () { el.aboutOverlay.style.display = 'flex'; });
+  el.aboutClose.addEventListener('click', function () { el.aboutOverlay.style.display = 'none'; });
+  el.aboutOverlay.addEventListener('click', function (e) { if (e.target === el.aboutOverlay) el.aboutOverlay.style.display = 'none'; });
+
+  el.contributeToggle.addEventListener('click', function () {
+    var showing = el.contributeForm.style.display !== 'none';
+    el.contributeForm.style.display = showing ? 'none' : 'grid';
+    el.contributeToggle.textContent = showing ? t('contributeToggleClosed') : t('contributeToggleOpen');
+    refreshExportButton();
+  });
+
+  function refreshExportButton() {
+    el.btnExport.style.display = state.suggestions.length > 0 ? 'inline-block' : 'none';
+    el.btnExport.textContent = t('exportSuggestions', { n: state.suggestions.length, s: state.suggestions.length === 1 ? '' : 's' });
+  }
+
+  el.contributeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var entry = {
+      id: 'draft-' + Date.now(),
+      scotsText: form.scotsText.value.trim(),
+      gaelicText: form.gaelicText.value.trim(),
+      englishText: form.englishText.value.trim(),
+      meaning: form.meaning.value.trim(),
+      submittedBy: form.submittedBy.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+    if (!entry.scotsText && !entry.gaelicText && !entry.englishText) return;
+    state.suggestions.push(entry);
+    saveJSON('sf-suggestions', state.suggestions);
+    form.reset();
+    refreshExportButton();
+    showToast(t('suggestionToast'));
+  });
+
+  el.btnExport.addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(state.suggestions, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'proverb-suggestions.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  var toastTimer = null;
+  function showToast(msg) {
+    el.toast.textContent = msg;
+    el.toast.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.toast.style.display = 'none'; }, 4000);
+  }
+
+  // ---- Proverb of the Day carousel ----
+  var FEATURED_IDS = [1, 2, 3, 4, 5];
+  var featured = FEATURED_IDS.map(function (id) {
+    return DATA.filter(function (d) { return d.id === id; })[0];
+  }).filter(Boolean);
+
+  var todayDate = new Date();
+  var daySeed = todayDate.getFullYear() * 372 + todayDate.getMonth() * 31 + todayDate.getDate();
+  var dayIndex = featured.length ? (daySeed % featured.length) : 0;
+  var potdIndex = dayIndex;
+  var potdTimer = null;
+
+  var elPotd = {
+    badge: document.getElementById('potd-badge'),
+    body: document.getElementById('potd-body'),
+    dots: document.getElementById('potd-dots'),
+    prev: document.getElementById('potd-prev'),
+    next: document.getElementById('potd-next')
+  };
+
+  function renderPotd() {
+    if (!featured.length) return;
+    var entry = featured[potdIndex];
+    elPotd.badge.textContent = potdIndex === dayIndex ? t('potdBadgeToday') : t('potdBadgeFeatured');
+    elPotd.body.innerHTML = LANGS.map(function (l) {
+      var val = entry[l];
+      if (!val) {
+        return '<div class="potd-lang-block"><div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div><p class="no-match">' + esc(t('notRecordedYet')) + '</p></div>';
+      }
+      return '<div class="potd-lang-block">' +
+          '<div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div>' +
+          '<p class="text proverb-text">' + esc(val.text) + '</p>' +
+          '<p class="gloss">' + esc(val.gloss) + '</p>' +
+        '</div>';
+    }).join('');
+    elPotd.dots.innerHTML = featured.map(function (_, i) {
+      return '<button class="' + (i === potdIndex ? 'active' : '') + '" data-idx="' + i + '" aria-label="Go to slide ' + (i + 1) + '"></button>';
+    }).join('');
+    Array.prototype.forEach.call(elPotd.dots.querySelectorAll('button'), function (btn) {
+      btn.addEventListener('click', function () {
+        potdIndex = Number(btn.getAttribute('data-idx'));
+        renderPotd();
+        resetPotdTimer();
+      });
+    });
+  }
+
+  function potdNext() { potdIndex = (potdIndex + 1) % featured.length; renderPotd(); }
+  function potdPrev() { potdIndex = (potdIndex - 1 + featured.length) % featured.length; renderPotd(); }
+  function resetPotdTimer() { clearInterval(potdTimer); potdTimer = setInterval(potdNext, 7000); }
+
+  if (featured.length) {
+    elPotd.next.addEventListener('click', function () { potdNext(); resetPotdTimer(); });
+    elPotd.prev.addEventListener('click', function () { potdPrev(); resetPotdTimer(); });
+    renderPotd();
+    resetPotdTimer();
+  } else {
+    document.getElementById('potd').style.display = 'none';
+  }
+
+  // ---- Service worker registration (offline support + push-ready) ----
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () { /* ignore on unsupported hosts, e.g. file:// */ });
+    });
+  }
+
+  // ---- Mobile install banner ----
+  var updateInstallBannerText = function () {}; // replaced below once the banner IIFE runs
+  (function () {
+    var banner = document.getElementById('install-banner');
+    var btnInstall = document.getElementById('install-banner-btn');
+    var btnDismiss = document.getElementById('install-banner-dismiss');
+    var bannerText = document.getElementById('install-banner-text');
+    var DISMISS_KEY = 'sf-install-dismissed-at';
+    var DISMISS_DAYS = 14;
+
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    var isAndroid = /Android/.test(ua);
+    var isMobile = isIOS || isAndroid || Math.min(window.innerWidth, window.innerHeight) < 768;
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    updateInstallBannerText = function () {
+      bannerText.textContent = t(isIOS ? 'installTextIOS' : 'installTextAndroid');
+    };
+
+    function recentlyDismissed() {
+      var raw = localStorage.getItem(DISMISS_KEY);
+      if (!raw) return false;
+      var days = (Date.now() - Number(raw)) / 86400000;
+      return days < DISMISS_DAYS;
+    }
+
+    var deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (isMobile && !isStandalone && !recentlyDismissed()) {
+        updateInstallBannerText();
+        banner.style.display = 'block';
+      }
+    });
+
+    // iOS has no beforeinstallprompt — show manual instructions instead.
+    if (isIOS && !isStandalone && !recentlyDismissed()) {
+      updateInstallBannerText();
+      banner.style.display = 'block';
+    }
+
+    btnInstall.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.finally(function () {
+          deferredPrompt = null;
+          banner.style.display = 'none';
+        });
+      } else {
+        // iOS (or browsers without the prompt API): banner text already has instructions.
+        banner.style.display = 'none';
+        localStorage.setItem(DISMISS_KEY, String(Date.now()));
+      }
+    });
+
+    btnDismiss.addEventListener('click', function () {
+      banner.style.display = 'none';
+      localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    });
+  })();
+
+  // ---- Newsletter signup (local capture — connect to a real list later, see README) ----
+  var refreshNewsletterHint = function () {};
+  (function () {
+    var form = document.getElementById('newsletter-form');
+    var input = document.getElementById('newsletter-email');
+    var hint = document.getElementById('newsletter-hint');
+    var signups = loadJSON('sf-newsletter-signups', []);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = input.value.trim();
+      if (!email) return;
+      signups.push({ email: email, subscribedAt: new Date().toISOString() });
+      saveJSON('sf-newsletter-signups', signups);
+      input.value = '';
+      showToast(t('newsletterToast'));
+      updateNewsletterHint();
+    });
+
+    function updateNewsletterHint() {
+      if (signups.length === 0) {
+        hint.textContent = t('newsletterHintDefault');
+        return;
+      }
+      hint.textContent = '';
+      var prefix = document.createTextNode(t('newsletterHintDefault').replace(/ — .*/, '') + ' — ');
+      var exportBtn = document.createElement('button');
+      exportBtn.type = 'button';
+      exportBtn.id = 'newsletter-export';
+      exportBtn.className = 'export-link';
+      exportBtn.style.padding = '0';
+      exportBtn.textContent = t('exportSuggestions', { n: signups.length, s: signups.length === 1 ? '' : 's' }).replace('suggestion', 'email');
+      exportBtn.addEventListener('click', function () {
+        var blob = new Blob([JSON.stringify(signups, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'newsletter-signups.json'; a.click();
+        URL.revokeObjectURL(url);
+      });
+      hint.appendChild(prefix);
+      hint.appendChild(exportBtn);
+    }
+    refreshNewsletterHint = updateNewsletterHint;
+    updateNewsletterHint();
+  })();
+
+  // ---- Map: where the proverbs are from ----
+  var refreshLocationUI = function () {};
+  (function () {
+    var frame = document.getElementById('map-frame');
+    var viewLarger = document.getElementById('map-view-larger');
+    var info = document.getElementById('map-info');
+    var form = document.getElementById('location-form');
+    var btnToggle = document.getElementById('btn-location-toggle');
+    var btnExportLoc = document.getElementById('btn-location-export');
+
+    var pinned = DATA.filter(function (d) { return d.origin && d.origin.status === 'approved'; });
+
+    function renderMap() {
+      if (!pinned.length) {
+        document.getElementById('map-section').style.display = 'none';
+        return;
+      }
+      // Single-pin MVP: shows the first approved origin. See README for how this grows.
+      var entry = pinned[0];
+      var lat = entry.origin.lat, lng = entry.origin.lng;
+      var d = 0.25;
+      var bbox = [lng - d, lat - d * 0.6, lng + d, lat + d * 0.6].join(',');
+      frame.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + lat + ',' + lng;
+      viewLarger.href = 'https://www.openstreetmap.org/?mlat=' + lat + '&mlon=' + lng + '#map=11/' + lat + '/' + lng;
+
+      var gaelic = entry.gaelic;
+      info.innerHTML =
+        '<div class="place">' + esc(entry.origin.place) + '</div>' +
+        (gaelic ? '<p class="text proverb-text">' + esc(gaelic.text) + '</p><p class="gloss">' + esc(gaelic.gloss) + '</p>' : '') +
+        '<p class="credit">' + esc(t('mapContributedBy', { name: entry.origin.contributedBy })) + '</p>';
+    }
+    renderMap();
+
+    btnToggle.addEventListener('click', function () {
+      var showing = form.style.display !== 'none';
+      form.style.display = showing ? 'none' : 'grid';
+      btnToggle.textContent = showing ? t('suggestLocationHeading') : t('contributeToggleOpen');
+      refreshLocationExport();
+    });
+
+    function refreshLocationExport() {
+      btnExportLoc.style.display = state.locationSuggestions.length > 0 ? 'inline-block' : 'none';
+      btnExportLoc.textContent = t('exportLocations', { n: state.locationSuggestions.length, s: state.locationSuggestions.length === 1 ? '' : 's' });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = e.target;
+      var entry = {
+        id: 'loc-' + Date.now(),
+        proverbText: f.proverbText.value.trim(),
+        place: f.place.value.trim(),
+        comments: f.comments.value.trim(),
+        submittedBy: f.submittedBy.value.trim(),
+        submittedAt: new Date().toISOString(),
+        status: 'pending'
+      };
+      if (!entry.proverbText) return;
+      state.locationSuggestions.push(entry);
+      saveJSON('sf-location-suggestions', state.locationSuggestions);
+      f.reset();
+      refreshLocationExport();
+      showToast(t('suggestionToast'));
+    });
+
+    btnExportLoc.addEventListener('click', function () {
+      var blob = new Blob([JSON.stringify(state.locationSuggestions, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'location-suggestions.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    refreshLocationUI = function () {
+      renderMap();
+      refreshLocationExport();
+      if (form.style.display !== 'none') btnToggle.textContent = t('contributeToggleOpen');
+    };
+    refreshLocationExport();
+  })();
+
+  // ---- restore saved UI language, then do the initial render ----
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  state.uiLang = (savedUiLang === 'gd') ? 'gd' : 'en';
+  el.uiLangEn.classList.toggle('active', state.uiLang === 'en');
+  el.uiLangGd.classList.toggle('active', state.uiLang === 'gd');
+  applyI18n();
+  renderAboutSummary();
+  el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
+  updateInstallBannerText();
+  refreshNewsletterHint();
+  refreshLocationUI();
+
+  refreshExportButton();
+  render();
+})();
+</script>
+</body>
+</html>

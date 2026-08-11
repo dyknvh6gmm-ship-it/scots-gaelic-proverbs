@@ -1,0 +1,81 @@
+# Gaelic UI translations — please review
+
+These are the interface translations (buttons, labels, hints — not the proverbs themselves) used when someone switches the site to "GD" mode. They're my best-effort translations, not checked by a fluent speaker yet. If you or someone you know can look over the "My Gaelic" column and jot corrections in "Correction," send it back and I'll update the app to match exactly.
+
+Two fixed terms used everywhere in the app, regardless of interface language (by design, per your request):
+
+| English name | Always shown as |
+|---|---|
+| Scots | **Beurla Ghallda** |
+| Gaelic | **Gàidhlig** |
+| English | **Beurla** |
+
+If any of those three should be different, flag it — everything else in the app depends on getting these right.
+
+## Interface strings
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Header subtitle | Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme. | Dèan lorg air seanfhaclan ann am Beurla Ghallda, Gàidhlig, no Beurla, agus faic dè tha aig an dà chànan eile ri ràdh air an aon chuspair. | |
+| Random button | 🎲 Random proverb | 🎲 Seanfhacal air thuaiream | |
+| About link | About & sources | Mun dèidhinn 's tùsan | |
+| Filter: all three languages | Recorded in all three languages | Clàraichte anns na trì cànain | |
+| Filter: favourites | Favourites only | Feadhainn as fheàrr leam a-mhàin | |
+| No search results | Nae results. Try a different word, or clear yer filters. | Chan eil toradh ann. Feuch facal eile, no falamhaich na sìoltachain agad. | |
+| Missing translation (Proverb of the Day) | Not recorded yet. | Gun chlàradh fhathast. | |
+| Missing translation (result card) | No {language} equivalent recorded yet — know one? Suggest it below. | Chan eil dad ann fhathast ann am {language} — a bheil fios agad air fear? Mol fear gu h-ìosal. | |
+| Result count | {n} result(s) | {n} toradh | |
+| Suggest-a-proverb, closed | Know a pairing we're missing? Suggest a proverb → | A bheil fios agad air seanfhacal a tha a dhìth oirnn? Mol fear → | |
+| Suggest-a-proverb, open (Hide) | Hide | Falaich | |
+| Form: meaning/notes label | Meaning / notes | Ciall / notaichean | |
+| Form: meaning/notes placeholder | What does it mean, and where's it from? | Dè tha e a' ciallachadh, agus cò às a tha e? | |
+| Form: name label | Your name (optional) | D'ainm (roghainneil) | |
+| Form: name placeholder | Optional | Roghainneil | |
+| Form: save button | Save suggestion | Sàbhail am moladh | |
+| Form: export button | Export {n} saved suggestion(s) as JSON | Às-phortaich {n} moladh air a shàbhaladh mar JSON | |
+| Form: hint text | Suggestions are saved in this browser only. Export them and add to the data file to make them permanent — see the README. | Chan eil molaidhean air an sàbhaladh ach san brobhsair seo. Às-phortaich iad agus cuir ris an fhaidhle dàta iad gus am fàgail buan — faic an README. | |
+| Toast: suggestion saved | Thanks — saved to your suggestions. Export them any time from the Contribute panel. | Taing — air a shàbhaladh nad mholaidhean. Às-phortaich iad uair sam bith bhon phanail Cuir Ris. | |
+| Newsletter heading | Get the proverb of the day by email | Faigh seanfhacal an latha air post-d | |
+| Newsletter body | Leave your email and we'll let you know when this goes live — no spam, just the odd bit of Scots and Gaelic wisdom. | Fàg do phost-d agus innsidh sinn dhut nuair a bhios seo beò — gun spama, dìreach criomag de ghliocas Beurla Ghallda is Gàidhlig an-dràsta 's a-rithist. | |
+| Newsletter: subscribe button | Subscribe | Fo-sgrìobh | |
+| Newsletter: default hint | Saved in this browser for now — see the README for how to connect this to a real mailing list. | Air a shàbhaladh san brobhsair seo an-dràsta — faic an README airson mar a cheanglas tu seo ri fìor liosta puist. | |
+| Newsletter: toast | Thanks — you're on the list (saved in this browser for now). | Taing — tha thu air an liosta (air a shàbhaladh san brobhsair seo an-dràsta). | |
+| Install banner title | Install Sean-fhaclan | Stàlaich Sean-fhaclan | |
+| Install button | Install | Stàlaich | |
+| Install banner text (Android) | Add this to your home screen for quick, offline access. | Cuir seo ri sgrìn dachaigh do fhòn airson cothrom luath, fiù 's far loidhne. | |
+| Install banner text (iOS) | Tap the Share icon, then "Add to Home Screen". | Brùth air an ìomhaigh Share, an uair sin "Add to Home Screen". | |
+| About modal heading | About this collection | Mun dèidhinn a' chruinneachaidh seo | |
+| About modal summary (templated) | This is a starter set of {total} proverbs. {n} of them are recorded in all three languages, matched by meaning rather than word-for-word translation. The rest are documented proverbs in one or two languages without a confirmed match yet in the third — genuine gaps, not errors. | 'S e seata tòiseachaidh de {total} seanfhaclan a tha seo. Tha {n} dhiubh clàraichte anns na trì cànain, air an càradh a rèir ciall seach eadar-theangachadh facal air an fhacal. Tha an fheadhainn eile nan seanfhaclan clàraichte ann an aon chànan no dhà, gun cho-fhreagairt dhearbhte fhathast san treas fear — beàrnan fìrinneach, chan e mearachdan. | |
+| About modal sources (proper nouns/titles left in English on purpose) | Sources: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page, drawing on Alexander Nicolson's *A Collection of Gaelic Proverbs* (1882), Edward Dwelly's *Scottish Gaelic-English Dictionary* (1911), Gyula Paczolay's *European Proverbs in 55 Languages* (1997), and BBC Alba's *Litir do Luchd-ionnsachaidh*; and Lingalot's Scottish Gaelic proverbs guide. English equivalents are standard, widely documented English proverbs and sayings where one genuinely exists; where none does, the English text is a plain rendering of the meaning rather than a separate fixed saying (noted on the card). | Tùsan: scots-online.org (Andy Eagle); duilleag sheanfhaclan Gàidhlig Wikiquote, a' tarraing air Cruinneachadh Sheanfhaclan Gàidhlig Alexander Nicolson (1882), Faclair Gàidhlig-Beurla Edward Dwelly (1911), *European Proverbs in 55 Languages* le Gyula Paczolay (1997), agus Litir do Luchd-ionnsachaidh BBC Alba; agus stiùireadh sheanfhaclan Gàidhlig Lingalot. Tha na co-ionannan Beurla nan seanfhaclan is nan gnàthasan-cainnte àbhaisteach, aithnichte gu farsaing, far a bheil fear ann dha-rìribh; far nach eil, 's e eadar-theangachadh sìmplidh air a' chiall a tha ann seach seanfhacal fa leth (air a chomharrachadh air a' chairt). | |
+| About modal footer note | Each card's source line credits where it was drawn from. Spotted an error, or have a better-attested equivalent? Use the suggestion form. | Tha loidhne tùsail gach cairt ag innse cò às a thàinig i. An do lorg thu mearachd, no a bheil seanfhacal nas fheàrr agad? Cleachd am foirm molaidh. | |
+| About modal close button | Close | Dùin | |
+| Footer | Made for browsing, learning, and the odd argument doon the pub. | Air a dhèanamh airson brabhsadh, ionnsachadh, agus an connsachadh neo-àbhaisteach san taigh-sheinnse. | |
+| Proverb of the Day badge | ★ Proverb of the Day | ★ Seanfhacal an Latha | |
+| Featured Proverb badge | ✦ Featured Proverb | ✦ Seanfhacal Sònraichte | |
+| Map heading | Where are the proverbs from? | Cò às a tha na seanfhaclan? | |
+| Map intro | We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below. | Tha sinn a' tòiseachadh beag — aon seanfhacal, aon àite. A bheil fios agad cò às a tha seanfhacal Gàidhlig? Innis dhuinn gu h-ìosal. | |
+| Map: view larger link | View larger map ↗ | Seall màp nas motha ↗ | |
+| Map: contributed-by credit | Contributed by {name} | Air a thoirt seachad le {name} | |
+| Suggest-location heading | Suggest where a proverb is from | Mol cò às a tha seanfhacal | |
+| Suggest-location: proverb field | Gaelic proverb | Seanfhacal Gàidhlig | |
+| Suggest-location: place field | Place (town, island, area) | Àite (baile, eilean, sgìre) | |
+| Suggest-location: comments field | Comments | Beachdan | |
+| Suggest-location: submit button | Submit for review | Cuir a-steach airson sgrùdaidh | |
+| Suggest-location: hint | Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map. | Tha molaidhean air an sàbhaladh san brobhsair seo a-mhàin an-dràsta — faic an README airson mar a dh'fhàsas seo na fhìor mhàp le sgrùdadh. | |
+| Search placeholder (Scots tab) | Search a Scots word or proverb… | Dèan lorg air facal no seanfhacal Beurla Ghallda… | |
+| Search placeholder (Gàidhlig tab) | Search a Gaelic word or proverb… | Dèan lorg air facal no seanfhacal Gàidhlig… | |
+| Search placeholder (Beurla tab) | Search an English word or proverb… | Dèan lorg air facal no seanfhacal Beurla… | |
+
+## Also worth a second look
+
+The new Stornoway proverb you gave me — I've recorded it as:
+
+- Gaelic: **Duine an dòras bhon taobh eile.**
+- My English rendering (not a real English proverb, just a plain gloss): "Out you go, the other way."
+- Meaning as you described it: "go away"
+
+Since I couldn't find this in any published source, it's credited in the app as a community contribution from you rather than an academic citation. Worth double-checking the spelling/wording is exactly right, and whether my English gloss captures the tone you intended (it reads fairly polite/mild — let me know if it should feel more blunt or more like a specific idiom).
+
+## How to send corrections
+
+Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.
