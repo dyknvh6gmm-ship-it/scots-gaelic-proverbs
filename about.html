@@ -18,8 +18,18 @@
   .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
 
   header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
-  header.app-header .inner { max-width: 700px; margin: 0 auto; }
+  header.app-header .inner { max-width: 700px; margin: 0 auto; position: relative; }
   header.app-header h1 { margin: 0; font-size: 1.9rem; }
+
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
 
   .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
   .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
@@ -64,12 +74,16 @@
 
 <header class="app-header">
   <div class="inner">
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
     <nav class="site-nav">
       <a href="index.html">Home</a>
       <a href="grammar.html">Grammar</a>
       <a href="about.html" class="active">About</a>
     </nav>
-    <h1 class="proverb-text">About</h1>
+    <h1 class="proverb-text" id="page-title">About</h1>
   </div>
 </header>
 
@@ -85,8 +99,8 @@
   </div>
 
   <div class="card">
-    <h2>Why this site exists</h2>
-    <p>
+    <h2 id="why-heading">Why this site exists</h2>
+    <p id="why-body">
       Sean-fhaclan &amp; Auld Sayins started as a way to search Scots and Scottish Gaelic proverbs side
       by side and see where their wisdom overlaps — and where each language has sayings the other
       doesn't. It's a starter set, built to grow: proverbs, translations, and even a proverb's place of
@@ -95,14 +109,14 @@
   </div>
 
   <div class="card">
-    <h2>Links</h2>
+    <h2 id="links-heading">Links</h2>
     <div class="links-list">
-      <a href="#"><span class="icon">🌐</span> Your website</a>
-      <a href="#"><span class="icon">✉️</span> Email</a>
+      <a href="#"><span class="icon">🌐</span> <span id="link-website">Your website</span></a>
+      <a href="#"><span class="icon">✉️</span> <span id="link-email">Email</span></a>
       <a href="#"><span class="icon">📷</span> Instagram</a>
       <a href="#"><span class="icon">🐙</span> GitHub</a>
     </div>
-    <div class="edit-note">
+    <div class="edit-note" id="edit-note">
       These are placeholders. Open <code>about.html</code>, find the <code>&lt;div class="links-list"&gt;</code>
       block, and replace each <code>href="#"</code> with your real link (and edit the label text). Delete any
       rows you don't want, or copy one to add more.
@@ -110,7 +124,74 @@
   </div>
 </main>
 
-<footer class="app-footer">Sean-fhaclan &amp; Auld Sayins</footer>
+<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // Only the site chrome translates — the profile name/tagline/bio and the link
+  // labels are your own content (in whatever language you write them), so they're
+  // left alone here rather than auto-translated.
+  var I18N = {
+    pageTitle: { en: 'About', gd: 'Mun Dèidhinn' },
+    whyHeading: { en: 'Why this site exists', gd: "Carson a tha an làrach seo ann" },
+    whyBody: {
+      en: "Sean-fhaclan & Auld Sayins started as a way to search Scots and Scottish Gaelic proverbs side by side and see where their wisdom overlaps — and where each language has sayings the other doesn't. It's a starter set, built to grow: proverbs, translations, and even a proverb's place of origin can all be added over time, with sources credited honestly rather than guessed at.",
+      gd: "Thòisich Sean-fhaclan & Auld Sayins mar dhòigh air seanfhaclan Beurla Ghallda is Gàidhlig a rannsachadh taobh ri taobh, agus faicinn càite a bheil an gliocas a' co-fhreagairt — agus càite a bheil seanfhaclan aig aon chànan nach eil aig an fhear eile. 'S e seata tòiseachaidh a tha ann, air a thogail airson fàs: faodar seanfhaclan, eadar-theangachaidhean, agus fiù 's àite tùsail seanfhacail a chur ris thar ùine, le tùsan air an aithneachadh gu h-onarach seach a bhith air an tomhas."
+    },
+    linksHeading: { en: 'Links', gd: 'Ceanglaichean' },
+    editNoteHtml: {
+      en: 'These are placeholders. Open <code>about.html</code>, find the <code>&lt;div class="links-list"&gt;</code> block, and replace each <code>href="#"</code> with your real link (and edit the label text). Delete any rows you don\'t want, or copy one to add more.',
+      gd: 'Is àite-ghlèidhidh a tha annta seo. Fosgail <code>about.html</code>, lorg am bloc <code>&lt;div class="links-list"&gt;</code>, agus cuir an àite gach <code>href="#"</code> do cheangal fìor fhèin (agus deasaich teacsa na h-ainmean). Sguab às sreathan sam bith nach eil a dhìth ort, no dèan lethbhreac de fhear gus barrachd a chur ris.'
+    },
+    footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
+  };
+
+  var el = {
+    pageTitle: document.getElementById('page-title'),
+    whyHeading: document.getElementById('why-heading'),
+    whyBody: document.getElementById('why-body'),
+    linksHeading: document.getElementById('links-heading'),
+    editNote: document.getElementById('edit-note'),
+    footer: document.getElementById('footer-text'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd')
+  };
+
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  function applyChrome(lang) {
+    el.pageTitle.textContent = I18N.pageTitle[lang];
+    el.whyHeading.textContent = I18N.whyHeading[lang];
+    el.whyBody.textContent = I18N.whyBody[lang];
+    el.linksHeading.textContent = I18N.linksHeading[lang];
+    el.editNote.innerHTML = I18N.editNoteHtml[lang];
+    el.footer.textContent = I18N.footer[lang];
+  }
+
+  function setUiLang(lang) {
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyChrome(lang);
+  }
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+})();
+</script>
 
 </body>
 </html>

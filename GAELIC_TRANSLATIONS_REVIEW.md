@@ -88,6 +88,49 @@ Everything else in that batch (ids 42–47, 49–56) is a more literal reading o
 
 `grammar.html` now has a proper "Thoirt" section split into three subsections — thoirt air (buaidh a thoirt air, cudrom a thoirt air), thoirt le (thoir leat do chòta, cha toir mi leam càil), and thoirt do (thoir dhomh sin, leabhar a thoirt do Mhàiri) — plus the existing "Ann, mu, le, ri" category is now split into its own four subsections the same way. These are standard textbook patterns rather than anything I invented, but I'm not a fluent speaker, so a native check on naturalness (especially "cha toir mi leam càil" and "leabhar a thoirt do Mhàiri") would be worthwhile before you call this final.
 
+## New: EN/GD toggle on Grammar and About pages
+
+Both pages now have the same EN/GD switch as Home, and remember your choice as you move between pages. On Grammar, switching to GD also relabels each card: the breakdown box gets a small "Mìneachadh:" (explanation) tag and the meaning line gets a "Beurla:" (English) tag, so the card visibly frames itself as Gaelic-led rather than English-led. The grammar analysis text itself stays in English either way — translating the grammar explanations felt like it would undercut the point of an English-medium page for learners, so only the framing swaps, not the teaching content.
+
+New strings to check, same as above (My Gaelic | Correction):
+
+**Grammar page chrome**
+
+| Where it appears | English | My Gaelic |
+|---|---|---|
+| Subtitle | Short Gaelic phrases and sayings chosen for what they reveal about the language's structure — especially how pronouns fuse into prepositions. Mostly Gaelic → English; Scots is only included where a genuine equivalent exists. | Abairtean is briathran Gàidhlig goirid, air an taghadh airson na dh'innseas iad mu structar a' chànain — gu sònraichte mar a bhios riochdairean a' co-aonadh le roimhearan. Sa mhòr-chuid, Gàidhlig gu Beurla; chan eil Beurla Ghallda ann ach far a bheil fìor cho-fhreagairt ann. |
+| Intro box | Gaelic doesn't have words like "on me" or "at him"... (full explainer paragraph) | Chan eil faclan mar "air mi" no "aig e" aig a' Ghàidhlig... (full explainer, Gaelic) |
+| Search placeholder | Search a phrase, translation, or breakdown… | Dèan lorg air abairt, eadar-theangachadh, no mìneachadh… |
+| Filter: All | All | Na h-Uile |
+| No matches | No matches. Try a different word, or clear the filter. | Chan eil toradh ann. Feuch facal eile, no falamhaich an sìoltachan. |
+| Footer | Part of the Sean-fhaclan project — corrections and better-attested examples welcome. | Pàirt de phròiseact Sean-fhaclan — tha ceartachaidhean is eisimpleirean nas fheàrr air am fàilteachadh. |
+| Card label (breakdown) | (none, EN mode) | Mìneachadh: |
+| Card label (English line) | (none, EN mode) | Beurla: |
+| Category: Air | Air (on) | Air (air) |
+| Category: Aig | Aig (at / possession) | Aig (seilbh) |
+| Category: Ann, mu, le, ri | (label unchanged) | (label unchanged) |
+| Category: Thoirt | Thoirt (to give) | Toirt (a' toirt) |
+| Category: comparatives | Is fheàrr… na… (comparatives) | Is fheàrr… na… (coimeasan) |
+| Subsection: Ann | Ann (in) | Ann (ann an) |
+| Subsection: Mu | Mu (about / around) | Mu (mu thimcheall) |
+| Subsection: Le (pronoun) | Le (with) | Le (le) |
+| Subsection: Ri | Ri (to / against) | Ri (ri) |
+| Subsection: Thoirt + air | Thoirt + air — to overcome / place upon | Toirt + air — buaidh fhaighinn / rudeigin a chur an cèill |
+| Subsection: Thoirt + le | Thoirt + le — to take along | Toirt + le — rudeigin a thoirt leat |
+| Subsection: Thoirt + do | Thoirt + do — to give to | Toirt + do — rudeigin a thoirt do chuideigin |
+
+**About page chrome**
+
+| Where it appears | English | My Gaelic |
+|---|---|---|
+| Page title | About | Mun Dèidhinn |
+| "Why this site exists" heading | Why this site exists | Carson a tha an làrach seo ann |
+| "Why this site exists" body | (full paragraph, see about.html) | (full paragraph, Gaelic — see about.html) |
+| Links heading | Links | Ceanglaichean |
+| Edit note | These are placeholders... | Is àite-ghlèidhidh a tha annta seo... |
+
+None of this batch has been checked by a fluent speaker — same caveat as everything else in this file.
+
 ## How to send corrections
 
 Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.

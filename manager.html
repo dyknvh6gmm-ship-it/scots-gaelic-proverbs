@@ -22,9 +22,19 @@
   header {
     background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 28px 20px;
   }
-  header .inner { max-width: 760px; margin: 0 auto; }
+  header .inner { max-width: 760px; margin: 0 auto; position: relative; }
   header h1 { margin: 0; font-size: 1.6rem; }
   header p { margin: 8px 0 0; opacity: 0.9; max-width: 600px; font-size: 0.95rem; }
+
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
   main { max-width: 760px; margin: 0 auto; padding: 24px 20px 60px; }
 
   .step {
@@ -102,8 +112,12 @@
 
 <header>
   <div class="inner">
-    <h1 class="proverb-text">Sean-fhaclan Manager</h1>
-    <p>Add a new proverb to your site without touching any code. Upload your current <code>index.html</code>, fill in the form, and download an updated file ready to redeploy.</p>
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    <h1 class="proverb-text" id="page-title">Sean-fhaclan Manager</h1>
+    <p id="page-subtitle">Add a new proverb to your site without touching any code. Upload your current <code>index.html</code>, fill in the form, and download an updated file ready to redeploy.</p>
   </div>
 </header>
 
@@ -388,6 +402,51 @@
     el.originToggle.textContent = '+ Add a map location for this proverb (optional)';
     el.previewWrap.style.display = 'none';
   });
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  // Lightweight EN/GD toggle for this page's own chrome only — this is your admin
+  // tool, not a visitor-facing page, so translation is limited to the header rather
+  // than the whole form. Shares the same "sf-ui-lang" localStorage key as the rest
+  // of the site, so it opens in whichever language you last picked elsewhere.
+  var I18N = {
+    title: { en: 'Sean-fhaclan Manager', gd: 'Manaidsear Sean-fhaclan' },
+    subtitle: {
+      en: 'Add a new proverb to your site without touching any code. Upload your current <code>index.html</code>, fill in the form, and download an updated file ready to redeploy.',
+      gd: 'Cuir seanfhacal ùr ris an làrach agad gun a bhith a\' beantainn ri còd sam bith. Luchdaich suas an <code>index.html</code> a th\' agad an-dràsta, lìon am foirm, agus luchdaich a-nuas faidhle ùraichte deiseil airson ath-chuir a-mach.'
+    }
+  };
+
+  var pageTitle = document.getElementById('page-title');
+  var pageSubtitle = document.getElementById('page-subtitle');
+  var btnEn = document.getElementById('ui-lang-en');
+  var btnGd = document.getElementById('ui-lang-gd');
+
+  function loadLang() {
+    try {
+      var raw = localStorage.getItem('sf-ui-lang');
+      return raw ? JSON.parse(raw) : 'en';
+    } catch (e) { return 'en'; }
+  }
+  function saveLang(lang) {
+    try { localStorage.setItem('sf-ui-lang', JSON.stringify(lang)); } catch (e) {}
+  }
+
+  function setLang(lang) {
+    saveLang(lang);
+    btnEn.classList.toggle('active', lang === 'en');
+    btnGd.classList.toggle('active', lang === 'gd');
+    pageTitle.textContent = I18N.title[lang];
+    pageSubtitle.innerHTML = I18N.subtitle[lang];
+  }
+
+  btnEn.addEventListener('click', function () { setLang('en'); });
+  btnGd.addEventListener('click', function () { setLang('gd'); });
+
+  setLang(loadLang() === 'gd' ? 'gd' : 'en');
 })();
 </script>
 </body>

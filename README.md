@@ -68,13 +68,15 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 
 ## Interface language (EN / GD)
 
-Small "EN / GD" toggle, top-right of the header. It switches all the surrounding interface text — buttons, filters, form labels, the About panel, and so on — between English and Gaelic. The choice is remembered per visitor (saved in their browser).
+Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, Grammar, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, and so on — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all three files).
 
 This is separate from the three proverb-language tabs (Scots / Gàidhlig / English), which are unaffected by this toggle. As you asked, those three tabs — and every place in the app that names one of the three proverb languages — always read **Beurla Ghallda** (Scots), **Gàidhlig**, and **Beurla** (English), regardless of which interface language is active.
 
-**Please review the Gaelic before relying on it.** I'm not a fluent Gaelic speaker — the translations are a careful best effort, not a checked one. `GAELIC_TRANSLATIONS_REVIEW.md` lists every interface string in English next to my Gaelic, with a blank column for corrections. Send me any fixes (in chat is easiest) and I'll update `index.html` to match exactly.
+On the Grammar page, switching to GD does one extra thing: each card gets small Gaelic labels — "Mìneachadh:" (explanation) in front of the breakdown, and "Beurla:" (English) in front of the meaning — so the card reads as Gaelic-led rather than English-led. The grammar explanations themselves stay in English in both modes, since translating the teaching content would work against the point of a page for English-speaking learners; only the framing swaps.
 
-To add a translated string yourself: find the relevant `data-i18n="key"` attribute in `index.html`, then find that same key in the `I18N` object further down the file (search for `var I18N = {`) and edit the `"gd"` value.
+**Please review the Gaelic before relying on it.** I'm not a fluent Gaelic speaker — the translations are a careful best effort, not a checked one. `GAELIC_TRANSLATIONS_REVIEW.md` lists every interface string (across all three pages now) in English next to my Gaelic, with a blank column for corrections. Send me any fixes (in chat is easiest) and I'll update the relevant file to match exactly.
+
+To add a translated string yourself: on `index.html`, find the relevant `data-i18n="key"` attribute, then find that same key in the `I18N` object further down the file (search for `var I18N = {`) and edit the `"gd"` value. `grammar.html` and `about.html` use the same `I18N` pattern but without `data-i18n` attributes — the JS sets `textContent`/`innerHTML` on a few named elements directly, so search for `var I18N = {` in each file and edit the `gd` values there.
 
 ## Map: where the proverbs are from
 
