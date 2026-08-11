@@ -146,11 +146,11 @@ This page is unlisted (not linked from anywhere except the site's own footer) bu
 
 ## The data
 
-All 56 proverbs live in the `<script type="application/json" id="proverb-data">` block near the top of `index.html`. To add or edit entries, edit that JSON array directly — each entry looks like:
+All 106 proverbs live in the `<script type="application/json" id="proverb-data">` block near the top of `index.html`. To add or edit entries, edit that JSON array directly — each entry looks like:
 
 ```json
 {
-  "id": 57,
+  "id": 107,
   "theme": "Money & Value",
   "scots": { "text": "...", "gloss": "plain-English meaning" },
   "gaelic": { "text": "...", "gloss": "plain-English meaning" },
@@ -168,7 +168,9 @@ Set any of `"scots"`, `"gaelic"`, or `"english"` to `null` if you don't have tha
 
 One entry (Duine an dòras bhon taobh eile) is different from the rest: it's a community-contributed local saying from you, not from a published collection, and is labelled as such in its source line.
 
-Entries 42–56 come from T. D. MacDonald's *Gaelic Proverbs and Proverbial Sayings* (1926) — a public-domain collection digitised by the National Library of Scotland on archive.org. Several of these pair the Gaelic with an English (and in one case, Scots) equivalent straight from the book itself; the rest use a plain English rendering where no fixed proverb matched closely enough. One (id 48) is flagged in `GAELIC_TRANSLATIONS_REVIEW.md` as an OCR-uncertain reconstruction worth double-checking.
+Entries 42–106 come from T. D. MacDonald's *Gaelic Proverbs and Proverbial Sayings* (1926) — a public-domain collection digitised by the National Library of Scotland on archive.org. Several pair the Gaelic with an English (and in one case, Scots) equivalent straight from the book itself; the rest use a plain English rendering where no fixed proverb matched closely enough. One (id 48) is flagged in `GAELIC_TRANSLATIONS_REVIEW.md` as an OCR-uncertain reconstruction worth double-checking.
+
+This is a selection from the book, not the whole thing. The book runs to roughly 172 pages and several hundred proverbs across seven parts; adding literally all of them would mean transcribing an entire published work into this dataset rather than drawing from it, which isn't something this project does even for a public-domain source. If you want more from it later, I'm happy to keep pulling further batches — just say so.
 
 Sources are cited per-card and summarised in the app's "About & sources" panel: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page (drawing on Alexander Nicolson 1882, Edward Dwelly 1911, Gyula Paczolay 1997, BBC Alba's *Litir do Luchd-ionnsachaidh*); Lingalot's Scottish Gaelic proverbs guide; and T. D. MacDonald's *Gaelic Proverbs and Proverbial Sayings* (1926, archive.org).
 
