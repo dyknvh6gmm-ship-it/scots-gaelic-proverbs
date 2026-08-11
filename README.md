@@ -25,7 +25,7 @@ There's no shared template system — each `.html` file is fully self-contained,
 
 `grammar.html` is a second collection, distinct from the Home page's proverbs: short Gaelic phrases chosen specifically for what they demonstrate about Gaelic grammar, particularly how pronouns fuse into prepositions (*air* + *mi* → *orm*, and similar). Each entry shows the phrase, a literal breakdown of what's fused together, the English meaning, and — only where a genuine equivalent exists — the Scots. Most don't have one, since this fused-pronoun structure is specifically Gaelic; that's expected, not a gap.
 
-17 entries to start, grouped into five grammar patterns (air/on, aig/possession, other prepositional pronouns, verbal-noun idioms like *buaidh a thoirt air*, and the *Is fheàrr...na...* comparative). Sourced mainly from LearnGaelic's Grammar Bites (the official Bòrd na Gàidhlig learning resource) and Omniglot's prepositional pronoun tables — cited per entry. One entry, *cudrom a thoirt air*, is your own contributed example; I noted that the more commonly documented form is *cudrom a chur air*, using the same structure with a different verb.
+21 entries, grouped into five grammar patterns: air/on, aig/possession, "Ann, mu, le, ri" (other prepositional pronouns), Thoirt (verbal-noun idioms with *thoirt*), and the *Is fheàrr...na...* comparative. Two of these — "Ann, mu, le, ri" and Thoirt — mix more than one preposition, so they're split further into labelled subsections: Thoirt is *thoirt air* (to overcome / place upon), *thoirt le* (to take along), and *thoirt do* (to give to); "Ann, mu, le, ri" is split the same way, one subsection per preposition. That subsection pattern is the template for extending either category later — add a `"subcategory"` value to a new entry and it'll slot into (or start) its own labelled group automatically. Sourced mainly from LearnGaelic's Grammar Bites (the official Bòrd na Gàidhlig learning resource) and Omniglot's prepositional pronoun tables — cited per entry. One entry, *cudrom a thoirt air*, is your own contributed example; I noted that the more commonly documented form is *cudrom a chur air*, using the same structure with a different verb.
 
 To add more entries, the data lives in the same kind of `<script type="application/json" id="grammar-data">` block as the Home page, near the top of `grammar.html` — same idea as editing `index.html`'s data, just a different file. (The proverb `manager.html` tool only knows about `index.html` for now — it won't help you add grammar entries. Tell me any new ones and I'll add them, or ask if you'd like a manager built for this page too.)
 
@@ -144,11 +144,11 @@ This page is unlisted (not linked from anywhere except the site's own footer) bu
 
 ## The data
 
-All 41 proverbs live in the `<script type="application/json" id="proverb-data">` block near the top of `index.html`. To add or edit entries, edit that JSON array directly — each entry looks like:
+All 56 proverbs live in the `<script type="application/json" id="proverb-data">` block near the top of `index.html`. To add or edit entries, edit that JSON array directly — each entry looks like:
 
 ```json
 {
-  "id": 42,
+  "id": 57,
   "theme": "Money & Value",
   "scots": { "text": "...", "gloss": "plain-English meaning" },
   "gaelic": { "text": "...", "gloss": "plain-English meaning" },
@@ -162,10 +162,12 @@ Set any of `"scots"`, `"gaelic"`, or `"english"` to `null` if you don't have tha
 
 ### On accuracy
 
-5 of the 41 entries are recorded in **all three languages** — proverbs judged, by meaning, to carry the same wisdom across Scots, Gaelic, and English. They are not word-for-word translations of one another; each is a genuinely separate, traditional saying. Most other entries include an English proverb too (many Scots and Gaelic proverbs turn out to have a well-known English equivalent — that's noted per-card as "standard English proverb" vs. a plain-English rendering when no fixed English saying matches). Where a language genuinely has no documented equivalent, that's shown honestly rather than invented.
+5 of the first 41 entries are recorded in **all three languages** — proverbs judged, by meaning, to carry the same wisdom across Scots, Gaelic, and English. They are not word-for-word translations of one another; each is a genuinely separate, traditional saying. Most other entries include an English proverb too (many Scots and Gaelic proverbs turn out to have a well-known English equivalent — that's noted per-card as "standard English proverb" vs. a plain-English rendering when no fixed English saying matches). Where a language genuinely has no documented equivalent, that's shown honestly rather than invented.
 
 One entry (Duine an dòras bhon taobh eile) is different from the rest: it's a community-contributed local saying from you, not from a published collection, and is labelled as such in its source line.
 
-Sources are cited per-card and summarised in the app's "About & sources" panel: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page (drawing on Alexander Nicolson 1882, Edward Dwelly 1911, Gyula Paczolay 1997, BBC Alba's *Litir do Luchd-ionnsachaidh*); and Lingalot's Scottish Gaelic proverbs guide.
+Entries 42–56 come from T. D. MacDonald's *Gaelic Proverbs and Proverbial Sayings* (1926) — a public-domain collection digitised by the National Library of Scotland on archive.org. Several of these pair the Gaelic with an English (and in one case, Scots) equivalent straight from the book itself; the rest use a plain English rendering where no fixed proverb matched closely enough. One (id 48) is flagged in `GAELIC_TRANSLATIONS_REVIEW.md` as an OCR-uncertain reconstruction worth double-checking.
+
+Sources are cited per-card and summarised in the app's "About & sources" panel: scots-online.org (Andy Eagle); Wikiquote's Scottish Gaelic proverbs page (drawing on Alexander Nicolson 1882, Edward Dwelly 1911, Gyula Paczolay 1997, BBC Alba's *Litir do Luchd-ionnsachaidh*); Lingalot's Scottish Gaelic proverbs guide; and T. D. MacDonald's *Gaelic Proverbs and Proverbial Sayings* (1926, archive.org).
 
 This is a starter set, built to be extended — the suggestion form and the plain-JSON data format are meant to make that easy.

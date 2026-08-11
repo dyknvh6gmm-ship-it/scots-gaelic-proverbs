@@ -43,6 +43,13 @@
   .category-block h2 { font-size: 1.15rem; margin: 0 0 4px; }
   .category-block .cat-desc { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 0 0 14px; max-width: 640px; }
 
+  .subsection { margin-top: 16px; }
+  .subsection:first-child { margin-top: 0; }
+  .subsection h3 {
+    font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 700;
+    color: var(--thistle); margin: 0 0 8px; padding-bottom: 4px; border-bottom: 1px solid rgba(142,108,156,0.2);
+  }
+
   .results { display: grid; gap: 14px; }
   .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 30px 0; text-align: center; }
 
@@ -153,56 +160,84 @@
    "scots":null,
    "source":"Omniglot — \"Prepositional pronouns in Goidelic languages\" (comparative table, alongside Irish Tá grá aici dom)."},
 
-  {"id":10,"category":"other-pronoun",
+  {"id":10,"category":"other-pronoun","subcategory":"ann",
    "gaelic":"Is e sgrìobhadair a th' annam.",
    "breakdown":"annam = ann + mi → in + me",
    "english":"I am a writer. (Literally: it's a writer that's in me.)",
    "scots":null,
    "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
 
-  {"id":11,"category":"other-pronoun",
+  {"id":11,"category":"other-pronoun","subcategory":"mu",
    "gaelic":"Cuir umad do chòta.",
    "breakdown":"umad = mu + thu → around + you",
    "english":"Put your coat on. (Literally: put around-you your coat.)",
    "scots":null,
    "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
 
-  {"id":12,"category":"other-pronoun",
+  {"id":12,"category":"other-pronoun","subcategory":"le",
    "gaelic":"An tèid thu leam?",
    "breakdown":"leam = le + mi → with + me",
    "english":"Will you go with me?",
    "scots":null,
-   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\" The same le that reappears fused into thoir leat, \"take with you,\" in the Thoirt section below."},
 
-  {"id":13,"category":"other-pronoun",
+  {"id":13,"category":"other-pronoun","subcategory":"ri",
    "gaelic":"Tha mi a' bruidhinn ruibh.",
    "breakdown":"ruibh = ri + sibh → to/against + you (plural or polite); a' bruidhinn = verbal noun, \"talking\"",
    "english":"I'm talking to you.",
    "scots":null,
    "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
 
-  {"id":14,"category":"toirt-idiom",
+  {"id":14,"category":"toirt","subcategory":"air",
    "gaelic":"Buaidh a thoirt air.",
    "breakdown":"thoirt = verbal noun of toir (\"give\"); buaidh = victory; air = on — literally \"to give victory upon\"",
    "english":"To overcome or defeat someone. With a pronoun fused in: buaidh a thoirt orm = to overcome me.",
    "scots":null,
    "source":"Standard verbal-noun + object + air idiom pattern, documented at LearnGaelic's Grammar Bites."},
 
-  {"id":15,"category":"toirt-idiom",
+  {"id":15,"category":"toirt","subcategory":"air",
    "gaelic":"Cudrom a thoirt air rud.",
    "breakdown":"cudrom = weight, emphasis, importance; thoirt air = to give to / place on",
    "english":"To place emphasis or importance on something.",
    "scots":null,
    "source":"Contributed by Fiobh. The more commonly documented form is \"cudrom a chur air\" (LearnGaelic Grammar Hacks: using 'cur') — same verbal-noun + object + air structure, different verb."},
 
-  {"id":16,"category":"comparative",
+  {"id":16,"category":"toirt","subcategory":"le",
+   "gaelic":"Thoir leat do chòta.",
+   "breakdown":"leat = le + thu → with + you; thoir leat literally \"give [it] with you\" — Gaelic's way of saying \"take along\"",
+   "english":"Take your coat with you.",
+   "scots":null,
+   "source":"Standard imperative + le-pronoun pattern for \"take along\" — the same le that fuses into leam, leat, leis... in the Ann, mu, le, ri section above."},
+
+  {"id":17,"category":"toirt","subcategory":"le",
+   "gaelic":"Cha toir mi leam càil.",
+   "breakdown":"leam = le + mi → with + me",
+   "english":"I won't take anything with me.",
+   "scots":null,
+   "source":"Standard verbal-noun + object + le-pronoun idiom pattern."},
+
+  {"id":18,"category":"toirt","subcategory":"do",
+   "gaelic":"Thoir dhomh sin.",
+   "breakdown":"dhomh = do + mi → to + me — the most basic sense of thoir",
+   "english":"Give that to me.",
+   "scots":null,
+   "source":"Dhomh, dhut, dha, dhi... are do fused with a pronoun — the indirect-object form used constantly with thoir."},
+
+  {"id":19,"category":"toirt","subcategory":"do",
+   "gaelic":"Leabhar a thoirt do Mhàiri.",
+   "breakdown":"do Mhàiri = do (to) + Màiri — do lenites the noun that follows it, so Màiri becomes Mhàiri",
+   "english":"To give a book to Mary.",
+   "scots":null,
+   "source":"Standard verbal-noun + object + do idiom pattern; also a handy example of do triggering lenition."},
+
+  {"id":20,"category":"comparative",
    "gaelic":"Is fheàrr Gàidhlig bhriste na Gàidhlig sa chiste.",
    "breakdown":"Is = the copula (\"is / it is\"); fheàrr = better; na = than — the fixed \"Is fheàrr X na Y\" frame",
    "english":"Better broken Gaelic than dead Gaelic.",
    "scots":null,
    "source":"Also on the Home page (proverb #32) — Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 622."},
 
-  {"id":17,"category":"comparative",
+  {"id":21,"category":"comparative",
    "gaelic":"Is fheàrr obair na beul.",
    "breakdown":"Is = copula; fheàrr = better; na = than",
    "english":"Work is better than talk.",
@@ -228,18 +263,41 @@
     },
     'other-pronoun': {
       label: 'Ann, mu, le, ri…',
-      desc: "The same fusion happens with other prepositions — ann (in), mu (around), le (with), ri (to/against) — each with its own set of seven pronoun forms."
+      desc: "The same fusion happens with other prepositions — each with its own set of seven pronoun forms. Grouped below by preposition."
     },
-    'toirt-idiom': {
-      label: 'Verbal-noun idioms',
-      desc: "Many idioms pair a verbal noun (like thoirt, \"giving\") with an object and a preposition+pronoun — e.g. buaidh a thoirt orm, \"to overcome me.\""
+    'toirt': {
+      label: 'Thoirt (to give)',
+      desc: "Thoir(t) is one of Gaelic's most productive verbs — its meaning shifts entirely with the preposition that follows it. Grouped below by preposition."
     },
     'comparative': {
       label: 'Is fheàrr… na… (comparatives)',
       desc: "Is (the copula, roughly \"is/it is\") combines with fheàrr (better) and na (than) to build comparisons — a frame that shows up again and again in proverbs."
     }
   };
-  var CATEGORY_ORDER = ['air-pronoun', 'aig-pronoun', 'other-pronoun', 'toirt-idiom', 'comparative'];
+  var CATEGORY_ORDER = ['air-pronoun', 'aig-pronoun', 'other-pronoun', 'toirt', 'comparative'];
+
+  // Some categories mix several distinct preposition patterns — group those into
+  // labelled subsections instead of one flat list. This is the "Thoirt: air / le / do"
+  // structure, applied wherever a category actually contains more than one preposition.
+  var SUBCATEGORIES = {
+    'other-pronoun': {
+      order: ['ann', 'mu', 'le', 'ri'],
+      labels: {
+        ann: 'Ann (in)',
+        mu: 'Mu (about / around)',
+        le: 'Le (with)',
+        ri: 'Ri (to / against)'
+      }
+    },
+    'toirt': {
+      order: ['air', 'le', 'do'],
+      labels: {
+        air: 'Thoirt + air — to overcome / place upon',
+        le: 'Thoirt + le — to take along',
+        do: 'Thoirt + do — to give to'
+      }
+    }
+  };
 
   var state = { query: '', category: 'All' };
 
@@ -287,6 +345,26 @@
     );
   }
 
+  // Renders a set of entries belonging to one category. If that category has
+  // labelled subsections (see SUBCATEGORIES), groups by subcategory with its
+  // own heading; otherwise renders a single flat list.
+  function categoryItemsHtml(cat, items) {
+    var subs = SUBCATEGORIES[cat];
+    if (!subs) {
+      return '<div class="results">' + items.map(cardHtml).join('') + '</div>';
+    }
+    return subs.order.map(function (subKey) {
+      var subItems = items.filter(function (d) { return d.subcategory === subKey; });
+      if (!subItems.length) return '';
+      return (
+        '<div class="subsection">' +
+          '<h3>' + esc(subs.labels[subKey]) + '</h3>' +
+          '<div class="results">' + subItems.map(cardHtml).join('') + '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
   function render() {
     var q = normalise(state.query);
     var filtered = DATA.filter(function (d) {
@@ -302,7 +380,7 @@
     }
 
     if (state.category !== 'All') {
-      el.resultsWrap.innerHTML = '<div class="results">' + filtered.map(cardHtml).join('') + '</div>';
+      el.resultsWrap.innerHTML = categoryItemsHtml(state.category, filtered);
       return;
     }
 
@@ -314,7 +392,7 @@
         '<div class="category-block">' +
           '<h2>' + esc(CATEGORIES[cat].label) + '</h2>' +
           '<p class="cat-desc">' + esc(CATEGORIES[cat].desc) + '</p>' +
-          '<div class="results">' + items.map(cardHtml).join('') + '</div>' +
+          categoryItemsHtml(cat, items) +
         '</div>'
       );
     }).join('');

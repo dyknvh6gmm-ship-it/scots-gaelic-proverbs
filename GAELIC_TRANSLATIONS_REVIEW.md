@@ -76,6 +76,18 @@ The new Stornoway proverb you gave me — I've recorded it as:
 
 Since I couldn't find this in any published source, it's credited in the app as a community contribution from you rather than an academic citation. Worth double-checking the spelling/wording is exactly right, and whether my English gloss captures the tone you intended (it reads fairly polite/mild — let me know if it should feel more blunt or more like a specific idiom).
 
+## New proverbs from the MacDonald 1926 book (ids 42–56)
+
+You pointed me at *Gaelic Proverbs and Proverbial Sayings* by T. D. MacDonald (1926, public domain, digitised by the National Library of Scotland on archive.org). I pulled 15 proverbs from its OCR'd text and added them to `index.html` as ids 42–56. Eight of them pair the Gaelic with an English (and in one case, Scots) equivalent that the book itself gives — those are the most trustworthy, since the match isn't my guess. The other seven are Gaelic lines from the book's introduction with a plain English rendering I wrote, since no single fixed English proverb matched closely enough.
+
+One entry needs a proper check: **id 48**, "Beus na tuath, far am bithear, is ann mar sin a nithear" (paired with "When in Rome, do as the Romans do"). The scan of that line in the source was worn and the OCR came out garbled; what's in the app now is my best-effort reconstruction of the sense, not a confident transcription. If you know this saying, or can get eyes on a cleaner copy of the book, that one's worth fixing or cutting.
+
+Everything else in that batch (ids 42–47, 49–56) is a more literal reading of clearer print, so lower risk, but still worth a skim if you want to be sure before calling it final.
+
+## New Grammar page entries (Thoirt: air / le / do)
+
+`grammar.html` now has a proper "Thoirt" section split into three subsections — thoirt air (buaidh a thoirt air, cudrom a thoirt air), thoirt le (thoir leat do chòta, cha toir mi leam càil), and thoirt do (thoir dhomh sin, leabhar a thoirt do Mhàiri) — plus the existing "Ann, mu, le, ri" category is now split into its own four subsections the same way. These are standard textbook patterns rather than anything I invented, but I'm not a fluent speaker, so a native check on naturalness (especially "cha toir mi leam càil" and "leabhar a thoirt do Mhàiri") would be worthwhile before you call this final.
+
 ## How to send corrections
 
 Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.
