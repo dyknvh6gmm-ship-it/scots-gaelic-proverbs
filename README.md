@@ -10,16 +10,23 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `icons/` — app icons used for the home-screen icon and install prompts
 - `manager.html` — a form for adding new proverbs without editing code, see "Adding proverbs without editing code" below
 - `grammar.html` — a second page: Gaelic phrases chosen for their grammar, see "The Grammar page" below
+- `resources.html` — a third page: links to other Gaelic learning sites, see "The Resources page" below
 - `about.html` — an editable About page with a bio and links section, see "The About page" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, and `about.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, and `about.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
 
 ## Site structure
 
-The site is now several pages sharing one look and a navigation bar (Home / Grammar / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+The site is now several pages sharing one look and a navigation bar (Home / Grammar / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
 
-There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, and `about.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, and `about.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+
+## The Resources page
+
+`resources.html` lists other Gaelic learning sites, grouped under Courses & Lessons, Dictionaries & Reference, Listening & Media, and Organisations — eight to start: LearnGaelic, SpeakGaelic, Duolingo's Scottish Gaelic course, Sabhal Mòr Ostaig, Am Faclair Beag, Omniglot's phrases page, BBC Radio nan Gàidheal's *Litir do Luchd-ionnsachaidh*, and Bòrd na Gàidhlig. All real, currently-live sites — I checked each one before adding it.
+
+To add more, open `resources.html`, copy one of the `<div class="res-card">` blocks under the relevant heading (or start a new `<div class="section-block">` for a new category), and edit the link, title, and description — there's also a note to this effect at the bottom of the page itself. Like Grammar and About, it has its own EN/GD toggle sharing the same saved preference as the rest of the site; the resource names and descriptions themselves stay in English in both modes, since most of the sites listed are English-medium learning resources.
 
 ## The Grammar page
 
