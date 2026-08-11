@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gràmar an Gnìomh | Grammar in Action — Sean-fhaclan</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  #search-input { width: 100%; border-radius: 10px; border: 1px solid rgba(142,108,156,0.3); padding: 12px 16px; font-size: 1.05rem; font-family: Georgia, serif; background: #fff; color: var(--ink); }
+  #search-input:focus { outline: 2px solid rgba(91,42,134,0.5); }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+  .filters button {
+    border: 1px solid rgba(142,108,156,0.3); background: #fff; color: rgba(43,35,32,0.7);
+    border-radius: 999px; padding: 6px 14px; font-size: 0.8rem; cursor: pointer;
+  }
+  .filters button.active { background: var(--thistle); color: #fff; border-color: var(--thistle); }
+
+  .category-block { margin-top: 30px; }
+  .category-block h2 { font-size: 1.15rem; margin: 0 0 4px; }
+  .category-block .cat-desc { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 0 0 14px; max-width: 640px; }
+
+  .results { display: grid; gap: 14px; }
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 30px 0; text-align: center; }
+
+  .gcard { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 18px; }
+  .gcard .gaelic { font-size: 1.2rem; margin: 0; }
+  .gcard .breakdown {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; color: var(--thistle);
+    background: rgba(91,42,134,0.06); border-radius: 6px; padding: 6px 10px; margin: 8px 0; display: inline-block;
+  }
+  .gcard .english { font-size: 0.95rem; margin: 6px 0 0; color: rgba(43,35,32,0.85); }
+  .gcard .scots { font-size: 0.85rem; margin: 6px 0 0; color: var(--saltire); }
+  .gcard .scots .lbl { font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; }
+  .gcard .source { font-size: 0.72rem; color: rgba(43,35,32,0.4); margin: 10px 0 0; }
+
+  .intro-box { background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 12px; padding: 18px 20px; margin-bottom: 8px; font-size: 0.9rem; color: rgba(43,35,32,0.75); line-height: 1.5; }
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="grammar.html" class="active">Grammar</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1 class="proverb-text">Gràmar an Gnìomh — Grammar in Action</h1>
+    <p>Short Gaelic phrases and sayings chosen for what they reveal about the language's structure — especially how pronouns fuse into prepositions. Mostly Gaelic → English; Scots is only included where a genuine equivalent exists.</p>
+  </div>
+</header>
+
+<main>
+  <div class="intro-box">
+    Gaelic doesn't have words like "on me" or "at him" — instead, the preposition and the pronoun merge into a single new word (<em>air</em> + <em>mi</em> becomes <strong>orm</strong>). These are called <strong>prepositional pronouns</strong>, and they carry a lot of weight in everyday Gaelic: feelings, possession, identity, and plenty of idioms all lean on them. Each entry below shows the natural phrase, a breakdown of what's fused together, and the meaning.
+  </div>
+
+  <input type="text" id="search-input" placeholder="Search a phrase, translation, or breakdown…" />
+  <div class="filters" id="filters"></div>
+
+  <div id="results-wrap"></div>
+</main>
+
+<footer class="app-footer">Part of the Sean-fhaclan project — corrections and better-attested examples welcome.</footer>
+
+<script type="application/json" id="grammar-data">
+[
+  {"id":1,"category":"air-pronoun",
+   "gaelic":"Tha ad oirre.",
+   "breakdown":"oirre = air + i → on + her/it",
+   "english":"She has a hat on / she's wearing a hat.",
+   "scots":null,
+   "source":"LearnGaelic — Grammar Bites: \"Using 'air' with personal pronouns.\""},
+
+  {"id":2,"category":"air-pronoun",
+   "gaelic":"Tha bus orra.",
+   "breakdown":"orra = air + iad → on + them",
+   "english":"They are sulking. (Literally: there's a pout on them.)",
+   "scots":null,
+   "source":"LearnGaelic — Grammar Bites: \"Using 'air' with personal pronouns.\""},
+
+  {"id":3,"category":"air-pronoun",
+   "gaelic":"A bheil cnatan ort?",
+   "breakdown":"ort = air + thu → on + you",
+   "english":"Do you have a cold?",
+   "scots":null,
+   "source":"LearnGaelic — Grammar Bites: \"Using 'air' with personal pronouns.\""},
+
+  {"id":4,"category":"air-pronoun",
+   "gaelic":"'S e Dòmhnall an t-ainm a th' orm.",
+   "breakdown":"orm = air + mi → on + me",
+   "english":"My name is Donald. (Literally: it's Donald the name that's on me.)",
+   "scots":null,
+   "source":"LearnGaelic — Grammar Bites: \"Using 'air' with personal pronouns.\""},
+
+  {"id":5,"category":"air-pronoun",
+   "gaelic":"Tha an t-eagal orm.",
+   "breakdown":"orm = air + mi → on + me",
+   "english":"I'm frightened. (Literally: the fear is on me.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":6,"category":"air-pronoun",
+   "gaelic":"Tha an t-acras ort.",
+   "breakdown":"ort = air + thu → on + you",
+   "english":"You're hungry. (Literally: the hunger is on you.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":7,"category":"aig-pronoun",
+   "gaelic":"Tha leabhar agam.",
+   "breakdown":"agam = aig + mi → at + me",
+   "english":"I have a book. Gaelic has no verb \"to have\" — possession is expressed as something being \"at\" you.",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":8,"category":"aig-pronoun",
+   "gaelic":"Tha Gàidhlig aige.",
+   "breakdown":"aige = aig + e → at + him",
+   "english":"He speaks Gaelic. (Literally: Gaelic is at him.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":9,"category":"aig-pronoun",
+   "gaelic":"Tha gràdh aice orm.",
+   "breakdown":"aice = aig + i (at + her); orm = air + mi (on + me) — two prepositional pronouns in one sentence",
+   "english":"She loves me. (Literally: love is at her, on me.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages\" (comparative table, alongside Irish Tá grá aici dom)."},
+
+  {"id":10,"category":"other-pronoun",
+   "gaelic":"Is e sgrìobhadair a th' annam.",
+   "breakdown":"annam = ann + mi → in + me",
+   "english":"I am a writer. (Literally: it's a writer that's in me.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":11,"category":"other-pronoun",
+   "gaelic":"Cuir umad do chòta.",
+   "breakdown":"umad = mu + thu → around + you",
+   "english":"Put your coat on. (Literally: put around-you your coat.)",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":12,"category":"other-pronoun",
+   "gaelic":"An tèid thu leam?",
+   "breakdown":"leam = le + mi → with + me",
+   "english":"Will you go with me?",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":13,"category":"other-pronoun",
+   "gaelic":"Tha mi a' bruidhinn ruibh.",
+   "breakdown":"ruibh = ri + sibh → to/against + you (plural or polite); a' bruidhinn = verbal noun, \"talking\"",
+   "english":"I'm talking to you.",
+   "scots":null,
+   "source":"Omniglot — \"Prepositional pronouns in Goidelic languages.\""},
+
+  {"id":14,"category":"toirt-idiom",
+   "gaelic":"Buaidh a thoirt air.",
+   "breakdown":"thoirt = verbal noun of toir (\"give\"); buaidh = victory; air = on — literally \"to give victory upon\"",
+   "english":"To overcome or defeat someone. With a pronoun fused in: buaidh a thoirt orm = to overcome me.",
+   "scots":null,
+   "source":"Standard verbal-noun + object + air idiom pattern, documented at LearnGaelic's Grammar Bites."},
+
+  {"id":15,"category":"toirt-idiom",
+   "gaelic":"Cudrom a thoirt air rud.",
+   "breakdown":"cudrom = weight, emphasis, importance; thoirt air = to give to / place on",
+   "english":"To place emphasis or importance on something.",
+   "scots":null,
+   "source":"Contributed by Fiobh. The more commonly documented form is \"cudrom a chur air\" (LearnGaelic Grammar Hacks: using 'cur') — same verbal-noun + object + air structure, different verb."},
+
+  {"id":16,"category":"comparative",
+   "gaelic":"Is fheàrr Gàidhlig bhriste na Gàidhlig sa chiste.",
+   "breakdown":"Is = the copula (\"is / it is\"); fheàrr = better; na = than — the fixed \"Is fheàrr X na Y\" frame",
+   "english":"Better broken Gaelic than dead Gaelic.",
+   "scots":null,
+   "source":"Also on the Home page (proverb #32) — Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 622."},
+
+  {"id":17,"category":"comparative",
+   "gaelic":"Is fheàrr obair na beul.",
+   "breakdown":"Is = copula; fheàrr = better; na = than",
+   "english":"Work is better than talk.",
+   "scots":null,
+   "source":"Also on the Home page (proverb #5)."}
+]
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('grammar-data').textContent);
+
+  var CATEGORIES = {
+    'air-pronoun': {
+      label: 'Air (on)',
+      desc: "Air (on) fuses with a pronoun into words like orm, ort, oirre... Used constantly for feelings, states, clothing, and naming yourself."
+    },
+    'aig-pronoun': {
+      label: 'Aig (at / possession)',
+      desc: "Gaelic has no verb \"to have.\" Possession, ability, and feeling are expressed with aig (at) fused to a pronoun: agam, aige, aice..."
+    },
+    'other-pronoun': {
+      label: 'Ann, mu, le, ri…',
+      desc: "The same fusion happens with other prepositions — ann (in), mu (around), le (with), ri (to/against) — each with its own set of seven pronoun forms."
+    },
+    'toirt-idiom': {
+      label: 'Verbal-noun idioms',
+      desc: "Many idioms pair a verbal noun (like thoirt, \"giving\") with an object and a preposition+pronoun — e.g. buaidh a thoirt orm, \"to overcome me.\""
+    },
+    'comparative': {
+      label: 'Is fheàrr… na… (comparatives)',
+      desc: "Is (the copula, roughly \"is/it is\") combines with fheàrr (better) and na (than) to build comparisons — a frame that shows up again and again in proverbs."
+    }
+  };
+  var CATEGORY_ORDER = ['air-pronoun', 'aig-pronoun', 'other-pronoun', 'toirt-idiom', 'comparative'];
+
+  var state = { query: '', category: 'All' };
+
+  var el = {
+    searchInput: document.getElementById('search-input'),
+    filters: document.getElementById('filters'),
+    resultsWrap: document.getElementById('results-wrap')
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function normalise(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+
+  // ---- filter pills ----
+  var pills = ['All'].concat(CATEGORY_ORDER);
+  el.filters.innerHTML = pills.map(function (c) {
+    var label = c === 'All' ? 'All' : CATEGORIES[c].label;
+    return '<button data-cat="' + esc(c) + '" class="' + (c === 'All' ? 'active' : '') + '">' + esc(label) + '</button>';
+  }).join('');
+  Array.prototype.forEach.call(el.filters.querySelectorAll('button'), function (btn) {
+    btn.addEventListener('click', function () {
+      state.category = btn.getAttribute('data-cat');
+      Array.prototype.forEach.call(el.filters.querySelectorAll('button'), function (b) { b.classList.toggle('active', b === btn); });
+      render();
+    });
+  });
+
+  el.searchInput.addEventListener('input', function () { state.query = el.searchInput.value; render(); });
+
+  function cardHtml(entry) {
+    var scotsHtml = entry.scots
+      ? '<p class="scots"><span class="lbl">Beurla Ghallda:</span> ' + esc(entry.scots.text) + '</p>'
+      : '';
+    return (
+      '<div class="gcard">' +
+        '<p class="gaelic proverb-text">' + esc(entry.gaelic) + '</p>' +
+        '<div class="breakdown">' + esc(entry.breakdown) + '</div>' +
+        '<p class="english">' + esc(entry.english) + '</p>' +
+        scotsHtml +
+        '<p class="source">' + esc(entry.source) + '</p>' +
+      '</div>'
+    );
+  }
+
+  function render() {
+    var q = normalise(state.query);
+    var filtered = DATA.filter(function (d) {
+      if (state.category !== 'All' && d.category !== state.category) return false;
+      if (!q) return true;
+      var hay = normalise(d.gaelic + ' ' + d.breakdown + ' ' + d.english + ' ' + (d.scots ? d.scots.text : ''));
+      return hay.indexOf(q) !== -1;
+    });
+
+    if (filtered.length === 0) {
+      el.resultsWrap.innerHTML = '<p class="empty">No matches. Try a different word, or clear the filter.</p>';
+      return;
+    }
+
+    if (state.category !== 'All') {
+      el.resultsWrap.innerHTML = '<div class="results">' + filtered.map(cardHtml).join('') + '</div>';
+      return;
+    }
+
+    // Grouped view when no single category is selected.
+    el.resultsWrap.innerHTML = CATEGORY_ORDER.map(function (cat) {
+      var items = filtered.filter(function (d) { return d.category === cat; });
+      if (!items.length) return '';
+      return (
+        '<div class="category-block">' +
+          '<h2>' + esc(CATEGORIES[cat].label) + '</h2>' +
+          '<p class="cat-desc">' + esc(CATEGORIES[cat].desc) + '</p>' +
+          '<div class="results">' + items.map(cardHtml).join('') + '</div>' +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

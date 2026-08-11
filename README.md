@@ -9,9 +9,35 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `sw.js` — service worker, handles offline caching and (once connected) push notifications
 - `icons/` — app icons used for the home-screen icon and install prompts
 - `manager.html` — a form for adding new proverbs without editing code, see "Adding proverbs without editing code" below
+- `grammar.html` — a second page: Gaelic phrases chosen for their grammar, see "The Grammar page" below
+- `about.html` — an editable About page with a bio and links section, see "The About page" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html` should be deployed alongside them (so the "+ Add a proverb" link on the site works) but isn't required for the site itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, and `about.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+
+## Site structure
+
+The site is now several pages sharing one look and a navigation bar (Home / Grammar / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, and `about.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+
+## The Grammar page
+
+`grammar.html` is a second collection, distinct from the Home page's proverbs: short Gaelic phrases chosen specifically for what they demonstrate about Gaelic grammar, particularly how pronouns fuse into prepositions (*air* + *mi* → *orm*, and similar). Each entry shows the phrase, a literal breakdown of what's fused together, the English meaning, and — only where a genuine equivalent exists — the Scots. Most don't have one, since this fused-pronoun structure is specifically Gaelic; that's expected, not a gap.
+
+17 entries to start, grouped into five grammar patterns (air/on, aig/possession, other prepositional pronouns, verbal-noun idioms like *buaidh a thoirt air*, and the *Is fheàrr...na...* comparative). Sourced mainly from LearnGaelic's Grammar Bites (the official Bòrd na Gàidhlig learning resource) and Omniglot's prepositional pronoun tables — cited per entry. One entry, *cudrom a thoirt air*, is your own contributed example; I noted that the more commonly documented form is *cudrom a chur air*, using the same structure with a different verb.
+
+To add more entries, the data lives in the same kind of `<script type="application/json" id="grammar-data">` block as the Home page, near the top of `grammar.html` — same idea as editing `index.html`'s data, just a different file. (The proverb `manager.html` tool only knows about `index.html` for now — it won't help you add grammar entries. Tell me any new ones and I'll add them, or ask if you'd like a manager built for this page too.)
+
+## The About page
+
+`about.html` is a template — the bio text, name, and all four link entries are placeholders and won't mean anything until you personalise them. Open the file and look for:
+
+- The "Your Name Here" heading and the tagline beneath it
+- The bio paragraph under it
+- The `links-list` block near the bottom — each `<a href="#">` is a placeholder link (website, email, Instagram, GitHub); replace the `#` with your real URL and edit the label, delete rows you don't want, or copy a row to add more
+
+Tell me what you'd like it to say and I can fill it in for you instead, if you'd rather not edit HTML directly.
 
 ## Run it
 
@@ -68,6 +94,12 @@ There's a "Suggest where a proverb is from" form below the map. Right now, like 
 - **Supabase** — a proper free-tier hosted database with a built-in table editor, closer to a real admin dashboard (you could literally flip a status dropdown from "pending" to "approved" in their UI). More powerful, but needs a bit more setup (an account, a table, and careful configuration of what the public form is allowed to do).
 
 Tell me which you'd like and I'll wire the form to submit there instead of just localStorage — that's the last piece needed to make this a real, growing, moderated map.
+
+## Mobile layout: bottom bar
+
+On phone-sized screens (roughly 640px wide or narrower — covers virtually all phones, whether the site is open in a browser tab or installed as an app), the language toggle and the Random/About buttons move from the top of the page down to a fixed bar at the bottom of the screen, closer to how native apps place their navigation. The rest of the page (search, filters, results) stays where it was; only that one row relocates.
+
+I built this with a runtime check rather than fixed pixel guesses, since I couldn't test it on an actual phone: the app measures the real height of that bottom bar in the visitor's browser and pads the page content, and repositions the install banner, to match — so it should hold up even if the bar wraps to two lines on a very narrow phone or in Gaelic (where "About & sources" translates to a longer phrase). Still, this is the one part of this update I'd genuinely appreciate you checking on your own phone — if anything overlaps or looks cramped, tell me what you're seeing and I'll adjust it.
 
 ## Installing as an app (PWA)
 

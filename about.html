@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 700px; margin: 0 auto; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+  main { max-width: 700px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 26px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 10px; font-size: 1.15rem; }
+  .card p { line-height: 1.6; color: rgba(43,35,32,0.8); margin: 0 0 12px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .avatar-placeholder {
+    width: 84px; height: 84px; border-radius: 50%; margin: 0 auto 16px;
+    background: linear-gradient(135deg, var(--saltire), var(--thistle));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 1.6rem; font-weight: 700; font-family: Georgia, serif;
+  }
+  .name-heading { text-align: center; margin: 0 0 4px; font-size: 1.4rem; }
+  .tagline { text-align: center; color: rgba(43,35,32,0.55); font-size: 0.9rem; margin: 0 0 22px; }
+
+  .links-list { display: grid; gap: 10px; }
+  .links-list a {
+    display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 8px;
+    border: 1px solid rgba(142,108,156,0.25); text-decoration: none; color: var(--ink);
+    font-size: 0.92rem; font-weight: 500; transition: background 0.15s;
+  }
+  .links-list a:hover { background: rgba(91,42,134,0.05); }
+  .links-list .icon { font-size: 1.1rem; width: 22px; text-align: center; }
+
+  .edit-note {
+    background: rgba(163,105,31,0.08); border: 1px dashed rgba(163,105,31,0.4); border-radius: 8px;
+    padding: 12px 14px; font-size: 0.82rem; color: rgba(43,35,32,0.7); margin-top: 18px;
+  }
+  .edit-note code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="grammar.html">Grammar</a>
+      <a href="about.html" class="active">About</a>
+    </nav>
+    <h1 class="proverb-text">About</h1>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <div class="avatar-placeholder">SF</div>
+    <h2 class="name-heading" style="text-align:center;">Your Name Here</h2>
+    <p class="tagline">A short tagline about who you are goes here</p>
+    <p>
+      This is placeholder text — replace it with a couple of sentences about yourself: who you are,
+      why you started collecting Scots and Gaelic proverbs, and anything else you'd like visitors to know.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Why this site exists</h2>
+    <p>
+      Sean-fhaclan &amp; Auld Sayins started as a way to search Scots and Scottish Gaelic proverbs side
+      by side and see where their wisdom overlaps — and where each language has sayings the other
+      doesn't. It's a starter set, built to grow: proverbs, translations, and even a proverb's place of
+      origin can all be added over time, with sources credited honestly rather than guessed at.
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>Links</h2>
+    <div class="links-list">
+      <a href="#"><span class="icon">🌐</span> Your website</a>
+      <a href="#"><span class="icon">✉️</span> Email</a>
+      <a href="#"><span class="icon">📷</span> Instagram</a>
+      <a href="#"><span class="icon">🐙</span> GitHub</a>
+    </div>
+    <div class="edit-note">
+      These are placeholders. Open <code>about.html</code>, find the <code>&lt;div class="links-list"&gt;</code>
+      block, and replace each <code>href="#"</code> with your real link (and edit the label text). Delete any
+      rows you don't want, or copy one to add more.
+    </div>
+  </div>
+</main>
+
+<footer class="app-footer">Sean-fhaclan &amp; Auld Sayins</footer>
+
+</body>
+</html>

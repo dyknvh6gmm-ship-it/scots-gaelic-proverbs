@@ -49,6 +49,14 @@
   }
   .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
 
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a {
+    color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25);
+  }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
   main { max-width: 820px; margin: 0 auto; padding: 24px 20px; }
 
   .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -233,6 +241,23 @@
   .map-info p.gloss { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
   .map-info p.credit { font-size: 0.75rem; color: rgba(43,35,32,0.45); margin: 8px 0 0; }
   #map-view-larger { display: inline-block; margin-top: 8px; }
+
+  /* On phones, the language toggle + quick actions move to a fixed bar at the
+     bottom of the screen, like a native app's tab bar. JS pads the page content
+     and repositions the install banner so nothing overlaps — see applyMobileBar(). */
+  @media (max-width: 640px) {
+    .toolbar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+      background: #fff; margin: 0;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid rgba(142,108,156,0.25);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+      justify-content: center;
+    }
+    .toolbar .toggle-group { flex: 1 1 100%; justify-content: center; order: 1; }
+    .toolbar .btn-outline, .toolbar .link-btn { font-size: 0.78rem; padding: 6px 12px; order: 2; margin: 0; }
+    .toolbar .link-btn { margin-left: 0; }
+  }
 </style>
 </head>
 <body>
@@ -243,6 +268,11 @@
       <button id="ui-lang-en" class="active" data-lang="en">EN</button>
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
+    <nav class="site-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="grammar.html">Grammar</a>
+      <a href="about.html">About</a>
+    </nav>
     <h1 class="proverb-text">Sean-fhaclan &amp; Auld Sayins</h1>
     <p data-i18n="appSubtitle">Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.</p>
   </div>
@@ -822,7 +852,9 @@
     btnExport: document.getElementById('btn-export'),
     toast: document.getElementById('toast'),
     uiLangEn: document.getElementById('ui-lang-en'),
-    uiLangGd: document.getElementById('ui-lang-gd')
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    toolbar: document.querySelector('.toolbar'),
+    main: document.querySelector('main')
   };
 
   // Language-tab buttons and card language-name labels always show the fixed
@@ -940,6 +972,7 @@
     refreshNewsletterHint();
     refreshLocationUI();
     render();
+    setTimeout(applyMobileBar, 0);
   }
 
   // ---- events ----
@@ -1088,6 +1121,7 @@
 
   // ---- Mobile install banner ----
   var updateInstallBannerText = function () {}; // replaced below once the banner IIFE runs
+  var positionInstallBanner = function () {}; // replaced below once the banner IIFE runs
   (function () {
     var banner = document.getElementById('install-banner');
     var btnInstall = document.getElementById('install-banner-btn');
@@ -1104,6 +1138,12 @@
 
     updateInstallBannerText = function () {
       bannerText.textContent = t(isIOS ? 'installTextIOS' : 'installTextAndroid');
+    };
+
+    // Keep the install banner sitting above the fixed bottom nav bar on phones,
+    // rather than underneath or overlapping it.
+    positionInstallBanner = function (barHeight) {
+      banner.style.bottom = (barHeight || 0) + 'px';
     };
 
     function recentlyDismissed() {
@@ -1277,6 +1317,27 @@
     refreshLocationExport();
   })();
 
+  // ---- Mobile bottom bar: pad the page and reposition the install banner so
+  // nothing sits underneath the fixed language-toggle bar on phones. ----
+  var MOBILE_BAR_QUERY = window.matchMedia('(max-width: 640px)');
+  function applyMobileBar() {
+    if (MOBILE_BAR_QUERY.matches) {
+      var barHeight = el.toolbar.offsetHeight;
+      el.main.style.paddingBottom = (barHeight + 24) + 'px';
+      positionInstallBanner(barHeight);
+    } else {
+      el.main.style.paddingBottom = '';
+      positionInstallBanner(0);
+    }
+  }
+  window.addEventListener('resize', applyMobileBar);
+  window.addEventListener('orientationchange', applyMobileBar);
+  if (MOBILE_BAR_QUERY.addEventListener) {
+    MOBILE_BAR_QUERY.addEventListener('change', applyMobileBar);
+  }
+  // Re-measure shortly after load too, in case fonts/icons shift the bar's height.
+  window.addEventListener('load', function () { setTimeout(applyMobileBar, 100); });
+
   // ---- restore saved UI language, then do the initial render ----
   var savedUiLang = loadJSON('sf-ui-lang', 'en');
   state.uiLang = (savedUiLang === 'gd') ? 'gd' : 'en';
@@ -1288,6 +1349,7 @@
   updateInstallBannerText();
   refreshNewsletterHint();
   refreshLocationUI();
+  applyMobileBar();
 
   refreshExportButton();
   render();
