@@ -69,6 +69,14 @@
   .signed-in-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .signed-in-row .link-btn { background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; font-size: 0.85rem; cursor: pointer; padding: 0; }
 
+  #browse-card .links-list { display: grid; gap: 10px; margin-top: 4px; }
+  #browse-card .links-list a {
+    display: block; padding: 12px 14px; border-radius: 8px;
+    border: 1px solid rgba(142,108,156,0.25); text-decoration: none; color: var(--ink, #2b2320);
+    font-size: 0.92rem; font-weight: 500; transition: background 0.15s;
+  }
+  #browse-card .links-list a:hover { background: rgba(91,42,134,0.05); }
+
   .fav-list { display: grid; gap: 12px; margin-top: 4px; }
   .fav-card { border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 14px 16px; }
   .fav-card .lang-row { margin-bottom: 8px; }
@@ -162,6 +170,15 @@
       <span id="updates-push-label">🔔 Send push notifications</span>
     </label>
     <p class="hint" id="updates-status"></p>
+  </div>
+
+  <div class="card" id="browse-card">
+    <h2 id="browse-heading">Browse</h2>
+    <div class="links-list">
+      <a href="grammar.html" id="browse-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="browse-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="browse-scots-collection">Scots Collection</a>
+    </div>
   </div>
 
   <div class="card" id="suggest-card" style="display:none;">
@@ -259,6 +276,7 @@
       en: "Push notifications aren't available in this browser right now.",
       gd: "Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta."
     },
+    browseHeading: { en: 'Browse', gd: 'Sgrùd' },
     suggestHeading: { en: 'Suggest a proverb', gd: 'Mol seanfhacal' },
     suggestHint: {
       en: "Send us a Scots, Gaelic, or English proverb (fill in whichever you know). Reviewed suggestions may appear on the Suggested Abairtean page.",
@@ -307,6 +325,10 @@
     updatesPushLabel: document.getElementById('updates-push-label'),
     chkNewsletter: document.getElementById('chk-newsletter-optin'),
     chkPush: document.getElementById('chk-push-optin'),
+    browseHeading: document.getElementById('browse-heading'),
+    browseGrammar: document.getElementById('browse-grammar'),
+    browseGaelicCollection: document.getElementById('browse-gaelic-collection'),
+    browseScotsCollection: document.getElementById('browse-scots-collection'),
     updatesStatus: document.getElementById('updates-status'),
     suggestCard: document.getElementById('suggest-card'),
     suggestHeading: document.getElementById('suggest-heading'),
@@ -364,6 +386,10 @@
     el.updatesBody.textContent = t('updatesBody');
     el.updatesEmailLabel.textContent = t('updatesEmailLabel');
     el.updatesPushLabel.textContent = t('updatesPushLabel');
+    el.browseHeading.textContent = t('browseHeading');
+    el.browseGrammar.textContent = t('navGrammar');
+    el.browseGaelicCollection.textContent = t('navGaelicCollection');
+    el.browseScotsCollection.textContent = t('navScotsCollection');
     el.suggestHeading.textContent = t('suggestHeading');
     el.suggestHint.textContent = t('suggestHint');
     el.suggestLabelScots.textContent = 'Beurla Ghallda';

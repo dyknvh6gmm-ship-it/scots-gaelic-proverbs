@@ -144,9 +144,8 @@
 (function () {
   'use strict';
 
-  // Only the site chrome translates — the profile name/tagline/bio and the link
-  // labels are your own content (in whatever language you write them), so they're
-  // left alone here rather than auto-translated.
+  // Site chrome + profile name/tagline/bio all translate via I18N. Social link
+  // labels (platform names, handles) are proper nouns and stay the same in both languages.
   var I18N = {
     docTitle: {
       en: 'About — Sean-fhaclan & Auld Sayins',
@@ -168,10 +167,12 @@
       en: "Sean-fhaclan & Auld Sayins started as a way to search Scots and Scottish Gaelic proverbs side by side and see where their wisdom overlaps — and where each language has sayings the other doesn't. It's a starter set, built to grow: proverbs, translations, and even a proverb's place of origin can all be added over time, with sources credited honestly rather than guessed at.",
       gd: "Thòisich Sean-fhaclan & Auld Sayins mar dhòigh air seanfhaclan Beurla Ghallda is Gàidhlig a rannsachadh taobh ri taobh, agus faicinn càite a bheil an gliocas a' co-fhreagairt — agus càite a bheil seanfhaclan aig aon chànan nach eil aig an fhear eile. 'S e seata tòiseachaidh a tha ann, air a thogail airson fàs: faodar seanfhaclan, eadar-theangachaidhean, agus fiù 's àite tùsail seanfhacail a chur ris thar ùine, le tùsan air an aithneachadh gu h-onarach seach a bhith air an tomhas."
     },
-    linksHeading: { en: 'Links', gd: 'Ceanglaichean' },
-    editNoteHtml: {
-      en: 'These are placeholders. Open <code>about.html</code>, find the <code>&lt;div class="links-list"&gt;</code> block, and replace each <code>href="#"</code> with your real link (and edit the label text). Delete any rows you don\'t want, or copy one to add more.',
-      gd: 'Is àite-ghlèidhidh a tha annta seo. Fosgail <code>about.html</code>, lorg am bloc <code>&lt;div class="links-list"&gt;</code>, agus cuir an àite gach <code>href="#"</code> do cheangal fìor fhèin (agus deasaich teacsa na h-ainmean). Sguab às sreathan sam bith nach eil a dhìth ort, no dèan lethbhreac de fhear gus barrachd a chur ris.'
+    linksHeading: { en: 'Follow along', gd: 'Lean orm' },
+    profileName: { en: 'Steven Perrie', gd: 'Steafan Perrie-Cluaidh' },
+    profileTagline: { en: 'Gaelic with Steve', gd: 'Gàidhlig le Steafan' },
+    profileBio: {
+      en: "I want as many Scots as possible to feel proud of — and comfortable speaking — both languages that are genuinely their own, Scots and Gaelic. I believe learning resources should be free, accessible, and fun, and this site — along with the daily word games — is my way of giving a bit of that back.",
+      gd: "Tha mi ag iarraidh gum bi uiread de dh'Albannaich 's a ghabhas moiteil às — agus comhfhurtail a' bruidhinn — an dà chànan a tha fìor leotha fhèin, Beurla Ghallda is Gàidhlig. Tha mi a' creidsinn gum bu chòir goireasan ionnsachaidh a bhith an-asgaidh, ruigsinneach, agus spòrsail, agus 's e an làrach seo — cuide ris na geamannan facal làitheil — an dòigh agamsa air rudeigin a thoirt air ais."
     },
     footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
   };
@@ -181,7 +182,9 @@
     whyHeading: document.getElementById('why-heading'),
     whyBody: document.getElementById('why-body'),
     linksHeading: document.getElementById('links-heading'),
-    editNote: document.getElementById('edit-note'),
+    profileName: document.getElementById('name-heading'),
+    profileTagline: document.getElementById('tagline'),
+    profileBio: document.getElementById('bio-body'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
     uiLangGd: document.getElementById('ui-lang-gd'),
@@ -213,7 +216,9 @@
     el.whyHeading.textContent = I18N.whyHeading[lang];
     el.whyBody.textContent = I18N.whyBody[lang];
     el.linksHeading.textContent = I18N.linksHeading[lang];
-    el.editNote.innerHTML = I18N.editNoteHtml[lang];
+    el.profileName.textContent = I18N.profileName[lang];
+    el.profileTagline.textContent = I18N.profileTagline[lang];
+    el.profileBio.textContent = I18N.profileBio[lang];
     el.footer.textContent = I18N.footer[lang];
     el.docTitle.textContent = I18N.docTitle[lang];
     el.navHome.textContent = I18N.navHome[lang];

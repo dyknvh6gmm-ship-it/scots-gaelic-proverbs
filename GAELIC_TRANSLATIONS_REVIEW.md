@@ -131,6 +131,19 @@ New strings to check, same as above (My Gaelic | Correction):
 
 None of this batch has been checked by a fluent speaker — same caveat as everything else in this file.
 
+## New: About page — real bio + socials (replaces the old placeholder card)
+
+The profile card at the top of `about.html` used to be a template; it's now your real name, tagline, and bio, toggling with the EN/GD switch like everything else. The "Links" card is renamed "Follow along" and points at your real Instagram, YouTube, Facebook, and TikTok — those labels are proper nouns/handles and aren't translated, same as elsewhere on the site.
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Links heading (renamed) | Follow along | Lean orm | |
+| Profile name | Steven Perrie | Steafan Perrie-Cluaidh | |
+| Profile tagline | Gaelic with Steve | Gàidhlig le Steafan | |
+| Profile bio | I want as many Scots as possible to feel proud of — and comfortable speaking — both languages that are genuinely their own, Scots and Gaelic. I believe learning resources should be free, accessible, and fun, and this site — along with the daily word games — is my way of giving a bit of that back. | Tha mi ag iarraidh gum bi uiread de dh'Albannaich 's a ghabhas moiteil às — agus comhfhurtail a' bruidhinn — an dà chànan a tha fìor leotha fhèin, Beurla Ghallda is Gàidhlig. Tha mi a' creidsinn gum bu chòir goireasan ionnsachaidh a bhith an-asgaidh, ruigsinneach, agus spòrsail, agus 's e an làrach seo — cuide ris na geamannan facal làitheil — an dòigh agamsa air rudeigin a thoirt air ais. | |
+
+This is a longer, more personal piece of Gaelic than most of the site's UI strings — worth a proper native read before you're happy with it, more so than the shorter button/label strings elsewhere.
+
 ## New: nav labels + browser tab title now switch with EN/GD (all pages)
 
 Previously the EN/GD toggle only translated the page content — the site-nav links (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) and the browser tab title stayed in English always. Both now switch too, on every page. Same strings reused across all eight pages (the "My Account" and "Suggested Abairtean" links were added later, once those two pages existed — see further down):
@@ -144,6 +157,7 @@ Previously the EN/GD toggle only translated the page content — the site-nav li
 | Nav: Scots Collection | Scots Collection | Cruinneachadh Beurla Ghallda | |
 | Nav: Suggested Abairtean | Suggested Abairtean | Abairtean Air am Moladh | |
 | Nav: Am Facal | Am Facal | Am Facal | |
+| Nav: Seillean | Seillean | Seillean | |
 | Nav: Resources | Resources | Goireasan | |
 | Nav: About | About | Mun Dèidhinn | |
 
@@ -225,6 +239,16 @@ None of this batch has been checked by a fluent speaker either.
 
 None of this batch has been checked by a fluent speaker either.
 
+## New: My Account — "Browse" card
+
+A new card was added to `my-account.html`, always visible (not gated behind login), linking to Grammar, Gaelic Collection, and Scots Collection. Its heading is new; the three link labels reuse the site's existing nav strings, so nothing new to check there.
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Browse heading | Browse | Sgrùd | |
+
+None of this batch has been checked by a fluent speaker either.
+
 ## New: Suggested Abairtean page (public, moderated suggestions)
 
 | Where it appears | English | My Gaelic | Correction |
@@ -264,6 +288,20 @@ None of this batch has been checked by a fluent speaker either.
 
 "Fuair thu e! ({guesses}/6)" (win message) is left the same in both languages on purpose — it reads naturally as-is and didn't need a separate Gaelic version.
 
+## New: Am Facal — login made optional, share + invite buttons, follow line
+
+Login used to be required just to see the game; it's now optional (only needed to sync your streak across devices), so the page subtitle and signed-out hint text changed to reflect that, and a couple of new sharing strings were added.
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page subtitle (updated) | Guess today's Gaelic word — a new one every day, same for everyone. Log in (optional) to save your streak across devices. | Tomhais facal an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan. | |
+| Signed-out hint (updated) | Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link. | Roghainneil: clàraich a-steach le do phost-d a-mhàin gus an t-sreath agad a shàbhaladh eadar innealan — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad. | |
+| Invite button (standing, under the hint) | Invite a friend | Cuir gu caraid | |
+| Invite share text | Try Am Facal — a daily Gaelic word game | Feuch Am Facal — geama facal Gàidhlig gach latha | |
+| Follow line (above the social icons) | Follow for more of what I do: | Lean mi airson barrachd dhen na tha mi a' dèanamh: | |
+
+None of this batch has been checked by a fluent speaker either.
+
 ## New: Am Facal — the 40-word answer list
 
 These are the actual daily answers, not interface chrome — getting these wrong is more consequential than a UI label, since a misspelled answer would make that day's puzzle unsolvable. All are common, everyday words I'm fairly confident in, but none have been checked by a fluent speaker. The list lives in `geama.html`'s `<script type="application/json" id="wordle-words">` block.
@@ -297,6 +335,72 @@ These are the actual daily answers, not interface chrome — getting these wrong
 | CABAR | caber, antler, rafter | | | |
 
 If you (or someone fluent) spot a wrong word or a better everyday choice to swap one for, tell me and I'll edit that JSON block directly — no need to touch anything else on the page.
+
+## New: Seillean (spelling-bee word game) — page chrome
+
+`seillean.html` is the second word game — same site chrome pattern as Am Facal (EN/GD toggle, optional login, nav, footer), with its own set of game-specific strings.
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page subtitle | Make Gaelic words from today's seven letters. Log in (optional) to save your streak across devices. | Dèan faclan Gàidhlig leis na seachd litrichean an-diugh. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan. | |
+| Signed-out hint | Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link. | Roghainneil: clàraich a-steach le do phost-d a-mhàin gus an t-sreath agad a shàbhaladh eadar innealan — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad. | |
+| Game hint | Make Gaelic words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long. | Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha. | |
+| Stat: found | Found | Air Lorg | |
+| Stat: score | Score | Sgòr | |
+| Stat: rank | Rank | Ìre | |
+| Too short | Too short — four letters minimum. | Ro ghoirid — ceithir litrichean air a' char as lugha. | |
+| Missing centre letter | Must include the centre letter. | Feumaidh am prìomh litir a bhith ann. | |
+| Already found | Already found. | Air a lorg mu thràth. | |
+| Not on today's list | Not on today's list. | Chan eil sin air an liosta an-diugh. | |
+| Word found | Nice — found it! | Snog — air a lorg! | |
+| Pangram found | Pangram! All seven letters! | Pangram! Na seachd litrichean uile! | |
+| Rank: Starting | Starting | Tòiseachadh | |
+| Rank: Good | Good | Math | |
+| Rank: Very good | Very good | Glè Mhath | |
+| Rank: Great | Great | Sàr-mhath | |
+| Rank: All done | All done! | Deiseil! | |
+| Submit button | Enter | Cuir a-steach | |
+| Rules/limitation note | I don't have a large enough Gaelic dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it. | Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e. | |
+
+None of this batch has been checked by a fluent speaker either.
+
+## New: Seillean — the three curated puzzles
+
+Same approach as Am Facal's word list: a small, hand-picked set rather than full dictionary validation, since I don't have a complete Gaelic word list to check every possible combination against. Each puzzle is seven letters with one fixed centre letter (bold below); the word list is exactly what counts as a valid answer for that day — anything else, even if it's a real Gaelic word, won't be accepted yet. Lives in `seillean.html`'s `<script type="application/json" id="bee-puzzles">` block.
+
+**Puzzle 1 — letters A, T, H, D, G, M, L, centre A**
+
+| Word | Meaning |
+|---|---|
+| MATH | good |
+| GATH | sting, dart |
+| DATH | colour |
+| DALL | blind |
+| MALL | slow |
+| LATHA | day |
+| TALAMH | land, ground (pangram) |
+
+**Puzzle 2 — letters I, N, E, T, S, G, A, centre I**
+
+| Word | Meaning |
+|---|---|
+| SEINN | singing, to sing |
+| TEINE | fire |
+| SGIAN | knife |
+| INNIS | island; to tell |
+| AISTE | essay |
+| AISEAG | ferry (pangram) |
+
+**Puzzle 3 — letters U, A, S, G, L, C, H, centre U**
+
+| Word | Meaning |
+|---|---|
+| CLUAS | ear |
+| SLUAGH | people, host, crowd (pangram) |
+| GUAL | coal |
+| GUALA | shoulder |
+
+Only three puzzles for now, so the cycle repeats every three days — tell me if you'd like more added, or want any of these swapped for different letters/words. As with Am Facal, if you (or a fluent speaker) spot a wrong word, a missing common word, or a word that shouldn't count, tell me and I'll edit the JSON directly.
 
 ## How to send corrections
 
