@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Goireasan | Resources — Sean-fhaclan</title>
+<title id="doc-title">Goireasan | Resources — Sean-fhaclan</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -91,12 +91,12 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     <nav class="site-nav">
-      <a href="index.html">Home</a>
-      <a href="grammar.html">Grammar</a>
-      <a href="gaelic-collection.html">Gaelic Collection</a>
-      <a href="scots-collection.html">Scots Collection</a>
-      <a href="resources.html" class="active">Resources</a>
-      <a href="about.html">About</a>
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="grammar.html" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="resources.html" class="active" id="nav-resources">Resources</a>
+      <a href="about.html" id="nav-about">About</a>
     </nav>
     <h1 class="proverb-text" id="page-title">Other Gaelic Resources</h1>
     <p id="page-subtitle">A short list of other places to learn, look things up, and listen to Scottish Gaelic — beyond what's on this site.</p>
@@ -194,6 +194,16 @@
   // written, since several are proper names and the descriptions double as a plain
   // English pointer to sites that are themselves partly English-medium.
   var I18N = {
+    docTitle: {
+      en: 'Goireasan | Resources — Sean-fhaclan',
+      gd: 'Goireasan — Sean-fhaclan'
+    },
+    navHome: { en: 'Home', gd: 'Dachaigh' },
+    navGrammar: { en: 'Grammar', gd: 'Gràmar' },
+    navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
+    navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
+    navResources: { en: 'Resources', gd: 'Goireasan' },
+    navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     pageTitle: { en: 'Other Gaelic Resources', gd: 'Goireasan Gàidhlig Eile' },
     pageSubtitle: {
       en: "A short list of other places to learn, look things up, and listen to Scottish Gaelic — beyond what's on this site.",
@@ -245,7 +255,14 @@
     editNote: document.getElementById('edit-note'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
-    uiLangGd: document.getElementById('ui-lang-gd')
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    docTitle: document.getElementById('doc-title'),
+    navHome: document.getElementById('nav-home'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
   };
 
   function loadJSON(key, fallback) {
@@ -272,6 +289,13 @@
     el.descOrgs.textContent = I18N.descOrgs[lang];
     el.editNote.innerHTML = I18N.editNoteHtml[lang];
     el.footer.textContent = I18N.footer[lang];
+    el.docTitle.textContent = I18N.docTitle[lang];
+    el.navHome.textContent = I18N.navHome[lang];
+    el.navGrammar.textContent = I18N.navGrammar[lang];
+    el.navGaelicCollection.textContent = I18N.navGaelicCollection[lang];
+    el.navScotsCollection.textContent = I18N.navScotsCollection[lang];
+    el.navResources.textContent = I18N.navResources[lang];
+    el.navAbout.textContent = I18N.navAbout[lang];
   }
 
   function setUiLang(lang) {

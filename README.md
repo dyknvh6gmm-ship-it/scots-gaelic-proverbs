@@ -95,7 +95,7 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 
 ## Interface language (EN / GD)
 
-Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, Grammar, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, and so on — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all three files).
+Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, Grammar, Gaelic Collection, Scots Collection, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
 
 This is separate from the three proverb-language tabs (Scots / Gàidhlig / English), which are unaffected by this toggle. As you asked, those three tabs — and every place in the app that names one of the three proverb languages — always read **Beurla Ghallda** (Scots), **Gàidhlig**, and **Beurla** (English), regardless of which interface language is active.
 

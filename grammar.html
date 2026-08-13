@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Gràmar an Gnìomh | Grammar in Action — Sean-fhaclan</title>
+<title id="doc-title">Gràmar an Gnìomh | Grammar in Action — Sean-fhaclan</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -104,12 +104,12 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     <nav class="site-nav">
-      <a href="index.html">Home</a>
-      <a href="grammar.html" class="active">Grammar</a>
-      <a href="gaelic-collection.html">Gaelic Collection</a>
-      <a href="scots-collection.html">Scots Collection</a>
-      <a href="resources.html">Resources</a>
-      <a href="about.html">About</a>
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="grammar.html" class="active" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="resources.html" id="nav-resources">Resources</a>
+      <a href="about.html" id="nav-about">About</a>
     </nav>
     <h1 class="proverb-text">Gràmar an Gnìomh — Grammar in Action</h1>
     <p id="subtitle-text">Short Gaelic phrases and sayings chosen for what they reveal about the language's structure — especially how pronouns fuse into prepositions. Mostly Gaelic → English; Scots is only included where a genuine equivalent exists.</p>
@@ -289,6 +289,16 @@
   // ---- interface translations (chrome only — the grammar analysis itself
   // stays in English, since that's the whole teaching point of the page) ----
   var I18N = {
+    docTitle: {
+      en: "Gràmar an Gnìomh | Grammar in Action — Sean-fhaclan",
+      gd: "Gràmar an Gnìomh — Sean-fhaclan"
+    },
+    navHome: { en: "Home", gd: "Dachaigh" },
+    navGrammar: { en: "Grammar", gd: "Gràmar" },
+    navGaelicCollection: { en: "Gaelic Collection", gd: "Cruinneachadh Gàidhlig" },
+    navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
+    navResources: { en: "Resources", gd: "Goireasan" },
+    navAbout: { en: "About", gd: "Mun Dèidhinn" },
     subtitle: {
       en: "Short Gaelic phrases and sayings chosen for what they reveal about the language's structure — especially how pronouns fuse into prepositions. Mostly Gaelic → English; Scots is only included where a genuine equivalent exists.",
       gd: "Abairtean is briathran Gàidhlig goirid, air an taghadh airson na dh'innseas iad mu structar a' chànain — gu sònraichte mar a bhios riochdairean a' co-aonadh le roimhearan. Sa mhòr-chuid, Gàidhlig gu Beurla; chan eil Beurla Ghallda ann ach far a bheil fìor cho-fhreagairt ann."
@@ -386,7 +396,14 @@
     introBox: document.getElementById('intro-box'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
-    uiLangGd: document.getElementById('ui-lang-gd')
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    docTitle: document.getElementById('doc-title'),
+    navHome: document.getElementById('nav-home'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
   };
 
   function esc(s) {
@@ -497,6 +514,13 @@
     el.introBox.innerHTML = I18N.introHtml[state.uiLang];
     el.searchInput.placeholder = I18N.searchPlaceholder[state.uiLang];
     el.footer.textContent = I18N.footer[state.uiLang];
+    el.docTitle.textContent = I18N.docTitle[state.uiLang];
+    el.navHome.textContent = I18N.navHome[state.uiLang];
+    el.navGrammar.textContent = I18N.navGrammar[state.uiLang];
+    el.navGaelicCollection.textContent = I18N.navGaelicCollection[state.uiLang];
+    el.navScotsCollection.textContent = I18N.navScotsCollection[state.uiLang];
+    el.navResources.textContent = I18N.navResources[state.uiLang];
+    el.navAbout.textContent = I18N.navAbout[state.uiLang];
   }
 
   function setUiLang(lang) {

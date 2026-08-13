@@ -131,6 +131,34 @@ New strings to check, same as above (My Gaelic | Correction):
 
 None of this batch has been checked by a fluent speaker — same caveat as everything else in this file.
 
+## New: nav labels + browser tab title now switch with EN/GD (all pages)
+
+Previously the EN/GD toggle only translated the page content — the site-nav links (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) and the browser tab title stayed in English always. Both now switch too, on every page. Same strings reused across all six pages:
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Nav: Home | Home | Dachaigh | |
+| Nav: Grammar | Grammar | Gràmar | |
+| Nav: Gaelic Collection | Gaelic Collection | Cruinneachadh Gàidhlig | |
+| Nav: Scots Collection | Scots Collection | Cruinneachadh Beurla Ghallda | |
+| Nav: Resources | Resources | Goireasan | |
+| Nav: About | About | Mun Dèidhinn | |
+
+Browser tab titles (per page — English default / Gaelic version):
+
+| Page | English | My Gaelic |
+|---|---|---|
+| Home | Sean-fhaclan \| Scots, Gaelic & English Proverbs | Sean-fhaclan \| Seanfhaclan Beurla Ghallda, Gàidhlig is Beurla |
+| Grammar | Gràmar an Gnìomh \| Grammar in Action — Sean-fhaclan | Gràmar an Gnìomh — Sean-fhaclan |
+| Gaelic Collection | Cruinneachadh Nicolson \| The Nicolson Collection — Sean-fhaclan | Cruinneachadh Nicolson — Sean-fhaclan |
+| Scots Collection | Auld Scots Sayins \| The Ramsay Collection — Sean-fhaclan | Cruinneachadh Ramsay — Sean-fhaclan |
+| Resources | Goireasan \| Resources — Sean-fhaclan | Goireasan — Sean-fhaclan |
+| About | About — Sean-fhaclan & Auld Sayins | Mun Dèidhinn — Sean-fhaclan & Auld Sayins |
+
+Note: "Scots Collection" is translated as **Cruinneachadh Beurla Ghallda**, keeping "Beurla Ghallda" as the fixed, never-translated name for Scots per the existing rule at the top of this file.
+
+None of this batch has been checked by a fluent speaker either.
+
 ## How to send corrections
 
 Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Auld Scots Sayins | The Ramsay Collection — Sean-fhaclan</title>
+<title id="doc-title">Auld Scots Sayins | The Ramsay Collection — Sean-fhaclan</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#0065bd" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -80,12 +80,12 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     <nav class="site-nav">
-      <a href="index.html">Home</a>
-      <a href="grammar.html">Grammar</a>
-      <a href="gaelic-collection.html">Gaelic Collection</a>
-      <a href="scots-collection.html" class="active">Scots Collection</a>
-      <a href="resources.html">Resources</a>
-      <a href="about.html">About</a>
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="grammar.html" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" class="active" id="nav-scots-collection">Scots Collection</a>
+      <a href="resources.html" id="nav-resources">Resources</a>
+      <a href="about.html" id="nav-about">About</a>
     </nav>
     <h1 class="proverb-text" id="page-title">The Ramsay Collection</h1>
     <p id="page-subtitle">A selection of Scots proverbs from an old published collection, listed here alphabetically, the way the original book arranges them.</p>
@@ -159,6 +159,16 @@
   var SOURCE_CITATION = "Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others (Brechin: Alexander Black, 1834) — public domain in the USA, via Project Gutenberg (eBook #75667).";
 
   var I18N = {
+    docTitle: {
+      en: 'Auld Scots Sayins | The Ramsay Collection — Sean-fhaclan',
+      gd: 'Cruinneachadh Ramsay — Sean-fhaclan'
+    },
+    navHome: { en: 'Home', gd: 'Dachaigh' },
+    navGrammar: { en: 'Grammar', gd: 'Gràmar' },
+    navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
+    navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
+    navResources: { en: 'Resources', gd: 'Goireasan' },
+    navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     pageTitle: { en: 'The Ramsay Collection', gd: 'Cruinneachadh Ramsay' },
     pageSubtitle: {
       en: 'A selection of Scots proverbs from an old published collection, listed here alphabetically, the way the original book arranges them.',
@@ -190,7 +200,14 @@
     bookNote: document.getElementById('book-note'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
-    uiLangGd: document.getElementById('ui-lang-gd')
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    docTitle: document.getElementById('doc-title'),
+    navHome: document.getElementById('nav-home'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
   };
 
   function esc(s) {
@@ -252,6 +269,13 @@
     el.bookNote.textContent = t('bookNote');
     el.searchInput.placeholder = t('searchPlaceholder');
     el.footer.textContent = t('footer');
+    el.docTitle.textContent = t('docTitle');
+    el.navHome.textContent = t('navHome');
+    el.navGrammar.textContent = t('navGrammar');
+    el.navGaelicCollection.textContent = t('navGaelicCollection');
+    el.navScotsCollection.textContent = t('navScotsCollection');
+    el.navResources.textContent = t('navResources');
+    el.navAbout.textContent = t('navAbout');
   }
 
   function setUiLang(lang) {

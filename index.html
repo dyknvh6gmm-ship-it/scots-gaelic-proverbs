@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sean-fhaclan | Scots, Gaelic &amp; English Proverbs</title>
+<title data-i18n="docTitle">Sean-fhaclan | Scots, Gaelic &amp; English Proverbs</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -294,12 +294,12 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     <nav class="site-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="grammar.html">Grammar</a>
-      <a href="gaelic-collection.html">Gaelic Collection</a>
-      <a href="scots-collection.html">Scots Collection</a>
-      <a href="resources.html">Resources</a>
-      <a href="about.html">About</a>
+      <a href="index.html" class="active" data-i18n="navHome">Home</a>
+      <a href="grammar.html" data-i18n="navGrammar">Grammar</a>
+      <a href="gaelic-collection.html" data-i18n="navGaelicCollection">Gaelic Collection</a>
+      <a href="scots-collection.html" data-i18n="navScotsCollection">Scots Collection</a>
+      <a href="resources.html" data-i18n="navResources">Resources</a>
+      <a href="about.html" data-i18n="navAbout">About</a>
     </nav>
     <h1 class="proverb-text">Sean-fhaclan &amp; Auld Sayins</h1>
     <p data-i18n="appSubtitle">Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.</p>
@@ -1038,6 +1038,16 @@
   // NOTE: Gaelic ("gd") strings here are a best-effort translation, not reviewed by a
   // fluent speaker yet. See GAELIC_TRANSLATIONS_REVIEW.md to check/correct them.
   var I18N = {
+    docTitle: {
+      en: "Sean-fhaclan | Scots, Gaelic & English Proverbs",
+      gd: "Sean-fhaclan | Seanfhaclan Beurla Ghallda, Gàidhlig is Beurla"
+    },
+    navHome: { en: "Home", gd: "Dachaigh" },
+    navGrammar: { en: "Grammar", gd: "Gràmar" },
+    navGaelicCollection: { en: "Gaelic Collection", gd: "Cruinneachadh Gàidhlig" },
+    navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
+    navResources: { en: "Resources", gd: "Goireasan" },
+    navAbout: { en: "About", gd: "Mun Dèidhinn" },
     appSubtitle: {
       en: "Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.",
       gd: "Dèan lorg air seanfhaclan ann am Beurla Ghallda, Gàidhlig, no Beurla, agus faic dè tha aig an dà chànan eile ri ràdh air an aon chuspair."
@@ -1497,7 +1507,7 @@
 
   function potdNext() { potdIndex = (potdIndex + 1) % featured.length; renderPotd(); }
   function potdPrev() { potdIndex = (potdIndex - 1 + featured.length) % featured.length; renderPotd(); }
-  function resetPotdTimer() { clearInterval(potdTimer); potdTimer = setInterval(potdNext, 7000); }
+  function resetPotdTimer() { clearInterval(potdTimer); potdTimer = setInterval(potdNext, 15000); }
 
   if (featured.length) {
     elPotd.next.addEventListener('click', function () { potdNext(); resetPotdTimer(); });

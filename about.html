@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>About — Sean-fhaclan &amp; Auld Sayins</title>
+<title id="doc-title">About — Sean-fhaclan &amp; Auld Sayins</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -94,12 +94,12 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     <nav class="site-nav">
-      <a href="index.html">Home</a>
-      <a href="grammar.html">Grammar</a>
-      <a href="gaelic-collection.html">Gaelic Collection</a>
-      <a href="scots-collection.html">Scots Collection</a>
-      <a href="resources.html">Resources</a>
-      <a href="about.html" class="active">About</a>
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="grammar.html" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="resources.html" id="nav-resources">Resources</a>
+      <a href="about.html" class="active" id="nav-about">About</a>
     </nav>
     <h1 class="proverb-text" id="page-title">About</h1>
   </div>
@@ -152,6 +152,16 @@
   // labels are your own content (in whatever language you write them), so they're
   // left alone here rather than auto-translated.
   var I18N = {
+    docTitle: {
+      en: 'About — Sean-fhaclan & Auld Sayins',
+      gd: 'Mun Dèidhinn — Sean-fhaclan & Auld Sayins'
+    },
+    navHome: { en: 'Home', gd: 'Dachaigh' },
+    navGrammar: { en: 'Grammar', gd: 'Gràmar' },
+    navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
+    navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
+    navResources: { en: 'Resources', gd: 'Goireasan' },
+    navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     pageTitle: { en: 'About', gd: 'Mun Dèidhinn' },
     whyHeading: { en: 'Why this site exists', gd: "Carson a tha an làrach seo ann" },
     whyBody: {
@@ -174,7 +184,14 @@
     editNote: document.getElementById('edit-note'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
-    uiLangGd: document.getElementById('ui-lang-gd')
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    docTitle: document.getElementById('doc-title'),
+    navHome: document.getElementById('nav-home'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
   };
 
   function loadJSON(key, fallback) {
@@ -194,6 +211,13 @@
     el.linksHeading.textContent = I18N.linksHeading[lang];
     el.editNote.innerHTML = I18N.editNoteHtml[lang];
     el.footer.textContent = I18N.footer[lang];
+    el.docTitle.textContent = I18N.docTitle[lang];
+    el.navHome.textContent = I18N.navHome[lang];
+    el.navGrammar.textContent = I18N.navGrammar[lang];
+    el.navGaelicCollection.textContent = I18N.navGaelicCollection[lang];
+    el.navScotsCollection.textContent = I18N.navScotsCollection[lang];
+    el.navResources.textContent = I18N.navResources[lang];
+    el.navAbout.textContent = I18N.navAbout[lang];
   }
 
   function setUiLang(lang) {
