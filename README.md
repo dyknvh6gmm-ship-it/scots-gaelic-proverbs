@@ -14,7 +14,8 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `about.html` — an editable About page with a bio and links section, see "The About page" below
 - `gaelic-collection.html` — a curated set of Gaelic proverbs with English translations from a historical published collection, see "The Gaelic Collection page" below
 - `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
-- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, and direct suggestions, see "Accounts" below
+- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, and the newsletter/push opt-ins, see "Accounts" below
+- `supabase-function-send-daily-proverb.ts` — a Supabase Edge Function that emails the day's proverb to opted-in subscribers, see "Push notifications and email" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
 The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
@@ -91,7 +92,7 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 - **Random proverb** button.
 - **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in.
 - **Installable as an app** (PWA) — see below.
-- **Newsletter signup** — see below.
+- **Stay updated**: email + push notification opt-ins, tied to your account — see "Push notifications and email" below.
 - **Interface language toggle (EN / GD)** — the app chrome (buttons, labels, hints) switches between English and Gaelic — see below.
 - **Map of proverb origins** — a starter map with one confirmed location — see below.
 
@@ -144,25 +145,26 @@ The site now has a `manifest.json`, a service worker (`sw.js`), and icons in `ic
 
 **The install banner:** on a phone, first-time visitors see a banner at the bottom of the screen inviting them to install. On Android/Chrome it triggers the real "Install app" prompt; on iOS Safari (which doesn't support that), it shows instructions to tap Share → "Add to Home Screen," since Apple only allows that manual path. If someone dismisses the banner, it won't reappear for 14 days (tracked in their browser's local storage).
 
-### Push notifications
+### Push notifications and email — now tied to accounts
 
-The service worker is wired up to *receive and display* push notifications (see the `push` and `notificationclick` handlers in `sw.js`) — but nothing is currently sending them. A static site can't send a scheduled "here's today's proverb" push on its own; that needs a push provider account, which only you can create. The easiest free options:
+The old separate "leave your email" box and browser-only push scaffolding have been replaced by a **"Stay updated"** section (same spot, near the bottom of the Home page) with two toggles — "Email me the proverb of the day" and "Send push notifications" — that only appear once someone's logged in (see Accounts, below). Both write straight to your Supabase project instead of sitting in the visitor's browser.
 
-- **OneSignal** — free tier, hosted dashboard, drop in their JS snippet, schedule sends (including recurring ones) from their web dashboard. No server code required.
-- **Firebase Cloud Messaging** — free, more manual setup, good if you're already in the Google ecosystem.
+**Email**, via **Resend** (free tier, 3,000 emails/month) and a scheduled Supabase Edge Function:
 
-Once you've picked one and have an account, tell me and I can wire the subscription logic into the app (asking permission, registering the device) — the receiving side in `sw.js` is already in place.
+1. Create a free account at resend.com and grab an API key (Dashboard → API Keys).
+2. Deploy `supabase-function-send-daily-proverb.ts` as an Edge Function: Supabase dashboard → Edge Functions → Deploy a new function → "Via Editor" → name it `send-daily-proverb` → paste in the whole file → Deploy.
+3. Add your Resend key as a secret on that function: Edge Functions → `send-daily-proverb` → Secrets → add `RESEND_API_KEY`.
+4. Schedule it to run once a day: Database → Cron Jobs (or Integrations → Cron) → new job → target it at the `send-daily-proverb` Edge Function → pick a time (e.g. 8am). If your dashboard doesn't show a Cron Jobs option in that exact spot, tell me what you do see and I'll give you the equivalent `pg_cron` SQL instead.
 
-## Newsletter signup
+The function emails everyone with `newsletter_opt_in = true` in the new `subscribers` table (created by the updated `supabase-schema.sql` — re-run that whole file if you already ran an earlier version, it's safe to repeat) using the same day-of-year rotation as the site's own Proverb of the Day. It sends from `onboarding@resend.dev`, which works immediately with no domain setup; once you've verified your own domain in Resend you can swap that for a nicer from-address.
 
-There's a "Get the proverb of the day by email" box near the bottom of the page. Right now it only saves emails locally in each visitor's browser (not sent anywhere) — there's an "export" link that appears once someone's signed up, letting you download the saved addresses as JSON.
+**Push**, via **OneSignal** (free):
 
-To actually collect and send emails for real, connect the form to a mailing list provider — this needs your own free account with one of these, since I can't create accounts on your behalf:
+1. Create a free account at onesignal.com, add a new app, choose "Web Push," and follow their setup for a plain site (no separate SDK integration needed on your end beyond what's already in `index.html` — the OneSignal script tag and init call are already there).
+2. Grab your **App ID** from Settings → Keys & IDs.
+3. Send it to me and I'll drop it into the `ONESIGNAL_APP_ID` constant near the top of `index.html`'s script — it's currently empty, which is why the push toggle will say "not available yet" until then.
 
-- **Formspree** (simplest) — create a form, get an endpoint URL, then change `#newsletter-form`'s behavior in `index.html` to POST to it instead of saving locally.
-- **Buttondown** or **Mailchimp** — both have embeddable signup forms/snippets you can drop in as a replacement for the current form.
-
-Tell me which one you set up and I'll wire the form to it.
+Once both are wired up, logging in and switching the toggles on is all a visitor needs to do — no separate signup forms, no exporting JSON files by hand.
 
 ## Accounts: login, synced favourites, and direct suggestions
 
@@ -177,7 +179,7 @@ There's now a small login box at the top of the Home page, above the Proverb of 
 
 **Two things you need to do once, in your Supabase dashboard, for this to work live:**
 
-1. **Run the schema.** Open `supabase-schema.sql` in this folder, copy the whole thing, and paste it into Supabase → SQL Editor → New query → Run. This creates the `favourites` and `suggestions` tables with the row-level security rules described above.
+1. **Run the schema.** Open `supabase-schema.sql` in this folder, copy the whole thing, and paste it into Supabase → SQL Editor → New query → Run. This creates the `favourites`, `suggestions`, and `subscribers` tables with the row-level security rules described above. Safe to re-run even if you ran an earlier version already.
 2. **Set your Site URL.** Supabase needs to know it's allowed to redirect a magic-link click back to your actual site. Go to Authentication → URL Configuration, and set the Site URL (and add to Redirect URLs) to your deployed site's address, e.g. `https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/index.html`. Without this step, magic links will send but the redirect back to the site will fail.
 
 Note: login only works on the *deployed* site (served over `https://`), not when you open `index.html` straight from a folder on your computer — magic-link redirects need a real URL to send people back to.

@@ -176,6 +176,22 @@ None of this batch has been checked by a fluent speaker either.
 
 None of this batch has been checked by a fluent speaker either.
 
+## New: "Stay updated" (email + push, replaces the old newsletter box)
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Heading | Stay updated | Fuirich fiosraichte | |
+| Body | Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices. | Faigh seanfhacal an latha air post-d no brath putaidh — ceangailte ris a' chunntas agad, gus 's gum bi e agad air innealan eile cuideachd. | |
+| Signed-out prompt | Log in above to turn these on. | Clàraich a-steach gu h-àrd gus na feartan seo a chur air. | |
+| Email toggle | ✉️ Email me the proverb of the day | ✉️ Cuir seanfhacal an latha thugam air post-d | |
+| Push toggle | 🔔 Send push notifications | 🔔 Cuir brathan putaidh thugam | |
+| Status: email saved | Email preference saved. | Roghainn a' phuist-d air a shàbhaladh. | |
+| Status: push enabled | Push notifications turned on. | Brathan putaidh air an cur air. | |
+| Status: push disabled | Push notifications turned off. | Brathan putaidh air an cur dheth. | |
+| Status: push unavailable | Push notifications aren't available in this browser right now. | Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta. | |
+
+None of this batch has been checked by a fluent speaker either.
+
 ## How to send corrections
 
 Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.

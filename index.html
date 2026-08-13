@@ -269,6 +269,8 @@
     padding: 10px 12px; font-size: 0.9rem;
   }
   .newsletter .hint { margin-top: 10px; }
+  .update-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 10px; cursor: pointer; }
+  .update-toggle input { margin: 0; }
 
   /* Map section */
   .map-section {
@@ -464,13 +466,24 @@
   </section>
 
   <div class="newsletter">
-    <h3 data-i18n="newsletterHeading">Get the proverb of the day by email</h3>
-    <p data-i18n="newsletterBody">Leave your email and we'll let you know when this goes live — no spam, just the odd bit of Scots and Gaelic wisdom.</p>
-    <form id="newsletter-form">
-      <input type="email" id="newsletter-email" required placeholder="you@example.com" />
-      <button type="submit" class="btn-primary" data-i18n="subscribeBtn">Subscribe</button>
-    </form>
-    <p class="hint" id="newsletter-hint" data-i18n="newsletterHintDefault">Saved in this browser for now — see the README for how to connect this to a real mailing list.</p>
+    <h3 data-i18n="updatesHeading">Stay updated</h3>
+    <p data-i18n="updatesBody">Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices.</p>
+
+    <div id="updates-signed-out">
+      <p class="hint" data-i18n="updatesLoginPrompt">Log in above to turn these on.</p>
+    </div>
+
+    <div id="updates-signed-in" style="display:none;">
+      <label class="update-toggle">
+        <input type="checkbox" id="chk-newsletter-optin" />
+        <span data-i18n="updatesEmailLabel">✉️ Email me the proverb of the day</span>
+      </label>
+      <label class="update-toggle">
+        <input type="checkbox" id="chk-push-optin" />
+        <span data-i18n="updatesPushLabel">🔔 Send push notifications</span>
+      </label>
+      <p class="hint" id="updates-status"></p>
+    </div>
   </div>
 </main>
 
@@ -1068,6 +1081,7 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer="defer"></script>
 <script>
 (function () {
   'use strict';
@@ -1085,6 +1099,18 @@
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
   var currentUser = null;
+
+  // ---- OneSignal (push notifications) ----
+  // Empty until you create a free OneSignal app and paste its App ID here — see
+  // README "Push notifications" for the exact steps. Until then, the push toggle
+  // in "Stay updated" will just tell visitors it's not available yet.
+  var ONESIGNAL_APP_ID = '';
+  if (ONESIGNAL_APP_ID) {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function (OneSignal) {
+      OneSignal.init({ appId: ONESIGNAL_APP_ID });
+    });
+  }
 
   // These three names are fixed in Gaelic regardless of the interface language,
   // by design — see the chat / README for why.
@@ -1157,19 +1183,20 @@
       en: "Thanks — saved to your suggestions. Export them any time from the Contribute panel.",
       gd: "Taing — air a shàbhaladh nad mholaidhean. Às-phortaich iad uair sam bith bhon phanail Cuir Ris."
     },
-    newsletterHeading: { en: "Get the proverb of the day by email", gd: "Faigh seanfhacal an latha air post-d" },
-    newsletterBody: {
-      en: "Leave your email and we'll let you know when this goes live — no spam, just the odd bit of Scots and Gaelic wisdom.",
-      gd: "Fàg do phost-d agus innsidh sinn dhut nuair a bhios seo beò — gun spama, dìreach criomag de ghliocas Beurla Ghallda is Gàidhlig an-dràsta 's a-rithist."
+    updatesHeading: { en: "Stay updated", gd: "Fuirich fiosraichte" },
+    updatesBody: {
+      en: "Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices.",
+      gd: "Faigh seanfhacal an latha air post-d no brath putaidh — ceangailte ris a' chunntas agad, gus 's gum bi e agad air innealan eile cuideachd."
     },
-    subscribeBtn: { en: "Subscribe", gd: "Fo-sgrìobh" },
-    newsletterHintDefault: {
-      en: "Saved in this browser for now — see the README for how to connect this to a real mailing list.",
-      gd: "Air a shàbhaladh san brobhsair seo an-dràsta — faic an README airson mar a cheanglas tu seo ri fìor liosta puist."
-    },
-    newsletterToast: {
-      en: "Thanks — you're on the list (saved in this browser for now).",
-      gd: "Taing — tha thu air an liosta (air a shàbhaladh san brobhsair seo an-dràsta)."
+    updatesLoginPrompt: { en: "Log in above to turn these on.", gd: "Clàraich a-steach gu h-àrd gus na feartan seo a chur air." },
+    updatesEmailLabel: { en: "✉️ Email me the proverb of the day", gd: "✉️ Cuir seanfhacal an latha thugam air post-d" },
+    updatesPushLabel: { en: "🔔 Send push notifications", gd: "🔔 Cuir brathan putaidh thugam" },
+    updatesEmailSaved: { en: "Email preference saved.", gd: "Roghainn a' phuist-d air a shàbhaladh." },
+    updatesPushEnabled: { en: "Push notifications turned on.", gd: "Brathan putaidh air an cur air." },
+    updatesPushDisabled: { en: "Push notifications turned off.", gd: "Brathan putaidh air an cur dheth." },
+    updatesPushUnavailable: {
+      en: "Push notifications aren't available in this browser right now.",
+      gd: "Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta."
     },
     installBannerTitle: { en: "Install Sean-fhaclan", gd: "Stàlaich Sean-fhaclan" },
     installBtn: { en: "Install", gd: "Stàlaich" },
@@ -1463,7 +1490,7 @@
     renderAboutSummary();
     el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
     updateInstallBannerText();
-    refreshNewsletterHint();
+    refreshUpdatesUI();
     refreshLocationUI();
     populateThemeSelect();
     updateThemeChip();
@@ -1640,6 +1667,7 @@
     sfClient.auth.onAuthStateChange(function (event, session) {
       currentUser = (session && session.user) ? session.user : null;
       updateAccountUI();
+      refreshUpdatesUI();
       if (currentUser && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
         fetchRemoteFavourites();
       }
@@ -1792,50 +1820,103 @@
     });
   })();
 
-  // ---- Newsletter signup (local capture — connect to a real list later, see README) ----
-  var refreshNewsletterHint = function () {};
+  // ---- Stay updated: email + push, tied to your account (not this browser) ----
+  // Requires being logged in (see the Accounts section above) — signed-out visitors
+  // just see a prompt to log in first. Push is sent via OneSignal; email via a
+  // scheduled Supabase Edge Function — see README for the setup steps for both.
+  var refreshUpdatesUI = function () {};
   (function () {
-    var form = document.getElementById('newsletter-form');
-    var input = document.getElementById('newsletter-email');
-    var hint = document.getElementById('newsletter-hint');
-    var signups = loadJSON('sf-newsletter-signups', []);
+    var elSignedOut = document.getElementById('updates-signed-out');
+    var elSignedIn = document.getElementById('updates-signed-in');
+    var chkNewsletter = document.getElementById('chk-newsletter-optin');
+    var chkPush = document.getElementById('chk-push-optin');
+    var statusEl = document.getElementById('updates-status');
+    var loadedForUser = null;
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var email = input.value.trim();
-      if (!email) return;
-      signups.push({ email: email, subscribedAt: new Date().toISOString() });
-      saveJSON('sf-newsletter-signups', signups);
-      input.value = '';
-      showToast(t('newsletterToast'));
-      updateNewsletterHint();
-    });
+    if (!elSignedOut || !elSignedIn) return;
 
-    function updateNewsletterHint() {
-      if (signups.length === 0) {
-        hint.textContent = t('newsletterHintDefault');
-        return;
-      }
-      hint.textContent = '';
-      var prefix = document.createTextNode(t('newsletterHintDefault').replace(/ — .*/, '') + ' — ');
-      var exportBtn = document.createElement('button');
-      exportBtn.type = 'button';
-      exportBtn.id = 'newsletter-export';
-      exportBtn.className = 'export-link';
-      exportBtn.style.padding = '0';
-      exportBtn.textContent = t('exportSuggestions', { n: signups.length, s: signups.length === 1 ? '' : 's' }).replace('suggestion', 'email');
-      exportBtn.addEventListener('click', function () {
-        var blob = new Blob([JSON.stringify(signups, null, 2)], { type: 'application/json' });
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url; a.download = 'newsletter-signups.json'; a.click();
-        URL.revokeObjectURL(url);
-      });
-      hint.appendChild(prefix);
-      hint.appendChild(exportBtn);
+    function setStatus(msg) { statusEl.textContent = msg || ''; }
+
+    function loadSubscriberRow() {
+      if (!sfClient || !currentUser) return;
+      sfClient.from('subscribers').select('newsletter_opt_in,push_opt_in')
+        .eq('user_id', currentUser.id).maybeSingle().then(function (res) {
+          if (res.error) { setStatus(res.error.message); return; }
+          chkNewsletter.checked = !!(res.data && res.data.newsletter_opt_in);
+          chkPush.checked = !!(res.data && res.data.push_opt_in);
+        });
     }
-    refreshNewsletterHint = updateNewsletterHint;
-    updateNewsletterHint();
+
+    function upsertSubscriber(fields) {
+      if (!sfClient || !currentUser) return;
+      var row = { user_id: currentUser.id, email: currentUser.email };
+      Object.keys(fields).forEach(function (k) { row[k] = fields[k]; });
+      sfClient.from('subscribers').upsert(row, { onConflict: 'user_id' }).then(function (res) {
+        if (res.error) setStatus(res.error.message);
+      });
+    }
+
+    function enablePush() {
+      return new Promise(function (resolve) {
+        if (!ONESIGNAL_APP_ID || !window.OneSignalDeferred) { resolve(false); return; }
+        window.OneSignalDeferred.push(function (OneSignal) {
+          OneSignal.Notifications.requestPermission()
+            .then(function () { return OneSignal.User.PushSubscription.optIn(); })
+            .then(function () { return OneSignal.login(String(currentUser.id)); })
+            .then(function () { resolve(true); })
+            .catch(function () { resolve(false); });
+        });
+      });
+    }
+
+    function disablePush() {
+      if (!ONESIGNAL_APP_ID || !window.OneSignalDeferred) return;
+      window.OneSignalDeferred.push(function (OneSignal) {
+        OneSignal.User.PushSubscription.optOut();
+      });
+    }
+
+    if (chkNewsletter) {
+      chkNewsletter.addEventListener('change', function () {
+        upsertSubscriber({ newsletter_opt_in: chkNewsletter.checked });
+        setStatus(t('updatesEmailSaved'));
+      });
+    }
+
+    if (chkPush) {
+      chkPush.addEventListener('change', function () {
+        if (chkPush.checked) {
+          enablePush().then(function (ok) {
+            chkPush.checked = ok;
+            if (ok) {
+              upsertSubscriber({ push_opt_in: true });
+              setStatus(t('updatesPushEnabled'));
+            } else {
+              setStatus(t('updatesPushUnavailable'));
+            }
+          });
+        } else {
+          disablePush();
+          upsertSubscriber({ push_opt_in: false });
+          setStatus(t('updatesPushDisabled'));
+        }
+      });
+    }
+
+    refreshUpdatesUI = function () {
+      if (currentUser) {
+        elSignedOut.style.display = 'none';
+        elSignedIn.style.display = 'block';
+        if (loadedForUser !== currentUser.id) {
+          loadedForUser = currentUser.id;
+          loadSubscriberRow();
+        }
+      } else {
+        elSignedOut.style.display = 'block';
+        elSignedIn.style.display = 'none';
+        loadedForUser = null;
+      }
+    };
   })();
 
   // ---- Map: where the proverbs are from ----
@@ -1949,7 +2030,7 @@
   renderAboutSummary();
   el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
   updateInstallBannerText();
-  refreshNewsletterHint();
+  refreshUpdatesUI();
   refreshLocationUI();
   applyMobileBar();
   populateThemeSelect();
