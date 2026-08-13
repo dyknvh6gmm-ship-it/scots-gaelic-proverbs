@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="doc-title">My Account — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+  @media (max-width: 640px) {
+    .site-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-right: 78px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a { flex: 0 0 auto; white-space: nowrap; }
+  }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 12px; font-size: 1.15rem; }
+  .card p.hint { font-size: 0.85rem; color: rgba(43,35,32,0.55); margin: 8px 0 0; }
+
+  .account-login-form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .account-login-form input[type="email"] {
+    flex: 1; min-width: 220px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+    padding: 10px 12px; font-size: 0.95rem; font-family: inherit;
+  }
+  .account-login-form button {
+    background: var(--thistle); color: #fff; border: none; padding: 10px 18px; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  }
+  .account-login-form button:hover { opacity: 0.9; }
+  .account-status { margin-top: 10px; font-size: 0.82rem; color: rgba(43,35,32,0.55); }
+  .account-status.error { color: #a33d2e; }
+
+  .signed-in-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .signed-in-row .link-btn { background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; font-size: 0.85rem; cursor: pointer; padding: 0; }
+
+  .fav-list { display: grid; gap: 12px; margin-top: 4px; }
+  .fav-card { border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 14px 16px; }
+  .fav-card .lang-row { margin-bottom: 8px; }
+  .fav-card .lang-row:last-of-type { margin-bottom: 0; }
+  .fav-card .lang-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .fav-card .lang-label.scots { color: var(--saltire); }
+  .fav-card .lang-label.gaelic { color: var(--thistle); }
+  .fav-card .lang-label.english { color: var(--amber); }
+  .fav-card .text { margin: 0; font-size: 1rem; }
+  .fav-card .theme-tag { display: inline-block; font-size: 0.7rem; color: var(--thistle); background: rgba(91,42,134,0.08); padding: 2px 8px; border-radius: 999px; margin-bottom: 8px; }
+
+  form#suggest-form { display: grid; gap: 12px; margin-top: 4px; }
+  form#suggest-form .row3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { form#suggest-form .row3 { grid-template-columns: 1fr 1fr 1fr; } }
+  form#suggest-form label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; color: rgba(43,35,32,0.6); }
+  form#suggest-form input, form#suggest-form textarea {
+    width: 100%; border-radius: 6px; border: 1px solid rgba(142,108,156,0.3); padding: 8px 10px; margin-top: 4px;
+    font-family: inherit; font-size: 0.95rem;
+  }
+  form#suggest-form .actions { display: flex; align-items: center; gap: 12px; }
+  form#suggest-form button {
+    background: var(--thistle); color: #fff; border: none; padding: 9px 18px; border-radius: 6px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  }
+  form#suggest-form button:hover { opacity: 0.9; }
+
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 10px 0; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    <nav class="site-nav">
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="my-account.html" class="active" id="nav-my-account">My Account</a>
+      <a href="grammar.html" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
+      <a href="resources.html" id="nav-resources">Resources</a>
+      <a href="about.html" id="nav-about">About</a>
+    </nav>
+    <h1 class="proverb-text" id="page-title">My Account</h1>
+    <p id="page-subtitle">Log in to see your favourites in one place and suggest a proverb of your own.</p>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <div id="account-signed-out">
+      <p id="signed-out-hint">Log in with just your email — no password needed, we'll send you a link.</p>
+      <form id="account-login-form" class="account-login-form">
+        <input type="email" id="account-email" placeholder="you@example.com" required />
+        <button type="submit" id="account-login-btn">Send magic link</button>
+      </form>
+    </div>
+    <div id="account-signed-in" style="display:none;">
+      <div class="signed-in-row">
+        <span id="account-signed-in-text"></span>
+        <button type="button" id="account-logout" class="link-btn">Log out</button>
+      </div>
+    </div>
+    <p class="account-status" id="account-status"></p>
+  </div>
+
+  <div class="card" id="favourites-card" style="display:none;">
+    <h2 id="favourites-heading">My favourites</h2>
+    <div class="fav-list" id="fav-list"><p class="empty" id="fav-loading">Loading…</p></div>
+  </div>
+
+  <div class="card" id="suggest-card" style="display:none;">
+    <h2 id="suggest-heading">Suggest a proverb</h2>
+    <p class="hint" id="suggest-hint">Send us a Scots, Gaelic, or English proverb (fill in whichever you know). Reviewed suggestions may appear on the Suggested Abairtean page.</p>
+    <form id="suggest-form">
+      <div class="row3">
+        <div>
+          <label id="suggest-label-scots">Beurla Ghallda</label>
+          <input name="scotsText" placeholder="Scots proverb" />
+        </div>
+        <div>
+          <label id="suggest-label-gaelic">Gàidhlig</label>
+          <input name="gaelicText" placeholder="Seanfhacal Gàidhlig" />
+        </div>
+        <div>
+          <label id="suggest-label-english">Beurla</label>
+          <input name="englishText" placeholder="English proverb" />
+        </div>
+      </div>
+      <div>
+        <label id="suggest-label-meaning">Meaning / notes</label>
+        <textarea name="meaning" rows="2" placeholder="What does it mean, and where's it from?"></textarea>
+      </div>
+      <div class="actions">
+        <button type="submit" id="suggest-submit">Send suggestion</button>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var sfClient = (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+  var currentUser = null;
+
+  var I18N = {
+    docTitle: { en: 'My Account — Sean-fhaclan & Auld Sayins', gd: 'An Cunntas Agam — Sean-fhaclan & Auld Sayins' },
+    pageTitle: { en: 'My Account', gd: 'An Cunntas Agam' },
+    pageSubtitle: {
+      en: "Log in to see your favourites in one place and suggest a proverb of your own.",
+      gd: "Clàraich a-steach gus na feadhainn as fheàrr leat fhaicinn aon àite agus seanfhacal agad fhèin a mholadh."
+    },
+    signedOutHint: {
+      en: "Log in with just your email — no password needed, we'll send you a link.",
+      gd: "Clàraich a-steach le do phost-d a-mhàin — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad."
+    },
+    emailPlaceholder: { en: 'you@example.com', gd: 'thusa@post-d.com' },
+    sendLink: { en: 'Send magic link', gd: 'Cuir ceangal draoidheil' },
+    sendingLink: { en: 'Sending…', gd: "'Ga chur…" },
+    linkSent: { en: 'Check your email for a sign-in link.', gd: "Thoir sùil air do phost-d airson ceangal clàraidh." },
+    loginError: {
+      en: "Couldn't send the link — check the email address and try again.",
+      gd: "Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist."
+    },
+    signedInAs: { en: 'Signed in as {email}', gd: 'Air clàradh a-steach mar {email}' },
+    logOut: { en: 'Log out', gd: 'Clàraich a-mach' },
+    favouritesHeading: { en: 'My favourites', gd: 'Na feadhainn as fheàrr leam' },
+    favLoading: { en: 'Loading…', gd: 'A luchdachadh…' },
+    favEmpty: {
+      en: "You haven't favourited anything yet — head to the Home page and tap the heart on a proverb you like.",
+      gd: "Chan eil dad agad fhathast — theirig dhan duilleig Dhachaigh agus brùth air a' chridhe air seanfhacal as toigh leat."
+    },
+    favLoadError: { en: "Couldn't load your favourites right now — try refreshing.", gd: "Cha b' urrainn dhuinn na feadhainn as fheàrr leat a luchdachadh an-dràsta — feuch ath-nuadhachadh." },
+    suggestHeading: { en: 'Suggest a proverb', gd: 'Mol seanfhacal' },
+    suggestHint: {
+      en: "Send us a Scots, Gaelic, or English proverb (fill in whichever you know). Reviewed suggestions may appear on the Suggested Abairtean page.",
+      gd: "Cuir thugainn seanfhacal Beurla Ghallda, Gàidhlig, no Beurla (lìon a-steach na tha fios agad air). Dh'fhaodadh molaidhean sgrùdaichte nochdadh air an duilleig Abairtean Air am Moladh."
+    },
+    formLabelMeaning: { en: 'Meaning / notes', gd: 'Ciall / notaichean' },
+    formPlaceholderMeaning: { en: "What does it mean, and where's it from?", gd: "Dè tha e a' ciallachadh, agus cò às a tha e?" },
+    suggestSubmit: { en: 'Send suggestion', gd: 'Cuir am moladh' },
+    suggestSaved: { en: 'Thanks — sent for review.', gd: 'Taing — air a chur airson sgrùdaidh.' },
+    suggestError: { en: "Couldn't send that — try again in a moment.", gd: "Cha b' urrainn dhuinn sin a chur — feuch a-rithist ann am mionaid." },
+    navHome: { en: 'Home', gd: 'Dachaigh' },
+    navMyAccount: { en: 'My Account', gd: 'An Cunntas Agam' },
+    navGrammar: { en: 'Grammar', gd: 'Gràmar' },
+    navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
+    navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
+    navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
+    navResources: { en: 'Resources', gd: 'Goireasan' },
+    navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
+    footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
+  };
+
+  var state = { uiLang: 'en' };
+
+  var el = {
+    docTitle: document.getElementById('doc-title'),
+    pageTitle: document.getElementById('page-title'),
+    pageSubtitle: document.getElementById('page-subtitle'),
+    signedOutHint: document.getElementById('signed-out-hint'),
+    accountSignedOut: document.getElementById('account-signed-out'),
+    accountSignedIn: document.getElementById('account-signed-in'),
+    accountSignedInText: document.getElementById('account-signed-in-text'),
+    accountLoginForm: document.getElementById('account-login-form'),
+    accountEmail: document.getElementById('account-email'),
+    accountLoginBtn: document.getElementById('account-login-btn'),
+    accountLogoutBtn: document.getElementById('account-logout'),
+    accountStatus: document.getElementById('account-status'),
+    favouritesCard: document.getElementById('favourites-card'),
+    favouritesHeading: document.getElementById('favourites-heading'),
+    favList: document.getElementById('fav-list'),
+    suggestCard: document.getElementById('suggest-card'),
+    suggestHeading: document.getElementById('suggest-heading'),
+    suggestHint: document.getElementById('suggest-hint'),
+    suggestLabelScots: document.getElementById('suggest-label-scots'),
+    suggestLabelGaelic: document.getElementById('suggest-label-gaelic'),
+    suggestLabelEnglish: document.getElementById('suggest-label-english'),
+    suggestLabelMeaning: document.getElementById('suggest-label-meaning'),
+    suggestForm: document.getElementById('suggest-form'),
+    suggestSubmitBtn: document.getElementById('suggest-submit'),
+    footer: document.getElementById('footer-text'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    navHome: document.getElementById('nav-home'),
+    navMyAccount: document.getElementById('nav-my-account'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navSuggested: document.getElementById('nav-suggested'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function loadJSON(key, fallback) {
+    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  function t(key, vars) {
+    var str = I18N[key] ? (I18N[key][state.uiLang] || I18N[key].en) : key;
+    if (vars) { Object.keys(vars).forEach(function (k) { str = str.split('{' + k + '}').join(vars[k]); }); }
+    return str;
+  }
+  function setStatus(msg, isError) {
+    el.accountStatus.textContent = msg || '';
+    el.accountStatus.classList.toggle('error', !!isError);
+  }
+
+  function applyChrome() {
+    document.title = t('docTitle');
+    el.pageTitle.textContent = t('pageTitle');
+    el.pageSubtitle.textContent = t('pageSubtitle');
+    el.signedOutHint.textContent = t('signedOutHint');
+    el.accountEmail.placeholder = t('emailPlaceholder');
+    el.accountLoginBtn.textContent = t('sendLink');
+    el.accountLogoutBtn.textContent = t('logOut');
+    el.favouritesHeading.textContent = t('favouritesHeading');
+    el.suggestHeading.textContent = t('suggestHeading');
+    el.suggestHint.textContent = t('suggestHint');
+    el.suggestLabelScots.textContent = 'Beurla Ghallda';
+    el.suggestLabelGaelic.textContent = 'Gàidhlig';
+    el.suggestLabelEnglish.textContent = 'Beurla';
+    el.suggestLabelMeaning.textContent = t('formLabelMeaning');
+    el.suggestForm.meaning.placeholder = t('formPlaceholderMeaning');
+    el.suggestSubmitBtn.textContent = t('suggestSubmit');
+    el.footer.textContent = t('footer');
+    el.navHome.textContent = t('navHome');
+    el.navMyAccount.textContent = t('navMyAccount');
+    el.navGrammar.textContent = t('navGrammar');
+    el.navGaelicCollection.textContent = t('navGaelicCollection');
+    el.navScotsCollection.textContent = t('navScotsCollection');
+    el.navSuggested.textContent = t('navSuggested');
+    el.navResources.textContent = t('navResources');
+    el.navAbout.textContent = t('navAbout');
+    if (currentUser) renderFavourites(loadedFavData);
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyChrome();
+  }
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  // ---- Favourites: fetch ids from Supabase, then fetch index.html to get the
+  // actual proverb text (kept in one place, not duplicated across pages). ----
+  var loadedFavData = null; // { ids, proverbs } once loaded
+  var favLoadStarted = false;
+
+  function fetchAllProverbs() {
+    return fetch('index.html').then(function (r) { return r.text(); }).then(function (html) {
+      var m = html.match(/<script type="application\/json" id="proverb-data">([\s\S]*?)<\/script>/);
+      if (!m) throw new Error('proverb data not found');
+      return JSON.parse(m[1]);
+    });
+  }
+
+  function loadFavourites() {
+    if (favLoadStarted || !sfClient || !currentUser) return;
+    favLoadStarted = true;
+    Promise.all([
+      sfClient.from('favourites').select('proverb_id').eq('user_id', currentUser.id),
+      fetchAllProverbs()
+    ]).then(function (results) {
+      var favRes = results[0], allProverbs = results[1];
+      if (favRes.error) { loadedFavData = { error: true }; renderFavourites(loadedFavData); return; }
+      var ids = favRes.data.map(function (r) { return r.proverb_id; });
+      var proverbs = allProverbs.filter(function (p) { return ids.indexOf(p.id) !== -1; });
+      loadedFavData = { proverbs: proverbs };
+      renderFavourites(loadedFavData);
+    }).catch(function () {
+      loadedFavData = { error: true };
+      renderFavourites(loadedFavData);
+    });
+  }
+
+  function favLangRow(cls, label, val) {
+    if (!val) return '';
+    return '<div class="lang-row"><div class="lang-label ' + cls + '">' + esc(label) + '</div><p class="text proverb-text">' + esc(val.text) + '</p></div>';
+  }
+
+  function renderFavourites(data) {
+    if (!data) { el.favList.innerHTML = '<p class="empty">' + esc(t('favLoading')) + '</p>'; return; }
+    if (data.error) { el.favList.innerHTML = '<p class="empty">' + esc(t('favLoadError')) + '</p>'; return; }
+    if (!data.proverbs.length) { el.favList.innerHTML = '<p class="empty">' + esc(t('favEmpty')) + '</p>'; return; }
+    el.favList.innerHTML = data.proverbs.map(function (p) {
+      return (
+        '<div class="fav-card">' +
+          '<span class="theme-tag">' + esc(p.theme) + '</span>' +
+          favLangRow('scots', 'Beurla Ghallda', p.scots) +
+          favLangRow('gaelic', 'Gàidhlig', p.gaelic) +
+          favLangRow('english', 'Beurla', p.english) +
+        '</div>'
+      );
+    }).join('');
+  }
+
+  // ---- Suggestion form: always requires being logged in on this page. ----
+  el.suggestForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!sfClient || !currentUser) return;
+    var form = e.target;
+    var row = {
+      user_id: currentUser.id,
+      scots_text: form.scotsText.value.trim() || null,
+      gaelic_text: form.gaelicText.value.trim() || null,
+      english_text: form.englishText.value.trim() || null,
+      meaning: form.meaning.value.trim() || null,
+      submitted_by: currentUser.email
+    };
+    if (!row.scots_text && !row.gaelic_text && !row.english_text) return;
+    sfClient.from('suggestions').insert(row).then(function (res) {
+      if (res.error) {
+        setStatus(t('suggestError'), true);
+      } else {
+        form.reset();
+        setStatus(t('suggestSaved'), false);
+      }
+    });
+  });
+
+  // ---- Account: magic-link login, mirrors index.html ----
+  function updateAccountUI() {
+    if (currentUser) {
+      el.accountSignedOut.style.display = 'none';
+      el.accountSignedIn.style.display = 'block';
+      el.accountSignedInText.textContent = t('signedInAs', { email: currentUser.email });
+      el.favouritesCard.style.display = 'block';
+      el.suggestCard.style.display = 'block';
+      loadFavourites();
+    } else {
+      el.accountSignedOut.style.display = 'block';
+      el.accountSignedIn.style.display = 'none';
+      el.favouritesCard.style.display = 'none';
+      el.suggestCard.style.display = 'none';
+    }
+  }
+
+  function initAccount() {
+    if (!sfClient) return;
+
+    el.accountLoginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.accountEmail.value.trim();
+      if (!email) return;
+      el.accountLoginBtn.disabled = true;
+      el.accountLoginBtn.textContent = t('sendingLink');
+      sfClient.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: window.location.href.split('#')[0].split('?')[0] }
+      }).then(function (res) {
+        el.accountLoginBtn.disabled = false;
+        el.accountLoginBtn.textContent = t('sendLink');
+        if (res.error) {
+          setStatus(t('loginError'), true);
+        } else {
+          setStatus(t('linkSent'), false);
+          el.accountLoginForm.reset();
+        }
+      });
+    });
+
+    el.accountLogoutBtn.addEventListener('click', function () {
+      sfClient.auth.signOut().then(function () { setStatus('', false); });
+    });
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateAccountUI();
+    });
+  }
+
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+  updateAccountUI();
+  initAccount();
+})();
+</script>
+</body>
+</html>

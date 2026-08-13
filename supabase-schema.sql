@@ -66,9 +66,24 @@ create policy "Users can submit suggestions"
   on public.suggestions for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Anyone can view approved suggestions" on public.suggestions;
+create policy "Anyone can view approved suggestions"
+  on public.suggestions for select
+  using (status = 'approved');
+
+-- Postgres OR's multiple select policies together, so the net effect of the
+-- two select policies above is: a logged-in visitor can see their own
+-- suggestions regardless of status (useful for "did mine get approved?"),
+-- and everyone — including visitors who aren't logged in — can see anything
+-- with status = 'approved', which is what powers the public
+-- suggested-abairtean.html page.
+--
 -- No update/delete policies for suggestions on purpose — once submitted, a
 -- visitor can't edit or withdraw it from the public site. You review and
--- change "status" (pending → approved/rejected) from the Table Editor.
+-- change "status" (pending → approved/rejected) from the Table Editor — that's
+-- also how a suggestion gets onto suggested-abairtean.html (set it to
+-- "approved") and how you'd remove one from there again (set it back to
+-- "pending", or "rejected", or delete the row).
 
 
 create table if not exists public.subscribers (

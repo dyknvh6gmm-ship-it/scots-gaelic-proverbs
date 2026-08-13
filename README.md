@@ -14,17 +14,20 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `about.html` — an editable About page with a bio and links section, see "The About page" below
 - `gaelic-collection.html` — a curated set of Gaelic proverbs with English translations from a historical published collection, see "The Gaelic Collection page" below
 - `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
+- `my-account.html` — the members page: shows a logged-in visitor's saved favourites and a form to suggest a proverb, see "The My Account page" below
+- `suggested-abairtean.html` — a public page listing community-suggested proverbs you've approved, see "The Suggested Abairtean page" below
 - `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, and the newsletter/push opt-ins, see "Accounts" below
 - `supabase-function-send-daily-proverb.ts` — a Supabase Edge Function that emails the day's proverb to opted-in subscribers, see "Push notifications and email" below
+- `supabase-function-send-daily-push.ts` — the same idea, but sends a push notification via OneSignal instead of an email, see "Push notifications and email" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, and `suggested-abairtean.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
 
 ## Site structure
 
-The site is now several pages sharing one look and a navigation bar (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+The site is now several pages sharing one look and a navigation bar (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
 
-There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, and `suggested-abairtean.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
 
 On phones, the nav bar scrolls horizontally left/right rather than wrapping, so it never overlaps the EN/GD toggle in the top-right corner — see "Mobile layout" below.
 
@@ -68,6 +71,23 @@ Sourced from *Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and
 
 Same data format as the Gaelic Collection page, in its own `<script type="application/json" id="collection-data">` block.
 
+## The My Account page
+
+`my-account.html` is the members hub — it only shows real content once someone's logged in (see "Accounts" below); logged-out visitors just see the login box. Once signed in, there are two cards:
+
+- **Favourites** — every proverb they've favourited, pulled live from `index.html`'s proverb data (fetched and matched against their saved favourite IDs from Supabase) and shown the same way the Home page shows a proverb card.
+- **Suggest a proverb** — a form for Scots / Gaelic / English text plus a meaning note, which writes straight to the `suggestions` table in your Supabase project (see "Reviewing suggestions" below) — the same underlying table the Home page's suggestion form already used, just a dedicated place for it now.
+
+Nothing on this page needs editing by you — it reads everything live from Supabase and `index.html`.
+
+## The Suggested Abairtean page
+
+`suggested-abairtean.html` is a public page, no login required, listing community-submitted suggestions you've approved — searchable cards showing the Scots/Gaelic/English text, the meaning note, and who submitted it. It only ever shows suggestions with `status = 'approved'` in the `suggestions` table; anything still `pending` (or that you've left as-is) stays invisible to everyone but you.
+
+This is deliberately a separate, moderated space from the main proverb database on the Home page — approving a suggestion here makes it publicly visible as a *suggested* Abairt (phrase), but does **not** add it to `index.html`'s proverb data. If you want a suggestion promoted to a full proverb card on the Home page, that's still a manual step: copy its details into `index.html`'s data the normal way (see "The data" below).
+
+**To approve or remove a suggestion:** open your Supabase project → Table Editor → `suggestions`, find the row, and change its `status` column from `pending` to `approved` to publish it here, or back to `pending` (or delete the row) to pull it down. No admin login or extra page needed — the Table Editor is your moderation queue.
+
 ## Run it
 
 Just open `index.html` in a browser — double-click it, or drag it into a browser window. The core proverb search works fully offline. (The install/PWA features need it to be served over `https://`, so they only kick in once it's deployed — see below.)
@@ -88,9 +108,9 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 - **Proverb of the Day carousel**: one featured proverb, the same for everyone on a given day, that rotates automatically and can be browsed manually.
 - **Theme filter** and a **"recorded in all three languages"** filter.
 - **Optional login** (magic-link email, via Supabase) — see "Accounts" below.
-- **Favourites**, saved in your browser (localStorage), or synced to your account if you're logged in.
+- **Favourites**, saved in your browser (localStorage), or synced to your account if you're logged in — with a dedicated **My Account** page listing them, see "The My Account page" above.
 - **Random proverb** button.
-- **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in.
+- **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in. Approved suggestions appear publicly on the **Suggested Abairtean** page, see above.
 - **Installable as an app** (PWA) — see below.
 - **Stay updated**: email + push notification opt-ins, tied to your account — see "Push notifications and email" below.
 - **Interface language toggle (EN / GD)** — the app chrome (buttons, labels, hints) switches between English and Gaelic — see below.
@@ -98,7 +118,7 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 
 ## Interface language (EN / GD)
 
-Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, Grammar, Gaelic Collection, Scots Collection, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
+Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, My Account, Grammar, Gaelic Collection, Scots Collection, Suggested Abairtean, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
 
 This is separate from the three proverb-language tabs (Scots / Gàidhlig / English), which are unaffected by this toggle. As you asked, those three tabs — and every place in the app that names one of the three proverb languages — always read **Beurla Ghallda** (Scots), **Gàidhlig**, and **Beurla** (English), regardless of which interface language is active.
 
@@ -129,7 +149,7 @@ Tell me which you'd like and I'll wire the form to submit there instead of just 
 
 ## Mobile layout
 
-**Nav bar overlap fix:** on Grammar, the two Collection pages, Resources, and About, the site nav (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
+**Nav bar overlap fix:** on Grammar, the two Collection pages, My Account, Suggested Abairtean, Resources, and About, the site nav (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
 
 ### Bottom bar (Home page)
 
@@ -158,13 +178,16 @@ The old separate "leave your email" box and browser-only push scaffolding have b
 
 The function emails everyone with `newsletter_opt_in = true` in the new `subscribers` table (created by the updated `supabase-schema.sql` — re-run that whole file if you already ran an earlier version, it's safe to repeat) using the same day-of-year rotation as the site's own Proverb of the Day. It sends from `onboarding@resend.dev`, which works immediately with no domain setup; once you've verified your own domain in Resend you can swap that for a nicer from-address.
 
-**Push**, via **OneSignal** (free):
+**Push**, via **OneSignal** (free) — already fully wired up, App ID included, nothing left to do here. The remaining piece is scheduling the actual daily send, done the same way as email:
 
-1. Create a free account at onesignal.com, add a new app, choose "Web Push," and follow their setup for a plain site (no separate SDK integration needed on your end beyond what's already in `index.html` — the OneSignal script tag and init call are already there).
-2. Grab your **App ID** from Settings → Keys & IDs.
-3. Send it to me and I'll drop it into the `ONESIGNAL_APP_ID` constant near the top of `index.html`'s script — it's currently empty, which is why the push toggle will say "not available yet" until then.
+1. Deploy `supabase-function-send-daily-push.ts` as a second Edge Function: Supabase dashboard → Edge Functions → Deploy a new function → "Via Editor" → name it `send-daily-push` → paste in the whole file → Deploy.
+2. Grab your **REST API Key** from OneSignal: Settings → Keys & IDs → "REST API Key." (Different from the App ID — the App ID is public and already in `index.html`; this REST key is a real secret and must never go in client-side code, which is why it only lives in this function.)
+3. Add it as a secret on that function: Edge Functions → `send-daily-push` → Secrets → add `ONESIGNAL_REST_API_KEY`.
+4. Schedule it the same way as `send-daily-proverb` (see below) — same cron setup, just pointed at `send-daily-push` instead. You can run both on the same schedule.
 
-Once both are wired up, logging in and switching the toggles on is all a visitor needs to do — no separate signup forms, no exporting JSON files by hand.
+This function targets everyone with `push_opt_in = true` in one call, using the "external user ID" tag OneSignal already applies when someone logs in and flips the push toggle (that's what `OneSignal.login()` in `index.html` is doing).
+
+Once all of this is wired up, logging in and switching the toggles on is all a visitor needs to do — no separate signup forms, no exporting JSON files by hand, and both channels send automatically once a day.
 
 ## Accounts: login, synced favourites, and direct suggestions
 
@@ -174,7 +197,7 @@ There's now a small login box at the top of the Home page, above the Proverb of 
 
 - **Login** is passwordless — a visitor enters their email, gets a "magic link," clicks it, and they're signed in. No passwords for you or them to manage.
 - **Favourites**, once logged in, are saved to their account instead of just their browser — so the same favourites show up if they come back on a different device. Anything they'd favourited locally before logging in gets carried over automatically the first time they sign in.
-- **Suggestions**, once logged in, still show up locally (same "Save suggestion" / export flow as before) but are *also* sent straight to your Supabase project — visible to you immediately in the Table Editor, no waiting for someone to export and send you a JSON file.
+- **Suggestions**, once logged in, still show up locally (same "Save suggestion" / export flow as before) but are *also* sent straight to your Supabase project — visible to you immediately in the Table Editor, no waiting for someone to export and send you a JSON file. Logged-in visitors can also submit from a dedicated form on the **My Account** page.
 - Visitors who don't log in still get the exact same local-only behaviour the site always had (favourites in their browser only, suggestions exportable as JSON) — logging in is optional, not required to use the site.
 
 **Two things you need to do once, in your Supabase dashboard, for this to work live:**
@@ -184,7 +207,7 @@ There's now a small login box at the top of the Home page, above the Proverb of 
 
 Note: login only works on the *deployed* site (served over `https://`), not when you open `index.html` straight from a folder on your computer — magic-link redirects need a real URL to send people back to.
 
-**Reviewing suggestions:** open your Supabase project → Table Editor → `suggestions`. Every submission from a logged-in visitor lands there with a `status` of `pending`; change it to `approved` (or delete the row) once you've reviewed it and, if you like it, copied it into `index.html`'s proverb data by hand — the table itself doesn't auto-publish anything to the live site.
+**Reviewing suggestions:** open your Supabase project → Table Editor → `suggestions`. Every submission from a logged-in visitor lands there with a `status` of `pending`; change it to `approved` and it immediately becomes publicly visible on the **Suggested Abairtean** page (`suggested-abairtean.html`) — the schema includes a row-level security policy that only exposes `approved` rows to the public, everything else stays visible to you alone. Approving a suggestion this way does *not* add it to the main proverb database — if you want it to become a full proverb card on the Home page too, that's still a separate manual step: copy it into `index.html`'s proverb data by hand (see "The data" below). Set the `status` back to `pending`, or delete the row, to remove it from the public page.
 
 If you'd rather this arrived as an email each time instead of (or as well as) sitting in a table, that's a further step — Supabase can call a webhook on every new row, which a free service like Zapier or a small Supabase Edge Function can turn into an email. Tell me if you want that wired up too.
 

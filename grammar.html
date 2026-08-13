@@ -105,9 +105,11 @@
     </div>
     <nav class="site-nav">
       <a href="index.html" id="nav-home">Home</a>
+      <a href="my-account.html" id="nav-my-account">My Account</a>
       <a href="grammar.html" class="active" id="nav-grammar">Grammar</a>
       <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
       <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
@@ -294,9 +296,11 @@
       gd: "Gràmar an Gnìomh — Sean-fhaclan"
     },
     navHome: { en: "Home", gd: "Dachaigh" },
+    navMyAccount: { en: "My Account", gd: "An Cunntas Agam" },
     navGrammar: { en: "Grammar", gd: "Gràmar" },
     navGaelicCollection: { en: "Gaelic Collection", gd: "Cruinneachadh Gàidhlig" },
     navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
+    navSuggested: { en: "Suggested Abairtean", gd: "Abairtean Air am Moladh" },
     navResources: { en: "Resources", gd: "Goireasan" },
     navAbout: { en: "About", gd: "Mun Dèidhinn" },
     subtitle: {
@@ -399,9 +403,11 @@
     uiLangGd: document.getElementById('ui-lang-gd'),
     docTitle: document.getElementById('doc-title'),
     navHome: document.getElementById('nav-home'),
+    navMyAccount: document.getElementById('nav-my-account'),
     navGrammar: document.getElementById('nav-grammar'),
     navGaelicCollection: document.getElementById('nav-gaelic-collection'),
     navScotsCollection: document.getElementById('nav-scots-collection'),
+    navSuggested: document.getElementById('nav-suggested'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -516,9 +522,11 @@
     el.footer.textContent = I18N.footer[state.uiLang];
     el.docTitle.textContent = I18N.docTitle[state.uiLang];
     el.navHome.textContent = I18N.navHome[state.uiLang];
+    el.navMyAccount.textContent = I18N.navMyAccount[state.uiLang];
     el.navGrammar.textContent = I18N.navGrammar[state.uiLang];
     el.navGaelicCollection.textContent = I18N.navGaelicCollection[state.uiLang];
     el.navScotsCollection.textContent = I18N.navScotsCollection[state.uiLang];
+    el.navSuggested.textContent = I18N.navSuggested[state.uiLang];
     el.navResources.textContent = I18N.navResources[state.uiLang];
     el.navAbout.textContent = I18N.navAbout[state.uiLang];
   }

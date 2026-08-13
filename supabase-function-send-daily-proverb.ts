@@ -8,13 +8,35 @@
 //   RESEND_API_KEY — get this free from resend.com (see README "Push notifications
 //   and email" section for the full walkthrough).
 //
-// SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are injected automatically by
+// SUPABASE_URL and a service-level secret key are injected automatically by
 // Supabase into every Edge Function — you don't need to set those yourself.
+// Supabase has two generations of this: newer projects expose
+// SUPABASE_SECRET_KEYS (a JSON dictionary), older ones expose
+// SUPABASE_SERVICE_ROLE_KEY (a single JWT string). getServiceKey() below checks
+// both, so this works either way.
 //
 // Once deployed, schedule it to run once a day — see README for how, using
 // Supabase's built-in Cron Jobs feature.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+function getServiceKey(): string {
+  const secretKeys = Deno.env.get("SUPABASE_SECRET_KEYS");
+  if (secretKeys) {
+    try {
+      const parsed = JSON.parse(secretKeys);
+      const values = Array.isArray(parsed) ? parsed : Object.values(parsed);
+      const first = values.find((v) => typeof v === "string" && v.length > 0);
+      if (first) return first as string;
+    } catch (_e) {
+      // Not JSON — treat the raw env value as the key itself.
+      return secretKeys;
+    }
+  }
+  const legacy = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (legacy) return legacy;
+  throw new Error("No Supabase service key found — checked SUPABASE_SECRET_KEYS and SUPABASE_SERVICE_ROLE_KEY.");
+}
 
 // Mirrors the "Proverb of the Day" pool and pick-logic from index.html (the five
 // proverbs recorded in all three languages, ids 1–5, rotating by date). If you
@@ -42,7 +64,7 @@ Deno.serve(async () => {
 
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+    getServiceKey()
   );
 
   const { data: subscribers, error } = await supabase

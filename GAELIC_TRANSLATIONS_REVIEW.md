@@ -133,14 +133,16 @@ None of this batch has been checked by a fluent speaker — same caveat as every
 
 ## New: nav labels + browser tab title now switch with EN/GD (all pages)
 
-Previously the EN/GD toggle only translated the page content — the site-nav links (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) and the browser tab title stayed in English always. Both now switch too, on every page. Same strings reused across all six pages:
+Previously the EN/GD toggle only translated the page content — the site-nav links (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) and the browser tab title stayed in English always. Both now switch too, on every page. Same strings reused across all eight pages (the "My Account" and "Suggested Abairtean" links were added later, once those two pages existed — see further down):
 
 | Where it appears | English | My Gaelic | Correction |
 |---|---|---|---|
 | Nav: Home | Home | Dachaigh | |
+| Nav: My Account | My Account | An Cunntas Agam | |
 | Nav: Grammar | Grammar | Gràmar | |
 | Nav: Gaelic Collection | Gaelic Collection | Cruinneachadh Gàidhlig | |
 | Nav: Scots Collection | Scots Collection | Cruinneachadh Beurla Ghallda | |
+| Nav: Suggested Abairtean | Suggested Abairtean | Abairtean Air am Moladh | |
 | Nav: Resources | Resources | Goireasan | |
 | Nav: About | About | Mun Dèidhinn | |
 
@@ -189,6 +191,55 @@ None of this batch has been checked by a fluent speaker either.
 | Status: push enabled | Push notifications turned on. | Brathan putaidh air an cur air. | |
 | Status: push disabled | Push notifications turned off. | Brathan putaidh air an cur dheth. | |
 | Status: push unavailable | Push notifications aren't available in this browser right now. | Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta. | |
+
+None of this batch has been checked by a fluent speaker either.
+
+## New: My Account page (favourites + suggest-a-proverb hub)
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Tab title | My Account — Sean-fhaclan & Auld Sayins | An Cunntas Agam — Sean-fhaclan & Auld Sayins | |
+| Page title | My Account | An Cunntas Agam | |
+| Page subtitle | Log in to see your favourites in one place and suggest a proverb of your own. | Clàraich a-steach gus na feadhainn as fheàrr leat fhaicinn aon àite agus seanfhacal agad fhèin a mholadh. | |
+| Signed-out hint | Log in with just your email — no password needed, we'll send you a link. | Clàraich a-steach le do phost-d a-mhàin — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad. | |
+| Email placeholder | you@example.com | thusa@post-d.com | |
+| Send-link button | Send magic link | Cuir ceangal draoidheil | |
+| Send-link button, sending | Sending… | 'Ga chur… | |
+| Status: link sent | Check your email for a sign-in link. | Thoir sùil air do phost-d airson ceangal clàraidh. | |
+| Status: login error | Couldn't send the link — check the email address and try again. | Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist. | |
+| Signed-in text (templated) | Signed in as {email} | Air clàradh a-steach mar {email} | |
+| Log out button | Log out | Clàraich a-mach | |
+| Favourites heading | My favourites | Na feadhainn as fheàrr leam | |
+| Favourites: loading | Loading… | A luchdachadh… | |
+| Favourites: empty | You haven't favourited anything yet — head to the Home page and tap the heart on a proverb you like. | Chan eil dad agad fhathast — theirig dhan duilleig Dhachaigh agus brùth air a' chridhe air seanfhacal as toigh leat. | |
+| Favourites: load error | Couldn't load your favourites right now — try refreshing. | Cha b' urrainn dhuinn na feadhainn as fheàrr leat a luchdachadh an-dràsta — feuch ath-nuadhachadh. | |
+| Suggest heading | Suggest a proverb | Mol seanfhacal | |
+| Suggest hint | Send us a Scots, Gaelic, or English proverb (fill in whichever you know). Reviewed suggestions may appear on the Suggested Abairtean page. | Cuir thugainn seanfhacal Beurla Ghallda, Gàidhlig, no Beurla (lìon a-steach na tha fios agad air). Dh'fhaodadh molaidhean sgrùdaichte nochdadh air an duilleig Abairtean Air am Moladh. | |
+| Form: meaning/notes label | Meaning / notes | Ciall / notaichean | |
+| Form: meaning/notes placeholder | What does it mean, and where's it from? | Dè tha e a' ciallachadh, agus cò às a tha e? | |
+| Suggest submit button | Send suggestion | Cuir am moladh | |
+| Suggest: saved status | Thanks — sent for review. | Taing — air a chur airson sgrùdaidh. | |
+| Suggest: error status | Couldn't send that — try again in a moment. | Cha b' urrainn dhuinn sin a chur — feuch a-rithist ann am mionaid. | |
+
+None of this batch has been checked by a fluent speaker either.
+
+## New: Suggested Abairtean page (public, moderated suggestions)
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page title | Suggested Abairtean | Abairtean Air am Moladh | |
+| Page subtitle | Proverbs and sayings suggested by visitors, reviewed and approved for display here — a step before anything joins the main collection. | Seanfhaclan is abairtean air am moladh le luchd-tadhail, air an sgrùdadh 's air an aontachadh airson an seo — ceum mus tèid dad a chur ris a' phrìomh chruinneachadh. | |
+| Intro box | This is a public, lightly-moderated space: anyone can suggest a proverb from their account (see "My Account"), and once it's been reviewed and approved, it shows up here for everyone to see. It's a separate, more relaxed shelf from the main proverb collection on the Home page — appearing here doesn't mean a proverb has been fully verified or will ever be added there, just that it seemed worth sharing. | Is àite poblach, le beagan sgrùdaidh, a tha seo: faodaidh duine sam bith seanfhacal a mholadh on chunntas aca (faic "An Cunntas Agam"), agus nuair a bhios e air a sgrùdadh 's air aontachadh, nochdaidh e an seo dhan a h-uile duine. Is e sgeilp fa leth, nas fhasa, a tha seo seach am prìomh chruinneachadh air an duilleig Dhachaigh — cha chiallaich a bhith an seo gu bheil seanfhacal air a dhearbhadh gu tur no gun tèid a chur ris a-riamh, dìreach gun robh e fiach a roinneadh. | |
+| Search placeholder | Search suggested sayings… | Dèan lorg air abairtean… | |
+| Result count (templated) | {n} suggested {noun} | {n} abairt(ean) air am moladh | |
+| Loading status | Loading… | A luchdachadh… | |
+| Load error | Couldn't load suggestions right now — try refreshing. | Cha b' urrainn dhuinn na molaidhean a luchdachadh an-dràsta — feuch ath-nuadhachadh. | |
+| No matches | No matches. Try a different word. | Chan eil toradh ann. Feuch facal eile. | |
+| Empty state (nothing approved yet) | Nothing approved yet — check back soon, or be the first to suggest one from My Account. | Chan eil dad air aontachadh fhathast — thig air ais a dh'aithghearr, no bi a' chiad fhear a mholas seanfhacal on Chunntas Agad. | |
+| Byline (named) | Suggested by {name} | Air a mholadh le {name} | |
+| Byline (anonymous) | Suggested by a visitor | Air a mholadh le neach-tadhail | |
+
+Note: `resultNounOne` / `resultNounMany` ("saying" / "sayings") are only used in the English count string — the Gaelic count string doesn't need to change by number, so those two keys are left blank on purpose in the Gaelic version, not missed.
 
 None of this batch has been checked by a fluent speaker either.
 
