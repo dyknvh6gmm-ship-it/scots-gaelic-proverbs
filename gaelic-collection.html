@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cruinneachadh Nicolson | The Nicolson Collection — Sean-fhaclan</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+  @media (max-width: 640px) {
+    .site-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-right: 78px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a { flex: 0 0 auto; white-space: nowrap; }
+  }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .intro-box { background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 12px; padding: 18px 20px; margin-bottom: 8px; font-size: 0.9rem; color: rgba(43,35,32,0.75); line-height: 1.5; }
+  .intro-box .book-note { margin-top: 10px; font-size: 0.82rem; color: rgba(43,35,32,0.55); }
+
+  #search-input { width: 100%; border-radius: 10px; border: 1px solid rgba(142,108,156,0.3); padding: 12px 16px; font-size: 1.05rem; font-family: Georgia, serif; background: #fff; color: var(--ink); margin-top: 16px; }
+  #search-input:focus { outline: 2px solid rgba(91,42,134,0.5); }
+
+  .count-row { font-size: 0.8rem; color: rgba(43,35,32,0.45); margin: 10px 2px 4px; }
+
+  .results { display: grid; gap: 14px; margin-top: 10px; }
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 30px 0; text-align: center; }
+
+  .pcard { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 18px; }
+  .pcard .gaelic { font-size: 1.15rem; margin: 0; }
+  .pcard .english { font-size: 0.95rem; margin: 8px 0 0; color: rgba(43,35,32,0.85); }
+  .pcard .note { font-size: 0.85rem; margin: 8px 0 0; color: rgba(43,35,32,0.6); font-style: italic; }
+  .pcard .source { font-size: 0.72rem; color: rgba(43,35,32,0.4); margin: 10px 0 0; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="grammar.html">Grammar</a>
+      <a href="gaelic-collection.html" class="active">Gaelic Collection</a>
+      <a href="scots-collection.html">Scots Collection</a>
+      <a href="resources.html">Resources</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1 class="proverb-text" id="page-title">The Nicolson Collection</h1>
+    <p id="page-subtitle">A selection of Gaelic proverbs from a major 19th-century collection, listed here alphabetically, the way the original book arranges them.</p>
+  </div>
+</header>
+
+<main>
+  <div class="intro-box" id="intro-box">
+    These entries are drawn from <em>A Collection of Gaelic Proverbs and Familiar Phrases</em>, edited by Alexander Nicolson (1881), itself an expansion of Donald Macintosh's original 1785 collection — one of the largest published collections of Gaelic proverbs, running to nearly 4,000 entries across 480 pages. This page is a selection, not the whole book: around three dozen entries chosen for being clear, well-preserved in the scan, and representative of what's here. The book is public domain, digitised by the National Library of Scotland via archive.org.
+    <div class="book-note" id="book-note">Where the original book notes a parallel Scots, English, or other-language saying alongside a Gaelic one, that's included in the card as a note.</div>
+  </div>
+
+  <input type="text" id="search-input" placeholder="Search a phrase or translation…" />
+  <div class="count-row" id="count-row"></div>
+
+  <div class="results" id="results"></div>
+</main>
+
+<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script type="application/json" id="collection-data">
+[
+  {"id":1,"gaelic":"A' chiad sgeul air fear an taighe, 's gach sgeul gu latha air an aoidh.","english":"The first story from the host, and every story till morning from the guest.","note":"Reflects old Highland hosting customs — the host speaks first, then the guest is expected to talk the night away.","source":"no page ref, letter A"},
+  {"id":2,"gaelic":"A' chuiseag ruadh a dh'fhàsas anns an òtrach, 's i as àirde a chuireas a ceann.","english":"The red weed that grows on the dunghill lifts its head the highest.","note":"The book gives a Scots parallel: \"The proudest nettle grows on a midden.\"","source":"letter A"},
+  {"id":3,"gaelic":"A shalachar fhèin leis gach rugha.","english":"To every headland, its own foul ground.","note":"A sailor's saying — every stretch of coast has its own hazards.","source":"letter A"},
+  {"id":4,"gaelic":"A dh'aindeoin cò theireadh e!","english":"Gainsay who dare!","note":"The motto of Clanranald.","source":"letter A"},
+  {"id":5,"gaelic":"A h-uile latha sona dhut, gun latha idir dona dhut!","english":"Every day good luck to you, and no day of misfortune at all!","note":"A traditional well-wish, still recognisable today.","source":"letter A"},
+  {"id":6,"gaelic":"Abair rium mus abair mi riut.","english":"Speak to me before I speak to you.","note":null,"source":"letter A"},
+  {"id":7,"gaelic":"Adharc na bà maoile 's duilich a toirt dhith.","english":"It's hard to take the horn off the hornless cow.","note":null,"source":"letter A"},
+  {"id":8,"gaelic":"Air a làimh fhèin, mar a bha an ceàrd sa chaonnaig.","english":"For his own hand, as the smith was in the fight.","note":"Believed to be the origin of the Scots proverb \"For his ain hand, as Henry Wynd fought,\" cited by Sir Walter Scott in The Fair Maid of Perth.","source":"letter A"},
+  {"id":9,"gaelic":"Aig bainnsean 's aig tòrraidhean aithnichear càirdean is eòlaich.","english":"At weddings and at funerals, relatives and friends are known.","note":null,"source":"letter A"},
+  {"id":10,"gaelic":"Aig deireadh a' chluiche, chìthear cò bhuinigeas.","english":"At the end of the game, the winner is seen.","note":null,"source":"letter A"},
+  {"id":11,"gaelic":"Air an doras air an tig amharas a-steach, thèid gràdh a-mach.","english":"Where doubt comes in, love goes out.","note":null,"source":"letter A"},
+  {"id":12,"gaelic":"Air do shlàinte, a ghoistidh ùir — sop air sùil an t-seann ghoistidh!","english":"Here's to your health, my new gossip — a wisp on the eye of the old one!","note":"\"Sop air sùil\" (a wisp on the eye) meant hiding something away — out of sight, out of mind. \"Goistidh\" is a godparent or close family friend.","source":"letter A"},
+  {"id":13,"gaelic":"Air ghaol an leanaibh, pògar a' bhanaltram.","english":"The nurse is kissed for the sake of the child.","note":null,"source":"letter A"},
+  {"id":14,"gaelic":"Air ghlainead an tobair, bidh salachar ann.","english":"However clean the well, some dirt will be found in it.","note":null,"source":"letter A"},
+  {"id":15,"gaelic":"Aireamh na h-Aoine air caoraich a' bhaile ud thall!","english":"Friday's numbering, on the neighbouring sheep!","note":"An old form of \"bad luck to you\" — based on the belief that Friday was an unlucky day to count livestock.","source":"letter A"},
+  {"id":16,"gaelic":"Aisling caillich mar a dùrachd.","english":"An old wife's dream, as her desire.","note":"Wishful thinking dressed up as prophecy.","source":"letter A"},
+  {"id":17,"gaelic":"Aiteamh na gaoithe tuath, sneachda is reodhadh anns an uair.","english":"After a thaw with the north wind, snow and frost follow fast.","note":"Weather lore.","source":"letter A"},
+  {"id":18,"gaelic":"Aithnichear air a' bheagan ciamar a bhiodh am mòran.","english":"From the little, you can tell what the much would have been.","note":null,"source":"letter A"},
+  {"id":19,"gaelic":"Aithnichear am balach 's a' mhadainn — brisidh e barrall a bhròige.","english":"The lout is known in the morning — he breaks his own shoelace.","note":"His impatience shows even in how he dresses.","source":"letter A"},
+  {"id":20,"gaelic":"Aithnichear leanabh air a bhèusaibh.","english":"A child is known by his manners.","note":"The book compares this to Proverbs 20:11 in the Bible: \"Even a child is known by his doings.\"","source":"letter A"},
+  {"id":21,"gaelic":"Aithnichear searrach seann làraich ann an grèigh.","english":"An old mare's foal is known in a herd.","note":null,"source":"letter A"},
+  {"id":22,"gaelic":"Aithnichidh an truaighe a daoine fhèin.","english":"Misery knows its own people.","note":null,"source":"letter A"},
+  {"id":23,"gaelic":"Aithnichidh na leth-chiallaich a chèile.","english":"Half-wits recognise one another.","note":null,"source":"letter A"},
+  {"id":24,"gaelic":"Am bial a' phoca, tha an caomhnadh.","english":"The saving is at the mouth of the bag.","note":"Economy has to start early, before the bag is opened.","source":"letter A"},
+  {"id":25,"gaelic":"Am brèid ga thomhas air an toll.","english":"Measuring the patch on the hole.","note":"Fitting the fix to the size of the actual problem.","source":"letter A"},
+  {"id":26,"gaelic":"Am brògach beag, 's an cuaranach mòr.","english":"The boy in shoes, the grown man in the cuaran.","note":"A cuaran was a rough sock of untanned leather, once common footwear — the saying reflects on how fortunes (and footwear) can decline with age.","source":"letter A"},
+  {"id":27,"gaelic":"Am fear a bhios air a' bharra-mhanadh a-mach, suidhidh e air fàl corrach.","english":"He whose destiny is cast sits on a sharp ridge.","note":"On belief in fate — the book compares it to the Psalms: \"Their foot shall slide in due time.\"","source":"letter A"},
+  {"id":28,"gaelic":"Am fear a bhios a' riarachadh nam maragan, bidh an ceann reamhar aige fhèin.","english":"The man who shares out the puddings keeps the fat end for himself.","note":null,"source":"letter A"},
+  {"id":29,"gaelic":"Ag itheadh na cruaiche fon t-sloman.","english":"Eating the stack from under the rope.","note":"Taking from the very thing meant to be protected.","source":"letter A"},
+  {"id":30,"gaelic":"Am biadh a dh'ithear anns a' chùil, thig e thun an teine.","english":"The food that's eaten in the corner will come out to the fire.","note":"What's hidden away eventually comes to light.","source":"letter A"},
+  {"id":31,"gaelic":"Am fac thu rud, is a chùl riut?","english":"Did you see anything with its back to you?","note":"An old omen-related question — certain sightings were considered unlucky depending on which way they faced.","source":"letter A"},
+  {"id":32,"gaelic":"Air fhad 's ge'n tèid thu a-mach, na toir droch sgeul dhachaigh ort fhèin.","english":"However far abroad you go, don't bring home a bad tale about yourself.","note":null,"source":"letter A"},
+  {"id":33,"gaelic":"Air mheud 's a their na sluaigh, cha ghlòir a dhearbhas ach gnìomh.","english":"For all the world may say, it's not words but deeds that prove it.","note":null,"source":"letter A"},
+  {"id":34,"gaelic":"Air mheud 's ge'm faigh thu gu math, 's lughaid a gheibh thu gu h-olc.","english":"The more you find of good, the less you'll get of ill.","note":null,"source":"letter A"},
+  {"id":35,"gaelic":"Aisigidh leannanachd an tochradh.","english":"Courting restores the dowry.","note":null,"source":"letter A"}
+]
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('collection-data').textContent);
+  var SOURCE_CITATION = "Alexander Nicolson (ed.), A Collection of Gaelic Proverbs and Familiar Phrases, based on Macintosh's Collection (1881) — public domain, digitised by the National Library of Scotland via archive.org.";
+
+  var I18N = {
+    pageTitle: { en: 'The Nicolson Collection', gd: 'Cruinneachadh Nicolson' },
+    pageSubtitle: {
+      en: 'A selection of Gaelic proverbs from a major 19th-century collection, listed here alphabetically, the way the original book arranges them.',
+      gd: 'Taghadh de sheanfhaclan Gàidhlig à cruinneachadh mòr bhon 19mh linn, air an liostadh an seo gu h-aibidealach, an aon dòigh \'s a tha an leabhar tùsail gan cur an òrdugh.'
+    },
+    introBox: {
+      en: "These entries are drawn from A Collection of Gaelic Proverbs and Familiar Phrases, edited by Alexander Nicolson (1881), itself an expansion of Donald Macintosh's original 1785 collection — one of the largest published collections of Gaelic proverbs, running to nearly 4,000 entries across 480 pages. This page is a selection, not the whole book: around three dozen entries chosen for being clear, well-preserved in the scan, and representative of what's here. The book is public domain, digitised by the National Library of Scotland via archive.org.",
+      gd: "Tha na nithean seo air an tarraing à A Collection of Gaelic Proverbs and Familiar Phrases, air a dheasachadh le Alexander Nicolson (1881), a tha fhèin na leudachadh air cruinneachadh tùsail Dhòmhnaill Mhic an Tòisich o 1785 — aon de na cruinneachaidhean sheanfhaclan Gàidhlig as motha a chaidh fhoillseachadh riamh, faisg air 4,000 facal thairis air 480 duilleag. Is e taghadh a tha san duilleig seo, chan e an leabhar gu lèir: mu thrì dusan facal air an taghadh airson a bhith soilleir, air an deagh ghlèidheadh san sganadh, agus riochdachail air na tha ann. Tha an leabhar poblach a thaobh còraichean, air a dhigiteachadh le Leabharlann Nàiseanta na h-Alba tro archive.org."
+    },
+    bookNote: {
+      en: "Where the original book notes a parallel Scots, English, or other-language saying alongside a Gaelic one, that's included in the card as a note.",
+      gd: "Far a bheil an leabhar tùsail a' toirt fa-near seanfhacal co-shìnte ann am Beurla Ghallda, Beurla, no cànan eile ri taobh fear Gàidhlig, tha sin air a chur ris a' chairt mar nòta."
+    },
+    searchPlaceholder: { en: 'Search a phrase or translation…', gd: 'Dèan lorg air abairt no eadar-theangachadh…' },
+    resultCount: { en: '{n} of {total} entries shown', gd: '{n} de {total} nithean air an sealltainn' },
+    noMatches: { en: 'No matches. Try a different word.', gd: 'Chan eil toradh ann. Feuch facal eile.' },
+    footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
+  };
+
+  var state = { query: '', uiLang: 'en' };
+
+  var el = {
+    searchInput: document.getElementById('search-input'),
+    countRow: document.getElementById('count-row'),
+    results: document.getElementById('results'),
+    pageTitle: document.getElementById('page-title'),
+    pageSubtitle: document.getElementById('page-subtitle'),
+    introBox: document.getElementById('intro-box'),
+    bookNote: document.getElementById('book-note'),
+    footer: document.getElementById('footer-text'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd')
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function normalise(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  function t(key, vars) {
+    var str = I18N[key] ? (I18N[key][state.uiLang] || I18N[key].en) : key;
+    if (vars) {
+      Object.keys(vars).forEach(function (k) { str = str.split('{' + k + '}').join(vars[k]); });
+    }
+    return str;
+  }
+
+  function cardHtml(entry) {
+    return (
+      '<div class="pcard">' +
+        '<p class="gaelic proverb-text">' + esc(entry.gaelic) + '</p>' +
+        '<p class="english">' + esc(entry.english) + '</p>' +
+        (entry.note ? '<p class="note">' + esc(entry.note) + '</p>' : '') +
+        '<p class="source">' + esc(SOURCE_CITATION) + '</p>' +
+      '</div>'
+    );
+  }
+
+  function render() {
+    var q = normalise(state.query);
+    var filtered = DATA.filter(function (d) {
+      if (!q) return true;
+      return normalise(d.gaelic + ' ' + d.english + ' ' + (d.note || '')).indexOf(q) !== -1;
+    });
+
+    el.countRow.textContent = t('resultCount', { n: filtered.length, total: DATA.length });
+
+    if (!filtered.length) {
+      el.results.innerHTML = '<p class="empty">' + esc(t('noMatches')) + '</p>';
+      return;
+    }
+    el.results.innerHTML = filtered.map(cardHtml).join('');
+  }
+
+  el.searchInput.addEventListener('input', function () { state.query = el.searchInput.value; render(); });
+
+  function applyChrome() {
+    el.pageTitle.textContent = t('pageTitle');
+    el.pageSubtitle.textContent = t('pageSubtitle');
+    el.introBox.childNodes[0].textContent = t('introBox');
+    el.bookNote.textContent = t('bookNote');
+    el.searchInput.placeholder = t('searchPlaceholder');
+    el.footer.textContent = t('footer');
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyChrome();
+    render();
+  }
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+})();
+</script>
+</body>
+</html>

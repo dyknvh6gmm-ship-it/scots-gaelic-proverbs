@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Auld Scots Sayins | The Ramsay Collection — Sean-fhaclan</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0065bd" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--amber), var(--saltire)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+  .ui-lang-toggle {
+    position: absolute; top: 0; right: 0; display: inline-flex;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--saltire); }
+
+  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--saltire); border-color: #fff; }
+
+  @media (max-width: 640px) {
+    .site-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-right: 78px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a { flex: 0 0 auto; white-space: nowrap; }
+  }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .intro-box { background: #fff; border: 1px solid rgba(0,101,189,0.2); border-radius: 12px; padding: 18px 20px; margin-bottom: 8px; font-size: 0.9rem; color: rgba(43,35,32,0.75); line-height: 1.5; }
+  .intro-box .book-note { margin-top: 10px; font-size: 0.82rem; color: rgba(43,35,32,0.55); }
+
+  #search-input { width: 100%; border-radius: 10px; border: 1px solid rgba(0,101,189,0.3); padding: 12px 16px; font-size: 1.05rem; font-family: Georgia, serif; background: #fff; color: var(--ink); margin-top: 16px; }
+  #search-input:focus { outline: 2px solid rgba(0,101,189,0.5); }
+
+  .count-row { font-size: 0.8rem; color: rgba(43,35,32,0.45); margin: 10px 2px 4px; }
+
+  .results { display: grid; gap: 14px; margin-top: 10px; }
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 30px 0; text-align: center; }
+
+  .pcard { background: #fff; border-radius: 12px; border: 1px solid rgba(0,101,189,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 18px; }
+  .pcard .scots { font-size: 1.15rem; margin: 0; }
+  .pcard .english { font-size: 0.95rem; margin: 8px 0 0; color: rgba(43,35,32,0.85); }
+  .pcard .note { font-size: 0.85rem; margin: 8px 0 0; color: rgba(43,35,32,0.6); font-style: italic; }
+  .pcard .source { font-size: 0.72rem; color: rgba(43,35,32,0.4); margin: 10px 0 0; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    <nav class="site-nav">
+      <a href="index.html">Home</a>
+      <a href="grammar.html">Grammar</a>
+      <a href="gaelic-collection.html">Gaelic Collection</a>
+      <a href="scots-collection.html" class="active">Scots Collection</a>
+      <a href="resources.html">Resources</a>
+      <a href="about.html">About</a>
+    </nav>
+    <h1 class="proverb-text" id="page-title">The Ramsay Collection</h1>
+    <p id="page-subtitle">A selection of Scots proverbs from an old published collection, listed here alphabetically, the way the original book arranges them.</p>
+  </div>
+</header>
+
+<main>
+  <div class="intro-box" id="intro-box">
+    These entries are drawn from <em>Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others</em> (Brechin: Alexander Black, 1834) — a 19th-century printing built on the 18th-century collection assembled by the poet Allan Ramsay, running to over 700 sayings arranged A to Y. This page is a selection, not the whole book: about forty entries chosen for being clear, characterful, and a fair sample of what's here, each given a plain-English gloss where the Scots needs it. The book is in the public domain in the United States and digitised by Project Gutenberg.
+    <div class="book-note" id="book-note">Some of these sayings are the earliest recorded Scots form of proverbs now used across the English-speaking world — that lineage is noted where it applies.</div>
+  </div>
+
+  <input type="text" id="search-input" placeholder="Search a phrase or translation…" />
+  <div class="count-row" id="count-row"></div>
+
+  <div class="results" id="results"></div>
+</main>
+
+<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script type="application/json" id="collection-data">
+[
+  {"id":1,"scots":"A gi'en horse shou'd na be look'd i' the mouth.","english":"Never look a gift horse in the mouth.","note":"Don't inspect a gift too critically — be grateful for what you're given.","source":"letter A"},
+  {"id":2,"scots":"A close mouth catches nae flees.","english":"A closed mouth catches no flies.","note":"Staying quiet keeps you out of trouble.","source":"letter A"},
+  {"id":3,"scots":"As the auld cock craws, the young cock learns.","english":"As the old cock crows, the young cock learns.","note":"Children pick up their habits — good and bad — from watching their elders.","source":"letter A"},
+  {"id":4,"scots":"Aft counting keeps friends lang thegither.","english":"Frequent settling of accounts keeps friends together a long time.","note":"Sort out what's owed regularly and it won't come between you.","source":"letter A"},
+  {"id":5,"scots":"Auld men are twice bairns.","english":"Old men are twice children.","note":"Old age was thought to bring a return to childlike dependence.","source":"letter A"},
+  {"id":6,"scots":"Better a wee ingle to warm you, than a muckle fire to burn you.","english":"Better a small fire to warm you than a big fire to burn you.","note":"\"Ingle\" means a hearth fire; \"muckle\" means big. On the safety of moderation over excess.","source":"letter B"},
+  {"id":7,"scots":"Beggars shou'd na be choosers.","english":"Beggars shouldn't be choosers.","note":null,"source":"letter B"},
+  {"id":8,"scots":"Birds of a feather flock thegither.","english":"Birds of a feather flock together.","note":"\"Thegither\" is simply \"together.\"","source":"letter B"},
+  {"id":9,"scots":"Better my bairns seek frae me than I beg frae them.","english":"Better my children ask from me than I beg from them.","note":"On the pride of staying self-sufficient in old age rather than depending on grown children.","source":"letter B"},
+  {"id":10,"scots":"Charity begins at hame.","english":"Charity begins at home.","note":null,"source":"letter C"},
+  {"id":11,"scots":"Cut your coat according to your claith.","english":"Cut your coat according to your cloth.","note":"Live within your means — \"claith\" is cloth.","source":"letter C"},
+  {"id":12,"scots":"Death and marriage break term-day.","english":"Death and marriage break term-day.","note":"In old Scotland, rental leases and farm-service contracts ran to fixed \"term-days\"; only death or marriage were accepted as reasons to break one early.","source":"letter D"},
+  {"id":13,"scots":"Eneugh's as gude's a feast.","english":"Enough is as good as a feast.","note":"Contentment with sufficiency, rather than always wanting more.","source":"letter E"},
+  {"id":14,"scots":"Faint heart never won fair lady.","english":"Faint heart never won fair lady.","note":null,"source":"letter F"},
+  {"id":15,"scots":"Fine feathers mak fine birds.","english":"Fine feathers make fine birds.","note":"Good clothes or presentation can make anyone look impressive.","source":"letter F"},
+  {"id":16,"scots":"Fools mak feasts, and wise fouk eat them; the wise mak jests, and fools repeat them.","english":"Fools make feasts, and wise folk eat them; the wise make jests, and fools repeat them.","note":"A double-edged saying about who does the work and who gets the credit — or the blame.","source":"letter F"},
+  {"id":17,"scots":"Gie a dog an ill name and he'll soon be hang'd.","english":"Give a dog a bad name and he'll soon be hanged.","note":"A damaged reputation tends to become self-fulfilling.","source":"letter G"},
+  {"id":18,"scots":"God send you mair wit and mair siller.","english":"God send you more sense and more money.","note":"An old toast or blessing — \"siller\" is silver, meaning money.","source":"letter G"},
+  {"id":19,"scots":"Hame is hame if it were ne'er sae hamely.","english":"Home is home, however humble.","note":null,"source":"letter H"},
+  {"id":20,"scots":"He that will to Coupar will to Coupar.","english":"He who is set on going to Cupar will go to Cupar.","note":"Cupar is a town in Fife. The saying means someone determined on a course of action can't be talked out of it.","source":"letter H"},
+  {"id":21,"scots":"He that winna when he may, he shanna when he wad.","english":"He who won't when he may, shan't when he would.","note":"Turn down an opportunity and it may not come round again.","source":"letter H"},
+  {"id":22,"scots":"It's an ill wind that blaws naebody gude.","english":"It's an ill wind that blows nobody good.","note":"Even bad situations tend to work out well for someone.","source":"letter I"},
+  {"id":23,"scots":"It's a lang lane that hasna a turning.","english":"It's a long lane that has no turning.","note":"Difficult stretches don't last forever — a change is always coming, given enough road.","source":"letter I"},
+  {"id":24,"scots":"Keep your breath to cool your crowdie.","english":"Keep your breath to cool your porridge.","note":"Mind your own business, or save your advice — \"crowdie\" is a soft, oatmeal-thickened dish.","source":"letter K"},
+  {"id":25,"scots":"Kindness will creep whare it canna gang.","english":"Kindness will creep where it cannot walk.","note":"Genuine goodwill finds a way through, even against difficult circumstances.","source":"letter K"},
+  {"id":26,"scots":"Let by-ganes be by-ganes.","english":"Let bygones be bygones.","note":null,"source":"letter L"},
+  {"id":27,"scots":"Little said is soon mended, little gear's soon spended.","english":"Little said is soon mended, little money is soon spent.","note":"Say less and there's less to take back; earn little and it goes just as fast.","source":"letter L"},
+  {"id":28,"scots":"Mony hands mak light wark.","english":"Many hands make light work.","note":null,"source":"letter M"},
+  {"id":29,"scots":"Measure twice, cut but ance.","english":"Measure twice, cut but once.","note":"Still common tradesman's advice today — \"ance\" is \"once.\"","source":"letter M"},
+  {"id":30,"scots":"Naething venture naething win.","english":"Nothing venture, nothing win.","note":"The recorded ancestor of \"nothing ventured, nothing gained.\"","source":"letter N"},
+  {"id":31,"scots":"Ower muckle o' aething is gude for naething.","english":"Too much of anything is good for nothing.","note":"\"Ower\" is over/too, \"muckle\" is much, \"naething\" is nothing — a plea for moderation in all things.","source":"letter O"},
+  {"id":32,"scots":"Possession is eleven points o' the law.","english":"Possession is eleven points of the law.","note":"A cheeky exaggeration of the familiar \"possession is nine-tenths of the law.\"","source":"letter P"},
+  {"id":33,"scots":"Rome was nae bigget in ae day.","english":"Rome wasn't built in a day.","note":"\"Bigget\" means built, \"ae\" means one.","source":"letter R"},
+  {"id":34,"scots":"Speak o' the deil and he'll appear.","english":"Speak of the devil and he'll appear.","note":"The original form of the still-common idiom.","source":"letter S"},
+  {"id":35,"scots":"Strike the iron as lang as it's het.","english":"Strike while the iron is hot.","note":"\"Het\" is hot.","source":"letter S"},
+  {"id":36,"scots":"Time and tide will tarry for nae man.","english":"Time and tide wait for no man.","note":null,"source":"letter T"},
+  {"id":37,"scots":"Three can keep a secret if twa be awa.","english":"Three can keep a secret if two are away.","note":"A wry twist on the idea that secrets are only safe with fewer people in on them.","source":"letter T"},
+  {"id":38,"scots":"When ae door stecks anither opens.","english":"When one door shuts, another opens.","note":"\"Stecks\" means shuts.","source":"letter W"},
+  {"id":39,"scots":"Weel kens the mouse when the cat's out o' the house.","english":"Well the mouse knows when the cat's out of the house.","note":"The old form behind \"when the cat's away, the mice will play.\"","source":"letter W"},
+  {"id":40,"scots":"We'll ne'er ken the worth o' the water till the well gae dry.","english":"We'll never know the worth of the water till the well runs dry.","note":"You don't appreciate what you have until it's gone.","source":"letter W"}
+]
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('collection-data').textContent);
+  var SOURCE_CITATION = "Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others (Brechin: Alexander Black, 1834) — public domain in the USA, via Project Gutenberg (eBook #75667).";
+
+  var I18N = {
+    pageTitle: { en: 'The Ramsay Collection', gd: 'Cruinneachadh Ramsay' },
+    pageSubtitle: {
+      en: 'A selection of Scots proverbs from an old published collection, listed here alphabetically, the way the original book arranges them.',
+      gd: 'Taghadh de sheanfhaclan Beurla Ghallda à seann chruinneachadh clòbhuailte, air an liostadh an seo gu h-aibidealach, an aon dòigh \'s a tha an leabhar tùsail gan cur an òrdugh.'
+    },
+    introBox: {
+      en: "These entries are drawn from Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others (Brechin: Alexander Black, 1834) — a 19th-century printing built on the 18th-century collection assembled by the poet Allan Ramsay, running to over 700 sayings arranged A to Y. This page is a selection, not the whole book: about forty entries chosen for being clear, characterful, and a fair sample of what's here, each given a plain-English gloss where the Scots needs it. The book is in the public domain in the United States and digitised by Project Gutenberg.",
+      gd: "Tha na nithean seo air an tarraing à Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others (Brechin: Alexander Black, 1834) — clò-bhualadh bhon 19mh linn a chaidh a thogail air cruinneachadh bhon 18mh linn a chuir am bàrd Allan Ramsay ri chèile, faisg air 700 facal air an cur an òrdugh o A gu Y. Is e taghadh a tha san duilleig seo, chan e an leabhar gu lèir: mu dhà fhichead facal air an taghadh airson a bhith soilleir, beòthail, agus riochdachail air na tha ann, gach fear le mìneachadh sìmplidh Beurla far a bheil feum air. Tha an leabhar poblach a thaobh còraichean anns na Stàitean Aonaichte agus air a dhigiteachadh le Project Gutenberg."
+    },
+    bookNote: {
+      en: "Some of these sayings are the earliest recorded Scots form of proverbs now used across the English-speaking world — that lineage is noted where it applies.",
+      gd: "Is e cuid de na seanfhaclan seo a' chiad chruth clàraichte Albais de sheanfhaclan a tha air an cleachdadh air feadh an t-saoghail Beurla an-diugh — tha an dàimh sin air a chomharrachadh far a bheil sin buntainneach."
+    },
+    searchPlaceholder: { en: 'Search a phrase or translation…', gd: 'Dèan lorg air abairt no eadar-theangachadh…' },
+    resultCount: { en: '{n} of {total} entries shown', gd: '{n} de {total} nithean air an sealltainn' },
+    noMatches: { en: 'No matches. Try a different word.', gd: 'Chan eil toradh ann. Feuch facal eile.' },
+    footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
+  };
+
+  var state = { query: '', uiLang: 'en' };
+
+  var el = {
+    searchInput: document.getElementById('search-input'),
+    countRow: document.getElementById('count-row'),
+    results: document.getElementById('results'),
+    pageTitle: document.getElementById('page-title'),
+    pageSubtitle: document.getElementById('page-subtitle'),
+    introBox: document.getElementById('intro-box'),
+    bookNote: document.getElementById('book-note'),
+    footer: document.getElementById('footer-text'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd')
+  };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function normalise(s) {
+    return (s || '').toLowerCase();
+  }
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  function t(key, vars) {
+    var str = I18N[key] ? (I18N[key][state.uiLang] || I18N[key].en) : key;
+    if (vars) {
+      Object.keys(vars).forEach(function (k) { str = str.split('{' + k + '}').join(vars[k]); });
+    }
+    return str;
+  }
+
+  function cardHtml(entry) {
+    return (
+      '<div class="pcard">' +
+        '<p class="scots proverb-text">' + esc(entry.scots) + '</p>' +
+        '<p class="english">' + esc(entry.english) + '</p>' +
+        (entry.note ? '<p class="note">' + esc(entry.note) + '</p>' : '') +
+        '<p class="source">' + esc(SOURCE_CITATION) + '</p>' +
+      '</div>'
+    );
+  }
+
+  function render() {
+    var q = normalise(state.query);
+    var filtered = DATA.filter(function (d) {
+      if (!q) return true;
+      return normalise(d.scots + ' ' + d.english + ' ' + (d.note || '')).indexOf(q) !== -1;
+    });
+
+    el.countRow.textContent = t('resultCount', { n: filtered.length, total: DATA.length });
+
+    if (!filtered.length) {
+      el.results.innerHTML = '<p class="empty">' + esc(t('noMatches')) + '</p>';
+      return;
+    }
+    el.results.innerHTML = filtered.map(cardHtml).join('');
+  }
+
+  el.searchInput.addEventListener('input', function () { state.query = el.searchInput.value; render(); });
+
+  function applyChrome() {
+    el.pageTitle.textContent = t('pageTitle');
+    el.pageSubtitle.textContent = t('pageSubtitle');
+    el.introBox.childNodes[0].textContent = t('introBox');
+    el.bookNote.textContent = t('bookNote');
+    el.searchInput.placeholder = t('searchPlaceholder');
+    el.footer.textContent = t('footer');
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyChrome();
+    render();
+  }
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+})();
+</script>
+</body>
+</html>

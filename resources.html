@@ -37,6 +37,21 @@
   .site-nav a:hover { background: rgba(255,255,255,0.12); }
   .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
 
+  @media (max-width: 640px) {
+    /* On narrow screens the EN/GD toggle (positioned top-right) can sit on top of
+       the nav links. Turn the nav into a horizontal scroll strip with room reserved
+       on the right for the toggle, instead of letting it wrap and collide. */
+    .site-nav {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-right: 78px;
+    }
+    .site-nav::-webkit-scrollbar { display: none; }
+    .site-nav a { flex: 0 0 auto; white-space: nowrap; }
+  }
+
   main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
 
   .section-block { margin-top: 30px; }
@@ -78,6 +93,8 @@
     <nav class="site-nav">
       <a href="index.html">Home</a>
       <a href="grammar.html">Grammar</a>
+      <a href="gaelic-collection.html">Gaelic Collection</a>
+      <a href="scots-collection.html">Scots Collection</a>
       <a href="resources.html" class="active">Resources</a>
       <a href="about.html">About</a>
     </nav>

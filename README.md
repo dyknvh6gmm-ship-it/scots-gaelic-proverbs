@@ -12,15 +12,19 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `grammar.html` — a second page: Gaelic phrases chosen for their grammar, see "The Grammar page" below
 - `resources.html` — a third page: links to other Gaelic learning sites, see "The Resources page" below
 - `about.html` — an editable About page with a bio and links section, see "The About page" below
+- `gaelic-collection.html` — a curated set of Gaelic proverbs with English translations from a historical published collection, see "The Gaelic Collection page" below
+- `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, and `about.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
 
 ## Site structure
 
-The site is now several pages sharing one look and a navigation bar (Home / Grammar / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+The site is now several pages sharing one look and a navigation bar (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
 
-There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, and `about.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+
+On phones, the nav bar scrolls horizontally left/right rather than wrapping, so it never overlaps the EN/GD toggle in the top-right corner — see "Mobile layout" below.
 
 ## The Resources page
 
@@ -45,6 +49,22 @@ To add more entries, the data lives in the same kind of `<script type="applicati
 - The `links-list` block near the bottom — each `<a href="#">` is a placeholder link (website, email, Instagram, GitHub); replace the `#` with your real URL and edit the label, delete rows you don't want, or copy a row to add more
 
 Tell me what you'd like it to say and I can fill it in for you instead, if you'd rather not edit HTML directly.
+
+## The Gaelic Collection page
+
+`gaelic-collection.html` is a curated set of 35 Gaelic proverbs with English translations, listed alphabetically (as the source book arranges them) rather than by theme. It's separate from the Home page's proverb database — a simpler, searchable list with its own EN/GD toggle sharing the site's saved language preference.
+
+Sourced from *A Collection of Gaelic Proverbs and Familiar Phrases*, edited by Alexander Nicolson (1881), based on Donald Macintosh's original 1785 collection — one of the largest published Gaelic proverb collections, at nearly 4,000 entries. This page draws about three dozen from it, not the whole book, for the same reason the Home page's MacDonald-sourced entries are a selection: transcribing an entire published work wouldn't be drawing from a public-domain source, it'd be reproducing it. Each entry is cited to the book; a few carry extra notes where the original mentions a parallel Scots or English saying, or a bit of historical context.
+
+To add more entries, the data lives in a `<script type="application/json" id="collection-data">` block near the top of the file — same format as the other pages' data blocks.
+
+## The Scots Collection page
+
+`scots-collection.html` is the same idea for Scots: 40 curated proverbs with plain-English glosses, alphabetically listed, EN/GD toggle included.
+
+Sourced from *Scots Proverbs, Ancient and Modern, Selected from Allan Ramsay and Others* (Brechin: Alexander Black, 1834), built on the 18th-century collection assembled by the poet Allan Ramsay — over 700 sayings in the original, public domain in the US and digitised by Project Gutenberg. Again, this page is a generous selection (about forty entries), not the whole book. A number of these are recognisable as the earliest recorded Scots form of proverbs now used throughout the English-speaking world (e.g. "Rome was nae bigget in ae day," "Speak o' the deil and he'll appear") — that lineage is noted on the relevant cards.
+
+Same data format as the Gaelic Collection page, in its own `<script type="application/json" id="collection-data">` block.
 
 ## Run it
 
@@ -104,7 +124,11 @@ There's a "Suggest where a proverb is from" form below the map. Right now, like 
 
 Tell me which you'd like and I'll wire the form to submit there instead of just localStorage — that's the last piece needed to make this a real, growing, moderated map.
 
-## Mobile layout: bottom bar
+## Mobile layout
+
+**Nav bar overlap fix:** on Grammar, the two Collection pages, Resources, and About, the site nav (Home / Grammar / Gaelic Collection / Scots Collection / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
+
+### Bottom bar (Home page)
 
 On phone-sized screens (roughly 640px wide or narrower — covers virtually all phones, whether the site is open in a browser tab or installed as an app), the language toggle and the Random/About buttons move from the top of the page down to a fixed bar at the bottom of the screen, closer to how native apps place their navigation. The rest of the page (search, filters, results) stays where it was; only that one row relocates.
 
