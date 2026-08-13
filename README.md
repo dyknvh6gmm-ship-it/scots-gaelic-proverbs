@@ -14,6 +14,7 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `about.html` — an editable About page with a bio and links section, see "The About page" below
 - `gaelic-collection.html` — a curated set of Gaelic proverbs with English translations from a historical published collection, see "The Gaelic Collection page" below
 - `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
+- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, and direct suggestions, see "Accounts" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
 The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, and `scots-collection.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
@@ -85,9 +86,10 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 - **Three-way language toggle**: search in Scots, Gàidhlig, or English, and see what the other two have to say on the same proverb.
 - **Proverb of the Day carousel**: one featured proverb, the same for everyone on a given day, that rotates automatically and can be browsed manually.
 - **Theme filter** and a **"recorded in all three languages"** filter.
-- **Favourites**, saved in your browser (localStorage).
+- **Optional login** (magic-link email, via Supabase) — see "Accounts" below.
+- **Favourites**, saved in your browser (localStorage), or synced to your account if you're logged in.
 - **Random proverb** button.
-- **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally, exportable as JSON so you can fold new entries into the dataset.
+- **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in.
 - **Installable as an app** (PWA) — see below.
 - **Newsletter signup** — see below.
 - **Interface language toggle (EN / GD)** — the app chrome (buttons, labels, hints) switches between English and Gaelic — see below.
@@ -161,6 +163,28 @@ To actually collect and send emails for real, connect the form to a mailing list
 - **Buttondown** or **Mailchimp** — both have embeddable signup forms/snippets you can drop in as a replacement for the current form.
 
 Tell me which one you set up and I'll wire the form to it.
+
+## Accounts: login, synced favourites, and direct suggestions
+
+There's now a small login box at the top of the Home page, above the Proverb of the Day carousel. It's backed by **Supabase** (a free-tier hosted database + auth service) — your project URL and public "anon" key are already wired into `index.html`. This key is meant to be public (same idea as a Stripe "publishable" key); it doesn't grant access to anything by itself. Actual access is controlled by row-level security rules in the database, set up in `supabase-schema.sql`, so a visitor can only ever read or write their own rows — never anyone else's.
+
+**What it does:**
+
+- **Login** is passwordless — a visitor enters their email, gets a "magic link," clicks it, and they're signed in. No passwords for you or them to manage.
+- **Favourites**, once logged in, are saved to their account instead of just their browser — so the same favourites show up if they come back on a different device. Anything they'd favourited locally before logging in gets carried over automatically the first time they sign in.
+- **Suggestions**, once logged in, still show up locally (same "Save suggestion" / export flow as before) but are *also* sent straight to your Supabase project — visible to you immediately in the Table Editor, no waiting for someone to export and send you a JSON file.
+- Visitors who don't log in still get the exact same local-only behaviour the site always had (favourites in their browser only, suggestions exportable as JSON) — logging in is optional, not required to use the site.
+
+**Two things you need to do once, in your Supabase dashboard, for this to work live:**
+
+1. **Run the schema.** Open `supabase-schema.sql` in this folder, copy the whole thing, and paste it into Supabase → SQL Editor → New query → Run. This creates the `favourites` and `suggestions` tables with the row-level security rules described above.
+2. **Set your Site URL.** Supabase needs to know it's allowed to redirect a magic-link click back to your actual site. Go to Authentication → URL Configuration, and set the Site URL (and add to Redirect URLs) to your deployed site's address, e.g. `https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/index.html`. Without this step, magic links will send but the redirect back to the site will fail.
+
+Note: login only works on the *deployed* site (served over `https://`), not when you open `index.html` straight from a folder on your computer — magic-link redirects need a real URL to send people back to.
+
+**Reviewing suggestions:** open your Supabase project → Table Editor → `suggestions`. Every submission from a logged-in visitor lands there with a `status` of `pending`; change it to `approved` (or delete the row) once you've reviewed it and, if you like it, copied it into `index.html`'s proverb data by hand — the table itself doesn't auto-publish anything to the live site.
+
+If you'd rather this arrived as an email each time instead of (or as well as) sitting in a table, that's a further step — Supabase can call a webhook on every new row, which a free service like Zapier or a small Supabase Edge Function can turn into an email. Tell me if you want that wired up too.
 
 ## Adding proverbs without editing code
 

@@ -159,6 +159,23 @@ Note: "Scots Collection" is translated as **Cruinneachadh Beurla Ghallda**, keep
 
 None of this batch has been checked by a fluent speaker either.
 
+## New: accounts (login box, Home page only)
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Prompt (signed out) | Log in to save your favourites across devices and send suggestions straight to us. | Clàraich a-steach gus na feadhainn as fheàrr leat a shàbhaladh eadar innealan agus molaidhean a chur thugainn gu dìreach. | |
+| Email field placeholder | you@example.com | thusa@post-d.com | |
+| Login button | Send magic link | Cuir ceangal draoidheil | |
+| Login button, sending | Sending… | 'Ga chur… | |
+| Status: link sent | Check your email for a sign-in link. | Thoir sùil air do phost-d airson ceangal clàraidh. | |
+| Status: login error | Couldn't send the link — check the email address and try again. | Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist. | |
+| Signed-in text (templated) | Signed in as {email} | Air clàradh a-steach mar {email} | |
+| Log out button | Log out | Clàraich a-mach | |
+| Status: favourites synced | Your favourites are now saved to your account. | Tha na feadhainn as fheàrr leat a-nis air an sàbhaladh nad chunntas. | |
+| Toast: suggestion saved (logged in) | Thanks — sent directly to us, and saved to your account. | Taing — air a chur thugainn gu dìreach, agus air a shàbhaladh nad chunntas. | |
+
+None of this batch has been checked by a fluent speaker either.
+
 ## How to send corrections
 
 Easiest: reply in chat with the row + your correction (e.g. "Filter: favourites → should be X"), and I'll update `index.html` directly. Once everything's checked, I can remove this note-taking file or fold the corrections in and archive it.

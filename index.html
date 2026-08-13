@@ -178,6 +178,31 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: none;
   }
 
+  .account-box {
+    background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px;
+    padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+  }
+  .account-text { color: rgba(43,35,32,0.75); }
+  .account-signed-out { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; width: 100%; }
+  .account-login-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-left: auto; }
+  .account-login-form input[type="email"] {
+    border: 1px solid rgba(142,108,156,0.3); border-radius: 6px; padding: 6px 10px; font-size: 0.85rem; min-width: 200px;
+    font-family: inherit;
+  }
+  .account-login-form button {
+    background: none; border: 1px solid var(--thistle); color: var(--thistle); border-radius: 6px;
+    padding: 6px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  }
+  .account-login-form button:hover { background: rgba(91,42,134,0.08); }
+  .account-signed-in { display: flex; align-items: center; gap: 12px; width: 100%; justify-content: space-between; }
+  .account-signed-in .link-btn {
+    background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px;
+    font-size: 0.82rem; cursor: pointer; padding: 0;
+  }
+  .account-status { width: 100%; margin: 2px 0 0; font-size: 0.78rem; color: rgba(43,35,32,0.5); }
+  .account-status.error { color: #a33d2e; }
+
   #about-overlay {
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
     align-items: center; justify-content: center; padding: 16px; z-index: 50;
@@ -282,6 +307,10 @@
     .toolbar .toggle-group { flex: 1 1 100%; justify-content: center; order: 1; }
     .toolbar .btn-outline, .toolbar .link-btn { font-size: 0.78rem; padding: 6px 12px; order: 2; margin: 0; }
     .toolbar .link-btn { margin-left: 0; }
+
+    .account-login-form { margin-left: 0; width: 100%; }
+    .account-login-form input[type="email"] { flex: 1 1 auto; min-width: 0; }
+    .account-signed-in { flex-direction: column; align-items: flex-start; gap: 6px; }
   }
 </style>
 </head>
@@ -307,6 +336,21 @@
 </header>
 
 <main>
+  <section class="account-box" id="account-box">
+    <div class="account-signed-out" id="account-signed-out">
+      <span class="account-text" data-i18n="accountPrompt">Log in to save your favourites across devices and send suggestions straight to us.</span>
+      <form id="account-login-form" class="account-login-form">
+        <input type="email" id="account-email" placeholder="you@example.com" required data-i18n-attr="placeholder" data-i18n="accountEmailPlaceholder" />
+        <button type="submit" data-i18n="accountSendLink">Send magic link</button>
+      </form>
+    </div>
+    <div class="account-signed-in" id="account-signed-in" style="display:none;">
+      <span class="account-text" id="account-signed-in-text"></span>
+      <button type="button" id="account-logout" class="link-btn" data-i18n="accountLogOut">Log out</button>
+    </div>
+    <p class="account-status" id="account-status"></p>
+  </section>
+
   <section class="potd" id="potd">
     <div class="potd-card">
       <div class="potd-head">
@@ -1023,12 +1067,24 @@
 ]
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (function () {
   'use strict';
 
   var DATA = JSON.parse(document.getElementById('proverb-data').textContent);
   var LANGS = ['scots', 'gaelic', 'english'];
+
+  // ---- Supabase (accounts: favourites sync + suggestions) ----
+  // The URL and key below are meant to be public — they're the "anon"/"publishable"
+  // key, not a secret. Access to actual data is controlled by row-level security
+  // policies set up in Supabase (see supabase-schema.sql), not by hiding this key.
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var sfClient = (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+  var currentUser = null;
 
   // These three names are fixed in Gaelic regardless of the interface language,
   // by design — see the chat / README for why.
@@ -1048,6 +1104,31 @@
     navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
     navResources: { en: "Resources", gd: "Goireasan" },
     navAbout: { en: "About", gd: "Mun Dèidhinn" },
+    accountPrompt: {
+      en: "Log in to save your favourites across devices and send suggestions straight to us.",
+      gd: "Clàraich a-steach gus na feadhainn as fheàrr leat a shàbhaladh eadar innealan agus molaidhean a chur thugainn gu dìreach."
+    },
+    accountEmailPlaceholder: { en: "you@example.com", gd: "thusa@post-d.com" },
+    accountSendLink: { en: "Send magic link", gd: "Cuir ceangal draoidheil" },
+    accountSendingLink: { en: "Sending…", gd: "'Ga chur…" },
+    accountLinkSent: {
+      en: "Check your email for a sign-in link.",
+      gd: "Thoir sùil air do phost-d airson ceangal clàraidh."
+    },
+    accountLoginError: {
+      en: "Couldn't send the link — check the email address and try again.",
+      gd: "Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist."
+    },
+    accountSignedInAs: { en: "Signed in as {email}", gd: "Air clàradh a-steach mar {email}" },
+    accountLogOut: { en: "Log out", gd: "Clàraich a-mach" },
+    accountFavesSynced: {
+      en: "Your favourites are now saved to your account.",
+      gd: "Tha na feadhainn as fheàrr leat a-nis air an sàbhaladh nad chunntas."
+    },
+    accountSuggestionSaved: {
+      en: "Thanks — sent directly to us, and saved to your account.",
+      gd: "Taing — air a chur thugainn gu dìreach, agus air a shàbhaladh nad chunntas."
+    },
     appSubtitle: {
       en: "Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.",
       gd: "Dèan lorg air seanfhaclan ann am Beurla Ghallda, Gàidhlig, no Beurla, agus faic dè tha aig an dà chànan eile ri ràdh air an aon chuspair."
@@ -1235,7 +1316,14 @@
     uiLangEn: document.getElementById('ui-lang-en'),
     uiLangGd: document.getElementById('ui-lang-gd'),
     toolbar: document.querySelector('.toolbar'),
-    main: document.querySelector('main')
+    main: document.querySelector('main'),
+    accountSignedOut: document.getElementById('account-signed-out'),
+    accountSignedIn: document.getElementById('account-signed-in'),
+    accountSignedInText: document.getElementById('account-signed-in-text'),
+    accountLoginForm: document.getElementById('account-login-form'),
+    accountEmail: document.getElementById('account-email'),
+    accountLogoutBtn: document.getElementById('account-logout'),
+    accountStatus: document.getElementById('account-status')
   };
 
   // Language-tab buttons and card language-name labels always show the fixed
@@ -1348,8 +1436,10 @@
       btn.addEventListener('click', function () {
         var id = Number(btn.getAttribute('data-fav'));
         var idx = state.favourites.indexOf(id);
-        if (idx === -1) state.favourites.push(id); else state.favourites.splice(idx, 1);
+        var isNowFav = idx === -1;
+        if (isNowFav) state.favourites.push(id); else state.favourites.splice(idx, 1);
         saveJSON('sf-favourites', state.favourites);
+        syncFavouriteRemote(id, isNowFav);
         render();
       });
     });
@@ -1377,6 +1467,7 @@
     refreshLocationUI();
     populateThemeSelect();
     updateThemeChip();
+    updateAccountUI();
     render();
     setTimeout(applyMobileBar, 0);
   }
@@ -1437,9 +1528,10 @@
     if (!entry.scotsText && !entry.gaelicText && !entry.englishText) return;
     state.suggestions.push(entry);
     saveJSON('sf-suggestions', state.suggestions);
+    submitSuggestionRemote(entry);
     form.reset();
     refreshExportButton();
-    showToast(t('suggestionToast'));
+    showToast(currentUser ? t('accountSuggestionSaved') : t('suggestionToast'));
   });
 
   el.btnExport.addEventListener('click', function () {
@@ -1449,6 +1541,110 @@
     a.href = url; a.download = 'proverb-suggestions.json'; a.click();
     URL.revokeObjectURL(url);
   });
+
+  // ---- Accounts (Supabase): magic-link login, favourites sync, suggestions ----
+  // Everything here is optional — if the Supabase library fails to load (offline,
+  // a network block, etc.) sfClient is null and the app falls back to the
+  // local-browser-only behaviour it always had.
+  function setAccountStatus(msg, isError) {
+    el.accountStatus.textContent = msg || '';
+    el.accountStatus.classList.toggle('error', !!isError);
+  }
+
+  function updateAccountUI() {
+    if (currentUser) {
+      el.accountSignedOut.style.display = 'none';
+      el.accountSignedIn.style.display = 'flex';
+      el.accountSignedInText.textContent = t('accountSignedInAs', { email: currentUser.email });
+    } else {
+      el.accountSignedOut.style.display = 'flex';
+      el.accountSignedIn.style.display = 'none';
+    }
+  }
+
+  function fetchRemoteFavourites() {
+    if (!sfClient || !currentUser) return;
+    sfClient.from('favourites').select('proverb_id').eq('user_id', currentUser.id).then(function (res) {
+      if (res.error) { setAccountStatus(res.error.message, true); return; }
+      var remoteIds = res.data.map(function (row) { return row.proverb_id; });
+      // Anything favourited locally before logging in gets pushed up too, then
+      // the merged set becomes the new source of truth.
+      var localOnly = state.favourites.filter(function (id) { return remoteIds.indexOf(id) === -1; });
+      if (localOnly.length) {
+        var rows = localOnly.map(function (id) { return { user_id: currentUser.id, proverb_id: id }; });
+        sfClient.from('favourites').insert(rows).then(function () {});
+      }
+      state.favourites = remoteIds.concat(localOnly);
+      saveJSON('sf-favourites', state.favourites);
+      render();
+      setAccountStatus(t('accountFavesSynced'), false);
+    });
+  }
+
+  function syncFavouriteRemote(id, isNowFav) {
+    if (!sfClient || !currentUser) return;
+    if (isNowFav) {
+      sfClient.from('favourites').insert({ user_id: currentUser.id, proverb_id: id }).then(function (res) {
+        if (res.error) setAccountStatus(res.error.message, true);
+      });
+    } else {
+      sfClient.from('favourites').delete().eq('user_id', currentUser.id).eq('proverb_id', id).then(function (res) {
+        if (res.error) setAccountStatus(res.error.message, true);
+      });
+    }
+  }
+
+  function submitSuggestionRemote(entry) {
+    if (!sfClient || !currentUser) return;
+    sfClient.from('suggestions').insert({
+      user_id: currentUser.id,
+      scots_text: entry.scotsText || null,
+      gaelic_text: entry.gaelicText || null,
+      english_text: entry.englishText || null,
+      meaning: entry.meaning || null,
+      submitted_by: entry.submittedBy || null
+    }).then(function (res) {
+      if (res.error) setAccountStatus(res.error.message, true);
+    });
+  }
+
+  function initAccount() {
+    if (!sfClient) return;
+
+    el.accountLoginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.accountEmail.value.trim();
+      if (!email) return;
+      var submitBtn = el.accountLoginForm.querySelector('button');
+      submitBtn.disabled = true;
+      submitBtn.textContent = t('accountSendingLink');
+      sfClient.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: window.location.href.split('#')[0].split('?')[0] }
+      }).then(function (res) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = t('accountSendLink');
+        if (res.error) {
+          setAccountStatus(t('accountLoginError'), true);
+        } else {
+          setAccountStatus(t('accountLinkSent'), false);
+          el.accountLoginForm.reset();
+        }
+      });
+    });
+
+    el.accountLogoutBtn.addEventListener('click', function () {
+      sfClient.auth.signOut().then(function () { setAccountStatus('', false); });
+    });
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateAccountUI();
+      if (currentUser && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+        fetchRemoteFavourites();
+      }
+    });
+  }
 
   var toastTimer = null;
   function showToast(msg) {
@@ -1760,6 +1956,7 @@
   updateThemeChip();
 
   refreshExportButton();
+  initAccount();
   render();
 })();
 </script>
