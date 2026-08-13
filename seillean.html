@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="doc-title">Seillean — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+  .ui-lang-toggle {
+    display: inline-flex; flex: 0 0 auto;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+  .header-top-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 14px;
+  }
+  .site-nav {
+    display: flex; gap: 4px; flex: 1 1 auto; min-width: 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); flex: 0 0 auto; white-space: nowrap; }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+  main { max-width: 520px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 12px; font-size: 1.15rem; text-align: center; }
+  .card p.hint { font-size: 0.85rem; color: rgba(43,35,32,0.55); margin: 0 0 16px; text-align: center; }
+
+  .account-login-form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .account-login-form input[type="email"] {
+    flex: 1; min-width: 220px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+    padding: 10px 12px; font-size: 0.95rem; font-family: inherit;
+  }
+  .account-login-form button {
+    background: var(--thistle); color: #fff; border: none; padding: 10px 18px; border-radius: 8px;
+    font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  }
+  .account-login-form button:hover { opacity: 0.9; }
+  .account-status { margin-top: 10px; font-size: 0.82rem; color: rgba(43,35,32,0.55); }
+  .account-status.error { color: #a33d2e; }
+
+  .signed-in-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .signed-in-row .link-btn { background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; font-size: 0.85rem; cursor: pointer; padding: 0; }
+
+  .stats-row { display: flex; justify-content: center; gap: 28px; text-align: center; margin: 0 0 18px; }
+  .stats-row .stat-num { font-size: 1.4rem; font-weight: 700; font-family: Georgia, serif; }
+  .stats-row .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; color: rgba(43,35,32,0.5); margin-top: 2px; }
+
+  .game-message { text-align: center; min-height: 22px; font-size: 0.88rem; font-weight: 600; color: var(--thistle); margin-bottom: 6px; }
+
+  .current-word {
+    text-align: center; font-size: 1.4rem; font-weight: 700; font-family: Georgia, serif;
+    letter-spacing: 2px; text-transform: uppercase; min-height: 32px; margin-bottom: 10px; color: var(--ink);
+  }
+
+  .bee-honeycomb { position: relative; width: 232px; height: 220px; margin: 0 auto 16px; }
+  .bee-hex {
+    position: absolute; width: 76px; height: 66px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; font-weight: 700; font-family: Georgia, serif; text-transform: uppercase;
+    cursor: pointer; user-select: none; background: #fff; border: 2px solid rgba(142,108,156,0.25); color: var(--ink);
+  }
+  .bee-hex:hover { background: rgba(142,108,156,0.12); }
+  .bee-hex.center { background: var(--amber); color: #fff; border-color: var(--amber); }
+  .bee-hex.center:hover { opacity: 0.9; }
+
+  .bee-actions { display: flex; justify-content: center; gap: 10px; margin: 8px 0 18px; }
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(142,108,156,0.3);
+    background: #fff; font-size: 0.85rem; color: var(--thistle); cursor: pointer; font-weight: 600;
+  }
+  .btn-outline:hover { background: rgba(91,42,134,0.05); }
+  .btn-outline.primary { background: var(--thistle); color: #fff; border-color: var(--thistle); }
+  .btn-outline.primary:hover { opacity: 0.9; }
+
+  .found-words { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding-top: 14px; border-top: 1px solid rgba(142,108,156,0.15); }
+  .found-word-chip { background: rgba(142,108,156,0.1); border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+  .found-word-chip.pangram { background: var(--amber); color: #fff; }
+
+  .about-note { font-size: 0.78rem; color: rgba(43,35,32,0.5); text-align: center; margin-top: 18px; line-height: 1.5; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="header-top-row">
+      <nav class="site-nav">
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="my-account.html" id="nav-my-account">My Account</a>
+      <a href="grammar.html" id="nav-grammar">Grammar</a>
+      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+      <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
+      <a href="geama.html" id="nav-game">Am Facal</a>
+      <a href="seillean.html" class="active" id="nav-bee">Seillean</a>
+      <a href="resources.html" id="nav-resources">Resources</a>
+      <a href="about.html" id="nav-about">About</a>
+    </nav>
+      <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    </div>
+    <h1 class="proverb-text" id="page-title">Seillean</h1>
+    <p id="page-subtitle">Make Gaelic words from today's seven letters. Log in (optional) to save your streak across devices.</p>
+  </div>
+</header>
+
+<main>
+  <div class="card" id="login-card">
+    <div id="account-signed-out">
+      <p id="signed-out-hint">Log in with just your email — no password needed, we'll send you a link.</p>
+      <form id="account-login-form" class="account-login-form">
+        <input type="email" id="account-email" placeholder="you@example.com" required />
+        <button type="submit" id="account-login-btn">Send magic link</button>
+      </form>
+    </div>
+    <div id="account-signed-in" style="display:none;">
+      <div class="signed-in-row">
+        <span id="account-signed-in-text"></span>
+        <button type="button" id="account-logout" class="link-btn">Log out</button>
+      </div>
+    </div>
+    <p class="account-status" id="account-status"></p>
+  </div>
+
+  <div class="card" id="game-card" style="display:none;">
+    <h2 id="game-heading">Seillean</h2>
+    <p class="hint" id="game-hint">Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha.</p>
+
+    <div class="stats-row">
+      <div><div class="stat-num" id="stat-found">0</div><div class="stat-label" id="stat-found-label">Air Lorg</div></div>
+      <div><div class="stat-num" id="stat-score">0</div><div class="stat-label" id="stat-score-label">Sgòr</div></div>
+      <div><div class="stat-num" id="stat-rank">Tòiseachadh</div><div class="stat-label" id="stat-rank-label">Ìre</div></div>
+    </div>
+
+    <p class="game-message" id="game-message"></p>
+    <div class="current-word" id="current-word"></div>
+    <div class="bee-honeycomb" id="bee-honeycomb"></div>
+
+    <div class="bee-actions">
+      <button type="button" id="btn-delete" class="btn-outline">⌫</button>
+      <button type="button" id="btn-shuffle" class="btn-outline">🔀</button>
+      <button type="button" id="btn-submit" class="btn-outline primary">Cuir a-steach</button>
+    </div>
+
+    <div class="found-words" id="found-words"></div>
+
+    <p class="about-note" id="about-note">Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e.</p>
+  </div>
+</main>
+
+<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script type="application/json" id="bee-puzzles">
+[
+  {
+    "letters": ["A","T","H","D","G","M","L"],
+    "center": "A",
+    "words": [
+      {"word":"MATH","en":"good"},
+      {"word":"GATH","en":"sting, dart"},
+      {"word":"DATH","en":"colour"},
+      {"word":"DALL","en":"blind"},
+      {"word":"MALL","en":"slow"},
+      {"word":"LATHA","en":"day"},
+      {"word":"TALAMH","en":"land, ground"}
+    ]
+  },
+  {
+    "letters": ["I","N","E","T","S","G","A"],
+    "center": "I",
+    "words": [
+      {"word":"SEINN","en":"singing, to sing"},
+      {"word":"TEINE","en":"fire"},
+      {"word":"SGIAN","en":"knife"},
+      {"word":"INNIS","en":"island; to tell"},
+      {"word":"AISTE","en":"essay"},
+      {"word":"AISEAG","en":"ferry"}
+    ]
+  },
+  {
+    "letters": ["U","A","S","G","L","C","H"],
+    "center": "U",
+    "words": [
+      {"word":"CLUAS","en":"ear"},
+      {"word":"SLUAGH","en":"people, host, crowd"},
+      {"word":"GUAL","en":"coal"},
+      {"word":"GUALA","en":"shoulder"}
+    ]
+  }
+]
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var MIN_LEN = 4;
+
+  var PUZZLES = JSON.parse(document.getElementById('bee-puzzles').textContent);
+
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var sfClient = (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+  var currentUser = null;
+
+  // Same reference date as geama.html, so both games rotate on the same clock
+  // (they just cycle through pools of different sizes).
+  var WORD_EPOCH = Date.UTC(2026, 0, 1);
+  function todayIndex() {
+    var now = new Date();
+    var todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    var days = Math.floor((todayUTC - WORD_EPOCH) / 86400000);
+    return days < 0 ? 0 : days;
+  }
+
+  var I18N = {
+    docTitle: { en: 'Seillean — Sean-fhaclan & Auld Sayins', gd: 'Seillean — Sean-fhaclan & Auld Sayins' },
+    pageTitle: { en: 'Seillean', gd: 'Seillean' },
+    pageSubtitle: {
+      en: "Make Gaelic words from today's seven letters. Log in (optional) to save your streak across devices.",
+      gd: "Dèan faclan Gàidhlig leis na seachd litrichean an-diugh. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan."
+    },
+    signedOutHint: {
+      en: "Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link.",
+      gd: "Roghainneil: clàraich a-steach le do phost-d a-mhàin gus an t-sreath agad a shàbhaladh eadar innealan — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad."
+    },
+    emailPlaceholder: { en: 'you@example.com', gd: 'thusa@post-d.com' },
+    sendLink: { en: 'Send magic link', gd: 'Cuir ceangal draoidheil' },
+    sendingLink: { en: 'Sending…', gd: "'Ga chur…" },
+    linkSent: { en: 'Check your email for a sign-in link.', gd: "Thoir sùil air do phost-d airson ceangal clàraidh." },
+    loginError: {
+      en: "Couldn't send the link — check the email address and try again.",
+      gd: "Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist."
+    },
+    signedInAs: { en: 'Signed in as {email}', gd: 'Air clàradh a-steach mar {email}' },
+    logOut: { en: 'Log out', gd: 'Clàraich a-mach' },
+    gameHeading: { en: 'Seillean', gd: 'Seillean' },
+    gameHint: {
+      en: "Make Gaelic words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long.",
+      gd: "Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha."
+    },
+    statFoundLabel: { en: 'Found', gd: 'Air Lorg' },
+    statScoreLabel: { en: 'Score', gd: 'Sgòr' },
+    statRankLabel: { en: 'Rank', gd: 'Ìre' },
+    tooShort: { en: 'Too short — four letters minimum.', gd: "Ro ghoirid — ceithir litrichean air a' char as lugha." },
+    missingCentre: { en: 'Must include the centre letter.', gd: 'Feumaidh am prìomh litir a bhith ann.' },
+    alreadyFound: { en: 'Already found.', gd: 'Air a lorg mu thràth.' },
+    notOnList: { en: "Not on today's list.", gd: 'Chan eil sin air an liosta an-diugh.' },
+    foundIt: { en: 'Nice — found it!', gd: 'Snog — air a lorg!' },
+    pangramFound: { en: 'Pangram! All seven letters!', gd: "Pangram! Na seachd litrichean uile!" },
+    rankStart: { en: 'Starting', gd: 'Tòiseachadh' },
+    rankGood: { en: 'Good', gd: 'Math' },
+    rankVeryGood: { en: 'Very good', gd: 'Glè Mhath' },
+    rankGreat: { en: 'Great', gd: 'Sàr-mhath' },
+    rankDone: { en: 'All done!', gd: 'Deiseil!' },
+    submitBtn: { en: 'Enter', gd: 'Cuir a-steach' },
+    aboutNote: {
+      en: "I don't have a large enough Gaelic dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it.",
+      gd: "Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e."
+    },
+    navHome: { en: 'Home', gd: 'Dachaigh' },
+    navMyAccount: { en: 'My Account', gd: 'An Cunntas Agam' },
+    navGrammar: { en: 'Grammar', gd: 'Gràmar' },
+    navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
+    navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
+    navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
+    navGame: { en: 'Am Facal', gd: 'Am Facal' },
+    navBee: { en: 'Seillean', gd: 'Seillean' },
+    navResources: { en: 'Resources', gd: 'Goireasan' },
+    navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
+    footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
+  };
+
+  var state = { uiLang: 'en' };
+
+  var el = {
+    docTitle: document.getElementById('doc-title'),
+    pageTitle: document.getElementById('page-title'),
+    pageSubtitle: document.getElementById('page-subtitle'),
+    signedOutHint: document.getElementById('signed-out-hint'),
+    accountSignedOut: document.getElementById('account-signed-out'),
+    accountSignedIn: document.getElementById('account-signed-in'),
+    accountSignedInText: document.getElementById('account-signed-in-text'),
+    accountLoginForm: document.getElementById('account-login-form'),
+    accountEmail: document.getElementById('account-email'),
+    accountLoginBtn: document.getElementById('account-login-btn'),
+    accountLogoutBtn: document.getElementById('account-logout'),
+    accountStatus: document.getElementById('account-status'),
+    gameCard: document.getElementById('game-card'),
+    gameHeading: document.getElementById('game-heading'),
+    gameHint: document.getElementById('game-hint'),
+    statFound: document.getElementById('stat-found'),
+    statScore: document.getElementById('stat-score'),
+    statRank: document.getElementById('stat-rank'),
+    statFoundLabel: document.getElementById('stat-found-label'),
+    statScoreLabel: document.getElementById('stat-score-label'),
+    statRankLabel: document.getElementById('stat-rank-label'),
+    gameMessage: document.getElementById('game-message'),
+    currentWord: document.getElementById('current-word'),
+    honeycomb: document.getElementById('bee-honeycomb'),
+    btnDelete: document.getElementById('btn-delete'),
+    btnShuffle: document.getElementById('btn-shuffle'),
+    btnSubmit: document.getElementById('btn-submit'),
+    foundWords: document.getElementById('found-words'),
+    aboutNote: document.getElementById('about-note'),
+    footer: document.getElementById('footer-text'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    navHome: document.getElementById('nav-home'),
+    navMyAccount: document.getElementById('nav-my-account'),
+    navGrammar: document.getElementById('nav-grammar'),
+    navGaelicCollection: document.getElementById('nav-gaelic-collection'),
+    navScotsCollection: document.getElementById('nav-scots-collection'),
+    navSuggested: document.getElementById('nav-suggested'),
+    navGame: document.getElementById('nav-game'),
+    navBee: document.getElementById('nav-bee'),
+    navResources: document.getElementById('nav-resources'),
+    navAbout: document.getElementById('nav-about')
+  };
+
+  function loadJSON(key, fallback) {
+    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  function t(key, vars) {
+    var str = I18N[key] ? (I18N[key][state.uiLang] || I18N[key].en) : key;
+    if (vars) { Object.keys(vars).forEach(function (k) { str = str.split('{' + k + '}').join(vars[k]); }); }
+    return str;
+  }
+  function setStatus(msg, isError) {
+    el.accountStatus.textContent = msg || '';
+    el.accountStatus.classList.toggle('error', !!isError);
+  }
+  function setMessage(msg) {
+    el.gameMessage.textContent = msg || '';
+  }
+
+  function applyChrome() {
+    document.title = t('docTitle');
+    el.pageTitle.textContent = t('pageTitle');
+    el.pageSubtitle.textContent = t('pageSubtitle');
+    el.signedOutHint.textContent = t('signedOutHint');
+    el.accountEmail.placeholder = t('emailPlaceholder');
+    el.accountLoginBtn.textContent = t('sendLink');
+    el.accountLogoutBtn.textContent = t('logOut');
+    el.gameHeading.textContent = t('gameHeading');
+    el.gameHint.textContent = t('gameHint');
+    el.statFoundLabel.textContent = t('statFoundLabel');
+    el.statScoreLabel.textContent = t('statScoreLabel');
+    el.statRankLabel.textContent = t('statRankLabel');
+    el.btnSubmit.textContent = t('submitBtn');
+    el.aboutNote.textContent = t('aboutNote');
+    el.footer.textContent = t('footer');
+    el.navHome.textContent = t('navHome');
+    el.navMyAccount.textContent = t('navMyAccount');
+    el.navGrammar.textContent = t('navGrammar');
+    el.navGaelicCollection.textContent = t('navGaelicCollection');
+    el.navScotsCollection.textContent = t('navScotsCollection');
+    el.navSuggested.textContent = t('navSuggested');
+    el.navGame.textContent = t('navGame');
+    el.navBee.textContent = t('navBee');
+    el.navResources.textContent = t('navResources');
+    el.navAbout.textContent = t('navAbout');
+    renderStats();
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyChrome();
+  }
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  // ---- Spelling-bee game logic ----
+  var dayIdx = todayIndex();
+  var puzzle = PUZZLES[dayIdx % PUZZLES.length];
+  var letters = puzzle.letters.map(function (l) { return l.toUpperCase(); });
+  var center = puzzle.center.toUpperCase();
+  var outerLetters = letters.filter(function (l) { return l !== center; });
+  var answerMap = {};
+  puzzle.words.forEach(function (w) { answerMap[w.word.toUpperCase()] = w.en; });
+  var maxScore = puzzle.words.reduce(function (sum, w) { return sum + wordScore(w.word); }, 0);
+
+  function isPangram(word) {
+    var unique = {};
+    word.split('').forEach(function (c) { unique[c] = true; });
+    return Object.keys(unique).length >= letters.length;
+  }
+  function wordScore(word) {
+    var base = word.length === MIN_LEN ? 1 : word.length;
+    return base + (isPangram(word) ? 7 : 0);
+  }
+
+  var STORAGE_KEY = 'sf-geama-bee-' + dayIdx;
+  var game = loadJSON(STORAGE_KEY, { found: [], syncedPlayed: false, syncedCleared: false });
+
+  function currentShuffleOrder() {
+    var arr = outerLetters.slice();
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    return arr;
+  }
+
+  var current = '';
+  var honeycombOrder = outerLetters.slice();
+
+  var HEX_POSITIONS = [
+    { x: 0, y: -77 }, { x: 67, y: -38 }, { x: 67, y: 39 },
+    { x: 0, y: 77 }, { x: -67, y: 39 }, { x: -67, y: -38 }
+  ];
+
+  function renderHoneycomb() {
+    el.honeycomb.innerHTML = '';
+    var centerHex = document.createElement('div');
+    centerHex.className = 'bee-hex center';
+    centerHex.textContent = center;
+    centerHex.style.left = 'calc(50% - 38px)';
+    centerHex.style.top = 'calc(50% - 33px)';
+    centerHex.addEventListener('click', function () { typeLetter(center); });
+    el.honeycomb.appendChild(centerHex);
+
+    honeycombOrder.forEach(function (letter, i) {
+      var pos = HEX_POSITIONS[i];
+      var hex = document.createElement('div');
+      hex.className = 'bee-hex';
+      hex.textContent = letter;
+      hex.style.left = 'calc(50% + ' + pos.x + 'px - 38px)';
+      hex.style.top = 'calc(50% + ' + pos.y + 'px - 33px)';
+      hex.addEventListener('click', function () { typeLetter(letter); });
+      el.honeycomb.appendChild(hex);
+    });
+  }
+
+  function typeLetter(letter) {
+    current += letter;
+    el.currentWord.textContent = current;
+    setMessage('');
+  }
+
+  el.btnDelete.addEventListener('click', function () {
+    current = current.slice(0, -1);
+    el.currentWord.textContent = current;
+  });
+
+  el.btnShuffle.addEventListener('click', function () {
+    honeycombOrder = currentShuffleOrder();
+    renderHoneycomb();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    var k = e.key.toUpperCase();
+    if (k === 'ENTER') { el.btnSubmit.click(); return; }
+    if (k === 'BACKSPACE') { el.btnDelete.click(); return; }
+    if (letters.indexOf(k) !== -1) { typeLetter(k); }
+  });
+
+  el.btnSubmit.addEventListener('click', function () {
+    var word = current;
+    current = '';
+    el.currentWord.textContent = '';
+    if (!word) return;
+    if (word.length < MIN_LEN) { setMessage(t('tooShort')); return; }
+    if (word.indexOf(center) === -1) { setMessage(t('missingCentre')); return; }
+    if (game.found.indexOf(word) !== -1) { setMessage(t('alreadyFound')); return; }
+    if (!answerMap.hasOwnProperty(word)) { setMessage(t('notOnList')); return; }
+
+    game.found.push(word);
+    saveJSON(STORAGE_KEY, game);
+    setMessage(isPangram(word) ? t('pangramFound') : t('foundIt'));
+    renderFound();
+    renderStats();
+    syncProgress();
+  });
+
+  function renderFound() {
+    el.foundWords.innerHTML = game.found.map(function (w) {
+      var cls = isPangram(w) ? 'found-word-chip pangram' : 'found-word-chip';
+      return '<span class="' + cls + '" title="' + (answerMap[w] || '') + '">' + w + '</span>';
+    }).join('');
+  }
+
+  function currentScore() {
+    return game.found.reduce(function (sum, w) { return sum + wordScore(w); }, 0);
+  }
+
+  function rankLabel(pct) {
+    if (pct >= 1) return t('rankDone');
+    if (pct >= 0.75) return t('rankGreat');
+    if (pct >= 0.5) return t('rankVeryGood');
+    if (pct >= 0.25) return t('rankGood');
+    return t('rankStart');
+  }
+
+  function renderStats() {
+    var score = currentScore();
+    var pct = maxScore ? score / maxScore : 0;
+    el.statFound.textContent = game.found.length + '/' + puzzle.words.length;
+    el.statScore.textContent = String(score);
+    el.statRank.textContent = rankLabel(pct);
+  }
+
+  // ---- Sync progress to Supabase (game_stats, game = 'bee') ----
+  function syncProgress() {
+    if (!sfClient || !currentUser) return;
+    var fullClear = game.found.length >= puzzle.words.length;
+
+    if (!game.syncedPlayed) {
+      game.syncedPlayed = true;
+      saveJSON(STORAGE_KEY, game);
+      sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).eq('game', 'bee')
+        .maybeSingle().then(function (res) {
+          var row = res.data || null;
+          var prevStreak = row ? row.current_streak : 0;
+          var prevMax = row ? row.max_streak : 0;
+          var prevPlayed = row ? row.games_played : 0;
+          var prevDay = row ? row.last_played_day : null;
+          var newStreak = prevDay === dayIdx - 1 ? prevStreak + 1 : 1;
+          sfClient.from('game_stats').upsert({
+            user_id: currentUser.id,
+            game: 'bee',
+            current_streak: newStreak,
+            max_streak: Math.max(prevMax, newStreak),
+            games_played: prevPlayed + 1,
+            games_won: row ? row.games_won : 0,
+            last_played_day: dayIdx,
+            last_result: 'playing',
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'user_id,game' }).then(function () {});
+        });
+    }
+
+    if (fullClear && !game.syncedCleared) {
+      game.syncedCleared = true;
+      saveJSON(STORAGE_KEY, game);
+      sfClient.from('game_stats').select('games_won').eq('user_id', currentUser.id).eq('game', 'bee')
+        .maybeSingle().then(function (res) {
+          var prevWon = (res.data && res.data.games_won) || 0;
+          sfClient.from('game_stats').update({
+            games_won: prevWon + 1,
+            last_result: 'cleared',
+            updated_at: new Date().toISOString()
+          }).eq('user_id', currentUser.id).eq('game', 'bee').then(function () {});
+        });
+    }
+  }
+
+  // ---- Account: magic-link login ----
+  function updateAccountUI() {
+    el.gameCard.style.display = 'block';
+    if (currentUser) {
+      el.accountSignedOut.style.display = 'none';
+      el.accountSignedIn.style.display = 'block';
+      el.accountSignedInText.textContent = t('signedInAs', { email: currentUser.email });
+    } else {
+      el.accountSignedOut.style.display = 'block';
+      el.accountSignedIn.style.display = 'none';
+    }
+  }
+
+  function initAccount() {
+    if (!sfClient) return;
+
+    el.accountLoginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.accountEmail.value.trim();
+      if (!email) return;
+      el.accountLoginBtn.disabled = true;
+      el.accountLoginBtn.textContent = t('sendingLink');
+      sfClient.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: window.location.href.split('#')[0].split('?')[0] }
+      }).then(function (res) {
+        el.accountLoginBtn.disabled = false;
+        el.accountLoginBtn.textContent = t('sendLink');
+        if (res.error) {
+          setStatus(t('loginError'), true);
+        } else {
+          setStatus(t('linkSent'), false);
+          el.accountLoginForm.reset();
+        }
+      });
+    });
+
+    el.accountLogoutBtn.addEventListener('click', function () {
+      sfClient.auth.signOut().then(function () { setStatus('', false); });
+    });
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateAccountUI();
+    });
+  }
+
+  renderHoneycomb();
+  renderFound();
+  renderStats();
+
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+  updateAccountUI();
+  initAccount();
+})();
+</script>
+</body>
+</html>

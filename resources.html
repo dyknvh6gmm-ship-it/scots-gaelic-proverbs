@@ -88,6 +88,7 @@
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
       <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
       <a href="geama.html" id="nav-game">Am Facal</a>
+      <a href="seillean.html" id="nav-bee">Seillean</a>
       <a href="resources.html" class="active" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
@@ -121,9 +122,14 @@
         <span class="res-url">speakgaelic.scot</span>
       </div>
       <div class="res-card">
-        <a class="res-title" href="https://www.duolingo.com/course/gd/en/Learn-Scottish-Gaelic" target="_blank" rel="noopener">Duolingo — Scottish Gaelic</a>
-        <p class="res-desc" data-key="duolingo">A free, bite-sized daily course — good for building vocabulary and a habit, though best paired with something that teaches grammar properly.</p>
-        <span class="res-url">duolingo.com/course/gd/en</span>
+        <a class="res-title" href="https://ai.glossika.com/language/learn-scottish-gaelic" target="_blank" rel="noopener">Glossika — Scottish Gaelic</a>
+        <p class="res-desc" data-key="glossika">An audio-based, spaced-repetition course built with Dr Moray Watson — thousands of recorded sentences to build listening and speaking fluency through repetition rather than grammar drills. Free 7-day trial, no card required.</p>
+        <span class="res-url">ai.glossika.com/language/learn-scottish-gaelic</span>
+      </div>
+      <div class="res-card">
+        <a class="res-title" href="https://blasapp.com/scots-gaelic" target="_blank" rel="noopener">blas.</a>
+        <p class="res-desc" data-key="blas">A Celtic-languages app covering Scottish Gaelic alongside Irish, Welsh, and others — drills mutations and verb forms the way Celtic grammar actually works, plus reading, listening, speech-recognition speaking practice, and daily word games.</p>
+        <span class="res-url">blasapp.com/scots-gaelic</span>
       </div>
       <div class="res-card">
         <a class="res-title" href="https://www.smo.uhi.ac.uk/" target="_blank" rel="noopener">Sabhal Mòr Ostaig</a>
@@ -203,6 +209,7 @@
     navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
     navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
     navGame: { en: 'Am Facal', gd: 'Am Facal' },
+    navBee: { en: 'Seillean', gd: 'Seillean' },
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     pageTitle: { en: 'Other Gaelic Resources', gd: 'Goireasan Gàidhlig Eile' },
@@ -265,6 +272,7 @@
     navScotsCollection: document.getElementById('nav-scots-collection'),
     navSuggested: document.getElementById('nav-suggested'),
     navGame: document.getElementById('nav-game'),
+    navBee: document.getElementById('nav-bee'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -301,6 +309,7 @@
     el.navScotsCollection.textContent = I18N.navScotsCollection[lang];
     el.navSuggested.textContent = I18N.navSuggested[lang];
     el.navGame.textContent = I18N.navGame[lang];
+    el.navBee.textContent = I18N.navBee[lang];
     el.navResources.textContent = I18N.navResources[lang];
     el.navAbout.textContent = I18N.navAbout[lang];
   }

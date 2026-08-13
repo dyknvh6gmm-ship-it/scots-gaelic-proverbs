@@ -34,7 +34,7 @@ On phones, the nav bar scrolls horizontally left/right rather than wrapping, so 
 
 ## The Resources page
 
-`resources.html` lists other Gaelic learning sites, grouped under Courses & Lessons, Dictionaries & Reference, Listening & Media, and Organisations — eight to start: LearnGaelic, SpeakGaelic, Duolingo's Scottish Gaelic course, Sabhal Mòr Ostaig, Am Faclair Beag, Omniglot's phrases page, BBC Radio nan Gàidheal's *Litir do Luchd-ionnsachaidh*, and Bòrd na Gàidhlig. All real, currently-live sites — I checked each one before adding it.
+`resources.html` lists other Gaelic learning sites, grouped under Courses & Lessons, Dictionaries & Reference, Listening & Media, and Organisations — nine to start: LearnGaelic, SpeakGaelic, Glossika's Scottish Gaelic course, blas. (a Celtic-languages app), Sabhal Mòr Ostaig, Am Faclair Beag, Omniglot's phrases page, BBC Radio nan Gàidheal's *Litir do Luchd-ionnsachaidh*, and Bòrd na Gàidhlig. All real, currently-live sites — I checked each one before adding it. (Duolingo's course was swapped out for Glossika and blas. at your request.)
 
 To add more, open `resources.html`, copy one of the `<div class="res-card">` blocks under the relevant heading (or start a new `<div class="section-block">` for a new category), and edit the link, title, and description — there's also a note to this effect at the bottom of the page itself. Like Grammar and About, it has its own EN/GD toggle sharing the same saved preference as the rest of the site; the resource names and descriptions themselves stay in English in both modes, since most of the sites listed are English-medium learning resources.
 

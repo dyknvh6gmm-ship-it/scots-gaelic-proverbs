@@ -111,6 +111,10 @@
 
   .about-note { font-size: 0.78rem; color: rgba(43,35,32,0.5); text-align: center; margin-top: 18px; line-height: 1.5; }
 
+  .social-follow { text-align: center; font-size: 0.8rem; color: rgba(43,35,32,0.5); margin: 6px 0 0; }
+  .social-follow a { color: var(--thistle); text-decoration: none; font-weight: 600; margin: 0 8px; }
+  .social-follow a:hover { text-decoration: underline; }
+
   footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
 
   @media (max-width: 380px) {
@@ -133,6 +137,7 @@
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
       <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
       <a href="geama.html" class="active" id="nav-game">Am Facal</a>
+      <a href="seillean.html" id="nav-bee">Seillean</a>
       <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
@@ -142,7 +147,7 @@
     </div>
     </div>
     <h1 class="proverb-text" id="page-title">Am Facal</h1>
-    <p id="page-subtitle">Log in and guess today's Gaelic word — a new one every day, same for everyone.</p>
+    <p id="page-subtitle">Guess today's Gaelic word — a new one every day, same for everyone. Log in (optional) to save your streak across devices.</p>
   </div>
 </header>
 
@@ -167,6 +172,9 @@
   <div class="card" id="game-card" style="display:none;">
     <h2 id="game-heading">Am Facal</h2>
     <p class="hint" id="game-hint">Tomhais am facal Gàidhlig, còig litrichean, ann an sia oidhirpean.</p>
+    <p style="text-align:center; margin: -8px 0 16px;">
+      <button type="button" id="invite-btn" class="btn-outline" style="font-size:0.78rem; padding:6px 14px;">Cuir gu caraid</button>
+    </p>
 
     <div class="stats-row">
       <div><div class="stat-num" id="stat-streak">0</div><div class="stat-label" id="stat-streak-label">Streak</div></div>
@@ -186,6 +194,14 @@
 
     <p class="about-note" id="about-note">Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha.</p>
   </div>
+
+  <p class="social-follow" id="social-follow">
+    <span id="social-follow-text">Follow for more of what I do:</span><br />
+    <a href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener">TikTok</a>
+  </p>
 </main>
 
 <footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
@@ -244,7 +260,8 @@
   var MAX_GUESSES = 6;
   var KB_ROWS = [
     ['A','B','C','D','E','F','G','H','I'],
-    ['L','M','N','O','P','R','S','T','U']
+    ['L','M','N','O','P','R','S','T','U'],
+    ['À','È','Ì','Ò','Ù']
   ];
 
   var WORDS = JSON.parse(document.getElementById('wordle-words').textContent);
@@ -276,8 +293,8 @@
       gd: "Clàraich a-steach agus tomhais facal an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine."
     },
     signedOutHint: {
-      en: "Log in with just your email — no password needed, we'll send you a link.",
-      gd: "Clàraich a-steach le do phost-d a-mhàin — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad."
+      en: "Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link.",
+      gd: "Roghainneil: clàraich a-steach le do phost-d a-mhàin gus an t-sreath agad a shàbhaladh eadar innealan — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad."
     },
     emailPlaceholder: { en: 'you@example.com', gd: 'thusa@post-d.com' },
     sendLink: { en: 'Send magic link', gd: 'Cuir ceangal draoidheil' },
@@ -310,10 +327,16 @@
     lostMessage: { en: "That's your six — the word was {word} ({meaning}).", gd: "Sin do shia oidhirpean — b' e am facal {word} ({meaning})." },
     shareButton: { en: 'Copy result', gd: 'Cuir an Roinn' },
     shareCopied: { en: 'Copied — paste it anywhere!', gd: 'Air a chopaigeadh — cuir e an àite sam bith!' },
+    inviteBtn: { en: 'Invite a friend', gd: 'Cuir gu caraid' },
+    inviteText: {
+      en: "Try Am Facal — a daily Gaelic word game",
+      gd: "Feuch Am Facal — geama facal Gàidhlig gach latha"
+    },
     aboutNote: {
       en: "This game doesn't check whether what you type is a real Gaelic word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word.",
       gd: "Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha."
     },
+    socialFollowText: { en: 'Follow for more of what I do:', gd: 'Lean mi airson barrachd dhen na tha mi a\' dèanamh:' },
     navHome: { en: 'Home', gd: 'Dachaigh' },
     navMyAccount: { en: 'My Account', gd: 'An Cunntas Agam' },
     navGrammar: { en: 'Grammar', gd: 'Gràmar' },
@@ -321,6 +344,7 @@
     navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
     navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
     navGame: { en: 'Am Facal', gd: 'Am Facal' },
+    navBee: { en: 'Seillean', gd: 'Seillean' },
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
@@ -356,7 +380,9 @@
     revealBox: document.getElementById('reveal-box'),
     revealText: document.getElementById('reveal-text'),
     shareBtn: document.getElementById('share-btn'),
+    inviteBtn: document.getElementById('invite-btn'),
     aboutNote: document.getElementById('about-note'),
+    socialFollowText: document.getElementById('social-follow-text'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
     uiLangGd: document.getElementById('ui-lang-gd'),
@@ -367,6 +393,7 @@
     navScotsCollection: document.getElementById('nav-scots-collection'),
     navSuggested: document.getElementById('nav-suggested'),
     navGame: document.getElementById('nav-game'),
+    navBee: document.getElementById('nav-bee'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -404,7 +431,9 @@
     el.statPlayedLabel.textContent = t('statPlayedLabel');
     el.statWinPctLabel.textContent = t('statWinPctLabel');
     el.shareBtn.textContent = t('shareButton');
+    el.inviteBtn.textContent = t('inviteBtn');
     el.aboutNote.textContent = t('aboutNote');
+    el.socialFollowText.textContent = t('socialFollowText');
     el.footer.textContent = t('footer');
     el.navHome.textContent = t('navHome');
     el.navMyAccount.textContent = t('navMyAccount');
@@ -413,6 +442,7 @@
     el.navScotsCollection.textContent = t('navScotsCollection');
     el.navSuggested.textContent = t('navSuggested');
     el.navGame.textContent = t('navGame');
+    el.navBee.textContent = t('navBee');
     el.navResources.textContent = t('navResources');
     el.navAbout.textContent = t('navAbout');
     renderReveal();
@@ -587,24 +617,49 @@
   }
 
   document.addEventListener('keydown', function (e) {
-    if (!currentUser || game.status !== 'playing') return;
+    if (game.status !== 'playing') return;
     var k = e.key.toUpperCase();
     if (k === 'ENTER') { handleEnter(); return; }
     if (k === 'BACKSPACE') { handleBackspace(); return; }
-    if (/^[A-Z]$/.test(k) && KB_ROWS.some(function (row) { return row.indexOf(k) !== -1; })) {
+    if (KB_ROWS.some(function (row) { return row.indexOf(k) !== -1; })) {
       handleLetter(k);
     }
   });
 
-  el.shareBtn.addEventListener('click', function () {
+  var GAME_URL = 'https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/geama.html';
+
+  function shareText() {
     var lines = game.guesses.map(function (g) {
       return evaluate(g).map(function (r) {
         return r === 'correct' ? '🟩' : (r === 'present' ? '🟨' : '⬛');
       }).join('');
     });
-    var text = 'Am Facal ' + (dayIdx + 1) + ' ' + game.guesses.length + '/6\n' + lines.join('\n') + '\nsean-fhaclan';
+    var scoreLine = game.status === 'won' ? game.guesses.length + '/6' : 'X/6';
+    return 'Am Facal ' + (dayIdx + 1) + ' ' + scoreLine + '\n' + lines.join('\n') + '\n' + GAME_URL;
+  }
+
+  el.shareBtn.addEventListener('click', function () {
+    var text = shareText();
+    if (navigator.share) {
+      navigator.share({ text: text, url: GAME_URL }).catch(function () {});
+      return;
+    }
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function () {
+        setMessage(t('shareCopied'));
+        setTimeout(function () { setMessage(''); }, 2000);
+      });
+    }
+  });
+
+  el.inviteBtn.addEventListener('click', function () {
+    var inviteText = t('inviteText');
+    if (navigator.share) {
+      navigator.share({ title: 'Am Facal', text: inviteText, url: GAME_URL }).catch(function () {});
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(inviteText + ' — ' + GAME_URL).then(function () {
         setMessage(t('shareCopied'));
         setTimeout(function () { setMessage(''); }, 2000);
       });
@@ -674,16 +729,16 @@
 
   // ---- Account: magic-link login ----
   function updateAccountUI() {
+    el.gameCard.style.display = 'block';
     if (currentUser) {
       el.accountSignedOut.style.display = 'none';
       el.accountSignedIn.style.display = 'block';
       el.accountSignedInText.textContent = t('signedInAs', { email: currentUser.email });
-      el.gameCard.style.display = 'block';
       loadStats(checkAlreadyPlayedToday);
     } else {
       el.accountSignedOut.style.display = 'block';
       el.accountSignedIn.style.display = 'none';
-      el.gameCard.style.display = 'none';
+      renderStats(null);
     }
   }
 

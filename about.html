@@ -91,6 +91,7 @@
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
       <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
       <a href="geama.html" id="nav-game">Am Facal</a>
+      <a href="seillean.html" id="nav-bee">Seillean</a>
       <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" class="active" id="nav-about">About</a>
     </nav>
@@ -105,12 +106,14 @@
 
 <main>
   <div class="card">
-    <div class="avatar-placeholder">SF</div>
-    <h2 class="name-heading" style="text-align:center;">Your Name Here</h2>
-    <p class="tagline">A short tagline about who you are goes here</p>
-    <p>
-      This is placeholder text — replace it with a couple of sentences about yourself: who you are,
-      why you started collecting Scots and Gaelic proverbs, and anything else you'd like visitors to know.
+    <div class="avatar-placeholder">SP</div>
+    <h2 class="name-heading" id="name-heading" style="text-align:center;">Steven Perrie</h2>
+    <p class="tagline" id="tagline">Gaelic with Steve</p>
+    <p id="bio-body">
+      I want as many Scots as possible to feel proud of — and comfortable speaking — both languages
+      that are genuinely their own, Scots and Gaelic. I believe learning resources should be free,
+      accessible, and fun, and this site — along with the daily word games — is my way of giving a
+      bit of that back.
     </p>
   </div>
 
@@ -125,17 +128,12 @@
   </div>
 
   <div class="card">
-    <h2 id="links-heading">Links</h2>
+    <h2 id="links-heading">Follow along</h2>
     <div class="links-list">
-      <a href="#"><span class="icon">🌐</span> <span id="link-website">Your website</span></a>
-      <a href="#"><span class="icon">✉️</span> <span id="link-email">Email</span></a>
-      <a href="#"><span class="icon">📷</span> Instagram</a>
-      <a href="#"><span class="icon">🐙</span> GitHub</a>
-    </div>
-    <div class="edit-note" id="edit-note">
-      These are placeholders. Open <code>about.html</code>, find the <code>&lt;div class="links-list"&gt;</code>
-      block, and replace each <code>href="#"</code> with your real link (and edit the label text). Delete any
-      rows you don't want, or copy one to add more.
+      <a href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener"><span class="icon">📷</span> Instagram — @gaidhlignamchridhe</a>
+      <a href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener"><span class="icon">▶️</span> YouTube — Gaelic with Steve</a>
+      <a href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener"><span class="icon">📘</span> Facebook</a>
+      <a href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener"><span class="icon">🎵</span> TikTok — @gaelic_with_steve</a>
     </div>
   </div>
 </main>
@@ -161,6 +159,7 @@
     navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
     navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
     navGame: { en: 'Am Facal', gd: 'Am Facal' },
+    navBee: { en: 'Seillean', gd: 'Seillean' },
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     pageTitle: { en: 'About', gd: 'Mun Dèidhinn' },
@@ -194,6 +193,7 @@
     navScotsCollection: document.getElementById('nav-scots-collection'),
     navSuggested: document.getElementById('nav-suggested'),
     navGame: document.getElementById('nav-game'),
+    navBee: document.getElementById('nav-bee'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -223,6 +223,7 @@
     el.navScotsCollection.textContent = I18N.navScotsCollection[lang];
     el.navSuggested.textContent = I18N.navSuggested[lang];
     el.navGame.textContent = I18N.navGame[lang];
+    el.navBee.textContent = I18N.navBee[lang];
     el.navResources.textContent = I18N.navResources[lang];
     el.navAbout.textContent = I18N.navAbout[lang];
   }
