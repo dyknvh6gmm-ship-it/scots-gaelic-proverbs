@@ -89,7 +89,10 @@ Deno.serve(async () => {
       <p style="font-size:1.15rem; margin: 0;">${proverb.gaelic}</p>
       <p style="font-size:0.8rem; color:#0065bd; text-transform:uppercase; letter-spacing:0.04em; margin: 16px 0 2px;">Beurla</p>
       <p style="font-size:1.15rem; margin: 0;">${proverb.english}</p>
-      <p style="font-size:0.75rem; color:#888; margin-top: 28px;">You're getting this because you opted in on Sean-fhaclan & Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop.</p>
+      <p style="margin-top: 26px;">
+        <a href="https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/geama.html" style="display:inline-block; background:#5b2a86; color:#fff; text-decoration:none; padding:10px 20px; border-radius:999px; font-family:-apple-system,sans-serif; font-size:0.85rem; font-weight:600;">Cluich Am Facal — today's word game</a>
+      </p>
+      <p style="font-size:0.75rem; color:#888; margin-top: 20px;">You're getting this because you opted in on Sean-fhaclan & Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop.</p>
     </div>
   `;
 

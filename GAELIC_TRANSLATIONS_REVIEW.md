@@ -143,6 +143,7 @@ Previously the EN/GD toggle only translated the page content — the site-nav li
 | Nav: Gaelic Collection | Gaelic Collection | Cruinneachadh Gàidhlig | |
 | Nav: Scots Collection | Scots Collection | Cruinneachadh Beurla Ghallda | |
 | Nav: Suggested Abairtean | Suggested Abairtean | Abairtean Air am Moladh | |
+| Nav: Am Facal | Am Facal | Am Facal | |
 | Nav: Resources | Resources | Goireasan | |
 | Nav: About | About | Mun Dèidhinn | |
 
@@ -178,13 +179,14 @@ None of this batch has been checked by a fluent speaker either.
 
 None of this batch has been checked by a fluent speaker either.
 
-## New: "Stay updated" (email + push, replaces the old newsletter box)
+## New: "Stay updated" (email + push, now on the My Account page)
+
+This section originally lived at the bottom of the Home page; it's since moved to a card on `my-account.html` (only visible once logged in) so it sits alongside the other account settings. The strings themselves are unchanged.
 
 | Where it appears | English | My Gaelic | Correction |
 |---|---|---|---|
 | Heading | Stay updated | Fuirich fiosraichte | |
 | Body | Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices. | Faigh seanfhacal an latha air post-d no brath putaidh — ceangailte ris a' chunntas agad, gus 's gum bi e agad air innealan eile cuideachd. | |
-| Signed-out prompt | Log in above to turn these on. | Clàraich a-steach gu h-àrd gus na feartan seo a chur air. | |
 | Email toggle | ✉️ Email me the proverb of the day | ✉️ Cuir seanfhacal an latha thugam air post-d | |
 | Push toggle | 🔔 Send push notifications | 🔔 Cuir brathan putaidh thugam | |
 | Status: email saved | Email preference saved. | Roghainn a' phuist-d air a shàbhaladh. | |
@@ -242,6 +244,59 @@ None of this batch has been checked by a fluent speaker either.
 Note: `resultNounOne` / `resultNounMany` ("saying" / "sayings") are only used in the English count string — the Gaelic count string doesn't need to change by number, so those two keys are left blank on purpose in the Gaelic version, not missed.
 
 None of this batch has been checked by a fluent speaker either.
+
+## New: Am Facal (word game) — page chrome
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page subtitle | Log in and guess today's Gaelic word — a new one every day, same for everyone. | Clàraich a-steach agus tomhais facal an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine. | |
+| Game hint | Guess the Gaelic word — five letters, six tries. | Tomhais am facal Gàidhlig, còig litrichean, ann an sia oidhirpean. | |
+| Stat: streak | Streak | Sreath | |
+| Stat: played | Played | Air Cluich | |
+| Stat: win % | Win % | Buannachadh % | |
+| Not enough letters | Not enough letters. | Chan eil na leòr litrichean ann. | |
+| Already played (won) | You already played today's word and won: {word} ({meaning}). Come back tomorrow! | Chluich thu facal an latha mu thràth agus bhuannaich thu: {word} ({meaning}). Thig air ais a-màireach! | |
+| Already played (lost) | You already played today's word. It was: {word} ({meaning}). Come back tomorrow! | Chluich thu facal an latha mu thràth. B' e am facal: {word} ({meaning}). Thig air ais a-màireach! | |
+| Lost message | That's your six — the word was {word} ({meaning}). | Sin do shia oidhirpean — b' e am facal {word} ({meaning}). | |
+| Share/copy button | Copy result | Cuir an Roinn | |
+| Share copied status | Copied — paste it anywhere! | Air a chopaigeadh — cuir e an àite sam bith! | |
+| Rules/limitation note | This game doesn't check whether what you type is a real Gaelic word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word. | Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha. | |
+
+"Fuair thu e! ({guesses}/6)" (win message) is left the same in both languages on purpose — it reads naturally as-is and didn't need a separate Gaelic version.
+
+## New: Am Facal — the 40-word answer list
+
+These are the actual daily answers, not interface chrome — getting these wrong is more consequential than a UI label, since a misspelled answer would make that day's puzzle unsolvable. All are common, everyday words I'm fairly confident in, but none have been checked by a fluent speaker. The list lives in `geama.html`'s `<script type="application/json" id="wordle-words">` block.
+
+| Word | Meaning | | Word | Meaning |
+|---|---|---|---|---|
+| UISGE | water | | TUATH | north; tenantry |
+| LATHA | day | | CEANN | head |
+| DUINE | person, man | | TEINE | fire |
+| BAILE | town | | MAIDE | stick |
+| DORAS | door | | UBHAL | apple |
+| CLACH | stone | | CRODH | cattle |
+| GAOTH | wind | | GRUAG | hair, wig |
+| BIADH | food | | RADAN | rat |
+| GRIAN | sun | | BALBH | mute, silent |
+| BEINN | mountain | | MILIS | sweet |
+| CAORA | sheep | | LUATH | fast, quick |
+| SGIAN | knife | | DEARG | red |
+| CREAG | rock, crag | | IONAD | place, centre |
+| COIRE | corrie, kettle | | SGOIL | school |
+| SRATH | valley, strath | | PEANN | pen |
+| FIODH | wood, timber | | | |
+| GILLE | lad, boy | | | |
+| SGEUL | story, tale | | | |
+| FEARG | anger | | | |
+| SOLAS | light | | | |
+| SEINN | singing, to sing | | | |
+| BALLA | wall | | | |
+| FIADH | deer | | | |
+| CLUAS | ear | | | |
+| CABAR | caber, antler, rafter | | | |
+
+If you (or someone fluent) spot a wrong word or a better everyday choice to swap one for, tell me and I'll edit that JSON block directly — no need to touch anything else on the page.
 
 ## How to send corrections
 

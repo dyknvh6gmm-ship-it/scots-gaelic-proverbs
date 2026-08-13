@@ -116,3 +116,42 @@ create policy "Users can update their own subscriber row"
 -- the first time, update after that), which is why both an insert and an update
 -- policy are needed above. No delete policy — turning a toggle off just sets the
 -- relevant column back to false, it never removes the row.
+
+
+create table if not exists public.game_stats (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  game text not null,
+  current_streak integer not null default 0,
+  max_streak integer not null default 0,
+  games_played integer not null default 0,
+  games_won integer not null default 0,
+  last_played_day integer,
+  last_result text,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, game)
+);
+
+alter table public.game_stats enable row level security;
+
+drop policy if exists "Users can view their own game stats" on public.game_stats;
+create policy "Users can view their own game stats"
+  on public.game_stats for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can create their own game stats" on public.game_stats;
+create policy "Users can create their own game stats"
+  on public.game_stats for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update their own game stats" on public.game_stats;
+create policy "Users can update their own game stats"
+  on public.game_stats for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- One row per (user, game) — "game" is a short code like 'wordle' so future games
+-- (e.g. a Spelling Bee) can share this same table instead of needing their own.
+-- "last_played_day" is the day-index of the puzzle they most recently completed
+-- (see geama.html), used to work out whether today continues their streak,
+-- resets it, or whether they've already played today's puzzle. Same upsert
+-- pattern as subscribers above, hence the insert + update policies.

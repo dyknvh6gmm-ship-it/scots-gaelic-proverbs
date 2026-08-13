@@ -23,7 +23,7 @@
   header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
 
   .ui-lang-toggle {
-    position: absolute; top: 0; right: 0; display: inline-flex;
+    display: inline-flex; flex: 0 0 auto;
     background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
   }
   .ui-lang-toggle button {
@@ -32,28 +32,26 @@
   }
   .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
 
-  .site-nav { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
+  .header-top-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; margin-bottom: 14px;
+  }
+  .site-nav {
+    display: flex; gap: 4px; flex: 1 1 auto; min-width: 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar { display: none; }
   .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
   .site-nav a:hover { background: rgba(255,255,255,0.12); }
   .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
-
-  @media (max-width: 640px) {
-    .site-nav {
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-right: 78px;
-    }
-    .site-nav::-webkit-scrollbar { display: none; }
-    .site-nav a { flex: 0 0 auto; white-space: nowrap; }
-  }
 
   main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
 
   .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 20px; }
   .card h2 { margin: 0 0 12px; font-size: 1.15rem; }
   .card p.hint { font-size: 0.85rem; color: rgba(43,35,32,0.55); margin: 8px 0 0; }
+  .update-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 10px; cursor: pointer; }
+  .update-toggle input { margin: 0; }
 
   .account-login-form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
   .account-login-form input[type="email"] {
@@ -106,20 +104,23 @@
 
 <header class="app-header">
   <div class="inner">
-    <div class="ui-lang-toggle" id="ui-lang-toggle">
-      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
-      <button id="ui-lang-gd" data-lang="gd">GD</button>
-    </div>
-    <nav class="site-nav">
+    <div class="header-top-row">
+      <nav class="site-nav">
       <a href="index.html" id="nav-home">Home</a>
       <a href="my-account.html" class="active" id="nav-my-account">My Account</a>
       <a href="grammar.html" id="nav-grammar">Grammar</a>
       <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
       <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
+      <a href="geama.html" id="nav-game">Am Facal</a>
       <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
+      <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    </div>
     <h1 class="proverb-text" id="page-title">My Account</h1>
     <p id="page-subtitle">Log in to see your favourites in one place and suggest a proverb of your own.</p>
   </div>
@@ -146,6 +147,20 @@
   <div class="card" id="favourites-card" style="display:none;">
     <h2 id="favourites-heading">My favourites</h2>
     <div class="fav-list" id="fav-list"><p class="empty" id="fav-loading">Loading…</p></div>
+  </div>
+
+  <div class="card" id="updates-card" style="display:none;">
+    <h2 id="updates-heading">Stay updated</h2>
+    <p class="hint" id="updates-body">Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices.</p>
+    <label class="update-toggle">
+      <input type="checkbox" id="chk-newsletter-optin" />
+      <span id="updates-email-label">✉️ Email me the proverb of the day</span>
+    </label>
+    <label class="update-toggle">
+      <input type="checkbox" id="chk-push-optin" />
+      <span id="updates-push-label">🔔 Send push notifications</span>
+    </label>
+    <p class="hint" id="updates-status"></p>
   </div>
 
   <div class="card" id="suggest-card" style="display:none;">
@@ -180,6 +195,7 @@
 <footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer="defer"></script>
 <script>
 (function () {
   'use strict';
@@ -190,6 +206,15 @@
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
   var currentUser = null;
+
+  // ---- OneSignal (push notifications) ----
+  var ONESIGNAL_APP_ID = '2640bf1b-a55c-4819-ba51-3acde7c4b430';
+  if (ONESIGNAL_APP_ID) {
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function (OneSignal) {
+      OneSignal.init({ appId: ONESIGNAL_APP_ID });
+    });
+  }
 
   var I18N = {
     docTitle: { en: 'My Account — Sean-fhaclan & Auld Sayins', gd: 'An Cunntas Agam — Sean-fhaclan & Auld Sayins' },
@@ -219,6 +244,20 @@
       gd: "Chan eil dad agad fhathast — theirig dhan duilleig Dhachaigh agus brùth air a' chridhe air seanfhacal as toigh leat."
     },
     favLoadError: { en: "Couldn't load your favourites right now — try refreshing.", gd: "Cha b' urrainn dhuinn na feadhainn as fheàrr leat a luchdachadh an-dràsta — feuch ath-nuadhachadh." },
+    updatesHeading: { en: "Stay updated", gd: "Fuirich fiosraichte" },
+    updatesBody: {
+      en: "Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices.",
+      gd: "Faigh seanfhacal an latha air post-d no brath putaidh — ceangailte ris a' chunntas agad, gus 's gum bi e agad air innealan eile cuideachd."
+    },
+    updatesEmailLabel: { en: "✉️ Email me the proverb of the day", gd: "✉️ Cuir seanfhacal an latha thugam air post-d" },
+    updatesPushLabel: { en: "🔔 Send push notifications", gd: "🔔 Cuir brathan putaidh thugam" },
+    updatesEmailSaved: { en: "Email preference saved.", gd: "Roghainn a' phuist-d air a shàbhaladh." },
+    updatesPushEnabled: { en: "Push notifications turned on.", gd: "Brathan putaidh air an cur air." },
+    updatesPushDisabled: { en: "Push notifications turned off.", gd: "Brathan putaidh air an cur dheth." },
+    updatesPushUnavailable: {
+      en: "Push notifications aren't available in this browser right now.",
+      gd: "Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta."
+    },
     suggestHeading: { en: 'Suggest a proverb', gd: 'Mol seanfhacal' },
     suggestHint: {
       en: "Send us a Scots, Gaelic, or English proverb (fill in whichever you know). Reviewed suggestions may appear on the Suggested Abairtean page.",
@@ -235,6 +274,7 @@
     navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
     navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
     navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
+    navGame: { en: 'Am Facal', gd: 'Am Facal' },
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
@@ -258,6 +298,14 @@
     favouritesCard: document.getElementById('favourites-card'),
     favouritesHeading: document.getElementById('favourites-heading'),
     favList: document.getElementById('fav-list'),
+    updatesCard: document.getElementById('updates-card'),
+    updatesHeading: document.getElementById('updates-heading'),
+    updatesBody: document.getElementById('updates-body'),
+    updatesEmailLabel: document.getElementById('updates-email-label'),
+    updatesPushLabel: document.getElementById('updates-push-label'),
+    chkNewsletter: document.getElementById('chk-newsletter-optin'),
+    chkPush: document.getElementById('chk-push-optin'),
+    updatesStatus: document.getElementById('updates-status'),
     suggestCard: document.getElementById('suggest-card'),
     suggestHeading: document.getElementById('suggest-heading'),
     suggestHint: document.getElementById('suggest-hint'),
@@ -276,6 +324,7 @@
     navGaelicCollection: document.getElementById('nav-gaelic-collection'),
     navScotsCollection: document.getElementById('nav-scots-collection'),
     navSuggested: document.getElementById('nav-suggested'),
+    navGame: document.getElementById('nav-game'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -308,6 +357,10 @@
     el.accountLoginBtn.textContent = t('sendLink');
     el.accountLogoutBtn.textContent = t('logOut');
     el.favouritesHeading.textContent = t('favouritesHeading');
+    el.updatesHeading.textContent = t('updatesHeading');
+    el.updatesBody.textContent = t('updatesBody');
+    el.updatesEmailLabel.textContent = t('updatesEmailLabel');
+    el.updatesPushLabel.textContent = t('updatesPushLabel');
     el.suggestHeading.textContent = t('suggestHeading');
     el.suggestHint.textContent = t('suggestHint');
     el.suggestLabelScots.textContent = 'Beurla Ghallda';
@@ -323,6 +376,7 @@
     el.navGaelicCollection.textContent = t('navGaelicCollection');
     el.navScotsCollection.textContent = t('navScotsCollection');
     el.navSuggested.textContent = t('navSuggested');
+    el.navGame.textContent = t('navGame');
     el.navResources.textContent = t('navResources');
     el.navAbout.textContent = t('navAbout');
     if (currentUser) renderFavourites(loadedFavData);
@@ -392,6 +446,71 @@
     }).join('');
   }
 
+  // ---- Stay updated: email + push notification opt-ins, tied to this account ----
+  var subscriberLoadStarted = false;
+  function loadSubscriberRow() {
+    if (subscriberLoadStarted || !sfClient || !currentUser) return;
+    subscriberLoadStarted = true;
+    sfClient.from('subscribers').select('newsletter_opt_in,push_opt_in')
+      .eq('user_id', currentUser.id).maybeSingle().then(function (res) {
+        if (res.error) { el.updatesStatus.textContent = res.error.message; return; }
+        el.chkNewsletter.checked = !!(res.data && res.data.newsletter_opt_in);
+        el.chkPush.checked = !!(res.data && res.data.push_opt_in);
+      });
+  }
+
+  function upsertSubscriber(fields) {
+    if (!sfClient || !currentUser) return;
+    var row = { user_id: currentUser.id, email: currentUser.email };
+    Object.keys(fields).forEach(function (k) { row[k] = fields[k]; });
+    sfClient.from('subscribers').upsert(row, { onConflict: 'user_id' }).then(function (res) {
+      if (res.error) el.updatesStatus.textContent = res.error.message;
+    });
+  }
+
+  function enablePush() {
+    return new Promise(function (resolve) {
+      if (!ONESIGNAL_APP_ID || !window.OneSignalDeferred) { resolve(false); return; }
+      window.OneSignalDeferred.push(function (OneSignal) {
+        OneSignal.Notifications.requestPermission()
+          .then(function () { return OneSignal.User.PushSubscription.optIn(); })
+          .then(function () { return OneSignal.login(String(currentUser.id)); })
+          .then(function () { resolve(true); })
+          .catch(function () { resolve(false); });
+      });
+    });
+  }
+
+  function disablePush() {
+    if (!ONESIGNAL_APP_ID || !window.OneSignalDeferred) return;
+    window.OneSignalDeferred.push(function (OneSignal) {
+      OneSignal.User.PushSubscription.optOut();
+    });
+  }
+
+  el.chkNewsletter.addEventListener('change', function () {
+    upsertSubscriber({ newsletter_opt_in: el.chkNewsletter.checked });
+    el.updatesStatus.textContent = t('updatesEmailSaved');
+  });
+
+  el.chkPush.addEventListener('change', function () {
+    if (el.chkPush.checked) {
+      enablePush().then(function (ok) {
+        el.chkPush.checked = ok;
+        if (ok) {
+          upsertSubscriber({ push_opt_in: true });
+          el.updatesStatus.textContent = t('updatesPushEnabled');
+        } else {
+          el.updatesStatus.textContent = t('updatesPushUnavailable');
+        }
+      });
+    } else {
+      disablePush();
+      upsertSubscriber({ push_opt_in: false });
+      el.updatesStatus.textContent = t('updatesPushDisabled');
+    }
+  });
+
   // ---- Suggestion form: always requires being logged in on this page. ----
   el.suggestForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -423,12 +542,15 @@
       el.accountSignedIn.style.display = 'block';
       el.accountSignedInText.textContent = t('signedInAs', { email: currentUser.email });
       el.favouritesCard.style.display = 'block';
+      el.updatesCard.style.display = 'block';
       el.suggestCard.style.display = 'block';
       loadFavourites();
+      loadSubscriberRow();
     } else {
       el.accountSignedOut.style.display = 'block';
       el.accountSignedIn.style.display = 'none';
       el.favouritesCard.style.display = 'none';
+      el.updatesCard.style.display = 'none';
       el.suggestCard.style.display = 'none';
     }
   }

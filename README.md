@@ -16,18 +16,19 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
 - `my-account.html` — the members page: shows a logged-in visitor's saved favourites and a form to suggest a proverb, see "The My Account page" below
 - `suggested-abairtean.html` — a public page listing community-suggested proverbs you've approved, see "The Suggested Abairtean page" below
-- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, and the newsletter/push opt-ins, see "Accounts" below
+- `geama.html` — "Am Facal," a daily Gaelic word-guessing game, login required — see "The Am Facal word game" below
+- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, the newsletter/push opt-ins, and the word game's stats, see "Accounts" below
 - `supabase-function-send-daily-proverb.ts` — a Supabase Edge Function that emails the day's proverb to opted-in subscribers, see "Push notifications and email" below
 - `supabase-function-send-daily-push.ts` — the same idea, but sends a push notification via OneSignal instead of an email, see "Push notifications and email" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, and `suggested-abairtean.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, and `geama.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
 
 ## Site structure
 
-The site is now several pages sharing one look and a navigation bar (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+The site is now several pages sharing one look and a navigation bar (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Am Facal / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
 
-There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, and `suggested-abairtean.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, and `geama.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
 
 On phones, the nav bar scrolls horizontally left/right rather than wrapping, so it never overlaps the EN/GD toggle in the top-right corner — see "Mobile layout" below.
 
@@ -73,9 +74,10 @@ Same data format as the Gaelic Collection page, in its own `<script type="applic
 
 ## The My Account page
 
-`my-account.html` is the members hub — it only shows real content once someone's logged in (see "Accounts" below); logged-out visitors just see the login box. Once signed in, there are two cards:
+`my-account.html` is the members hub — it only shows real content once someone's logged in (see "Accounts" below); logged-out visitors just see the login box. Once signed in, there are three cards:
 
 - **Favourites** — every proverb they've favourited, pulled live from `index.html`'s proverb data (fetched and matched against their saved favourite IDs from Supabase) and shown the same way the Home page shows a proverb card.
+- **Stay updated** — the email and push notification opt-ins, moved here from the bottom of the Home page (see "Push notifications and email" below) so all of a visitor's account settings live in one place instead of being split across pages.
 - **Suggest a proverb** — a form for Scots / Gaelic / English text plus a meaning note, which writes straight to the `suggestions` table in your Supabase project (see "Reviewing suggestions" below) — the same underlying table the Home page's suggestion form already used, just a dedicated place for it now.
 
 Nothing on this page needs editing by you — it reads everything live from Supabase and `index.html`.
@@ -87,6 +89,22 @@ Nothing on this page needs editing by you — it reads everything live from Supa
 This is deliberately a separate, moderated space from the main proverb database on the Home page — approving a suggestion here makes it publicly visible as a *suggested* Abairt (phrase), but does **not** add it to `index.html`'s proverb data. If you want a suggestion promoted to a full proverb card on the Home page, that's still a manual step: copy its details into `index.html`'s data the normal way (see "The data" below).
 
 **To approve or remove a suggestion:** open your Supabase project → Table Editor → `suggestions`, find the row, and change its `status` column from `pending` to `approved` to publish it here, or back to `pending` (or delete the row) to pull it down. No admin login or extra page needed — the Table Editor is your moderation queue.
+
+## The Am Facal word game
+
+`geama.html` is a Wordle-style Gaelic word game: guess a five-letter Gaelic word in six tries, with tiles that turn green (right letter, right spot), amber (right letter, wrong spot), or grey (not in the word) after each guess — same mechanic as the game it's inspired by. Everyone gets the same word on the same calendar day, cycling through a 40-word list, so it works the same way as the site's own Proverb of the Day.
+
+**Login is required to play** — the page shows only the login box until someone signs in (same magic-link flow as everywhere else on the site), then the game appears. That's by design, since the point is to grow your subscriber list: someone who logs in to play has an email address in your `subscribers` table, and once they're logged in they'll also see the "Stay updated" opt-ins on their My Account page if they haven't already turned those on.
+
+**On-screen keyboard:** only the 18 letters of the traditional Gaelic alphabet are shown (no k, j, q, v, w, x, y, z), so there's no guesswork about which letters are even possible.
+
+**One important limitation, stated on the page itself:** the game doesn't check whether a guess is a real Gaelic word — there's no full Gaelic dictionary wired in to validate against. You can type any five letters from the keyboard and get colour feedback against today's answer. This is a deliberate simplification for now; if you'd like proper word validation later (so nonsense guesses are rejected), that would need a much larger Gaelic word list than the answer pool alone.
+
+**Streak and stats** (games played, games won, current streak, win %) are saved to a new `game_stats` table in your Supabase project — one row per visitor per game, so a future second game (a Spelling Bee has been discussed) can share the same table. Included in the current `supabase-schema.sql` — re-run the whole file if you already ran an earlier version.
+
+**The word list** lives in a `<script type="application/json" id="wordle-words">` block near the top of `geama.html`, same editable-JSON pattern as the rest of the site's content — each entry is `{"word":"UISGE","en":"water"}`. All 40 words are common, everyday Gaelic vocabulary I'm fairly confident in, but — same caveat as everywhere else on this site — I'm not a fluent speaker, so it's worth a native check before you fully trust it; a wrong answer would make a puzzle unsolvable. There's more than a month of unique daily words before the list repeats; tell me if you'd like more added, or want to swap any of them out.
+
+**Linked from the daily email:** the daily proverb email (see below) now includes a "Cluich Am Facal" button linking to this page, so subscribers have a reason to come back to the site beyond just reading the email.
 
 ## Run it
 
@@ -112,13 +130,14 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 - **Random proverb** button.
 - **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in. Approved suggestions appear publicly on the **Suggested Abairtean** page, see above.
 - **Installable as an app** (PWA) — see below.
-- **Stay updated**: email + push notification opt-ins, tied to your account — see "Push notifications and email" below.
+- **Stay updated**: email + push notification opt-ins, tied to your account, on the My Account page — see "Push notifications and email" below.
+- **Am Facal**: a daily Gaelic word-guessing game, login required to play — see "The Am Facal word game" above.
 - **Interface language toggle (EN / GD)** — the app chrome (buttons, labels, hints) switches between English and Gaelic — see below.
 - **Map of proverb origins** — a starter map with one confirmed location — see below.
 
 ## Interface language (EN / GD)
 
-Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, My Account, Grammar, Gaelic Collection, Scots Collection, Suggested Abairtean, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
+Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, My Account, Grammar, Gaelic Collection, Scots Collection, Suggested Abairtean, Am Facal, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
 
 This is separate from the three proverb-language tabs (Scots / Gàidhlig / English), which are unaffected by this toggle. As you asked, those three tabs — and every place in the app that names one of the three proverb languages — always read **Beurla Ghallda** (Scots), **Gàidhlig**, and **Beurla** (English), regardless of which interface language is active.
 
@@ -149,7 +168,7 @@ Tell me which you'd like and I'll wire the form to submit there instead of just 
 
 ## Mobile layout
 
-**Nav bar overlap fix:** on Grammar, the two Collection pages, My Account, Suggested Abairtean, Resources, and About, the site nav (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
+**Nav bar overlap fix:** on Grammar, the two Collection pages, My Account, Suggested Abairtean, Am Facal, Resources, and About, the site nav (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Am Facal / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
 
 ### Bottom bar (Home page)
 
@@ -167,12 +186,12 @@ The site now has a `manifest.json`, a service worker (`sw.js`), and icons in `ic
 
 ### Push notifications and email — now tied to accounts
 
-The old separate "leave your email" box and browser-only push scaffolding have been replaced by a **"Stay updated"** section (same spot, near the bottom of the Home page) with two toggles — "Email me the proverb of the day" and "Send push notifications" — that only appear once someone's logged in (see Accounts, below). Both write straight to your Supabase project instead of sitting in the visitor's browser.
+The old separate "leave your email" box and browser-only push scaffolding have been replaced by a **"Stay updated"** card on the **My Account** page, with two toggles — "Email me the proverb of the day" and "Send push notifications." It only shows up once someone's logged in (see Accounts, below) — the whole card is hidden for signed-out visitors, same as the Favourites and Suggest cards on that page. Both write straight to your Supabase project instead of sitting in the visitor's browser.
 
 **Email**, via **Resend** (free tier, 3,000 emails/month) and a scheduled Supabase Edge Function:
 
 1. Create a free account at resend.com and grab an API key (Dashboard → API Keys).
-2. Deploy `supabase-function-send-daily-proverb.ts` as an Edge Function: Supabase dashboard → Edge Functions → Deploy a new function → "Via Editor" → name it `send-daily-proverb` → paste in the whole file → Deploy.
+2. Deploy `supabase-function-send-daily-proverb.ts` as an Edge Function: Supabase dashboard → Edge Functions → Deploy a new function → "Via Editor" → name it `send-daily-proverb` → paste in the whole file → Deploy. (Already deployed it before? The file now also includes a button linking to the Am Facal game — paste the updated version in over your existing function's code and re-deploy to pick that up.)
 3. Add your Resend key as a secret on that function: Edge Functions → `send-daily-proverb` → Secrets → add `RESEND_API_KEY`.
 4. Schedule it to run once a day: Database → Cron Jobs (or Integrations → Cron) → new job → target it at the `send-daily-proverb` Edge Function → pick a time (e.g. 8am). If your dashboard doesn't show a Cron Jobs option in that exact spot, tell me what you do see and I'll give you the equivalent `pg_cron` SQL instead.
 
