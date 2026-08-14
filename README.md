@@ -52,11 +52,9 @@ To add more entries, the data lives in the same kind of `<script type="applicati
 
 ## The About page
 
-`about.html` now has your real bio: name (Steven Perrie / Steafan Perrie-Cluaidh, toggling with the EN/GD switch like the rest of the site), a short "Gaelic with Steve" tagline, and a bio paragraph about wanting as many Scots as possible to be proud of and speaking both Scots and Gaelic, and believing learning resources should be free, accessible, and fun. Below that, a "Follow along" card links out to your real Instagram, YouTube, Facebook, and TikTok.
+`about.html` now has your real bio: name (Steven Perrie / Steafan Perrie-Cluaidh, toggling with the EN/GD switch like the rest of the site), a short "Gaelic with Steve" tagline, your real photo (the one outside the shop with the "Fàilte" sign, saved as `icons/steven-avatar.png`), and a bio paragraph about wanting as many Scots as possible to be proud of and speaking both Scots and Gaelic, and believing learning resources should be free, accessible, and fun. Below that, a "Follow along" card links out to your real Instagram, YouTube, Facebook, and TikTok.
 
-**One thing I couldn't do:** pull your actual Instagram profile photo automatically — I don't have a way to fetch it. The avatar is still the gradient placeholder circle (now showing "SP"). Send me the image file directly and I'll drop it in, or replace the `avatar-placeholder` div yourself with an `<img>` tag pointing at your photo.
-
-To edit the bio text later, search `about.html` for `var I18N = {` and edit the `profileName`, `profileTagline`, and `profileBio` values (each has an `en` and `gd` version).
+To edit the bio text later, search `about.html` for `var I18N = {` and edit the `profileName`, `profileTagline`, and `profileBio` values (each has an `en` and `gd` version). To swap the photo, replace `icons/steven-avatar.png` with a new image of the same name (or change the `src` on the `<img class="avatar-photo">` tag).
 
 ## The Gaelic Collection page
 
