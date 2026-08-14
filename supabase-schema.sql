@@ -149,9 +149,11 @@ create policy "Users can update their own game stats"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
--- One row per (user, game) — "game" is a short code like 'wordle' so future games
--- (e.g. a Spelling Bee) can share this same table instead of needing their own.
+-- One row per (user, game) — "game" is a free-text short code (no CHECK
+-- constraint, so new games just need a new code, no migration required).
+-- Four in use so far: 'wordle' (Am Facal, Gaelic), 'bee' (Seillean, Gaelic),
+-- 'wordle-sco' (The Wurd, Scots), 'bee-sco' (Bumbee, Scots).
 -- "last_played_day" is the day-index of the puzzle they most recently completed
--- (see geama.html), used to work out whether today continues their streak,
--- resets it, or whether they've already played today's puzzle. Same upsert
--- pattern as subscribers above, hence the insert + update policies.
+-- (see wurd.html/geama.html), used to work out whether today continues their
+-- streak, resets it, or whether they've already played today's puzzle. Same
+-- upsert pattern as subscribers above, hence the insert + update policies.

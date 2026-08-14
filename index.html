@@ -249,6 +249,32 @@
   #install-banner button.install { background: var(--thistle); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
   #install-banner button.dismiss { background: none; border: none; color: rgba(43,35,32,0.4); font-size: 1.2rem; cursor: pointer; padding: 4px 6px; line-height: 1; }
 
+  /* Featured section + expand/collapse */
+  .featured-section { margin-bottom: 16px; }
+  .featured-card {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(0,101,189,0.09), rgba(91,42,134,0.09));
+    border: 1px solid rgba(142,108,156,0.25); border-radius: 14px; padding: 18px 20px;
+  }
+  .featured-icon { font-size: 2rem; flex-shrink: 0; }
+  .featured-body { flex: 1; min-width: 180px; }
+  .featured-body h3 { margin: 0 0 4px; font-size: 1.05rem; font-family: Georgia, serif; }
+  .featured-body p { margin: 0; font-size: 0.85rem; color: rgba(43,35,32,0.65); }
+  .featured-btn {
+    display: inline-block; background: var(--thistle); color: #fff; text-decoration: none;
+    padding: 9px 20px; border-radius: 999px; font-weight: 600; font-size: 0.85rem; flex-shrink: 0;
+  }
+  .featured-btn:hover { opacity: 0.9; }
+
+  .expand-btn {
+    display: block; width: 100%; text-align: center; margin: 14px 0 0;
+    background: #fff; border: 1px dashed rgba(142,108,156,0.4); border-radius: 10px;
+    padding: 12px; font-size: 0.85rem; font-weight: 600; color: var(--thistle); cursor: pointer;
+  }
+  .expand-btn:hover { background: rgba(91,42,134,0.05); }
+
+  #secondary-content { margin-top: 16px; }
+
   /* Map section */
   .map-section {
     margin-top: 36px; background: #fff; border: 1px solid rgba(142,108,156,0.2);
@@ -305,8 +331,7 @@
       <a href="gaelic-collection.html" data-i18n="navGaelicCollection">Gaelic Collection</a>
       <a href="scots-collection.html" data-i18n="navScotsCollection">Scots Collection</a>
       <a href="suggested-abairtean.html" data-i18n="navSuggested">Suggested Abairtean</a>
-      <a href="geama.html" data-i18n="navGame">Am Facal</a>
-      <a href="seillean.html" data-i18n="navBee">Seillean</a>
+      <a href="games.html" data-i18n="navGames">Games</a>
       <a href="resources.html" data-i18n="navResources">Resources</a>
       <a href="about.html" data-i18n="navAbout">About</a>
     </nav>
@@ -336,6 +361,24 @@
     <p class="account-status" id="account-status"></p>
   </section>
 
+  <section class="featured-section" id="featured-section">
+    <div class="featured-card">
+      <div class="featured-icon">🎮</div>
+      <div class="featured-body">
+        <h3 data-i18n="featuredHeading">New: daily word games</h3>
+        <p data-i18n="featuredDesc">Two games each in Gaelic and Scots — a new puzzle every day. Free to play, no login needed.</p>
+      </div>
+      <a href="games.html" class="featured-btn" data-i18n="featuredBtn">Play now</a>
+    </div>
+  </section>
+
+  <input type="text" id="search-input" placeholder="Search a Scots word or proverb…" />
+
+  <button type="button" id="btn-expand" class="expand-btn">
+    <span id="expand-btn-text" data-i18n="expandBtnText">Show Proverb of the Day, filters &amp; the full collection ▾</span>
+  </button>
+
+  <div id="secondary-content" style="display:none;">
   <section class="potd" id="potd">
     <div class="potd-card">
       <div class="potd-head">
@@ -359,8 +402,6 @@
     <button id="btn-random" class="btn-outline" data-i18n="randomBtn">🎲 Random proverb</button>
     <button id="btn-about" class="link-btn" data-i18n="aboutBtn">About &amp; sources</button>
   </div>
-
-  <input type="text" id="search-input" placeholder="Search a Scots word or proverb…" />
 
   <div class="filters">
     <div class="theme-field">
@@ -447,6 +488,7 @@
       </form>
     </div>
   </section>
+  </div>
 
 </main>
 
@@ -1080,8 +1122,7 @@
     navGaelicCollection: { en: "Gaelic Collection", gd: "Cruinneachadh Gàidhlig" },
     navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
     navSuggested: { en: "Suggested Abairtean", gd: "Abairtean Air am Moladh" },
-    navGame: { en: "Am Facal", gd: "Am Facal" },
-    navBee: { en: "Seillean", gd: "Seillean" },
+    navGames: { en: "Games", gd: "Geamannan" },
     navResources: { en: "Resources", gd: "Goireasan" },
     navAbout: { en: "About", gd: "Mun Dèidhinn" },
     accountPrompt: {
@@ -1115,6 +1156,16 @@
     },
     randomBtn: { en: "🎲 Random proverb", gd: "🎲 Seanfhacal air thuaiream" },
     aboutBtn: { en: "About & sources", gd: "Mun dèidhinn 's tùsan" },
+    featuredHeading: { en: "New: daily word games", gd: "Ùr: geamannan facal làitheil" },
+    featuredDesc: {
+      en: "Two games each in Gaelic and Scots — a new puzzle every day. Free to play, no login needed.",
+      gd: "Dà gheama sa Ghàidhlig agus dà gheama sa Bheurla Ghallda — tòimhseachan ùr gach latha. An-asgaidh, gun chlàradh a dhìth."
+    },
+    featuredBtn: { en: "Play now", gd: "Cluich a-nis" },
+    expandBtnText: {
+      en: "Show Proverb of the Day, filters & the full collection ▾",
+      gd: "Seall Seanfhacal an Latha, sìoltachain, 's an cruinneachadh slàn ▾"
+    },
     filterAllThree: { en: "Recorded in all three languages", gd: "Clàraichte anns na trì cànain" },
     filterFavs: { en: "Favourites only", gd: "Feadhainn as fheàrr leam a-mhàin" },
     filterThemeLabel: { en: "Theme", gd: "Cuspair" },
@@ -1263,6 +1314,8 @@
     },
     btnRandom: document.getElementById('btn-random'),
     btnAbout: document.getElementById('btn-about'),
+    secondaryContent: document.getElementById('secondary-content'),
+    btnExpand: document.getElementById('btn-expand'),
     aboutOverlay: document.getElementById('about-overlay'),
     aboutClose: document.getElementById('btn-about-close'),
     aboutSummary: document.getElementById('about-summary'),
@@ -1445,7 +1498,20 @@
   el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
   el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
 
-  el.searchInput.addEventListener('input', function () { state.query = el.searchInput.value; render(); });
+  function expandSecondary() {
+    el.secondaryContent.style.display = 'block';
+    el.btnExpand.style.display = 'none';
+    // The mobile bottom bar's height is measured from the (now newly-visible)
+    // toolbar — recompute padding/install-banner position now it's on screen.
+    setTimeout(applyMobileBar, 0);
+  }
+  el.btnExpand.addEventListener('click', expandSecondary);
+
+  el.searchInput.addEventListener('input', function () {
+    state.query = el.searchInput.value;
+    if (state.query && el.secondaryContent.style.display === 'none') expandSecondary();
+    render();
+  });
   el.themeSelect.addEventListener('change', function () { state.theme = el.themeSelect.value; updateThemeChip(); render(); });
   el.chkLinked.addEventListener('change', function () { state.onlyAllThree = el.chkLinked.checked; render(); });
   el.chkFavs.addEventListener('change', function () { state.onlyFavourites = el.chkFavs.checked; render(); });

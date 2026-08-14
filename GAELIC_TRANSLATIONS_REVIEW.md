@@ -156,8 +156,7 @@ Previously the EN/GD toggle only translated the page content — the site-nav li
 | Nav: Gaelic Collection | Gaelic Collection | Cruinneachadh Gàidhlig | |
 | Nav: Scots Collection | Scots Collection | Cruinneachadh Beurla Ghallda | |
 | Nav: Suggested Abairtean | Suggested Abairtean | Abairtean Air am Moladh | |
-| Nav: Am Facal | Am Facal | Am Facal | |
-| Nav: Seillean | Seillean | Seillean | |
+| Nav: Games | Games | Geamannan | |
 | Nav: Resources | Resources | Goireasan | |
 | Nav: About | About | Mun Dèidhinn | |
 
@@ -401,6 +400,140 @@ Same approach as Am Facal's word list: a small, hand-picked set rather than full
 | GUALA | shoulder |
 
 Only three puzzles for now, so the cycle repeats every three days — tell me if you'd like more added, or want any of these swapped for different letters/words. As with Am Facal, if you (or a fluent speaker) spot a wrong word, a missing common word, or a word that shouldn't count, tell me and I'll edit the JSON directly.
+
+## New: nav restructure — Games replaces Am Facal + Seillean as separate links
+
+The site nav used to have two separate links, one per Gaelic game (Am Facal, Seillean). Now there's a single **Games** link (see the row above) pointing at the new `games.html` hub, which is where all four games — Am Facal, Seillean, The Wurd, and Bumbee — actually live. This shortened the nav from 10 links to 9 on every page.
+
+## New: Games hub page (games.html) — page chrome
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page subtitle | Daily word games — a new puzzle every day, same for everyone. Free to play, no login needed. | Geamannan facal làitheil — tòimhseachan ùr gach latha, an aon fhear dhan a h-uile duine. An-asgaidh, gun chlàradh a dhìth. | |
+| Tab: Gaelic | Gàidhlig | Gàidhlig | |
+| Tab: Scots | Beurla Ghallda | Beurla Ghallda | |
+| Card: Am Facal desc | Guess the Gaelic word — five letters, six tries. A new word every day. | Tomhais am facal Gàidhlig — còig litrichean, sia oidhirpean. Facal ùr gach latha. | |
+| Card: Seillean desc | Make as many Gaelic words as you can from seven letters, using the centre letter each time. | Dèan uiread de dh'fhaclan Gàidhlig 's as urrainn dhut le seachd litrichean, a' cleachdadh am prìomh litir gach turas. | |
+| Card: The Wurd desc | Guess the Scots word — five letters, six tries. A new word every day. | Tomhais am facal Beurla Ghallda — còig litrichean, sia oidhirpean. Facal ùr gach latha. | |
+| Card: Bumbee desc | Make as many Scots words as you can from seven letters, using the centre letter each time. | Dèan uiread de dh'fhaclan Beurla Ghallda 's as urrainn dhut le seachd litrichean, a' cleachdadh am prìomh litir gach turas. | |
+| Play button | Play | Cluich | |
+| Section note | All four games are free to play straight away — logging in is optional, and only saves your streak across devices. | Tha na ceithir geamannan an-asgaidh airson cluich sa bhad — tha clàradh a-steach roghainneil, agus chan eil e ach a' sàbhaladh an t-sreath agad eadar innealan. | |
+
+None of this batch has been checked by a fluent speaker.
+
+## New: The Wurd (Scots word game) — page chrome
+
+Built from the same code as Am Facal, so it shares nearly all the same strings — only the ones that differ are listed here (name, and every place "Gaelic" needed to become "Scots").
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page title | The Wurd | The Wurd | |
+| Page subtitle | Guess today's Scots word — a new one every day, same for everyone. Log in (optional) to save your streak across devices. | Tomhais facal Beurla Ghallda an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan. | |
+| Game hint | Guess the Scots word — five letters, six tries. | Tomhais am facal Beurla Ghallda, còig litrichean, ann an sia oidhirpean. | |
+| Win message | Got it! ({guesses}/6) | Fhuair thu e! ({guesses}/6) | |
+| Invite button | Send tae a pal | Cuir gu caraid | |
+| Invite share text | Try The Wurd — a daily Scots word game | Feuch The Wurd — geama facal Beurla Ghallda gach latha | |
+| Rules/limitation note | This game doesn't check whether what you type is a real Scots word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word. | Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Beurla Ghallda — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha. | |
+
+The "Enter" key on the on-screen keyboard now properly translates with the EN/GD toggle (it didn't on Am Facal — a small inconsistency I noticed and fixed while building this one; I haven't gone back to patch Am Facal since it's cosmetic and low-risk, but can if you'd like).
+
+None of this batch has been checked by a fluent speaker.
+
+## New: The Wurd — the 40-word Scots answer list
+
+Built the same way as Am Facal's list: common, everyday Scots words I'm reasonably confident in, but not checked by a fluent Scots speaker (a different language from the Gaelic content elsewhere on the site, so this is a fresh accuracy caveat, not a repeat of the Gaelic one). Lives in `wurd.html`'s `<script type="application/json" id="wordle-words">` block.
+
+| Word | Meaning | | Word | Meaning |
+|---|---|---|---|---|
+| BAIRN | child | | TREWS | trousers |
+| HOOSE | house | | BROON | brown |
+| GREET | cry, weep | | GLESS | glass |
+| STOOR | dust | | KIRKS | churches |
+| SCLIM | climb | | DAFTY | a foolish person |
+| BOGLE | ghost, goblin | | GRAIP | a garden or dung fork |
+| CRAIG | rock; throat | | GLOAM | twilight, dusk |
+| DOWIE | sad, low-spirited | | QUINE | a girl, young woman (north-east) |
+| SKELP | smack, slap | | CLYPE | a telltale; to tell tales |
+| STAUN | stand | | STANE | stone |
+| NEEPS | turnips | | HAVER | to talk nonsense |
+| BROSE | oatmeal dish | | SCOOR | to scour, clean vigorously |
+| GOWAN | daisy | | | |
+| LOWSE | loose; to finish work | | | |
+| SPEIR | to ask | | | |
+| THOLE | to endure, put up with | | | |
+| SKELF | a splinter | | | |
+| GLAUR | mud | | | |
+| HOWFF | a favourite haunt or pub | | | |
+| NIEVE | fist | | | |
+| PLOOK | a pimple | | | |
+| STRAE | straw | | | |
+| TATTY | potato (informal) | | | |
+| WEIRD | fate, destiny | | | |
+| YAULD | vigorous, lively | | | |
+| FEART | afraid, scared | | | |
+| TOUSY | unkempt, shaggy | | | |
+| SCART | to scratch | | | |
+
+If any of these are wrong, unclear, or you'd like different words swapped in, tell me and I'll edit the JSON directly.
+
+## New: Bumbee (Scots spelling-bee game) — page chrome
+
+Built from the same code as Seillean; strings that differ are listed here.
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Page title | Bumbee | Bumbee | |
+| Page subtitle | Make Scots words from today's seven letters. Log in (optional) to save your streak across devices. | Dèan faclan Beurla Ghallda leis na seachd litrichean an-diugh. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan. | |
+| Game hint | Make Scots words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long. | Dèan faclan Beurla Ghallda leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha. | |
+| Rules/limitation note | I don't have a large enough Scots dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it. | Chan eil faclair mòr gu leòr agam fhathast a Bheurla Ghallda gus gach facal a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e. | |
+
+None of this batch has been checked by a fluent speaker.
+
+## New: Bumbee — the three curated Scots puzzles
+
+Same approach as every other word game on the site: a small hand-picked set, not full-dictionary validation. Each puzzle is seven letters with one fixed centre letter (bold below); the pangram is the word that uses all seven. Lives in `bumbee.html`'s `<script type="application/json" id="bee-puzzles">` block.
+
+**Puzzle 1 — letters S, C, U, N, E, R, T, centre U**
+
+| Word | Meaning |
+|---|---|
+| CURN | a small amount, a handful |
+| CRUSE | a small earthenware jar or pot |
+| CRUNT | a blow, a hit |
+| TRUCE | a truce |
+| SCUNNER | a feeling of disgust or being fed up |
+| SCUNNERT | fed up, disgusted (pangram) |
+
+**Puzzle 2 — letters S, T, R, A, V, I, G, centre A**
+
+| Word | Meaning |
+|---|---|
+| GAIT | way, manner (as in "yer ain gait") |
+| STAIG | a young horse, a colt |
+| VISTA | a view |
+| STRAVAIG | to wander about aimlessly (pangram) |
+
+**Puzzle 3 — letters G, L, O, A, M, I, N, centre O**
+
+| Word | Meaning |
+|---|---|
+| MOAN | to moan, complain |
+| LOAN | a lane or path (Scots usage — not a money loan) |
+| MOIL | to toil, work hard |
+| GLOAMIN | twilight, dusk (pangram) |
+
+Only three puzzles for now, so the cycle repeats every three days — tell me if you'd like more added or any of these swapped out. Same request as everywhere else: if you or a fluent Scots speaker spot a wrong word, a missing common word, or a word that shouldn't count, tell me and I'll edit the JSON directly.
+
+## New: Home page — Featured section and Expand button
+
+| Where it appears | English | My Gaelic | Correction |
+|---|---|---|---|
+| Featured heading | New: daily word games | Ùr: geamannan facal làitheil | |
+| Featured description | Two games each in Gaelic and Scots — a new puzzle every day. Free to play, no login needed. | Dà gheama sa Ghàidhlig agus dà gheama sa Bheurla Ghallda — tòimhseachan ùr gach latha. An-asgaidh, gun chlàradh a dhìth. | |
+| Featured button | Play now | Cluich a-nis | |
+| Expand button | Show Proverb of the Day, filters & the full collection ▾ | Seall Seanfhacal an Latha, sìoltachain, 's an cruinneachadh slàn ▾ | |
+
+None of this batch has been checked by a fluent speaker.
 
 ## How to send corrections
 

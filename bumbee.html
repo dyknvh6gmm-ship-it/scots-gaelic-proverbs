@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title id="doc-title">Seillean — Sean-fhaclan &amp; Auld Sayins</title>
+<title id="doc-title">Bumbee — Sean-fhaclan &amp; Auld Sayins</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -106,6 +106,10 @@
 
   .about-note { font-size: 0.78rem; color: rgba(43,35,32,0.5); text-align: center; margin-top: 18px; line-height: 1.5; }
 
+  .social-follow { text-align: center; font-size: 0.8rem; color: rgba(43,35,32,0.5); margin: 6px 0 0; }
+  .social-follow a { color: var(--thistle); text-decoration: none; font-weight: 600; margin: 0 8px; }
+  .social-follow a:hover { text-decoration: underline; }
+
   footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
 </style>
 </head>
@@ -130,8 +134,8 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     </div>
-    <h1 class="proverb-text" id="page-title">Seillean</h1>
-    <p id="page-subtitle">Make Gaelic words from today's seven letters. Log in (optional) to save your streak across devices.</p>
+    <h1 class="proverb-text" id="page-title">Bumbee</h1>
+    <p id="page-subtitle">Make Scots words from today's seven letters. Log in (optional) to save your streak across devices.</p>
   </div>
 </header>
 
@@ -154,13 +158,13 @@
   </div>
 
   <div class="card" id="game-card" style="display:none;">
-    <h2 id="game-heading">Seillean</h2>
-    <p class="hint" id="game-hint">Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha.</p>
+    <h2 id="game-heading">Bumbee</h2>
+    <p class="hint" id="game-hint">Make Scots words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long.</p>
 
     <div class="stats-row">
-      <div><div class="stat-num" id="stat-found">0</div><div class="stat-label" id="stat-found-label">Air Lorg</div></div>
-      <div><div class="stat-num" id="stat-score">0</div><div class="stat-label" id="stat-score-label">Sgòr</div></div>
-      <div><div class="stat-num" id="stat-rank">Tòiseachadh</div><div class="stat-label" id="stat-rank-label">Ìre</div></div>
+      <div><div class="stat-num" id="stat-found">0</div><div class="stat-label" id="stat-found-label">Found</div></div>
+      <div><div class="stat-num" id="stat-score">0</div><div class="stat-label" id="stat-score-label">Score</div></div>
+      <div><div class="stat-num" id="stat-rank">Starting</div><div class="stat-label" id="stat-rank-label">Rank</div></div>
     </div>
 
     <p class="game-message" id="game-message"></p>
@@ -170,13 +174,21 @@
     <div class="bee-actions">
       <button type="button" id="btn-delete" class="btn-outline">⌫</button>
       <button type="button" id="btn-shuffle" class="btn-outline">🔀</button>
-      <button type="button" id="btn-submit" class="btn-outline primary">Cuir a-steach</button>
+      <button type="button" id="btn-submit" class="btn-outline primary">Enter</button>
     </div>
 
     <div class="found-words" id="found-words"></div>
 
-    <p class="about-note" id="about-note">Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e.</p>
+    <p class="about-note" id="about-note">I don't have a large enough Scots dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it.</p>
   </div>
+
+  <p class="social-follow" id="social-follow">
+    <span id="social-follow-text">Follow for more of what I do:</span><br />
+    <a href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener">Facebook</a>
+    <a href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener">TikTok</a>
+  </p>
 </main>
 
 <footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
@@ -184,38 +196,35 @@
 <script type="application/json" id="bee-puzzles">
 [
   {
-    "letters": ["A","T","H","D","G","M","L"],
-    "center": "A",
-    "words": [
-      {"word":"MATH","en":"good"},
-      {"word":"GATH","en":"sting, dart"},
-      {"word":"DATH","en":"colour"},
-      {"word":"DALL","en":"blind"},
-      {"word":"MALL","en":"slow"},
-      {"word":"LATHA","en":"day"},
-      {"word":"TALAMH","en":"land, ground"}
-    ]
-  },
-  {
-    "letters": ["I","N","E","T","S","G","A"],
-    "center": "I",
-    "words": [
-      {"word":"SEINN","en":"singing, to sing"},
-      {"word":"TEINE","en":"fire"},
-      {"word":"SGIAN","en":"knife"},
-      {"word":"INNIS","en":"island; to tell"},
-      {"word":"AISTE","en":"essay"},
-      {"word":"AISEAG","en":"ferry"}
-    ]
-  },
-  {
-    "letters": ["U","A","S","G","L","C","H"],
+    "letters": ["S","C","U","N","E","R","T"],
     "center": "U",
     "words": [
-      {"word":"CLUAS","en":"ear"},
-      {"word":"SLUAGH","en":"people, host, crowd"},
-      {"word":"GUAL","en":"coal"},
-      {"word":"GUALA","en":"shoulder"}
+      {"word":"CURN","en":"a small amount, a handful"},
+      {"word":"CRUSE","en":"a small earthenware jar or pot"},
+      {"word":"CRUNT","en":"a blow, a hit"},
+      {"word":"TRUCE","en":"a truce"},
+      {"word":"SCUNNER","en":"a feeling of disgust or being fed up"},
+      {"word":"SCUNNERT","en":"fed up, disgusted (pangram)"}
+    ]
+  },
+  {
+    "letters": ["S","T","R","A","V","I","G"],
+    "center": "A",
+    "words": [
+      {"word":"GAIT","en":"way, manner (as in 'yer ain gait')"},
+      {"word":"STAIG","en":"a young horse, a colt"},
+      {"word":"VISTA","en":"a view"},
+      {"word":"STRAVAIG","en":"to wander about aimlessly (pangram)"}
+    ]
+  },
+  {
+    "letters": ["G","L","O","A","M","I","N"],
+    "center": "O",
+    "words": [
+      {"word":"MOAN","en":"to moan, complain"},
+      {"word":"LOAN","en":"a lane or path (Scots usage)"},
+      {"word":"MOIL","en":"to toil, work hard"},
+      {"word":"GLOAMIN","en":"twilight, dusk (pangram)"}
     ]
   }
 ]
@@ -237,8 +246,8 @@
     : null;
   var currentUser = null;
 
-  // Same reference date as geama.html, so both games rotate on the same clock
-  // (they just cycle through pools of different sizes).
+  // Same reference date as the other three games, so all four rotate on the
+  // same clock (they just cycle through pools of different sizes).
   var WORD_EPOCH = Date.UTC(2026, 0, 1);
   function todayIndex() {
     var now = new Date();
@@ -248,11 +257,11 @@
   }
 
   var I18N = {
-    docTitle: { en: 'Seillean — Sean-fhaclan & Auld Sayins', gd: 'Seillean — Sean-fhaclan & Auld Sayins' },
-    pageTitle: { en: 'Seillean', gd: 'Seillean' },
+    docTitle: { en: 'Bumbee — Sean-fhaclan & Auld Sayins', gd: 'Bumbee — Sean-fhaclan & Auld Sayins' },
+    pageTitle: { en: 'Bumbee', gd: 'Bumbee' },
     pageSubtitle: {
-      en: "Make Gaelic words from today's seven letters. Log in (optional) to save your streak across devices.",
-      gd: "Dèan faclan Gàidhlig leis na seachd litrichean an-diugh. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan."
+      en: "Make Scots words from today's seven letters. Log in (optional) to save your streak across devices.",
+      gd: "Dèan faclan Beurla Ghallda leis na seachd litrichean an-diugh. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan."
     },
     signedOutHint: {
       en: "Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link.",
@@ -268,10 +277,10 @@
     },
     signedInAs: { en: 'Signed in as {email}', gd: 'Air clàradh a-steach mar {email}' },
     logOut: { en: 'Log out', gd: 'Clàraich a-mach' },
-    gameHeading: { en: 'Seillean', gd: 'Seillean' },
+    gameHeading: { en: 'Bumbee', gd: 'Bumbee' },
     gameHint: {
-      en: "Make Gaelic words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long.",
-      gd: "Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha."
+      en: "Make Scots words from the seven letters below. Every word must use the centre letter (amber), and be at least four letters long.",
+      gd: "Dèan faclan Beurla Ghallda leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha."
     },
     statFoundLabel: { en: 'Found', gd: 'Air Lorg' },
     statScoreLabel: { en: 'Score', gd: 'Sgòr' },
@@ -289,9 +298,10 @@
     rankDone: { en: 'All done!', gd: 'Deiseil!' },
     submitBtn: { en: 'Enter', gd: 'Cuir a-steach' },
     aboutNote: {
-      en: "I don't have a large enough Gaelic dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it.",
-      gd: "Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e."
+      en: "I don't have a large enough Scots dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it.",
+      gd: "Chan eil faclair mòr gu leòr agam fhathast a Bheurla Ghallda gus gach facal a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e."
     },
+    socialFollowText: { en: 'Follow for more of what I do:', gd: 'Lean mi airson barrachd dhen na tha mi a\' dèanamh:' },
     navHome: { en: 'Home', gd: 'Dachaigh' },
     navMyAccount: { en: 'My Account', gd: 'An Cunntas Agam' },
     navGrammar: { en: 'Grammar', gd: 'Gràmar' },
@@ -336,6 +346,7 @@
     btnSubmit: document.getElementById('btn-submit'),
     foundWords: document.getElementById('found-words'),
     aboutNote: document.getElementById('about-note'),
+    socialFollowText: document.getElementById('social-follow-text'),
     footer: document.getElementById('footer-text'),
     uiLangEn: document.getElementById('ui-lang-en'),
     uiLangGd: document.getElementById('ui-lang-gd'),
@@ -384,6 +395,7 @@
     el.statRankLabel.textContent = t('statRankLabel');
     el.btnSubmit.textContent = t('submitBtn');
     el.aboutNote.textContent = t('aboutNote');
+    el.socialFollowText.textContent = t('socialFollowText');
     el.footer.textContent = t('footer');
     el.navHome.textContent = t('navHome');
     el.navMyAccount.textContent = t('navMyAccount');
@@ -428,7 +440,7 @@
     return base + (isPangram(word) ? 7 : 0);
   }
 
-  var STORAGE_KEY = 'sf-geama-bee-' + dayIdx;
+  var STORAGE_KEY = 'sf-bumbee-bee-' + dayIdx;
   var game = loadJSON(STORAGE_KEY, { found: [], syncedPlayed: false, syncedCleared: false });
 
   function currentShuffleOrder() {
@@ -538,7 +550,7 @@
     el.statRank.textContent = rankLabel(pct);
   }
 
-  // ---- Sync progress to Supabase (game_stats, game = 'bee') ----
+  // ---- Sync progress to Supabase (game_stats, game = 'bee-sco') ----
   function syncProgress() {
     if (!sfClient || !currentUser) return;
     var fullClear = game.found.length >= puzzle.words.length;
@@ -546,7 +558,7 @@
     if (!game.syncedPlayed) {
       game.syncedPlayed = true;
       saveJSON(STORAGE_KEY, game);
-      sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).eq('game', 'bee')
+      sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).eq('game', 'bee-sco')
         .maybeSingle().then(function (res) {
           var row = res.data || null;
           var prevStreak = row ? row.current_streak : 0;
@@ -556,7 +568,7 @@
           var newStreak = prevDay === dayIdx - 1 ? prevStreak + 1 : 1;
           sfClient.from('game_stats').upsert({
             user_id: currentUser.id,
-            game: 'bee',
+            game: 'bee-sco',
             current_streak: newStreak,
             max_streak: Math.max(prevMax, newStreak),
             games_played: prevPlayed + 1,
@@ -571,14 +583,14 @@
     if (fullClear && !game.syncedCleared) {
       game.syncedCleared = true;
       saveJSON(STORAGE_KEY, game);
-      sfClient.from('game_stats').select('games_won').eq('user_id', currentUser.id).eq('game', 'bee')
+      sfClient.from('game_stats').select('games_won').eq('user_id', currentUser.id).eq('game', 'bee-sco')
         .maybeSingle().then(function (res) {
           var prevWon = (res.data && res.data.games_won) || 0;
           sfClient.from('game_stats').update({
             games_won: prevWon + 1,
             last_result: 'cleared',
             updated_at: new Date().toISOString()
-          }).eq('user_id', currentUser.id).eq('game', 'bee').then(function () {});
+          }).eq('user_id', currentUser.id).eq('game', 'bee-sco').then(function () {});
         });
     }
   }

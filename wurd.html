@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title id="doc-title">Am Facal — Sean-fhaclan &amp; Auld Sayins</title>
+<title id="doc-title">The Wurd — Sean-fhaclan &amp; Auld Sayins</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -87,7 +87,7 @@
   .wordle-tile.present { background: var(--tile-present); border-color: var(--tile-present); color: #fff; }
   .wordle-tile.absent { background: var(--tile-absent); border-color: var(--tile-absent); color: #fff; }
 
-  .keyboard { display: grid; gap: 6px; max-width: 400px; margin: 0 auto; }
+  .keyboard { display: grid; gap: 6px; max-width: 460px; margin: 0 auto; }
   .kb-row { display: flex; gap: 5px; justify-content: center; }
   .kb-key {
     flex: 1; max-width: 36px; height: 44px; border-radius: 6px; border: none;
@@ -95,7 +95,7 @@
     cursor: pointer; display: flex; align-items: center; justify-content: center; text-transform: uppercase;
   }
   .kb-key:hover { background: rgba(142,108,156,0.25); }
-  .kb-key.wide { max-width: 66px; font-size: 0.68rem; }
+  .kb-key.wide { max-width: 56px; font-size: 0.68rem; }
   .kb-key.correct { background: var(--tile-correct); color: #fff; }
   .kb-key.present { background: var(--tile-present); color: #fff; }
   .kb-key.absent { background: var(--tile-absent); color: #fff; }
@@ -118,8 +118,8 @@
   footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
 
   @media (max-width: 380px) {
-    .kb-key { max-width: 30px; height: 40px; font-size: 0.75rem; }
-    .kb-key.wide { max-width: 54px; font-size: 0.6rem; }
+    .kb-key { max-width: 26px; height: 40px; font-size: 0.7rem; }
+    .kb-key.wide { max-width: 44px; font-size: 0.58rem; }
     .wordle-tile { font-size: 1.1rem; }
   }
 </style>
@@ -145,8 +145,8 @@
       <button id="ui-lang-gd" data-lang="gd">GD</button>
     </div>
     </div>
-    <h1 class="proverb-text" id="page-title">Am Facal</h1>
-    <p id="page-subtitle">Guess today's Gaelic word — a new one every day, same for everyone. Log in (optional) to save your streak across devices.</p>
+    <h1 class="proverb-text" id="page-title">The Wurd</h1>
+    <p id="page-subtitle">Guess today's Scots word — a new one every day, same for everyone. Log in (optional) to save your streak across devices.</p>
   </div>
 </header>
 
@@ -169,10 +169,10 @@
   </div>
 
   <div class="card" id="game-card" style="display:none;">
-    <h2 id="game-heading">Am Facal</h2>
-    <p class="hint" id="game-hint">Tomhais am facal Gàidhlig, còig litrichean, ann an sia oidhirpean.</p>
+    <h2 id="game-heading">The Wurd</h2>
+    <p class="hint" id="game-hint">Guess the Scots word — five letters, six tries.</p>
     <p style="text-align:center; margin: -8px 0 16px;">
-      <button type="button" id="invite-btn" class="btn-outline" style="font-size:0.78rem; padding:6px 14px;">Cuir gu caraid</button>
+      <button type="button" id="invite-btn" class="btn-outline" style="font-size:0.78rem; padding:6px 14px;">Send tae a pal</button>
     </p>
 
     <div class="stats-row">
@@ -188,10 +188,10 @@
 
     <div class="reveal-box" id="reveal-box" style="display:none;">
       <p id="reveal-text"></p>
-      <button type="button" id="share-btn" class="btn-outline">Cuir an Roinn</button>
+      <button type="button" id="share-btn" class="btn-outline">Copy result</button>
     </div>
 
-    <p class="about-note" id="about-note">Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha.</p>
+    <p class="about-note" id="about-note">This game doesn't check whether what you type is a real Scots word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word.</p>
   </div>
 
   <p class="social-follow" id="social-follow">
@@ -207,46 +207,46 @@
 
 <script type="application/json" id="wordle-words">
 [
-  {"word":"UISGE","en":"water"},
-  {"word":"LATHA","en":"day"},
-  {"word":"DUINE","en":"person, man"},
-  {"word":"BAILE","en":"town"},
-  {"word":"DORAS","en":"door"},
-  {"word":"CLACH","en":"stone"},
-  {"word":"GAOTH","en":"wind"},
-  {"word":"BIADH","en":"food"},
-  {"word":"GRIAN","en":"sun"},
-  {"word":"BEINN","en":"mountain"},
-  {"word":"CAORA","en":"sheep"},
-  {"word":"SGIAN","en":"knife"},
-  {"word":"CREAG","en":"rock, crag"},
-  {"word":"COIRE","en":"corrie, kettle"},
-  {"word":"SRATH","en":"valley, strath"},
-  {"word":"FIODH","en":"wood, timber"},
-  {"word":"GILLE","en":"lad, boy"},
-  {"word":"SGEUL","en":"story, tale"},
-  {"word":"FEARG","en":"anger"},
-  {"word":"SOLAS","en":"light"},
-  {"word":"SEINN","en":"singing, to sing"},
-  {"word":"BALLA","en":"wall"},
-  {"word":"FIADH","en":"deer"},
-  {"word":"CLUAS","en":"ear"},
-  {"word":"CABAR","en":"caber, antler, rafter"},
-  {"word":"TUATH","en":"north; tenantry"},
-  {"word":"CEANN","en":"head"},
-  {"word":"TEINE","en":"fire"},
-  {"word":"MAIDE","en":"stick"},
-  {"word":"UBHAL","en":"apple"},
-  {"word":"CRODH","en":"cattle"},
-  {"word":"GRUAG","en":"hair, wig"},
-  {"word":"RADAN","en":"rat"},
-  {"word":"BALBH","en":"mute, silent"},
-  {"word":"MILIS","en":"sweet"},
-  {"word":"LUATH","en":"fast, quick"},
-  {"word":"DEARG","en":"red"},
-  {"word":"IONAD","en":"place, centre"},
-  {"word":"SGOIL","en":"school"},
-  {"word":"PEANN","en":"pen"}
+  {"word":"BAIRN","en":"child"},
+  {"word":"HOOSE","en":"house"},
+  {"word":"GREET","en":"cry, weep"},
+  {"word":"STOOR","en":"dust"},
+  {"word":"SCLIM","en":"climb"},
+  {"word":"BOGLE","en":"ghost, goblin"},
+  {"word":"CRAIG","en":"rock; throat"},
+  {"word":"DOWIE","en":"sad, low-spirited"},
+  {"word":"SKELP","en":"smack, slap"},
+  {"word":"STAUN","en":"stand"},
+  {"word":"NEEPS","en":"turnips"},
+  {"word":"BROSE","en":"oatmeal dish, mixed with hot water or milk"},
+  {"word":"GOWAN","en":"daisy"},
+  {"word":"LOWSE","en":"loose; to finish work"},
+  {"word":"SPEIR","en":"to ask"},
+  {"word":"THOLE","en":"to endure, put up with"},
+  {"word":"SKELF","en":"a splinter"},
+  {"word":"GLAUR","en":"mud"},
+  {"word":"HOWFF","en":"a favourite haunt or pub"},
+  {"word":"NIEVE","en":"fist"},
+  {"word":"PLOOK","en":"a pimple"},
+  {"word":"STRAE","en":"straw"},
+  {"word":"TATTY","en":"potato (informal)"},
+  {"word":"WEIRD","en":"fate, destiny"},
+  {"word":"YAULD","en":"vigorous, lively"},
+  {"word":"FEART","en":"afraid, scared"},
+  {"word":"TOUSY","en":"unkempt, shaggy"},
+  {"word":"SCART","en":"to scratch"},
+  {"word":"TREWS","en":"trousers"},
+  {"word":"BROON","en":"brown"},
+  {"word":"GLESS","en":"glass"},
+  {"word":"KIRKS","en":"churches"},
+  {"word":"DAFTY","en":"a foolish person"},
+  {"word":"GRAIP","en":"a garden or dung fork"},
+  {"word":"GLOAM","en":"twilight, dusk"},
+  {"word":"QUINE","en":"a girl, young woman (north-east Scots)"},
+  {"word":"CLYPE","en":"a telltale; to tell tales"},
+  {"word":"STANE","en":"stone"},
+  {"word":"HAVER","en":"to talk nonsense"},
+  {"word":"SCOOR","en":"to scour, clean vigorously"}
 ]
 </script>
 
@@ -258,9 +258,9 @@
   var WORD_LEN = 5;
   var MAX_GUESSES = 6;
   var KB_ROWS = [
-    ['A','B','C','D','E','F','G','H','I'],
-    ['L','M','N','O','P','R','S','T','U'],
-    ['À','È','Ì','Ò','Ù']
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['Z','X','C','V','B','N','M']
   ];
 
   var WORDS = JSON.parse(document.getElementById('wordle-words').textContent);
@@ -272,9 +272,8 @@
     : null;
   var currentUser = null;
 
-  // A fixed reference date so everyone gets the same word on the same calendar
-  // day, cycling through WORDS and wrapping back to the start once the list
-  // runs out (same idea as the Proverb of the Day rotation on the Home page).
+  // Same reference date as the Gaelic games, so all four rotate on the same
+  // clock (they just cycle through pools of different sizes).
   var WORD_EPOCH = Date.UTC(2026, 0, 1);
   function todayIndex() {
     var now = new Date();
@@ -285,11 +284,11 @@
   }
 
   var I18N = {
-    docTitle: { en: 'Am Facal — Sean-fhaclan & Auld Sayins', gd: 'Am Facal — Sean-fhaclan & Auld Sayins' },
-    pageTitle: { en: 'Am Facal', gd: 'Am Facal' },
+    docTitle: { en: 'The Wurd — Sean-fhaclan & Auld Sayins', gd: 'The Wurd — Sean-fhaclan & Auld Sayins' },
+    pageTitle: { en: 'The Wurd', gd: 'The Wurd' },
     pageSubtitle: {
-      en: "Log in and guess today's Gaelic word — a new one every day, same for everyone.",
-      gd: "Clàraich a-steach agus tomhais facal an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine."
+      en: "Guess today's Scots word — a new one every day, same for everyone. Log in (optional) to save your streak across devices.",
+      gd: "Tomhais facal Beurla Ghallda an latha — facal ùr gach latha, an aon fhacal dhan a h-uile duine. Clàraich a-steach (roghainneil) gus an t-sreath agad a shàbhaladh eadar innealan."
     },
     signedOutHint: {
       en: "Optional: log in with just your email to save your streak across devices — no password needed, we'll send you a link.",
@@ -305,14 +304,15 @@
     },
     signedInAs: { en: 'Signed in as {email}', gd: 'Air clàradh a-steach mar {email}' },
     logOut: { en: 'Log out', gd: 'Clàraich a-mach' },
-    gameHeading: { en: 'Am Facal', gd: 'Am Facal' },
+    gameHeading: { en: 'The Wurd', gd: 'The Wurd' },
     gameHint: {
-      en: 'Guess the Gaelic word — five letters, six tries.',
-      gd: "Tomhais am facal Gàidhlig, còig litrichean, ann an sia oidhirpean."
+      en: 'Guess the Scots word — five letters, six tries.',
+      gd: "Tomhais am facal Beurla Ghallda, còig litrichean, ann an sia oidhirpean."
     },
     statStreakLabel: { en: 'Streak', gd: 'Sreath' },
     statPlayedLabel: { en: 'Played', gd: 'Air Cluich' },
     statWinPctLabel: { en: 'Win %', gd: 'Buannachadh %' },
+    enterBtn: { en: 'Enter', gd: 'Cuir a-steach' },
     notEnoughLetters: { en: 'Not enough letters.', gd: 'Chan eil na leòr litrichean ann.' },
     alreadyPlayedWon: {
       en: "You already played today's word and won: {word} ({meaning}). Come back tomorrow!",
@@ -322,18 +322,18 @@
       en: "You already played today's word. It was: {word} ({meaning}). Come back tomorrow!",
       gd: "Chluich thu facal an latha mu thràth. B' e am facal: {word} ({meaning}). Thig air ais a-màireach!"
     },
-    wonMessage: { en: 'Fuair thu e! ({guesses}/6)', gd: 'Fuair thu e! ({guesses}/6)' },
+    wonMessage: { en: 'Got it! ({guesses}/6)', gd: 'Fhuair thu e! ({guesses}/6)' },
     lostMessage: { en: "That's your six — the word was {word} ({meaning}).", gd: "Sin do shia oidhirpean — b' e am facal {word} ({meaning})." },
     shareButton: { en: 'Copy result', gd: 'Cuir an Roinn' },
     shareCopied: { en: 'Copied — paste it anywhere!', gd: 'Air a chopaigeadh — cuir e an àite sam bith!' },
-    inviteBtn: { en: 'Invite a friend', gd: 'Cuir gu caraid' },
+    inviteBtn: { en: 'Send tae a pal', gd: 'Cuir gu caraid' },
     inviteText: {
-      en: "Try Am Facal — a daily Gaelic word game",
-      gd: "Feuch Am Facal — geama facal Gàidhlig gach latha"
+      en: "Try The Wurd — a daily Scots word game",
+      gd: "Feuch The Wurd — geama facal Beurla Ghallda gach latha"
     },
     aboutNote: {
-      en: "This game doesn't check whether what you type is a real Gaelic word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word.",
-      gd: "Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha."
+      en: "This game doesn't check whether what you type is a real Scots word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word.",
+      gd: "Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Beurla Ghallda — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha."
     },
     socialFollowText: { en: 'Follow for more of what I do:', gd: 'Lean mi airson barrachd dhen na tha mi a\' dèanamh:' },
     navHome: { en: 'Home', gd: 'Dachaigh' },
@@ -395,6 +395,8 @@
     navAbout: document.getElementById('nav-about')
   };
 
+  var enterBtnEl = null;
+
   function loadJSON(key, fallback) {
     try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
   }
@@ -441,6 +443,7 @@
     el.navGames.textContent = t('navGames');
     el.navResources.textContent = t('navResources');
     el.navAbout.textContent = t('navAbout');
+    if (enterBtnEl) enterBtnEl.textContent = t('enterBtn');
     renderReveal();
   }
 
@@ -460,7 +463,7 @@
   var answerEntry = WORDS[dayIdx];
   var answer = answerEntry.word;
 
-  var STORAGE_KEY = 'sf-geama-wordle-' + dayIdx;
+  var STORAGE_KEY = 'sf-wurd-wordle-' + dayIdx;
   var game = loadJSON(STORAGE_KEY, { guesses: [], current: '', status: 'playing', synced: false });
   var keyStates = {}; // letter -> 'correct' | 'present' | 'absent'
 
@@ -513,8 +516,9 @@
     var enterBtn = document.createElement('button');
     enterBtn.type = 'button';
     enterBtn.className = 'kb-key wide';
-    enterBtn.textContent = 'Cuir a-steach';
+    enterBtn.textContent = t('enterBtn');
     enterBtn.addEventListener('click', handleEnter);
+    enterBtnEl = enterBtn;
     var delBtn = document.createElement('button');
     delBtn.type = 'button';
     delBtn.className = 'kb-key wide';
@@ -622,7 +626,7 @@
     }
   });
 
-  var GAME_URL = 'https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/geama.html';
+  var GAME_URL = 'https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/wurd.html';
 
   function shareText() {
     var lines = game.guesses.map(function (g) {
@@ -631,7 +635,7 @@
       }).join('');
     });
     var scoreLine = game.status === 'won' ? game.guesses.length + '/6' : 'X/6';
-    return 'Am Facal ' + (dayIdx + 1) + ' ' + scoreLine + '\n' + lines.join('\n') + '\n' + GAME_URL;
+    return 'The Wurd ' + (dayIdx + 1) + ' ' + scoreLine + '\n' + lines.join('\n') + '\n' + GAME_URL;
   }
 
   el.shareBtn.addEventListener('click', function () {
@@ -651,7 +655,7 @@
   el.inviteBtn.addEventListener('click', function () {
     var inviteText = t('inviteText');
     if (navigator.share) {
-      navigator.share({ title: 'Am Facal', text: inviteText, url: GAME_URL }).catch(function () {});
+      navigator.share({ title: 'The Wurd', text: inviteText, url: GAME_URL }).catch(function () {});
       return;
     }
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -674,7 +678,7 @@
 
   function loadStats(afterLoad) {
     if (!sfClient || !currentUser) return;
-    sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).eq('game', 'wordle')
+    sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).eq('game', 'wordle-sco')
       .maybeSingle().then(function (res) {
         var row = (res.data) || null;
         renderStats(row);
@@ -696,7 +700,7 @@
       var newStreak = won ? (prevDay === dayIdx - 1 ? prevStreak + 1 : 1) : 0;
       var newRow = {
         user_id: currentUser.id,
-        game: 'wordle',
+        game: 'wordle-sco',
         current_streak: newStreak,
         max_streak: Math.max(prevMax, newStreak),
         games_played: prevPlayed + 1,

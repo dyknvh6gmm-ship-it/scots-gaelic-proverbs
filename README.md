@@ -16,20 +16,23 @@ A searchable Scots ⇄ Scottish Gaelic ⇄ English proverb app, installable as a
 - `scots-collection.html` — the same idea for Scots proverbs, from a different historical published collection, see "The Scots Collection page" below
 - `my-account.html` — the members page: shows a logged-in visitor's saved favourites and a form to suggest a proverb, see "The My Account page" below
 - `suggested-abairtean.html` — a public page listing community-suggested proverbs you've approved, see "The Suggested Abairtean page" below
+- `games.html` — the Games hub: Gàidhlig / Beurla Ghallda tabs, each listing that language's two games, see "The Games page" below
 - `geama.html` — "Am Facal," a daily Gaelic word-guessing game, no login needed to play — see "The Am Facal word game" below
 - `seillean.html` — "Seillean," a daily Gaelic spelling-bee game, no login needed to play — see "The Seillean word game" below
-- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, the newsletter/push opt-ins, and both word games' stats, see "Accounts" below
+- `wurd.html` — "The Wurd," a daily Scots word-guessing game, no login needed to play — see "The Wurd word game" below
+- `bumbee.html` — "Bumbee," a daily Scots spelling-bee game, no login needed to play — see "The Bumbee word game" below
+- `supabase-schema.sql` — run once in your Supabase project to enable login, synced favourites, direct suggestions, the newsletter/push opt-ins, and all four word games' stats, see "Accounts" below
 - `supabase-function-send-daily-proverb.ts` — a Supabase Edge Function that emails the day's proverb to opted-in subscribers, see "Push notifications and email" below
 - `supabase-function-send-daily-push.ts` — the same idea, but sends a push notification via OneSignal instead of an email, see "Push notifications and email" below
 - `GAELIC_TRANSLATIONS_REVIEW.md` — every interface string in English and Gaelic, side by side, for you (or a fluent speaker) to check before the Gaelic UI goes live
 
-The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, `geama.html`, and `seillean.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
+The first four are needed together for the installable-app features to work — see "Installing as an app" below. `manager.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, `games.html`, `geama.html`, `seillean.html`, `wurd.html`, and `bumbee.html` should all be deployed alongside `index.html` (they link to each other and share `manifest.json`/icons), but aren't required for the proverb search itself to run. The review doc is just for you; it doesn't need to be deployed.
 
 ## Site structure
 
-The site is now several pages sharing one look and a navigation bar (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Am Facal / Seillean / Resources / About) in the header of each — click between them like any normal website. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
+The site is now several pages sharing one look and a navigation bar (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Games / Resources / About) in the header of each — click between them like any normal website. The nav has a single **Games** link rather than one per game; it opens the Games hub (`games.html`), which is where all four games actually live — see "The Games page" below. `manager.html` is reachable too (a small "+ Add a proverb" link at the bottom of the Home page), but deliberately left out of the main nav since it's a tool for you, not visitors.
 
-There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, `geama.html`, and `seillean.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
+There's no shared template system — each `.html` file is fully self-contained, so the navigation bar's HTML is duplicated across `index.html`, `grammar.html`, `resources.html`, `about.html`, `gaelic-collection.html`, `scots-collection.html`, `my-account.html`, `suggested-abairtean.html`, `games.html`, `geama.html`, `seillean.html`, `wurd.html`, and `bumbee.html`. If you ever want to change the nav (add a page, rename one), it needs updating in each file's `<nav class="site-nav">` block.
 
 On phones, the nav bar scrolls horizontally left/right rather than wrapping, so it never overlaps the EN/GD toggle in the top-right corner — see "Mobile layout" below.
 
@@ -89,6 +92,10 @@ This is deliberately a separate, moderated space from the main proverb database 
 
 **To approve or remove a suggestion:** open your Supabase project → Table Editor → `suggestions`, find the row, and change its `status` column from `pending` to `approved` to publish it here, or back to `pending` (or delete the row) to pull it down. No admin login or extra page needed — the Table Editor is your moderation queue.
 
+## The Games page
+
+`games.html` is the games hub, reached from the single **Games** link in the nav. Two sub-tabs — **Gàidhlig** and **Beurla Ghallda** — each show two cards, one per game in that language, with a "Play" button linking straight to the real game page. Gàidhlig: Am Facal, Seillean. Beurla Ghallda: The Wurd, Bumbee. The page itself doesn't play anything — it's just a switchboard — so it's a small, simple file: two buttons to swap the visible tab, four cards, done. Your last-chosen tab is remembered (localStorage), same pattern as the EN/GD toggle.
+
 ## The Am Facal word game
 
 `geama.html` is a Wordle-style Gaelic word game: guess a five-letter Gaelic word in six tries, with tiles that turn green (right letter, right spot), amber (right letter, wrong spot), or grey (not in the word) after each guess — same mechanic as the game it's inspired by. Everyone gets the same word on the same calendar day, cycling through a 40-word list, so it works the same way as the site's own Proverb of the Day.
@@ -121,6 +128,22 @@ Same rules as Am Facal apply: refreshes automatically every day (client-side dat
 
 Stats save to the same `game_stats` table as Am Facal, distinguished by the `game` column (`'wordle'` vs `'bee'`).
 
+## The Wurd word game
+
+`wurd.html` is the Scots equivalent of Am Facal — same Wordle mechanic (five-letter word, six tries, green/amber/grey feedback), but the answers are Scots words with English glosses instead of Gaelic ones, and the on-screen keyboard is a standard QWERTY layout rather than the restricted Gaelic alphabet (Scots uses the ordinary 26-letter alphabet, so no special keyboard rows are needed). Same day-index rotation as the other three games (all four share the same 1 Jan 2026 reference date, so they all roll over together at midnight), same optional login, same share/invite buttons, same follow-my-socials line, same "not dictionary-checked" disclosure.
+
+**The word list** lives in `wurd.html`'s `<script type="application/json" id="wordle-words">` block, 40 words like `{"word":"BAIRN","en":"child"}`. These are common Scots vocabulary I'm reasonably confident in, but — same caveat as the Gaelic word list, and everywhere else on this site — I'm not a fluent Scots speaker, so a native check is worth doing before you fully trust it.
+
+Stats save to `game_stats` with `game = 'wordle-sco'`, keeping it distinct from the Gaelic game's `'wordle'` rows in the same table.
+
+## The Bumbee word game
+
+`bumbee.html` is the Scots equivalent of Seillean — same honeycomb Spelling-Bee mechanic (seven letters, one fixed centre, build words of four-plus letters using only those letters and including the centre one), but the puzzles and words are Scots. Three puzzles to start, same as Seillean, each with one genuine pangram (a word using all seven letters) worth the same 7-point bonus.
+
+**The puzzles** live in `bumbee.html`'s `<script type="application/json" id="bee-puzzles">` block. Same "small curated set, not full-dictionary validation" caveat as every other word game on the site — tell me if a real Scots word you tried isn't accepted, and I'll add it rather than assume it's wrong.
+
+Stats save to `game_stats` with `game = 'bee-sco'`.
+
 ## Run it
 
 Just open `index.html` in a browser — double-click it, or drag it into a browser window. The core proverb search works fully offline. (The install/PWA features need it to be served over `https://`, so they only kick in once it's deployed — see below.)
@@ -146,14 +169,14 @@ No npm install, no build, no CDN — everything the app needs is in this folder.
 - **Suggest a proverb** form (Scots / Gàidhlig / English fields) — saved locally and exportable as JSON always; sent straight to your Supabase project too if the visitor is logged in. Approved suggestions appear publicly on the **Suggested Abairtean** page, see above.
 - **Installable as an app** (PWA) — see below.
 - **Stay updated**: email + push notification opt-ins, tied to your account, on the My Account page — see "Push notifications and email" below.
-- **Am Facal**: a daily Gaelic word-guessing game, no login required to play — see "The Am Facal word game" above.
-- **Seillean**: a daily Gaelic spelling-bee game, no login required to play — see "The Seillean word game" above.
+- **Four daily word games**, reached from the **Games** hub — Am Facal and Seillean in Gaelic, The Wurd and Bumbee in Scots — none of them require login to play, see "The Games page" above.
+- **Featured section** on the Home page promoting the games, plus an **Expand** button that keeps the page short on first load — see "Home page: Featured section and collapsed browsing" below.
 - **Interface language toggle (EN / GD)** — the app chrome (buttons, labels, hints) switches between English and Gaelic — see below.
-- **Map of proverb origins** — a starter map with one confirmed location — see below.
+- **Map of proverb origins** — now its own clearly separated section further down the Home page — see below.
 
 ## Interface language (EN / GD)
 
-Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, My Account, Grammar, Gaelic Collection, Scots Collection, Suggested Abairtean, Am Facal, Seillean, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
+Small "EN / GD" toggle, top-right of the header — now on **every page** (Home, My Account, Grammar, Gaelic Collection, Scots Collection, Suggested Abairtean, Games, Am Facal, Seillean, The Wurd, Bumbee, Resources, About). It switches all the surrounding interface text — buttons, filters, form labels, headings, the site-nav link labels (Home ↔ Dachaigh, Grammar ↔ Gràmar, and so on), and the browser tab title — between English and Gaelic, and remembers your choice as you move between pages (stored in the browser under the key `sf-ui-lang`, shared across all files).
 
 This is separate from the three proverb-language tabs (Scots / Gàidhlig / English), which are unaffected by this toggle. As you asked, those three tabs — and every place in the app that names one of the three proverb languages — always read **Beurla Ghallda** (Scots), **Gàidhlig**, and **Beurla** (English), regardless of which interface language is active.
 
@@ -162,6 +185,14 @@ On the Grammar page, switching to GD does one extra thing: each card gets small 
 **Please review the Gaelic before relying on it.** I'm not a fluent Gaelic speaker — the translations are a careful best effort, not a checked one. `GAELIC_TRANSLATIONS_REVIEW.md` lists every interface string (across all three pages now) in English next to my Gaelic, with a blank column for corrections. Send me any fixes (in chat is easiest) and I'll update the relevant file to match exactly.
 
 To add a translated string yourself: on `index.html`, find the relevant `data-i18n="key"` attribute, then find that same key in the `I18N` object further down the file (search for `var I18N = {`) and edit the `"gd"` value. `grammar.html` and `about.html` use the same `I18N` pattern but without `data-i18n` attributes — the JS sets `textContent`/`innerHTML` on a few named elements directly, so search for `var I18N = {` in each file and edit the `gd` values there.
+
+## Home page: Featured section and collapsed browsing
+
+The Home page now loads short. Straight after the login box, there's a **Featured** card promoting the four word games with a "Play now" button through to the Games hub — the most likely thing a returning visitor wants to jump to. Below that is the search box, then an **Expand** button ("Show Proverb of the Day, filters & the full collection ▾"). Everything else — the Proverb of the Day carousel, the language toggle and Random/About buttons, the theme filter, the full results list, the suggest-a-proverb form, and the map — is collapsed behind that button and only appears once someone clicks it.
+
+Typing in the search box also expands it automatically, so search still works immediately even if someone hasn't clicked Expand — there'd be no point showing a search box whose results stay hidden. Once expanded, the button disappears; there's no need to re-collapse.
+
+This is implemented as a single wrapping `<div id="secondary-content">` (starts `display:none`), with `applyMobileBar()` re-run right after expanding so the mobile bottom bar's height gets measured correctly once it actually exists on screen — since it lives inside the collapsed block, measuring it beforehand would give a height of zero. Nothing else about the affected sections changed; they just render inside the wrapper instead of directly in `<main>`, so all the existing search/filter/favourite/map JS keeps working exactly as before, only hidden until expanded.
 
 ## Map: where the proverbs are from
 
@@ -184,13 +215,13 @@ Tell me which you'd like and I'll wire the form to submit there instead of just 
 
 ## Mobile layout
 
-**Nav bar overlap fix:** on Grammar, the two Collection pages, My Account, Suggested Abairtean, Am Facal, Seillean, Resources, and About, the site nav (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Am Facal / Seillean / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle.
+**Nav bar overlap fix:** on Grammar, the two Collection pages, My Account, Suggested Abairtean, Games, Am Facal, Seillean, The Wurd, Bumbee, Resources, and About, the site nav (Home / My Account / Grammar / Gaelic Collection / Scots Collection / Suggested Abairtean / Games / Resources / About) sits in the same header row as the EN/GD toggle, which is pinned to the top-right corner. On a narrow phone screen there wasn't room for both, and the nav used to wrap onto a second line, colliding with the toggle. It's now a horizontally-scrollable strip instead (swipe left/right to see all the links), with space reserved on the right so it never renders underneath the toggle. Collapsing the four separate game links down to one **Games** link also just helps here generally — one link less to squeeze in.
 
 ### Bottom bar (Home page)
 
-On phone-sized screens (roughly 640px wide or narrower — covers virtually all phones, whether the site is open in a browser tab or installed as an app), the language toggle and the Random/About buttons move from the top of the page down to a fixed bar at the bottom of the screen, closer to how native apps place their navigation. The rest of the page (search, filters, results) stays where it was; only that one row relocates.
+On phone-sized screens (roughly 640px wide or narrower — covers virtually all phones, whether the site is open in a browser tab or installed as an app), the language toggle and the Random/About buttons move from the top of the page down to a fixed bar at the bottom of the screen, closer to how native apps place their navigation, same as before. The difference now: that whole row (and everything else below the search box) starts collapsed behind the **Expand** button (see "Home page: Featured section and collapsed browsing" below), so the bottom bar itself doesn't appear until a visitor expands the page or starts typing a search. Once it does appear, the rest of the page still stays where it was; only that one row relocates to the bottom.
 
-I built this with a runtime check rather than fixed pixel guesses, since I couldn't test it on an actual phone: the app measures the real height of that bottom bar in the visitor's browser and pads the page content, and repositions the install banner, to match — so it should hold up even if the bar wraps to two lines on a very narrow phone or in Gaelic (where "About & sources" translates to a longer phrase). Still, this is the one part of this update I'd genuinely appreciate you checking on your own phone — if anything overlaps or looks cramped, tell me what you're seeing and I'll adjust it.
+I built this with a runtime check rather than fixed pixel guesses, since I couldn't test it on an actual phone: the app measures the real height of that bottom bar in the visitor's browser and pads the page content, and repositions the install banner, to match — recalculated again the moment the page is expanded, since the bar doesn't exist to measure before then. This should hold up even if the bar wraps to two lines on a very narrow phone or in Gaelic (where "About & sources" translates to a longer phrase). Still, this is one part of the site I'd genuinely appreciate you checking on your own phone — if anything overlaps or looks cramped, tell me what you're seeing and I'll adjust it.
 
 ## Installing as an app (PWA)
 

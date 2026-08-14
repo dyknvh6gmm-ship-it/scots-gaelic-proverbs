@@ -120,8 +120,7 @@
       <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
       <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
       <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
-      <a href="geama.html" id="nav-game">Am Facal</a>
-      <a href="seillean.html" id="nav-bee">Seillean</a>
+      <a href="games.html" id="nav-games">Games</a>
       <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
@@ -293,8 +292,7 @@
     navGaelicCollection: { en: 'Gaelic Collection', gd: 'Cruinneachadh Gàidhlig' },
     navScotsCollection: { en: 'Scots Collection', gd: 'Cruinneachadh Beurla Ghallda' },
     navSuggested: { en: 'Suggested Abairtean', gd: 'Abairtean Air am Moladh' },
-    navGame: { en: 'Am Facal', gd: 'Am Facal' },
-    navBee: { en: 'Seillean', gd: 'Seillean' },
+    navGames: { en: 'Games', gd: 'Geamannan' },
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     footer: { en: 'Sean-fhaclan & Auld Sayins', gd: 'Sean-fhaclan & Auld Sayins' }
@@ -348,8 +346,7 @@
     navGaelicCollection: document.getElementById('nav-gaelic-collection'),
     navScotsCollection: document.getElementById('nav-scots-collection'),
     navSuggested: document.getElementById('nav-suggested'),
-    navGame: document.getElementById('nav-game'),
-    navBee: document.getElementById('nav-bee'),
+    navGames: document.getElementById('nav-games'),
     navResources: document.getElementById('nav-resources'),
     navAbout: document.getElementById('nav-about')
   };
@@ -405,8 +402,7 @@
     el.navGaelicCollection.textContent = t('navGaelicCollection');
     el.navScotsCollection.textContent = t('navScotsCollection');
     el.navSuggested.textContent = t('navSuggested');
-    el.navGame.textContent = t('navGame');
-    el.navBee.textContent = t('navBee');
+    el.navGames.textContent = t('navGames');
     el.navResources.textContent = t('navResources');
     el.navAbout.textContent = t('navAbout');
     if (currentUser) renderFavourites(loadedFavData);
