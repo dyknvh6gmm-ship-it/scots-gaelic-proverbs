@@ -105,10 +105,8 @@ Deno.serve(async () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        // "onboarding@resend.dev" works immediately with no setup, on Resend's
-        // free tier — good to start with. Once you've verified your own domain
-        // in Resend, swap this for something like "proverbs@yourdomain.com".
-        from: "Sean-fhaclan <onboarding@resend.dev>",
+        // Sends from your verified gaelicwithsteve.com domain via Resend.
+        from: "Sean-fhaclan <contact@gaelicwithsteve.com>",
         to: sub.email,
         subject: "Today's proverb — Sean-fhaclan & Auld Sayins",
         html
