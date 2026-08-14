@@ -351,9 +351,8 @@
       <span class="account-text" data-i18n="accountPrompt">Log in to save your favourites across devices and send suggestions straight to us.</span>
       <form id="account-login-form" class="account-login-form">
         <input type="email" id="account-email" placeholder="you@example.com" required data-i18n-attr="placeholder" data-i18n="accountEmailPlaceholder" />
-        <button type="submit" data-i18n="accountSendLink">Send magic link</button>
-      </form>
-    </div>
+        <button type="submit" data-i18n="accountSendLink">Send code</button></form><form id="account-code-form" class="account-login-form" style="display:none;"><input type="text" id="account-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" placeholder="123456" required /><button type="submit" id="account-verify-btn" data-i18n="accountVerifyBtn">Verify code</button><button type="button" id="account-code-back" style="background:none;border:none;color:var(--thistle);text-decoration:underline;text-underline-offset:2px;font-size:0.85rem;cursor:pointer;padding:8px 0 0;" data-i18n="accountUseDifferentEmail">Use a different email</button></form>
+      div>
     <div class="account-signed-in" id="account-signed-in" style="display:none;">
       <span class="account-text" id="account-signed-in-text"></span>
       <button type="button" id="account-logout" class="link-btn" data-i18n="accountLogOut">Log out</button>
@@ -1130,7 +1129,12 @@
       gd: "Clàraich a-steach gus na feadhainn as fheàrr leat a shàbhaladh eadar innealan agus molaidhean a chur thugainn gu dìreach."
     },
     accountEmailPlaceholder: { en: "you@example.com", gd: "thusa@post-d.com" },
-    accountSendLink: { en: "Send magic link", gd: "Cuir ceangal draoidheil" },
+    accountSendLink: { en: "Send code", gd: "Cuir còd" },
+accountEnterCode: { en: "Enter the 6-digit code we emailed you.", gd: "Cuir a-steach an còd 6-figear a chuir sinn thugad air post-d." },
+accountVerifyBtn: { en: "Verify code", gd: "Dearbh an còd" },
+accountVerifying: { en: "Verifying…", gd: "'Ga dhearbhadh…" },
+accountVerifyError: { en: "That code didn't work — check it and try again.", gd: "Cha do dh'obraich an còd sin — thoir sùil air agus feuch a-rithist." },
+accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eile" },
     accountSendingLink: { en: "Sending…", gd: "'Ga chur…" },
     accountLinkSent: {
       en: "Check your email for a sign-in link.",
@@ -1640,7 +1644,7 @@
   }
 
   function initAccount() {
-    if (!sfClient) return;
+    if (!sfClient) return; var pendingEmail = '';
 
     el.accountLoginForm.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -1658,13 +1662,13 @@
         if (res.error) {
           setAccountStatus(t('accountLoginError'), true);
         } else {
-          setAccountStatus(t('accountLinkSent'), false);
+          pendingEmail = email; setAccountStatus(t('accountEnterCode'), false); el.accountLoginForm.style.display = 'none'; document.getElementById('account-code-form').style.display = 'flex'; document.getElementById('account-code').focus();
           el.accountLoginForm.reset();
         }
       });
     });
 
-    el.accountLogoutBtn.addEventListener('click', function () {
+    document.getElementById('account-code-form').addEventListener('submit', function (e) { e.preventDefault(); var code = document.getElementById('account-code').value.trim(); if (!code || !pendingEmail) return; var verifyBtn = document.getElementById('account-verify-btn'); verifyBtn.disabled = true; verifyBtn.textContent = t('accountVerifying'); sfClient.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' }).then(function (res) { verifyBtn.disabled = false; verifyBtn.textContent = t('accountVerifyBtn'); if (res.error) { setAccountStatus(t('accountVerifyError'), true); } else { document.getElementById('account-code-form').reset(); document.getElementById('account-code-form').style.display = 'none'; el.accountLoginForm.style.display = 'flex'; } }); }); document.getElementById('account-code-back').addEventListener('click', function () { pendingEmail = ''; document.getElementById('account-code-form').reset(); document.getElementById('account-code-form').style.display = 'none'; el.accountLoginForm.style.display = 'flex'; setAccountStatus('', false); }); el.accountLogoutBtn.addEventListener('click', function () {
       sfClient.auth.signOut().then(function () { setAccountStatus('', false); });
     });
 
