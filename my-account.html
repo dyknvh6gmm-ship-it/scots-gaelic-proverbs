@@ -71,6 +71,78 @@ font-size: 0.9rem; font-weight: 600; cursor: pointer;
 
 #browse-card .links-list { display: grid; gap: 10px; margin-top: 4px; }
 #browse-card .links-list a {
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="doc-title">My Account — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+:root {
+--saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+--parchment: #faf6ee; --ink: #2b2320;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+.proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+header.app-header h1 { margin: 0; font-size: 1.9rem; }
+header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+
+.ui-lang-toggle {
+display: inline-flex; flex: 0 0 auto;
+background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+}
+.ui-lang-toggle button {
+border: none; background: transparent; color: rgba(255,255,255,0.85);
+padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+}
+.ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+.header-top-row {
+display: flex; align-items: center; justify-content: space-between;
+gap: 10px; margin-bottom: 14px;
+}
+.site-nav {
+display: flex; gap: 4px; flex: 1 1 auto; min-width: 0;
+overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+}
+.site-nav::-webkit-scrollbar { display: none; }
+.site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+.site-nav a:hover { background: rgba(255,255,255,0.12); }
+.site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+
+main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+.card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px 22px; margin-bottom: 20px; }
+.card h2 { margin: 0 0 12px; font-size: 1.15rem; }
+.card p.hint { font-size: 0.85rem; color: rgba(43,35,32,0.55); margin: 8px 0 0; }
+.update-toggle { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; margin-bottom: 10px; cursor: pointer; }
+.update-toggle input { margin: 0; }
+
+.account-login-form { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.account-login-form input[type="email"] {
+flex: 1; min-width: 220px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+padding: 10px 12px; font-size: 0.95rem; font-family: inherit;
+}
+.account-login-form button {
+background: var(--thistle); color: #fff; border: none; padding: 10px 18px; border-radius: 8px;
+font-size: 0.9rem; font-weight: 600; cursor: pointer;
+}
+.account-login-form button:hover { opacity: 0.9; }
+.account-status { margin-top: 10px; font-size: 0.82rem; color: rgba(43,35,32,0.55); }
+.account-status.error { color: #a33d2e; }
+
+.signed-in-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.signed-in-row .link-btn { background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; font-size: 0.85rem; cursor: pointer; padding: 0; }
+
+#browse-card .links-list { display: grid; gap: 10px; margin-top: 4px; }
+#browse-card .links-list a {
 display: block; padding: 12px 14px; border-radius: 8px;
 border: 1px solid rgba(142,108,156,0.25); text-decoration: none; color: var(--ink, #2b2320);
 font-size: 0.92rem; font-weight: 500; transition: background 0.15s;
@@ -137,10 +209,15 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 <main>
 <div class="card">
 <div id="account-signed-out">
-<p id="signed-out-hint">Log in with just your email — no password needed, we'll send you a link.</p>
+<p id="signed-out-hint">Log in with just your email — we'll send you a 6-digit code.</p>
 <form id="account-login-form" class="account-login-form">
 <input type="email" id="account-email" placeholder="you@example.com" required />
-<button type="submit" id="account-login-btn">Send magic link</button>
+<button type="submit" id="account-login-btn">Send code</button>
+</form>
+<form id="account-code-form" class="account-login-form" style="display:none;">
+<input type="text" id="account-code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]*" maxlength="6" placeholder="123456" required />
+<button type="submit" id="account-verify-btn">Verify code</button>
+<button type="button" id="account-code-back" style="background:none;border:none;color:var(--thistle);text-decoration:underline;text-underline-offset:2px;font-size:0.85rem;cursor:pointer;padding:8px 0 0;">Use a different email</button>
 </form>
 </div>
 <div id="account-signed-in" style="display:none;">
@@ -241,13 +318,18 @@ en: "Log in to see your favourites in one place and suggest a proverb of your ow
 gd: "Clàraich a-steach gus na feadhainn as fheàrr leat fhaicinn aon àite agus seanfhacal agad fhèin a mholadh."
 },
 signedOutHint: {
-en: "Log in with just your email — no password needed, we'll send you a link.",
-gd: "Clàraich a-steach le do phost-d a-mhàin — chan eil facal-faire a dhìth, cuiridh sinn ceangal thugad."
+en: "Log in with just your email — we'll send you a 6-digit code.",
+gd: "Clàraich a-steach le do phost-d a-mhàin — cuiridh sinn còd 6-figear thugad."
 },
 emailPlaceholder: { en: 'you@example.com', gd: 'thusa@post-d.com' },
-sendLink: { en: 'Send magic link', gd: 'Cuir ceangal draoidheil' },
+sendLink: { en: 'Send code', gd: 'Cuir còd' },
 sendingLink: { en: 'Sending…', gd: "'Ga chur…" },
 linkSent: { en: 'Check your email for a sign-in link.', gd: "Thoir sùil air do phost-d airson ceangal clàraidh." },
+enterCode: { en: 'Enter the 6-digit code we emailed you.', gd: "Cuir a-steach an còd 6-figear a chuir sinn thugad air post-d." },
+verifyBtn: { en: 'Verify code', gd: 'Dearbh an còd' },
+verifying: { en: 'Verifying…', gd: "'Ga dhearbhadh…" },
+verifyError: { en: "That code didn't work — check it and try again.", gd: "Cha do dh'obraich an còd sin — thoir sùil air agus feuch a-rithist." },
+useDifferentEmail: { en: 'Use a different email', gd: 'Cleachd post-d eile' },
 loginError: {
 en: "Couldn't send the link — check the email address and try again.",
 gd: "Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist."
@@ -377,6 +459,10 @@ el.pageSubtitle.textContent = t('pageSubtitle');
 el.signedOutHint.textContent = t('signedOutHint');
 el.accountEmail.placeholder = t('emailPlaceholder');
 el.accountLoginBtn.textContent = t('sendLink');
+var accVerifyBtnEl = document.getElementById('account-verify-btn');
+if (accVerifyBtnEl) accVerifyBtnEl.textContent = t('verifyBtn');
+var accCodeBackEl = document.getElementById('account-code-back');
+if (accCodeBackEl) accCodeBackEl.textContent = t('useDifferentEmail');
 el.accountLogoutBtn.textContent = t('logOut');
 el.favouritesHeading.textContent = t('favouritesHeading');
 el.updatesHeading.textContent = t('updatesHeading');
@@ -583,6 +669,7 @@ el.suggestCard.style.display = 'none';
 
 function initAccount() {
 if (!sfClient) return;
+var pendingEmail = '';
 
 el.accountLoginForm.addEventListener('submit', function (e) {
 e.preventDefault();
@@ -599,10 +686,42 @@ el.accountLoginBtn.textContent = t('sendLink');
 if (res.error) {
 setStatus(t('loginError'), true);
 } else {
-setStatus(t('linkSent'), false);
+pendingEmail = email;
+setStatus(t('enterCode'), false);
+el.accountLoginForm.style.display = 'none';
+document.getElementById('account-code-form').style.display = 'flex';
+document.getElementById('account-code').focus();
 el.accountLoginForm.reset();
 }
 });
+});
+
+document.getElementById('account-code-form').addEventListener('submit', function (e) {
+e.preventDefault();
+var code = document.getElementById('account-code').value.trim();
+if (!code || !pendingEmail) return;
+var verifyBtn = document.getElementById('account-verify-btn');
+verifyBtn.disabled = true;
+verifyBtn.textContent = t('verifying');
+sfClient.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' }).then(function (res) {
+verifyBtn.disabled = false;
+verifyBtn.textContent = t('verifyBtn');
+if (res.error) {
+setStatus(t('verifyError'), true);
+} else {
+document.getElementById('account-code-form').reset();
+document.getElementById('account-code-form').style.display = 'none';
+el.accountLoginForm.style.display = 'flex';
+}
+});
+});
+
+document.getElementById('account-code-back').addEventListener('click', function () {
+pendingEmail = '';
+document.getElementById('account-code-form').reset();
+document.getElementById('account-code-form').style.display = 'none';
+el.accountLoginForm.style.display = 'flex';
+setStatus('', false);
 });
 
 el.accountLogoutBtn.addEventListener('click', function () {
