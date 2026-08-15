@@ -49,7 +49,7 @@
   }
   .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
 
-  .header-top-row {
+  .header-top-row { flex-wrap: wrap;
     display: flex; align-items: center; justify-content: space-between;
     gap: 10px; margin-bottom: 14px;
   }
@@ -268,10 +268,10 @@
 
   .expand-btn {
     display: block; width: 100%; text-align: center; margin: 14px 0 0;
-    background: #fff; border: 1px dashed rgba(142,108,156,0.4); border-radius: 10px;
-    padding: 12px; font-size: 0.85rem; font-weight: 600; color: var(--thistle); cursor: pointer;
+    background: var(--thistle); border: none; border-radius: 10px; box-shadow: 0 2px 8px rgba(91,42,134,0.3);
+    padding: 14px; font-size: 0.95rem; font-weight: 700; color: #fff; cursor: pointer;
   }
-  .expand-btn:hover { background: rgba(91,42,134,0.05); }
+  .expand-btn:hover { background: rgba(91,42,134,0.85); } .home-preview { margin: 20px 0; } .home-preview-heading { font-size: 1rem; font-weight: 700; color: var(--thistle); margin: 0 0 12px; } .home-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; } .home-preview-grid .card { padding: 16px; }
 
   #secondary-content { margin-top: 16px; }
 
@@ -377,7 +377,7 @@
     <span id="expand-btn-text" data-i18n="expandBtnText">Show Proverb of the Day, filters &amp; the full collection ▾</span>
   </button>
 
-  <section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><section class="map-section" id="map-section"><h3 data-i18n="mapHeading">Where are the proverbs from?</h3><p data-i18n="mapIntro">We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.</p><div class="map-frame-wrap"><iframe id="map-frame" class="map-frame" loading="lazy" title="Map"></iframe></div><div class="map-info" id="map-info"></div><a id="map-view-larger" href="#" target="_blank" rel="noopener" class="export-link" data-i18n="mapViewLarger">View larger map ↗</a><div class="contribute-toggle" style="margin-top:24px;"><button id="btn-location-toggle" data-i18n="suggestLocationHeading">Suggest where a proverb is from</button><form id="location-form" style="display:none;"><div><label id="location-label-proverb" data-i18n="suggestLocationProverbLabel">Gaelic proverb</label><input name="proverbText" placeholder="Seanfhacal Gàidhlig" required /></div><div><label data-i18n="suggestLocationPlaceLabel">Place (town, island, area)</label><input name="place" placeholder="e.g. Steòrnabhagh, Eilean Leòdhais" /></div><div><label data-i18n="suggestLocationCommentsLabel">Comments</label><textarea name="comments" rows="2"></textarea></div><div><label data-i18n="formLabelName">Your name (optional)</label><input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" /></div><div class="actions"><button type="submit" class="btn-primary" data-i18n="suggestLocationSubmitBtn">Submit for review</button><button type="button" id="btn-location-export" class="export-link" style="display:none;"></button></div><p class="hint" data-i18n="suggestLocationHint">Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.</p></form></div></section><div id="secondary-content" style="display:none;">
+  <section class="home-preview" id="home-preview"><h2 class="home-preview-heading" data-i18n="homePreviewHeading">A taste of the collection</h2><div class="home-preview-grid" id="home-preview-grid"></div></section><section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><section class="map-section" id="map-section"><h3 data-i18n="mapHeading">Where are the proverbs from?</h3><p data-i18n="mapIntro">We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.</p><div class="map-frame-wrap"><iframe id="map-frame" class="map-frame" loading="lazy" title="Map"></iframe></div><div class="map-info" id="map-info"></div><a id="map-view-larger" href="#" target="_blank" rel="noopener" class="export-link" data-i18n="mapViewLarger">View larger map ↗</a><div class="contribute-toggle" style="margin-top:24px;"><button id="btn-location-toggle" data-i18n="suggestLocationHeading">Suggest where a proverb is from</button><form id="location-form" style="display:none;"><div><label id="location-label-proverb" data-i18n="suggestLocationProverbLabel">Gaelic proverb</label><input name="proverbText" placeholder="Seanfhacal Gàidhlig" required /></div><div><label data-i18n="suggestLocationPlaceLabel">Place (town, island, area)</label><input name="place" placeholder="e.g. Steòrnabhagh, Eilean Leòdhais" /></div><div><label data-i18n="suggestLocationCommentsLabel">Comments</label><textarea name="comments" rows="2"></textarea></div><div><label data-i18n="formLabelName">Your name (optional)</label><input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" /></div><div class="actions"><button type="submit" class="btn-primary" data-i18n="suggestLocationSubmitBtn">Submit for review</button><button type="button" id="btn-location-export" class="export-link" style="display:none;"></button></div><p class="hint" data-i18n="suggestLocationHint">Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.</p></form></div></section><div id="secondary-content" style="display:none;">
   <div class="toolbar">
     <div class="toggle-group">
       <button id="btn-lang-scots" class="active scots"></button>
@@ -1120,7 +1120,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
       en: "Show Proverb of the Day, filters & the full collection ▾",
       gd: "Seall Seanfhacal an Latha, sìoltachain, 's an cruinneachadh slàn ▾"
     },
-    filterAllThree: { en: "Recorded in all three languages", gd: "Clàraichte anns na trì cànain" },
+    filterAllThree: { en: "Recorded in all three languages", gd: "Clàraichte anns na trì cànain" }, homePreviewHeading: { en: "A taste of the collection", gd: "Blasad den chruinneachadh" },
     filterFavs: { en: "Favourites only", gd: "Feadhainn as fheàrr leam a-mhàin" },
     filterThemeLabel: { en: "Theme", gd: "Cuspair" },
     filterThemeAll: { en: "All themes", gd: "A h-uile cuspair" },
@@ -1143,7 +1143,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
       gd: "Taing — air a shàbhaladh nad mholaidhean. Às-phortaich iad uair sam bith bhon phanail Cuir Ris."
     },
     installBannerTitle: { en: "Install Sean-fhaclan", gd: "Stàlaich Sean-fhaclan" },
-    installBtn: { en: "Install", gd: "Stàlaich" },
+    installBtn: { en: "Install", gd: "Stàlaich" }, installGotIt: { en: "Got it", gd: "Ceart ma-thà" },
     aboutHeading: { en: "About this collection", gd: "Mun dèidhinn a' chruinneachaidh seo" },
     aboutSources: {
       en: 'Sources: scots-online.org (Andy Eagle); Wikiquote\'s Scottish Gaelic proverbs page, drawing on Alexander Nicolson\'s <em>A Collection of Gaelic Proverbs</em> (1882), Edward Dwelly\'s <em>Scottish Gaelic-English Dictionary</em> (1911), Gyula Paczolay\'s <em>European Proverbs in 55 Languages</em> (1997), and BBC Alba\'s <em>Litir do Luchd-ionnsachaidh</em>; and Lingalot\'s Scottish Gaelic proverbs guide. English equivalents are standard, widely documented English proverbs and sayings where one genuinely exists; where none does, the English text is a plain rendering of the meaning rather than a separate fixed saying (noted on the card).',
@@ -1343,7 +1343,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   }
 
   // ---- rendering ----
-  function render() {
+  function renderHomePreview() { var grid = document.getElementById('home-preview-grid'); if (!grid) return; var langKey = state.lang; var picks = DATA.filter(function (e) { return e[langKey]; }).slice(0, 6); grid.innerHTML = picks.map(function (entry) { var primary = entry[langKey]; return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(LABELS[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>'; }).join(''); } function render() { renderHomePreview();
     var q = normalise(state.query);
     var langKey = state.lang;
 
@@ -1453,7 +1453,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
 
   function expandSecondary() {
-    el.secondaryContent.style.display = 'block';
+    el.secondaryContent.style.display = 'block'; var hp = document.getElementById('home-preview'); if (hp) hp.style.display = 'none';
     el.btnExpand.style.display = 'none';
     // The mobile bottom bar's height is measured from the (now newly-visible)
     // toolbar — recompute padding/install-banner position now it's on screen.
@@ -1610,7 +1610,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
         submitBtn.disabled = false;
         submitBtn.textContent = t('accountSendLink');
         if (res.error) {
-          setAccountStatus(t('accountLoginError'), true);
+          setAccountStatus((res.error && res.error.message) || t('accountLoginError'), true);
         } else {
           pendingEmail = email; setAccountStatus(t('accountEnterCode'), false); el.accountLoginForm.style.display = 'none'; document.getElementById('account-code-form').style.display = 'flex'; document.getElementById('account-code').focus();
           el.accountLoginForm.reset();
@@ -1724,7 +1724,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
     updateInstallBannerText = function () {
-      bannerText.textContent = t(isIOS ? 'installTextIOS' : 'installTextAndroid');
+      bannerText.textContent = t(isIOS ? 'installTextIOS' : 'installTextAndroid'); btnInstall.textContent = t(isIOS ? 'installGotIt' : 'installBtn');
     };
 
     // Keep the install banner sitting above the fixed bottom nav bar on phones,
