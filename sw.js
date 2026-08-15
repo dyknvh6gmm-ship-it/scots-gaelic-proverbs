@@ -2,7 +2,7 @@
 // Handles offline caching for the installable app, and is pre-wired for push
 // notifications once you connect a push provider (see README "Push notifications").
 
-var CACHE_NAME = 'sean-fhaclan-v1';
+var CACHE_NAME = 'sean-fhaclan-v2';
 var ASSETS = [
   './',
   './index.html',
@@ -39,6 +39,16 @@ self.addEventListener('activate', function (event) {
 // work fine here since the whole app is one static file.
 self.addEventListener('fetch', function (event) {
   if (event.request.method !== 'GET') return;
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(function () {
+        return caches.match(event.request).then(function (cached) {
+          return cached || caches.match('./index.html');
+        });
+      })
+    );
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then(function (cached) {
       return cached || fetch(event.request).catch(function () {
