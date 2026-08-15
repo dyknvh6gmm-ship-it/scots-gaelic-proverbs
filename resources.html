@@ -73,6 +73,12 @@
   .edit-note code { background: rgba(0,0,0,0.06); padding: 1px 5px; border-radius: 4px; }
 
   footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+
+  .social-follow { text-align: center; font-size: 0.8rem; color: rgba(43,35,32,0.5); margin: 6px 0 0; }
+  .social-follow a { display: inline-flex; align-items: center; gap: 4px; color: var(--thistle); text-decoration: none; font-weight: 600; margin: 6px 8px 0; }
+  .social-follow a:hover { text-decoration: underline; }
+  .social-follow .icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .social-follow .icon svg { width: 100%; height: 100%; display: block; }
 </style>
 </head>
 <body>
@@ -186,7 +192,14 @@
   </div>
 </main>
 
-<footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
+<p class="social-follow" id="social-follow">
+    <span id="social-follow-text">Follow for more of what I do:</span><br />
+    <a href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></span>Instagram</a>
+    <a href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.5" y="5.5" width="19" height="13" rx="4" stroke="currentColor" stroke-width="1.8"/><polygon points="10,9 10,15 15.5,12" fill="currentColor"/></svg></span>YouTube</a>
+    <a href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.8"/><text x="12" y="16.3" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="700" fill="currentColor">f</text></svg></span>Facebook</a>
+    <a href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9.5" cy="16" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12.5 16V4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12.5 4.5c.4 2.6 2.2 4.4 4.5 4.7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></span>TikTok</a>
+  </p>
+  <footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
 
 <script>
 (function () {
