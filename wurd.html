@@ -44,7 +44,16 @@
   .site-nav::-webkit-scrollbar { display: none; }
   .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); flex: 0 0 auto; white-space: nowrap; }
   .site-nav a:hover { background: rgba(255,255,255,0.12); }
-  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+  
+    .nav-dropdown { position: relative; }
+    .nav-dropdown-toggle { background: none; border: 1px solid transparent; color: inherit; font: inherit; padding: 8px 14px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+    .nav-dropdown-toggle.active { background: #fff; color: var(--thistle); border-color: #fff; }
+    .nav-caret { font-size: 0.7em; }
+    .nav-dropdown-menu { display: none; position: fixed; z-index: 200; background: #fff; color: #222; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); padding: 6px; min-width: 180px; flex-direction: column; }
+    .nav-dropdown-menu.open { display: flex; }
+    .nav-dropdown-menu a { color: #222 !important; background: none !important; border: none !important; border-radius: 6px !important; padding: 8px 12px !important; text-align: left; }
+    .nav-dropdown-menu a:hover { background: #f0f0f0 !important; }
+    .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
 
   main { max-width: 520px; margin: 0 auto; padding: 24px 20px 60px; }
 
@@ -134,12 +143,21 @@
       <nav class="site-nav">
       <a href="index.html" id="nav-home">Home</a>
       <a href="games.html" class="active" id="nav-games">Games</a>
+      <div class="nav-dropdown" id="nav-dd-collections">
+        <button type="button" class="nav-dropdown-toggle" id="nav-dd-collections-btn">Collections <span class="nav-caret">▾</span></button>
+        <div class="nav-dropdown-menu" id="nav-dd-collections-menu">
+          <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+          <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+        </div>
+      </div>
+      <div class="nav-dropdown" id="nav-dd-learn">
+        <button type="button" class="nav-dropdown-toggle" id="nav-dd-learn-btn">Learn proper Scottish! <span class="nav-caret">▾</span></button>
+        <div class="nav-dropdown-menu" id="nav-dd-learn-menu">
+          <a href="grammar.html" id="nav-grammar">Grammar</a>
+          <a href="resources.html" id="nav-resources">Resources</a>
+        </div>
+      </div>
       <a href="my-account.html" id="nav-my-account">My Account</a>
-      <a href="grammar.html" id="nav-grammar">Grammar</a>
-      <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
-      <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
-      <a href="suggested-abairtean.html" id="nav-suggested">Suggested Abairtean</a>
-      <a href="resources.html" id="nav-resources">Resources</a>
       <a href="about.html" id="nav-about">About</a>
     </nav>
       <div class="ui-lang-toggle" id="ui-lang-toggle">
@@ -860,6 +878,35 @@
   setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
   updateAccountUI();
   initAccount();
+})();
+</script>
+
+<script>
+(function() {
+  function setupDropdown(btnId, menuId) {
+    var btn = document.getElementById(btnId);
+    var menu = document.getElementById(menuId);
+    if (!btn || !menu) return;
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = menu.classList.contains('open');
+      document.querySelectorAll('.nav-dropdown-menu.open').forEach(function(m) { m.classList.remove('open'); });
+      if (!isOpen) {
+        var r = btn.getBoundingClientRect();
+        menu.style.top = (r.bottom + 6) + 'px';
+        menu.style.left = r.left + 'px';
+        menu.classList.add('open');
+      }
+    });
+  }
+  setupDropdown('nav-dd-collections-btn', 'nav-dd-collections-menu');
+  setupDropdown('nav-dd-learn-btn', 'nav-dd-learn-menu');
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.nav-dropdown-menu.open').forEach(function(m) { m.classList.remove('open'); });
+  });
+  window.addEventListener('scroll', function() {
+    document.querySelectorAll('.nav-dropdown-menu.open').forEach(function(m) { m.classList.remove('open'); });
+  }, true);
 })();
 </script>
 </body>
