@@ -338,6 +338,7 @@
     lostMessage: { en: "That's your six — the word was {word} ({meaning}).", gd: "Sin do shia oidhirpean — b' e am facal {word} ({meaning})." },
     shareButton: { en: 'Copy result', gd: 'Cuir an Roinn' },
     shareCopied: { en: 'Copied — paste it anywhere!', gd: 'Air a chopaigeadh — cuir e an àite sam bith!' },
+    shareFailed: { en: "Couldn't share — try again.", gd: "Cha b' urrainn dhomh a cho-roinneadh — feuch a-rithist." },
     inviteBtn: { en: 'Invite a friend', gd: 'Cuir gu caraid' },
     inviteText: {
       en: "Try Am Facal — a daily Gaelic word game",
@@ -652,29 +653,55 @@
 
   el.shareBtn.addEventListener('click', function () {
     var text = shareText();
-    if (navigator.share) {
-      navigator.share({ text: text, url: GAME_URL }).catch(function () {});
-      return;
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function () {
-        setMessage(t('shareCopied'));
+    function fallbackCopy() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          setMessage(t('shareCopied'));
+          setTimeout(function () { setMessage(''); }, 2000);
+        }).catch(function () { setMessage(t('shareFailed')); setTimeout(function () { setMessage(''); }, 2000); });
+      } else {
+        setMessage(t('shareFailed'));
         setTimeout(function () { setMessage(''); }, 2000);
-      });
+      }
+    }
+    if (navigator.share) {
+      try {
+        navigator.share({ text: text, url: GAME_URL }).catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          fallbackCopy();
+        });
+      } catch (e) {
+        fallbackCopy();
+      }
+    } else {
+      fallbackCopy();
     }
   });
 
   el.inviteBtn.addEventListener('click', function () {
     var inviteText = t('inviteText');
-    if (navigator.share) {
-      navigator.share({ title: 'Am Facal', text: inviteText, url: GAME_URL }).catch(function () {});
-      return;
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(inviteText + ' — ' + GAME_URL).then(function () {
-        setMessage(t('shareCopied'));
+    function fallbackCopyInvite() {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(inviteText + ' — ' + GAME_URL).then(function () {
+          setMessage(t('shareCopied'));
+          setTimeout(function () { setMessage(''); }, 2000);
+        }).catch(function () { setMessage(t('shareFailed')); setTimeout(function () { setMessage(''); }, 2000); });
+      } else {
+        setMessage(t('shareFailed'));
         setTimeout(function () { setMessage(''); }, 2000);
-      });
+      }
+    }
+    if (navigator.share) {
+      try {
+        navigator.share({ title: 'Am Facal', text: inviteText, url: GAME_URL }).catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          fallbackCopyInvite();
+        });
+      } catch (e) {
+        fallbackCopyInvite();
+      }
+    } else {
+      fallbackCopyInvite();
     }
   });
 
