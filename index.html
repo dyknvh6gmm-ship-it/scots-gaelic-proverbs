@@ -1350,7 +1350,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   }
 
   // ---- rendering ----
-  function renderHomePreview() { var grid = document.getElementById('home-preview-grid'); if (!grid) return; var langKey = state.lang; var picks = DATA.filter(function (e) { return e[langKey]; }).slice(0, 6); grid.innerHTML = picks.map(function (entry) { var primary = entry[langKey]; return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(LABELS[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>'; }).join(''); } function render() { renderHomePreview();
+  function renderHomePreview() { var grid = document.getElementById('home-preview-grid'); if (!grid) return; var langKey = state.lang; var picks = DATA.filter(function (e) { return e[langKey]; }).slice(0, 6); grid.innerHTML = picks.map(function (entry) { var primary = entry[langKey]; return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>'; }).join(''); } function render() { renderHomePreview();
     var q = normalise(state.query);
     var langKey = state.lang;
 
@@ -1385,13 +1385,13 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
         var val = entry[l];
         if (val) {
           return '<div class="secondary-block">' +
-              '<div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div>' +
+              '<div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div>' +
               '<p class="text proverb-text">' + esc(val.text) + '</p>' +
               '<p class="gloss">' + esc(val.gloss) + '</p>' +
             '</div>';
         }
         return '<div class="secondary-block">' +
-            '<p class="no-match">' + esc(t('noEquivalent', { lang: LABELS[l] })) + '</p>' +
+            '<p class="no-match">' + esc(t('noEquivalent', { lang: currentLabels()[l] })) + '</p>' +
           '</div>';
       }).join('');
 
@@ -1402,7 +1402,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
             '<button class="fav-btn" data-fav="' + entry.id + '" aria-label="Toggle favourite">' + heart + '</button>' +
           '</div>' +
           '<div>' +
-            '<div class="lang-label ' + langKey + '">' + esc(LABELS[langKey]) + '</div>' +
+            '<div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div>' +
             '<p class="text proverb-text">' + esc(primary.text) + '</p>' +
             '<p class="gloss">' + esc(primary.gloss) + '</p>' +
           '</div>' +
@@ -1674,10 +1674,10 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
     elPotd.body.innerHTML = LANGS.map(function (l) {
       var val = entry[l];
       if (!val) {
-        return '<div class="potd-lang-block"><div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div><p class="no-match">' + esc(t('notRecordedYet')) + '</p></div>';
+        return '<div class="potd-lang-block"><div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div><p class="no-match">' + esc(t('notRecordedYet')) + '</p></div>';
       }
       return '<div class="potd-lang-block">' +
-          '<div class="lang-label ' + l + '">' + esc(LABELS[l]) + '</div>' +
+          '<div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div>' +
           '<p class="text proverb-text">' + esc(val.text) + '</p>' +
           '<p class="gloss">' + esc(val.gloss) + '</p>' +
         '</div>';
