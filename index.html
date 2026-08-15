@@ -1350,7 +1350,36 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   }
 
   // ---- rendering ----
-  function renderHomePreview() { var grid = document.getElementById('home-preview-grid'); if (!grid) return; var langKey = state.lang; var picks = DATA.filter(function (e) { return e[langKey]; }).slice(0, 6); grid.innerHTML = picks.map(function (entry) { var primary = entry[langKey]; return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>'; }).join(''); } function render() { renderHomePreview();
+  function renderHomePreview() {
+  var grid = document.getElementById('home-preview-grid');
+  if (!grid) return;
+  var scotsPool = DATA.filter(function (e) { return e.scots; });
+  var gaelicPool = DATA.filter(function (e) { return e.gaelic; });
+  var now = new Date();
+  var seed = now.getFullYear() * 372 + now.getMonth() * 31 + now.getDate();
+  function pickN(pool, n, offset) {
+    var picks = [];
+    var used = {};
+    var i = 0;
+    while (picks.length < n && i < pool.length) {
+      var idx = (seed + offset + i * 13) % pool.length;
+      if (!used[idx]) { used[idx] = true; picks.push(pool[idx]); }
+      i++;
+    }
+    return picks;
+  }
+  var scotsPicks = pickN(scotsPool, 3, 0).map(function (e) { return { entry: e, langKey: 'scots' }; });
+  var gaelicPicks = pickN(gaelicPool, 3, 5).map(function (e) { return { entry: e, langKey: 'gaelic' }; });
+  var picks = [];
+  for (var i = 0; i < 3; i++) {
+    if (scotsPicks[i]) picks.push(scotsPicks[i]);
+    if (gaelicPicks[i]) picks.push(gaelicPicks[i]);
+  }
+  grid.innerHTML = picks.map(function (p) {
+    var entry = p.entry, langKey = p.langKey, primary = entry[langKey];
+    return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>';
+  }).join('');
+} function render() { renderHomePreview();
     var q = normalise(state.query);
     var langKey = state.lang;
 
