@@ -364,11 +364,11 @@
 
   <input type="text" id="search-input" placeholder="Search a Scots word or proverb…" />
 
-  <button type="button" id="btn-expand" class="expand-btn">
+  <button type="button" id="btn-expand" class="expand-btn" style="display:none;">
     <span id="expand-btn-text" data-i18n="expandBtnText">Show word games, the map &amp; the full collection ▾</span>
   </button>
 
-  <section class="home-preview" id="home-preview"><h2 class="home-preview-heading" data-i18n="homePreviewHeading">A taste of the collection</h2><div class="home-preview-grid" id="home-preview-grid"></div></section><section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><div id="secondary-content" style="display:none;">
+  <section class="home-preview" id="home-preview"><h2 class="home-preview-heading" data-i18n="homePreviewHeading">A taste of the collection</h2><div class="home-preview-grid" id="home-preview-grid"></div></section><section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><div id="secondary-content">
   <section class="featured-section" id="featured-section">
     <div class="featured-card">
       <div class="featured-icon">🎮</div>
@@ -379,7 +379,7 @@
       <a href="games.html" class="featured-btn" data-i18n="featuredBtn">Play now</a>
     </div>
   </section>
-  <section class="map-section" id="map-section"><h3 data-i18n="mapHeading">Where are the proverbs from?</h3><p data-i18n="mapIntro">We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.</p><div class="map-frame-wrap"><iframe id="map-frame" class="map-frame" loading="lazy" title="Map"></iframe></div><div class="map-info" id="map-info"></div><a id="map-view-larger" href="#" target="_blank" rel="noopener" class="export-link" data-i18n="mapViewLarger">View larger map ↗</a><div class="contribute-toggle" style="margin-top:24px;"><button id="btn-location-toggle" data-i18n="suggestLocationHeading">Suggest where a proverb is from</button><form id="location-form" style="display:none;"><div><label id="location-label-proverb" data-i18n="suggestLocationProverbLabel">Gaelic proverb</label><input name="proverbText" placeholder="Seanfhacal Gàidhlig" required /></div><div><label data-i18n="suggestLocationPlaceLabel">Place (town, island, area)</label><input name="place" placeholder="e.g. Steòrnabhagh, Eilean Leòdhais" /></div><div><label data-i18n="suggestLocationCommentsLabel">Comments</label><textarea name="comments" rows="2"></textarea></div><div><label data-i18n="formLabelName">Your name (optional)</label><input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" /></div><div class="actions"><button type="submit" class="btn-primary" data-i18n="suggestLocationSubmitBtn">Submit for review</button><button type="button" id="btn-location-export" class="export-link" style="display:none;"></button></div><p class="hint" data-i18n="suggestLocationHint">Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.</p></form></div></section>
+  
   <div class="toolbar">
     <div class="toggle-group">
       <button id="btn-lang-scots" class="active scots"></button>
@@ -438,6 +438,8 @@
       <p class="hint" data-i18n="suggestionsHint">Suggestions are saved in this browser only. Export them and add to the data file to make them permanent — see the README.</p>
     </form>
   </div>
+
+  <section class="map-section" id="map-section"><h3 data-i18n="mapHeading">Where are the proverbs from?</h3><p data-i18n="mapIntro">We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.</p><div class="map-frame-wrap"><iframe id="map-frame" class="map-frame" loading="lazy" title="Map"></iframe></div><div class="map-info" id="map-info"></div><a id="map-view-larger" href="#" target="_blank" rel="noopener" class="export-link" data-i18n="mapViewLarger">View larger map ↗</a><div class="contribute-toggle" style="margin-top:24px;"><button id="btn-location-toggle" data-i18n="suggestLocationHeading">Suggest where a proverb is from</button><form id="location-form" style="display:none;"><div><label id="location-label-proverb" data-i18n="suggestLocationProverbLabel">Gaelic proverb</label><input name="proverbText" placeholder="Seanfhacal Gàidhlig" required /></div><div><label data-i18n="suggestLocationPlaceLabel">Place (town, island, area)</label><input name="place" placeholder="e.g. Steòrnabhagh, Eilean Leòdhais" /></div><div><label data-i18n="suggestLocationCommentsLabel">Comments</label><textarea name="comments" rows="2"></textarea></div><div><label data-i18n="formLabelName">Your name (optional)</label><input name="submittedBy" placeholder="Optional" data-i18n-attr="placeholder" data-i18n="formPlaceholderName" /></div><div class="actions"><button type="submit" class="btn-primary" data-i18n="suggestLocationSubmitBtn">Submit for review</button><button type="button" id="btn-location-export" class="export-link" style="display:none;"></button></div><p class="hint" data-i18n="suggestLocationHint">Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.</p></form></div></section>
 
   </div>
 
