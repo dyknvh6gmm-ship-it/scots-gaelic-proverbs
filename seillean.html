@@ -105,6 +105,7 @@
   .found-word-chip { background: rgba(142,108,156,0.1); border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
   .found-word-chip.pangram { background: var(--amber); color: #fff; }
   .found-word-chip.bonus { background: rgba(46,139,87,0.12); border: 1px solid rgba(46,139,87,0.4); }
+  .found-word-chip.missed { background: none; border: 1px dashed rgba(43,35,32,0.35); color: rgba(43,35,32,0.6); }
 
   .about-note { font-size: 0.78rem; color: rgba(43,35,32,0.5); text-align: center; margin-top: 18px; line-height: 1.5; }
 
@@ -288,6 +289,8 @@
     statFoundLabel: { en: 'Found', gd: 'Air Lorg' },
     statScoreLabel: { en: 'Score', gd: 'Sgòr' },
     statRankLabel: { en: 'Rank', gd: 'Ìre' },
+    gameOverFullMsg: { en: "You found every word today — nice one!", gd: "Lorg thu a h-uile facal an-diugh — taghadh!" },
+    gameOverCapMsg: { en: "Game over for today — here's what you missed:", gd: "Cluiche seachad airson an-diugh — seo na chaill thu:" },
     tooShort: { en: 'Too short — four letters minimum.', gd: "Ro ghoirid — ceithir litrichean air a' char as lugha." },
     missingCentre: { en: 'Must include the centre letter.', gd: 'Feumaidh am prìomh litir a bhith ann.' },
     alreadyFound: { en: 'Already found.', gd: 'Air a lorg mu thràth.' },
@@ -454,6 +457,14 @@
   var STORAGE_KEY = 'sf-geama-bee-' + dayIdx;
   var game = loadJSON(STORAGE_KEY, { found: [], syncedPlayed: false, syncedCleared: false });
 
+  var WORD_CAP = 10;
+  function isGameOver() {
+    return game.found.length >= WORD_CAP || mainFoundCount() >= puzzle.words.length;
+  }
+  function gameOverMessage() {
+    return mainFoundCount() >= puzzle.words.length ? t('gameOverFullMsg') : t('gameOverCapMsg');
+  }
+
   function currentShuffleOrder() {
     var arr = outerLetters.slice();
     for (var i = arr.length - 1; i > 0; i--) {
@@ -521,6 +532,7 @@
     current = '';
     el.currentWord.textContent = '';
     if (!word) return;
+    if (isGameOver()) { setMessage(gameOverMessage()); return; }
     if (word.length < MIN_LEN) { setMessage(t('tooShort')); return; }
     if (word.indexOf(center) === -1) { setMessage(t('missingCentre')); return; }
     if (game.found.indexOf(word) !== -1) { setMessage(t('alreadyFound')); return; }
@@ -531,19 +543,26 @@
     game.found.push(word);
     if (isBonus) { game.bonus = game.bonus || []; game.bonus.push(word); }
     saveJSON(STORAGE_KEY, game);
-    setMessage(isPangram(word) ? t('pangramFound') : (isBonus ? t('bonusFound') : t('foundIt')));
+    setMessage(isGameOver() ? gameOverMessage() : (isPangram(word) ? t('pangramFound') : (isBonus ? t('bonusFound') : t('foundIt'))));
     renderFound();
     renderStats();
     syncProgress();
   });
 
   function renderFound() {
-    el.foundWords.innerHTML = game.found.map(function (w) {
+    var html = game.found.map(function (w) {
       var isBonusWord = (game.bonus || []).indexOf(w) !== -1;
       var cls = 'found-word-chip' + (isPangram(w) ? ' pangram' : '') + (isBonusWord ? ' bonus' : '');
       var titleTxt = answerMap[w] || (isBonusWord ? t('bonusWordTitle') : '');
       return '<span class="' + cls + '" title="' + titleTxt + '">' + w + (isBonusWord ? ' \u2605' : '') + '</span>';
     }).join('');
+    if (isGameOver() && mainFoundCount() < puzzle.words.length) {
+      html += puzzle.words.map(function (w) { return w.word.toUpperCase(); })
+        .filter(function (w) { return game.found.indexOf(w) === -1; })
+        .map(function (w) { return '<span class="found-word-chip missed" title="' + (answerMap[w] || '') + '">' + w + '</span>'; })
+        .join('');
+    }
+    el.foundWords.innerHTML = html;
   }
 
   function currentScore() {
@@ -699,6 +718,7 @@
   renderHoneycomb();
   renderFound();
   renderStats();
+  if (isGameOver()) { setMessage(gameOverMessage()); }
 
   var savedUiLang = loadJSON('sf-ui-lang', 'en');
   setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
