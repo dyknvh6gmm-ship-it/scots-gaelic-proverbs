@@ -84,10 +84,15 @@
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     display: flex; align-items: center; justify-content: center;
     font-size: 1.25rem; font-weight: 700; font-family: Georgia, serif; text-transform: uppercase;
-    cursor: pointer; user-select: none; background: #fff; border: 2px solid var(--thistle); color: var(--ink);
+    cursor: pointer; user-select: none; background: var(--thistle); color: var(--ink); position: absolute;
   }
-  .bee-hex:hover { background: rgba(142,108,156,0.12); }
-  .bee-hex.center { background: var(--amber); color: #fff; border-color: var(--amber); }
+  .bee-hex:not(.center)::after {
+    content: ''; position: absolute; inset: 3px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: #fff; z-index: -1;
+  }
+  .bee-hex:not(.center):hover::after { background: rgba(142,108,156,0.12); }
+  .bee-hex.center { background: var(--amber); color: #fff; }
   .bee-hex.center:hover { opacity: 0.9; }
 
   .bee-actions { display: flex; justify-content: center; gap: 10px; margin: 8px 0 18px; }
