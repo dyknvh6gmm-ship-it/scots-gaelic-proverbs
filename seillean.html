@@ -457,6 +457,18 @@
   puzzle.words.forEach(function (w) { answerMap[w.word.toUpperCase()] = w.en; });
   var maxScore = puzzle.words.reduce(function (sum, w) { return sum + wordScore(w.word); }, 0);
   var BONUS_WORDS = new Set(["'S","A'","ABAIR","ACH","AD'","ADHARC","AG","AGUS","AIDEACHADH","AIG","AIGE","AINEAMH","AINEOLAS","AIR","AIRE","AIREAMH","AIRSON","AISEAG","AISIGIDH","AISLING","AITEAMH","AITHNICH","AITHNICHEAR","AITHNICHIDH","AITHRIS","AM","AMADAN","AMHARAS","AN","ANAIL","ANN","ANNS","AODACH","AOIDH","AOINE","AOIS","AON","AR","AS","ATHAIR","B'","B'FHEÀRR","BAINNSEAN","BALACH","BARRALL","BEAG","BEAGA","BEAGAN","BEAN","BEANN","BEARTACH","BEINN","BEISTE","BEUL","BEUS","BEÀRN","BEÒ","BHA","BHAILE","BHANALTRAM","BHARRA","BHEACHDAICHEAS","BHEAGAN","BHEATHACHADH","BHEINN","BHEIR","BHEUL","BHI","BHIAST","BHIODH","BHIOS","BHITH","BHLIADHN'","BHO","BHOGAS","BHON","BHREITH","BHRISTE","BHRÒG","BHRÒIGE","BHUIL","BHUINIGEAS","BHÈUSAIBH","BI","BIADH","BIAL","BIDH","BITHEAR","BITHIDH","BLIADHNA","BLÀTH","BOCHD","BODHAR","BOIREANNACH","BREITH","BREUG","BRIS","BRISIDH","BRÈID","BRÒGACH","BRÒN","BU","BUAN","BUIDHE","BUILG","BUINIDH","BÀ","BÒIDHCHEAD","CABHAG","CAILLICH","CAITHEAMH","CAOMHNADH","CAORA","CAORAICH","CARAID","CAT","CEANN","CEARC","CEART","CEÀRD","CEÒ","CHA","CHA'N","CHAN","CHAONNAIG","CHAS","CHEANNAICHTE","CHIAD","CHIALL","CHIALLAICH","CHISTE","CHITHEAR","CHLUAIS","CHLUICHE","CHLUINNEAS","CHO","CHOILLE","CHOIS","CHRIDHE","CHROMAS","CHRÌOCHNACHADH","CHUIR","CHUIREAR","CHUIREAS","CHUISEAG","CHUNGAIDH","CHUR","CHÀRN","CHÈILE","CHÌTHEAR","CHÒIR","CHÒTA","CHÙIL","CHÙL","CIAMAR","CLACH","CLACHAN","CLAMHAN","CLANN","CLEITH","CLUAIS","CNUIC","COINNICH","COINNICHIDH","COLTAIS","COMA","COMAS","CONNADH","CORRACH","CRAICEANN","CREID","CRIDHE","CRODH","CRON","CRUAICHE","CRÌONNA","CU","CUARANACH","CUR","CUTHAIGE","CÀIRDEAN","CÀIRDEAS","CÒ","CÒMHLA","CÙ","D'ANAM","D'FHOSGAIL","DAOINE","DATH","DE","DEARG","DEIREADH","DEOCH","DH'AINDEOIN","DH'EUDAN","DH'FHUILINGEAS","DH'FHÀSAS","DH'ITHEAR","DHA","DHACHAIGH","DHAN","DHEARBHAS","DHEUG","DHITH","DHUT","DHÀ","DHÀN","DHÈANAMH","DHÌCHEALL","DHÙIN","DIAS","DO","DO'N","DOIMHNE","DOL","DONA","DORAS","DRANNDAN","DREACH","DROCH","DUBH","DUILICH","DUINE","DUT","DÀ","DÀRNA","DÈAN","DÈANADAR","DÈANAMH","DÒRAS","DÙRACHD","E","EACH","EADAR","EAGAL","EARBALL","EIL","EILE","EILEAN","EIRE","ESAN","EUD","EUN","EÒLAICH","FAC","FADA","FAIGH","FAODAIDH","FAR","FEAR","FEASGAR","FEUM","FEUMAIDH","FHAD","FHAISGE","FHATHAST","FHEAR","FHEUDAR","FHEUM","FHEÀRR","FHOGHAR","FHÈIN","FIOS","FO","FON","FUINE","FÀL","FÀS","FÌOR","GA","GABH","GABHAIDH","GACH","GAD","GAINNE","GAOITHE","GAOL","GAOTH","GE'M","GE'N","GEAL","GEALACH","GEALLADH","GED","GHABH","GHABHAIL","GHAOL","GHEIBH","GHLAINEAD","GHLÒIR","GHNOTHACH","GHOISTIDH","GHÀIDHEIL","GLAN","GLEANN","GLÈIDH","GLÈIDHIDH","GNÌOMH","GOBHAIR","GOBHLACH","GOIRID","GOIRTE","GORM","GRIAN","GRIASAICHE","GRINN","GRINNEAS","GRÀDH","GRÈIGH","GU","GUM","GUN","GUR","GUS","GÀIDHLIG","GÀIRE","I","IAD","IADSAN","IARRAIDH","IASG","IDIR","INNLEACHD","IOMAIR","IONANN","IONNSACHADH","IS","ISE","ISLE","ITHE","ITHEADH","LABHRACH","LABHRAIDH","LAS","LATHA","LE","LEANABH","LEANAIBH","LEANNANACHD","LEASACHADH","LEIGHIS","LEIS","LETH","LEÒMHANN","LOCH","LUATHAS","LUCH","LUGHA","LUGHAID","LÀIMH","LÀRAICH","LÈIR","LÈTH","LÌONAR","MA","MAC","MACH","MADAINN","MALL","MAOILE","MAR","MARAGAN","MAS","MATH","MEASG","MEIRGEADH","MHADAINN","MHAIGHSTIR","MHANADH","MHARCAICHEAS","MHATH","MHEANGLAN","MHEAS","MHEASAS","MHEUD","MHILLEADH","MHISDE","MHULLACH","MHÌN","MHÒR","MI","MILLEAR","MINIG","MISE","MNAOI","MO","MOR","MOTHA","MU","MUIR","MUS","MUTHA","MÀTHAIR","MÌLE","MÒR","MÒRAN","NA","NA'S","NACH","NAM","NAN","NIGHEAN","NITHEAR","NO","NUAIR","OBAIR","OIDHCHE","OIGHREACHD","OIR","OIRRE","OLC","ORT","PHOCA","PÒGAR","REAMHAR","REODHADH","RI","RIARACHADH","RIS","RIUM","RIUT","ROBH","RUADH","RUD","RUDEIGIN","RUGHA","RUIGEAS","RUISG","RÀMH","RÀTHAD","RÈIR","SA","SALACH","SALACHAR","SEAN","SEANN","SEARRACH","SEIRBHEISEACH","SEO","SGEUL","SGIAN","SGRÌOB","SGUIR","SGÀTHAN","SHALACHAR","SHEALBHAICHEAS","SHEAS","SHLÀINTE","SHÌN","SIBH","SIBHSE","SIN","SINN","SINNE","SITH","SIUD","SLOMAN","SLUAIGH","SMAOINICH","SNEACHDA","SONA","SOP","STAIGH","STEACH","SUAS","SUIDHIDH","SÀIMHCHE","SÀMHACH","SÌODA","SÌTH","SÙIL","TAIGH","TAIGHE","TAOBH","TEAGASG","TEINE","TEUMADH","TH'","THA","THAIRIS","THALL","THAR","THEIR","THEIREADH","THIG","THOGAS","THOMHAS","THOSD","THRIAN","THU","THUN","THUSA","THÈID","TIG","TIONNSGNADH","TIR","TOBAIR","TOCHRADH","TOIL","TOIR","TOIRT","TOISEACH","TOLL","TORADH","TRAOGHADH","TRICE","TRIÙIR","TRO","TROM","TRUAIGHE","TRUIME","TRÀOGH","TU","TUATH","TUIL","TUILLEADH","TÈID","TÌ","TÌR","TÒISEACHADH","TÒRRAIDHEAN","UAIR","UAIREIGIN","UD","UILE","UISGE","UISGEACHAN","UR","URRAINN","URRAM","ÀIRDE","ÀS","ÈIGINN","ÈIST","ÌNEAN","ÒL","ÒR","ÒTRACH","ÙBHAL","ÙIR"]);
+
+  function stripAccents(w) { return w.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+  var lookupByNorm = {};
+  puzzle.words.forEach(function (w) {
+    var canon = w.word.toUpperCase();
+    lookupByNorm[stripAccents(canon)] = { canon: canon, en: w.en, isMain: true };
+  });
+  BONUS_WORDS.forEach(function (w) {
+    var norm = stripAccents(w);
+    if (!lookupByNorm[norm]) { lookupByNorm[norm] = { canon: w, en: null, isMain: false }; }
+  });
+
   function wordUsesOnlyLetters(word) {
     for (var i = 0; i < word.length; i++) { if (letters.indexOf(word[i]) === -1) return false; }
     return true;
@@ -554,8 +566,9 @@
     if (word.length < MIN_LEN) { setMessage(t('tooShort')); return; }
     if (word.indexOf(center) === -1) { setMessage(t('missingCentre')); return; }
     if (game.found.indexOf(word) !== -1) { setMessage(t('alreadyFound')); return; }
-    var isMain = answerMap.hasOwnProperty(word);
-    var isBonus = !isMain && BONUS_WORDS.has(word) && wordUsesOnlyLetters(word);
+    var lookupEntry = lookupByNorm[stripAccents(word)];
+    var isMain = !!(lookupEntry && lookupEntry.isMain);
+    var isBonus = !isMain && !!lookupEntry && wordUsesOnlyLetters(word);
     if (!isMain && !isBonus) { setMessage(t('notOnList')); return; }
 
     game.found.push(word);
@@ -569,10 +582,12 @@
 
   function renderFound() {
     var html = game.found.map(function (w) {
+      var entry = lookupByNorm[stripAccents(w)];
+      var display = entry ? entry.canon : w;
       var isBonusWord = (game.bonus || []).indexOf(w) !== -1;
       var cls = 'found-word-chip' + (isPangram(w) ? ' pangram' : '') + (isBonusWord ? ' bonus' : '');
-      var titleTxt = answerMap[w] || (isBonusWord ? t('bonusWordTitle') : '');
-      return '<span class="' + cls + '" title="' + titleTxt + '">' + w + (isBonusWord ? ' \u2605' : '') + '</span>';
+      var titleTxt = (entry && entry.en) || (isBonusWord ? t('bonusWordTitle') : '');
+      return '<span class="' + cls + '" title="' + titleTxt + '">' + display + (isBonusWord ? ' \u2605' : '') + '</span>';
     }).join('');
     if (isGameOver() && mainFoundCount() < puzzle.words.length) {
       html += puzzle.words.map(function (w) { return w.word.toUpperCase(); })
