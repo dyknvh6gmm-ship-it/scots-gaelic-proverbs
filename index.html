@@ -271,9 +271,7 @@
     background: var(--thistle); border: none; border-radius: 10px; box-shadow: 0 2px 8px rgba(91,42,134,0.3);
     padding: 14px; font-size: 0.95rem; font-weight: 700; color: #fff; cursor: pointer;
   }
-  .expand-btn:hover { background: rgba(91,42,134,0.85); } .home-preview { margin: 20px 0; } .home-preview-heading { font-size: 1rem; font-weight: 700; color: var(--thistle); margin: 0 0 12px; } .home-preview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; } .home-preview-grid .card { padding: 16px; }
-
-  #secondary-content { margin-top: 16px; }
+  .expand-btn:hover { background: rgba(91,42,134,0.85); } #secondary-content { margin-top: 16px; }
 
   /* Map section */
   .map-section {
@@ -368,7 +366,7 @@
     <span id="expand-btn-text" data-i18n="expandBtnText">Show word games, the map &amp; the full collection ▾</span>
   </button>
 
-  <section class="home-preview" id="home-preview"><h2 class="home-preview-heading" data-i18n="homePreviewHeading">A taste of the collection</h2><div class="home-preview-grid" id="home-preview-grid"></div></section><section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><div id="secondary-content">
+  <section class="potd" id="potd"><div class="potd-card"><div class="potd-head"><span class="potd-badge" id="potd-badge">★ Proverb of the Day</span><div class="potd-nav"><button id="potd-prev" aria-label="Previous proverb">‹</button><button id="potd-next" aria-label="Next proverb">›</button></div></div><div class="potd-body" id="potd-body"></div><div class="potd-dots" id="potd-dots"></div></div></section><div id="secondary-content">
   <section class="featured-section" id="featured-section">
     <div class="featured-card">
       <div class="featured-icon">🎮</div>
@@ -1350,36 +1348,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   }
 
   // ---- rendering ----
-  function renderHomePreview() {
-  var grid = document.getElementById('home-preview-grid');
-  if (!grid) return;
-  var scotsPool = DATA.filter(function (e) { return e.scots; });
-  var gaelicPool = DATA.filter(function (e) { return e.gaelic; });
-  var now = new Date();
-  var seed = now.getFullYear() * 372 + now.getMonth() * 31 + now.getDate();
-  function pickN(pool, n, offset) {
-    var picks = [];
-    var used = {};
-    var i = 0;
-    while (picks.length < n && i < pool.length) {
-      var idx = (seed + offset + i * 13) % pool.length;
-      if (!used[idx]) { used[idx] = true; picks.push(pool[idx]); }
-      i++;
-    }
-    return picks;
-  }
-  var scotsPicks = pickN(scotsPool, 3, 0).map(function (e) { return { entry: e, langKey: 'scots' }; });
-  var gaelicPicks = pickN(gaelicPool, 3, 5).map(function (e) { return { entry: e, langKey: 'gaelic' }; });
-  var picks = [];
-  for (var i = 0; i < 3; i++) {
-    if (scotsPicks[i]) picks.push(scotsPicks[i]);
-    if (gaelicPicks[i]) picks.push(gaelicPicks[i]);
-  }
-  grid.innerHTML = picks.map(function (p) {
-    var entry = p.entry, langKey = p.langKey, primary = entry[langKey];
-    return '<div class="card"><div class="card-top"><span class="theme-tag">' + esc(entry.theme) + '</span></div><div><div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div><p class="text proverb-text">' + esc(primary.text) + '</p><p class="gloss">' + esc(primary.gloss) + '</p></div></div>';
-  }).join('');
-} function render() { renderHomePreview();
+   function render() { 
     var q = normalise(state.query);
     var langKey = state.lang;
 
