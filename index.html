@@ -1179,6 +1179,7 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
       gd: "Tha molaidhean air an sàbhaladh san brobhsair seo a-mhàin an-dràsta — faic an README airson mar a dh'fhàsas seo na fhìor mhàp le sgrùdadh."
     },
     installTextAndroid: { en: "Add this to your home screen for quick, offline access.", gd: "Cuir seo ri sgrìn dachaigh do fhòn airson cothrom luath, fiù 's far loidhne." },
+    installTextAndroidManual: { en: 'Tap the menu (⋮) in your browser, then "Add to Home screen" or "Install app".', gd: 'Brùth air a\' chlàr-taice (⋮) san bhrabhsair agad, an uair sin "Add to Home screen" no "Install app".' },
     installTextIOS: { en: 'Tap the Share icon, then "Add to Home Screen".', gd: 'Brùth air an ìomhaigh Share, an uair sin "Add to Home Screen".' },
     searchPlaceholder: {
       scots: { en: "Search a Scots word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla Ghallda…" },
@@ -1726,7 +1727,9 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
     var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
     updateInstallBannerText = function () {
-      bannerText.textContent = t(isIOS ? 'installTextIOS' : 'installTextAndroid'); btnInstall.textContent = t(isIOS ? 'installGotIt' : 'installBtn');
+      var hasPrompt = !!deferredPrompt;
+      bannerText.textContent = t(isIOS ? 'installTextIOS' : (hasPrompt ? 'installTextAndroid' : 'installTextAndroidManual'));
+      btnInstall.textContent = t(hasPrompt ? 'installBtn' : 'installGotIt');
     };
 
     // Keep the install banner sitting above the fixed bottom nav bar on phones,
@@ -1759,6 +1762,19 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
       banner.style.display = 'block';
     }
 
+    // Android/Chrome sometimes never fires beforeinstallprompt (already
+    // declined a few times, criteria not met, etc). If that happens, fall
+    // back to manual "Add to Home screen" instructions after a short wait
+    // so the banner isn't just silently missing.
+    if (isMobile && !isIOS && !isStandalone && !recentlyDismissed()) {
+      setTimeout(function () {
+        if (!deferredPrompt && banner.style.display !== 'block') {
+          updateInstallBannerText();
+          banner.style.display = 'block';
+        }
+      }, 2500);
+    }
+
     btnInstall.addEventListener('click', function () {
       if (deferredPrompt) {
         deferredPrompt.prompt();
@@ -1767,7 +1783,8 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
           banner.style.display = 'none';
         });
       } else {
-        // iOS (or browsers without the prompt API): banner text already has instructions.
+        // iOS, or Android/desktop without the native prompt: banner text
+        // already has manual instructions, so just acknowledge + dismiss.
         banner.style.display = 'none';
         localStorage.setItem(DISMISS_KEY, String(Date.now()));
       }
