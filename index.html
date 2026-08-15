@@ -69,7 +69,7 @@
   .nav-dropdown-toggle:hover { background: rgba(255,255,255,0.12); }
   .nav-dropdown.open .nav-dropdown-toggle, .nav-dropdown-toggle.active { background: #fff; color: var(--thistle); border-color: #fff; }
   .nav-caret { font-size: 0.6rem; }
-  .nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 6px); left: 0; z-index: 50; background: #fff; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); padding: 6px; min-width: 190px; }
+  .nav-dropdown-menu { display: none; position: fixed; z-index: 200; background: #fff; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); padding: 6px; min-width: 190px; }
   .nav-dropdown.open .nav-dropdown-menu { display: block; }
   .nav-dropdown-menu a { display: block; padding: 8px 12px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
   .nav-dropdown-menu a:hover { background: rgba(142,108,156,0.1); }
@@ -363,14 +363,23 @@
         btn.addEventListener('click', function (e) {
           e.stopPropagation();
           var dd = btn.closest('.nav-dropdown');
+          var menu = dd.querySelector('.nav-dropdown-menu');
           var wasOpen = dd.classList.contains('open');
           document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
-          if (!wasOpen) dd.classList.add('open');
+          if (!wasOpen) {
+            var r = btn.getBoundingClientRect();
+            menu.style.top = (r.bottom + 6) + 'px';
+            menu.style.left = r.left + 'px';
+            dd.classList.add('open');
+          }
         });
       });
       document.addEventListener('click', function () {
         document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
       });
+      window.addEventListener('scroll', function () {
+        document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+      }, true);
     </script>
       <div class="ui-lang-toggle" id="ui-lang-toggle">
       <button id="ui-lang-en" class="active" data-lang="en">EN</button>
