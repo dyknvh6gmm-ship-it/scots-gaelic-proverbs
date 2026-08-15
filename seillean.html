@@ -104,6 +104,7 @@
   .found-words { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding-top: 14px; border-top: 1px solid rgba(142,108,156,0.15); }
   .found-word-chip { background: rgba(142,108,156,0.1); border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
   .found-word-chip.pangram { background: var(--amber); color: #fff; }
+  .found-word-chip.bonus { background: rgba(46,139,87,0.12); border: 1px solid rgba(46,139,87,0.4); }
 
   .about-note { font-size: 0.78rem; color: rgba(43,35,32,0.5); text-align: center; margin-top: 18px; line-height: 1.5; }
 
@@ -292,6 +293,8 @@
     alreadyFound: { en: 'Already found.', gd: 'Air a lorg mu thràth.' },
     notOnList: { en: "Not on today's list.", gd: 'Chan eil sin air an liosta an-diugh.' },
     foundIt: { en: 'Nice — found it!', gd: 'Snog — air a lorg!' },
+    bonusFound: { en: 'Bonus word — nice find!', gd: 'Facal a bharrachd — fionnachdainn mhath!' },
+    bonusWordTitle: { en: "Bonus word (not on today's list)", gd: 'Facal a bharrachd (chan eil e air an liosta an-diugh)' },
     pangramFound: { en: 'Pangram! All seven letters!', gd: "Pangram! Na seachd litrichean uile!" },
     rankStart: { en: 'Starting', gd: 'Tòiseachadh' },
     rankGood: { en: 'Good', gd: 'Math' },
@@ -300,8 +303,8 @@
     rankDone: { en: 'All done!', gd: 'Deiseil!' },
     submitBtn: { en: 'Enter', gd: 'Cuir a-steach' },
     aboutNote: {
-      en: "I don't have a large enough Gaelic dictionary yet to check every possible word — this is a small, curated set rather than a complete list. If a real word you know isn't accepted, it may just not be added yet rather than wrong. Tell me and I'll add it.",
-      gd: "Chan eil liosta fhaclair mhòr agam fhathast airson gach facal Gàidhlig a sgrùdadh — is e seata beag, taghte de fhaclan a tha seo, chan e liosta iomlan. Mura h-eil facal ceart a chì thu air an liosta, dh'fhaodadh nach eil e air an liosta agam fhathast seach nach eil e ceart. Innis dhomh agus cuiridh mi ris e."
+      en: "Today's list (\u2605) is the main goal, but you also earn bonus points for any other real Gaelic word you can make from these letters — I don't have a full dictionary yet, so bonus words are checked against a growing list pulled from proverbs and pages elsewhere on this site. If a real word isn't accepted, it may just not be added yet. Tell me and I'll add it.",
+      gd: "Is e liosta an-diugh (\u2605) am prìomh amas, ach gheibh thu puingean a bharrachd airson facal Gàidhlig ceart sam bith eile a nì thu leis na litrichean seo — chan eil liosta fhaclair iomlan agam fhathast, mar sin thèid faclan a bharrachd a sgrùdadh an aghaidh liosta a tha a' fàs, air a tarraing bho sheanfhaclan is duilleagan eile air an làrach seo. Mura h-eil facal ceart air a ghabhail, dh'fhaodadh nach eil e air an liosta fhathast. Innis dhomh agus cuiridh mi ris e."
     },
     navHome: { en: 'Home', gd: 'Dachaigh' },
     navMyAccount: { en: 'My Account', gd: 'An Cunntas Agam' },
@@ -432,6 +435,11 @@
   var answerMap = {};
   puzzle.words.forEach(function (w) { answerMap[w.word.toUpperCase()] = w.en; });
   var maxScore = puzzle.words.reduce(function (sum, w) { return sum + wordScore(w.word); }, 0);
+  var BONUS_WORDS = new Set(["'S","A'","ABAIR","ACH","AD'","ADHARC","AG","AGUS","AIDEACHADH","AIG","AIGE","AINEAMH","AINEOLAS","AIR","AIRE","AIREAMH","AIRSON","AISEAG","AISIGIDH","AISLING","AITEAMH","AITHNICH","AITHNICHEAR","AITHNICHIDH","AITHRIS","AM","AMADAN","AMHARAS","AN","ANAIL","ANN","ANNS","AODACH","AOIDH","AOINE","AOIS","AON","AR","AS","ATHAIR","B'","B'FHEÀRR","BAINNSEAN","BALACH","BARRALL","BEAG","BEAGA","BEAGAN","BEAN","BEANN","BEARTACH","BEINN","BEISTE","BEUL","BEUS","BEÀRN","BEÒ","BHA","BHAILE","BHANALTRAM","BHARRA","BHEACHDAICHEAS","BHEAGAN","BHEATHACHADH","BHEINN","BHEIR","BHEUL","BHI","BHIAST","BHIODH","BHIOS","BHITH","BHLIADHN'","BHO","BHOGAS","BHON","BHREITH","BHRISTE","BHRÒG","BHRÒIGE","BHUIL","BHUINIGEAS","BHÈUSAIBH","BI","BIADH","BIAL","BIDH","BITHEAR","BITHIDH","BLIADHNA","BLÀTH","BOCHD","BODHAR","BOIREANNACH","BREITH","BREUG","BRIS","BRISIDH","BRÈID","BRÒGACH","BRÒN","BU","BUAN","BUIDHE","BUILG","BUINIDH","BÀ","BÒIDHCHEAD","CABHAG","CAILLICH","CAITHEAMH","CAOMHNADH","CAORA","CAORAICH","CARAID","CAT","CEANN","CEARC","CEART","CEÀRD","CEÒ","CHA","CHA'N","CHAN","CHAONNAIG","CHAS","CHEANNAICHTE","CHIAD","CHIALL","CHIALLAICH","CHISTE","CHITHEAR","CHLUAIS","CHLUICHE","CHLUINNEAS","CHO","CHOILLE","CHOIS","CHRIDHE","CHROMAS","CHRÌOCHNACHADH","CHUIR","CHUIREAR","CHUIREAS","CHUISEAG","CHUNGAIDH","CHUR","CHÀRN","CHÈILE","CHÌTHEAR","CHÒIR","CHÒTA","CHÙIL","CHÙL","CIAMAR","CLACH","CLACHAN","CLAMHAN","CLANN","CLEITH","CLUAIS","CNUIC","COINNICH","COINNICHIDH","COLTAIS","COMA","COMAS","CONNADH","CORRACH","CRAICEANN","CREID","CRIDHE","CRODH","CRON","CRUAICHE","CRÌONNA","CU","CUARANACH","CUR","CUTHAIGE","CÀIRDEAN","CÀIRDEAS","CÒ","CÒMHLA","CÙ","D'ANAM","D'FHOSGAIL","DAOINE","DATH","DE","DEARG","DEIREADH","DEOCH","DH'AINDEOIN","DH'EUDAN","DH'FHUILINGEAS","DH'FHÀSAS","DH'ITHEAR","DHA","DHACHAIGH","DHAN","DHEARBHAS","DHEUG","DHITH","DHUT","DHÀ","DHÀN","DHÈANAMH","DHÌCHEALL","DHÙIN","DIAS","DO","DO'N","DOIMHNE","DOL","DONA","DORAS","DRANNDAN","DREACH","DROCH","DUBH","DUILICH","DUINE","DUT","DÀ","DÀRNA","DÈAN","DÈANADAR","DÈANAMH","DÒRAS","DÙRACHD","E","EACH","EADAR","EAGAL","EARBALL","EIL","EILE","EILEAN","EIRE","ESAN","EUD","EUN","EÒLAICH","FAC","FADA","FAIGH","FAODAIDH","FAR","FEAR","FEASGAR","FEUM","FEUMAIDH","FHAD","FHAISGE","FHATHAST","FHEAR","FHEUDAR","FHEUM","FHEÀRR","FHOGHAR","FHÈIN","FIOS","FO","FON","FUINE","FÀL","FÀS","FÌOR","GA","GABH","GABHAIDH","GACH","GAD","GAINNE","GAOITHE","GAOL","GAOTH","GE'M","GE'N","GEAL","GEALACH","GEALLADH","GED","GHABH","GHABHAIL","GHAOL","GHEIBH","GHLAINEAD","GHLÒIR","GHNOTHACH","GHOISTIDH","GHÀIDHEIL","GLAN","GLEANN","GLÈIDH","GLÈIDHIDH","GNÌOMH","GOBHAIR","GOBHLACH","GOIRID","GOIRTE","GORM","GRIAN","GRIASAICHE","GRINN","GRINNEAS","GRÀDH","GRÈIGH","GU","GUM","GUN","GUR","GUS","GÀIDHLIG","GÀIRE","I","IAD","IADSAN","IARRAIDH","IASG","IDIR","INNLEACHD","IOMAIR","IONANN","IONNSACHADH","IS","ISE","ISLE","ITHE","ITHEADH","LABHRACH","LABHRAIDH","LAS","LATHA","LE","LEANABH","LEANAIBH","LEANNANACHD","LEASACHADH","LEIGHIS","LEIS","LETH","LEÒMHANN","LOCH","LUATHAS","LUCH","LUGHA","LUGHAID","LÀIMH","LÀRAICH","LÈIR","LÈTH","LÌONAR","MA","MAC","MACH","MADAINN","MALL","MAOILE","MAR","MARAGAN","MAS","MATH","MEASG","MEIRGEADH","MHADAINN","MHAIGHSTIR","MHANADH","MHARCAICHEAS","MHATH","MHEANGLAN","MHEAS","MHEASAS","MHEUD","MHILLEADH","MHISDE","MHULLACH","MHÌN","MHÒR","MI","MILLEAR","MINIG","MISE","MNAOI","MO","MOR","MOTHA","MU","MUIR","MUS","MUTHA","MÀTHAIR","MÌLE","MÒR","MÒRAN","NA","NA'S","NACH","NAM","NAN","NIGHEAN","NITHEAR","NO","NUAIR","OBAIR","OIDHCHE","OIGHREACHD","OIR","OIRRE","OLC","ORT","PHOCA","PÒGAR","REAMHAR","REODHADH","RI","RIARACHADH","RIS","RIUM","RIUT","ROBH","RUADH","RUD","RUDEIGIN","RUGHA","RUIGEAS","RUISG","RÀMH","RÀTHAD","RÈIR","SA","SALACH","SALACHAR","SEAN","SEANN","SEARRACH","SEIRBHEISEACH","SEO","SGEUL","SGIAN","SGRÌOB","SGUIR","SGÀTHAN","SHALACHAR","SHEALBHAICHEAS","SHEAS","SHLÀINTE","SHÌN","SIBH","SIBHSE","SIN","SINN","SINNE","SITH","SIUD","SLOMAN","SLUAIGH","SMAOINICH","SNEACHDA","SONA","SOP","STAIGH","STEACH","SUAS","SUIDHIDH","SÀIMHCHE","SÀMHACH","SÌODA","SÌTH","SÙIL","TAIGH","TAIGHE","TAOBH","TEAGASG","TEINE","TEUMADH","TH'","THA","THAIRIS","THALL","THAR","THEIR","THEIREADH","THIG","THOGAS","THOMHAS","THOSD","THRIAN","THU","THUN","THUSA","THÈID","TIG","TIONNSGNADH","TIR","TOBAIR","TOCHRADH","TOIL","TOIR","TOIRT","TOISEACH","TOLL","TORADH","TRAOGHADH","TRICE","TRIÙIR","TRO","TROM","TRUAIGHE","TRUIME","TRÀOGH","TU","TUATH","TUIL","TUILLEADH","TÈID","TÌ","TÌR","TÒISEACHADH","TÒRRAIDHEAN","UAIR","UAIREIGIN","UD","UILE","UISGE","UISGEACHAN","UR","URRAINN","URRAM","ÀIRDE","ÀS","ÈIGINN","ÈIST","ÌNEAN","ÒL","ÒR","ÒTRACH","ÙBHAL","ÙIR"]);
+  function wordUsesOnlyLetters(word) {
+    for (var i = 0; i < word.length; i++) { if (letters.indexOf(word[i]) === -1) return false; }
+    return true;
+  }
 
   function isPangram(word) {
     var unique = {};
@@ -516,11 +524,14 @@
     if (word.length < MIN_LEN) { setMessage(t('tooShort')); return; }
     if (word.indexOf(center) === -1) { setMessage(t('missingCentre')); return; }
     if (game.found.indexOf(word) !== -1) { setMessage(t('alreadyFound')); return; }
-    if (!answerMap.hasOwnProperty(word)) { setMessage(t('notOnList')); return; }
+    var isMain = answerMap.hasOwnProperty(word);
+    var isBonus = !isMain && BONUS_WORDS.has(word) && wordUsesOnlyLetters(word);
+    if (!isMain && !isBonus) { setMessage(t('notOnList')); return; }
 
     game.found.push(word);
+    if (isBonus) { game.bonus = game.bonus || []; game.bonus.push(word); }
     saveJSON(STORAGE_KEY, game);
-    setMessage(isPangram(word) ? t('pangramFound') : t('foundIt'));
+    setMessage(isPangram(word) ? t('pangramFound') : (isBonus ? t('bonusFound') : t('foundIt')));
     renderFound();
     renderStats();
     syncProgress();
@@ -528,8 +539,10 @@
 
   function renderFound() {
     el.foundWords.innerHTML = game.found.map(function (w) {
-      var cls = isPangram(w) ? 'found-word-chip pangram' : 'found-word-chip';
-      return '<span class="' + cls + '" title="' + (answerMap[w] || '') + '">' + w + '</span>';
+      var isBonusWord = (game.bonus || []).indexOf(w) !== -1;
+      var cls = 'found-word-chip' + (isPangram(w) ? ' pangram' : '') + (isBonusWord ? ' bonus' : '');
+      var titleTxt = answerMap[w] || (isBonusWord ? t('bonusWordTitle') : '');
+      return '<span class="' + cls + '" title="' + titleTxt + '">' + w + (isBonusWord ? ' \u2605' : '') + '</span>';
     }).join('');
   }
 
@@ -545,10 +558,15 @@
     return t('rankStart');
   }
 
+  function mainFoundCount() {
+    return game.found.filter(function (w) { return answerMap.hasOwnProperty(w); }).length;
+  }
+
   function renderStats() {
     var score = currentScore();
+    var mainCount = mainFoundCount();
     var pct = maxScore ? score / maxScore : 0;
-    el.statFound.textContent = game.found.length + '/' + puzzle.words.length;
+    el.statFound.textContent = mainCount + '/' + puzzle.words.length;
     el.statScore.textContent = String(score);
     el.statRank.textContent = rankLabel(pct);
   }
@@ -556,7 +574,7 @@
   // ---- Sync progress to Supabase (game_stats, game = 'bee') ----
   function syncProgress() {
     if (!sfClient || !currentUser) return;
-    var fullClear = game.found.length >= puzzle.words.length;
+    var fullClear = mainFoundCount() >= puzzle.words.length;
 
     if (!game.syncedPlayed) {
       game.syncedPlayed = true;
