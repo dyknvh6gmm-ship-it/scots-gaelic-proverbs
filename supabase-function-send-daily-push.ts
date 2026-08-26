@@ -65,27 +65,9 @@ Deno.serve(async () => {
     return new Response(JSON.stringify({ error: "ONESIGNAL_REST_API_KEY is not set — add it under Edge Functions → send-daily-push → Secrets." }), { status: 500 });
   }
 
-  const supabase = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    getServiceKey()
-  );
-
-  // push_opt_in visitors are tagged in OneSignal with an "external user id"
-  // equal to their Supabase user_id (see OneSignal.login() in index.html) —
-  // that's what lets us target exactly this list in one call below.
-  const { data: subscribers, error } = await supabase
-    .from("subscribers")
-    .select("user_id")
-    .eq("push_opt_in", true);
-
-  if (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
-  }
-  if (!subscribers || subscribers.length === 0) {
-    return new Response(JSON.stringify({ sent: 0, total: 0 }), { status: 200 });
-  }
-
-  const externalIds = subscribers.map((s) => String(s.user_id));
+  // Broadcasts to everyone currently subscribed to push (OneSignal's built-in
+  // "Subscribed Users" segment) — no login or Supabase lookup needed. Anyone
+  // who has granted browser notification permission gets today's proverb.
   const proverb = todaysProverb();
 
   const res = await fetch("https://onesignal.com/api/v1/notifications", {
@@ -96,7 +78,7 @@ Deno.serve(async () => {
     },
     body: JSON.stringify({
       app_id: ONESIGNAL_APP_ID,
-      include_external_user_ids: externalIds,
+      included_segments: ["Subscribed Users"],
       headings: { en: "Sean-fhaclan & Auld Sayins" },
       contents: { en: proverb.scots + "  ·  " + proverb.gaelic + "  ·  " + proverb.english },
       url: "https://dyknvh6gmm-ship-it.github.io/scots-gaelic-proverbs/"
@@ -105,7 +87,7 @@ Deno.serve(async () => {
 
   const oneSignalResponse = await res.json();
 
-  return new Response(JSON.stringify({ ok: res.ok, total: externalIds.length, oneSignalResponse }), {
+  return new Response(JSON.stringify({ ok: res.ok, oneSignalResponse }), {
     status: res.ok ? 200 : 500,
     headers: { "Content-Type": "application/json" }
   });
