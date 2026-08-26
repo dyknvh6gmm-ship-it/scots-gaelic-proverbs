@@ -242,6 +242,7 @@
     <div class="reveal-box" id="reveal-box" style="display:none;">
       <p id="reveal-text"></p>
       <button type="button" id="share-btn" class="btn-outline">Copy result</button>
+      <button type="button" id="share-img-btn" class="btn-outline">Save image</button>
     </div>
 
     <p class="about-note" id="about-note">This game doesn't check whether what you type is a real Scots word — there's no dictionary big enough wired in for that yet. Just guess, and you'll see each letter's colour against today's word.</p>
@@ -383,6 +384,7 @@
     wonMessage: { en: 'Got it! ({guesses}/6)', gd: 'Fhuair thu e! ({guesses}/6)' },
     lostMessage: { en: "That's your six — the word was {word} ({meaning}).", gd: "Sin do shia oidhirpean — b' e am facal {word} ({meaning})." },
     shareButton: { en: 'Copy result', gd: 'Cuir an Roinn' },
+    saveImageButton: { en: 'Save image', gd: 'Sàbhail an dealbh' },
     shareCopied: { en: 'Copied — paste it anywhere!', gd: 'Air a chopaigeadh — cuir e an àite sam bith!' },
     shareFailed: { en: "Couldn't share — try again.", gd: "Cha b' urrainn dhomh a cho-roinneadh — feuch a-rithist." },
     inviteBtn: { en: 'Send tae a pal', gd: 'Cuir gu caraid' },
@@ -437,6 +439,7 @@
     revealBox: document.getElementById('reveal-box'),
     revealText: document.getElementById('reveal-text'),
     shareBtn: document.getElementById('share-btn'),
+    shareImgBtn: document.getElementById('share-img-btn'),
     inviteBtn: document.getElementById('invite-btn'),
     aboutNote: document.getElementById('about-note'),
     socialFollowText: document.getElementById('social-follow-text'),
@@ -492,6 +495,7 @@
     el.statPlayedLabel.textContent = t('statPlayedLabel');
     el.statWinPctLabel.textContent = t('statWinPctLabel');
     el.shareBtn.textContent = t('shareButton');
+    el.shareImgBtn.textContent = t('saveImageButton');
     el.inviteBtn.textContent = t('inviteBtn');
     el.aboutNote.textContent = t('aboutNote');
     el.socialFollowText.textContent = t('socialFollowText');
@@ -724,6 +728,103 @@
     } else {
       fallbackCopy();
     }
+  });
+
+  function roundRect(ctx, x, y, w, h, r, fill) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    ctx.fillStyle = fill;
+    ctx.fill();
+  }
+
+  function buildShareImage(callback) {
+    try {
+      var cols = WORD_LEN;
+      var rows = game.guesses.length;
+      var cell = 46, gap = 8, pad = 36;
+      var gridW = cols * cell + (cols - 1) * gap;
+      var width = gridW + pad * 2;
+      var headerH = 118;
+      var gridH = rows * cell + Math.max(0, rows - 1) * gap;
+      var height = headerH + gridH + 70 + pad;
+      var scale = 2;
+      var canvas = document.createElement('canvas');
+      canvas.width = width * scale;
+      canvas.height = height * scale;
+      var ctx = canvas.getContext('2d');
+      ctx.scale(scale, scale);
+
+      ctx.fillStyle = '#faf6ee';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#5b2a86';
+      ctx.textAlign = 'center';
+      ctx.font = '700 22px Georgia, serif';
+      ctx.fillText('The Wurd ' + (dayIdx + 1), width / 2, 40);
+
+      var scoreLine = game.status === 'won' ? (game.guesses.length + '/6') : 'X/6';
+      ctx.fillStyle = '#2b2320';
+      ctx.font = '600 15px Georgia, serif';
+      ctx.fillText(scoreLine, width / 2, 64);
+
+      var streakVal = el.statStreak ? el.statStreak.textContent : '';
+      if (streakVal && streakVal !== '0') {
+        ctx.fillStyle = '#a3691f';
+        ctx.font = '600 13px Georgia, serif';
+        ctx.fillText('\uD83D\uDD25 ' + streakVal + '-day streak', width / 2, 86);
+      }
+
+      var startX = pad, startY = headerH;
+      for (var r = 0; r < rows; r++) {
+        var res = evaluate(game.guesses[r]);
+        for (var c = 0; c < cols; c++) {
+          var x = startX + c * (cell + gap);
+          var y = startY + r * (cell + gap);
+          var color = res[c] === 'correct' ? '#4c9a6a' : (res[c] === 'present' ? '#a3691f' : 'rgba(43,35,32,0.35)');
+          roundRect(ctx, x, y, cell, cell, 8, color);
+        }
+      }
+
+      ctx.fillStyle = '#8e6c9c';
+      ctx.font = '500 12px Georgia, serif';
+      ctx.fillText('gaelicwithsteve.com', width / 2, height - 18);
+
+      canvas.toBlob(function (blob) { callback(blob); }, 'image/png');
+    } catch (e) {
+      callback(null);
+    }
+  }
+
+  el.shareImgBtn.addEventListener('click', function () {
+    function fallbackDownload(blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'the-wurd-' + (dayIdx + 1) + '.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+    }
+    buildShareImage(function (blob) {
+      if (!blob) { setMessage(t('shareFailed')); setTimeout(function () { setMessage(''); }, 2000); return; }
+      var fileName = 'the-wurd-' + (dayIdx + 1) + '.png';
+      var file;
+      try { file = new File([blob], fileName, { type: 'image/png' }); } catch (e) { file = null; }
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file], title: 'The Wurd', text: shareText() }).catch(function (err) {
+          if (err && err.name === 'AbortError') return;
+          fallbackDownload(blob);
+        });
+      } else {
+        fallbackDownload(blob);
+      }
+    });
   });
 
   el.inviteBtn.addEventListener('click', function () {
