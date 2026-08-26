@@ -242,6 +242,7 @@
     <div class="reveal-box" id="reveal-box" style="display:none;">
       <p id="reveal-text"></p>
       <button type="button" id="share-btn" class="btn-outline">Cuir an Roinn</button>
+      <a id="dict-link" class="btn-outline" target="_blank" rel="noopener" style="display:none;">Faclair Beag ↗</a>
     </div>
 
     <p class="about-note" id="about-note">Chan eil an geama seo a' sgrùdadh a bheil am facal a chuir thu a-steach na fhìor fhacal Gàidhlig — chan eil faclair mòr gu leòr agam airson sin an-dràsta. Dìreach tomhais, agus chì thu dath gach litreach an aghaidh facal an latha.</p>
@@ -436,6 +437,7 @@
     keyboard: document.getElementById('keyboard'),
     revealBox: document.getElementById('reveal-box'),
     revealText: document.getElementById('reveal-text'),
+    dictLink: document.getElementById('dict-link'),
     shareBtn: document.getElementById('share-btn'),
     inviteBtn: document.getElementById('invite-btn'),
     aboutNote: document.getElementById('about-note'),
@@ -631,6 +633,8 @@
       setMessage('');
       el.revealText.textContent = t('lostMessage', { word: answer, meaning: answerEntry.en });
     }
+    el.dictLink.href = 'https://www.faclair.com/?txtSearch=' + encodeURIComponent(answer);
+    el.dictLink.style.display = 'inline-block';
   }
 
   function saveGame() {
