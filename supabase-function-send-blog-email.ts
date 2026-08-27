@@ -19,6 +19,12 @@
 // needs to handle CORS itself — the browser sends a pre-flight OPTIONS
 // request before the real POST, and without a proper response to that,
 // the whole call silently fails client-side with "Failed to fetch".
+//
+// Deliverability note: this also sends a List-Unsubscribe header (RFC 8058
+// one-click unsubscribe) pointing at the "unsubscribe" Edge Function, plus a
+// plain-text body alongside the HTML one — same reasoning as
+// send-daily-proverb.ts. Deploy supabase-function-unsubscribe.ts as
+// "unsubscribe" for the link to actually work.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -52,6 +58,21 @@ function getServiceKey(): string {
   const legacy = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (legacy) return legacy;
   throw new Error("No Supabase service key found — checked SUPABASE_SECRET_KEYS and SUPABASE_SERVICE_ROLE_KEY.");
+}
+
+// Same token scheme used by supabase-function-unsubscribe.ts to verify the
+// link — keep these in sync if you ever change this.
+async function hmacToken(email: string, secret: string): Promise<string> {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(email.trim().toLowerCase()));
+  return Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 32);
 }
 
 Deno.serve(async (req) => {
@@ -127,12 +148,16 @@ Deno.serve(async (req) => {
       <p>
         <a href="${postUrl}" style="display:inline-block; background:#5b2a86; color:#fff; text-decoration:none; padding:10px 20px; border-radius:999px; font-family:-apple-system,sans-serif; font-size:0.85rem; font-weight:600;">Read the full post</a>
       </p>
-      <p style="font-size:0.75rem; color:#888; margin-top: 24px;">You're getting this because you opted in on Sean-fhaclan &amp; Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop.</p>
+      <p style="font-size:0.75rem; color:#888; margin-top: 24px;">You're getting this because you opted in on Sean-fhaclan &amp; Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop, or use the unsubscribe link below.</p>
     </div>
   `;
 
   let sent = 0;
   for (const sub of subscribers) {
+    const unsubToken = await hmacToken(sub.email, resendKey);
+    const unsubUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/unsubscribe?email=${encodeURIComponent(sub.email)}&token=${unsubToken}`;
+    const text = `Sean-fhaclan & Auld Sayins — New on the blog\n\n${title}\n\n${excerpt}\n\nRead the full post: ${postUrl}\n\nUnsubscribe: ${unsubUrl}`;
+
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -143,7 +168,12 @@ Deno.serve(async (req) => {
         from: "Sean-fhaclan <contact@gaelicwithsteve.com>",
         to: sub.email,
         subject: `New post: ${title}`,
-        html
+        html,
+        text,
+        headers: {
+          "List-Unsubscribe": `<${unsubUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+        }
       })
     });
     if (res.ok) sent++;
