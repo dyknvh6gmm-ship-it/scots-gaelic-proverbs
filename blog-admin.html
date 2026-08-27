@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog Admin — Sean-fhaclan & Auld Sayins</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320; --danger: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 26px 20px; }
+  header.app-header .inner { max-width: 780px; margin: 0 auto; }
+  header.app-header h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  header.app-header a { color: rgba(255,255,255,0.85); font-size: 0.85rem; text-decoration: none; font-weight: 600; }
+  header.app-header a:hover { text-decoration: underline; }
+
+  main { max-width: 780px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 24px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 14px; font-size: 1.1rem; }
+
+  label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--thistle); margin: 14px 0 5px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=email], input[type=date], textarea {
+    width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+    font-size: 0.9rem; font-family: inherit; background: #fff; color: var(--ink);
+  }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+  .field-hint { font-size: 0.72rem; color: rgba(43,35,32,0.5); margin-top: 4px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; border: none; font-size: 0.88rem; cursor: pointer; font-weight: 700; }
+  .btn-primary { background: var(--thistle); color: #fff; }
+  .btn-primary:hover { background: #4a2270; }
+  .btn-outline { background: #fff; border: 1px solid rgba(142,108,156,0.3); color: var(--thistle); }
+  .btn-outline:hover { background: rgba(91,42,134,0.05); }
+  .btn-danger { background: #fff; border: 1px solid rgba(179,38,30,0.35); color: var(--danger); }
+  .btn-danger:hover { background: rgba(179,38,30,0.06); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .form-actions { display: flex; gap: 10px; margin-top: 20px; align-items: center; }
+  .status-msg { font-size: 0.85rem; margin-top: 10px; }
+  .status-msg.ok { color: #1a7a3c; }
+  .status-msg.err { color: var(--danger); }
+
+  .post-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(142,108,156,0.15); }
+  .post-row:last-child { border-bottom: none; }
+  .post-row-title { font-weight: 700; font-size: 0.92rem; }
+  .post-row-meta { font-size: 0.75rem; color: rgba(43,35,32,0.55); margin-top: 2px; }
+  .post-row-actions { display: flex; gap: 8px; flex: 0 0 auto; }
+  .post-row-actions button { padding: 6px 14px; font-size: 0.78rem; }
+
+  .empty-state { text-align: center; color: rgba(43,35,32,0.5); padding: 20px 0; font-size: 0.85rem; }
+  .unauthorized { text-align: center; padding: 30px 0; color: rgba(43,35,32,0.7); }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <a href="blog.html">&larr; Back to Blog</a>
+    <h1 style="margin-top:8px;">Blog Admin</h1>
+  </div>
+</header>
+
+<main>
+
+  <div id="login-card" class="card">
+    <h2>Sign in</h2>
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" required placeholder="you@example.com" />
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Send code</button>
+      </div>
+      <div id="login-status" class="status-msg"></div>
+    </form>
+    <form id="code-form" style="display:none;">
+      <label for="login-code">6-digit code</label>
+      <input type="text" id="login-code" pattern="[0-9]*" maxlength="6" required placeholder="123456" />
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Verify</button>
+      </div>
+      <div id="code-status" class="status-msg"></div>
+    </form>
+  </div>
+
+  <div id="unauthorized-card" class="card" style="display:none;">
+    <div class="unauthorized">
+      Signed in, but this account isn't authorised to manage blog posts.
+      <div style="margin-top:14px;"><button type="button" id="sign-out-btn" class="btn btn-outline">Sign out</button></div>
+    </div>
+  </div>
+
+  <div id="admin-area" style="display:none;">
+    <div class="card">
+      <h2 id="form-heading">New post</h2>
+      <form id="post-form">
+        <div class="two-col">
+          <div>
+            <label for="f-title-en">Title (English)</label>
+            <input type="text" id="f-title-en" required />
+          </div>
+          <div>
+            <label for="f-title-gd">Title (Gaelic) — optional</label>
+            <input type="text" id="f-title-gd" />
+          </div>
+        </div>
+
+        <label for="f-slug">Slug (used in the URL)</label>
+        <input type="text" id="f-slug" required pattern="[a-z0-9\-]+" />
+        <div class="field-hint">Lowercase letters, numbers and hyphens only. Auto-filled from the English title — change it if you like.</div>
+
+        <div class="two-col">
+          <div>
+            <label for="f-date">Published date</label>
+            <input type="date" id="f-date" required />
+          </div>
+          <div>
+            <label for="f-tags">Tags</label>
+            <input type="text" id="f-tags" placeholder="e.g. learning tip, gaelic, grammar" />
+          </div>
+        </div>
+        <div class="field-hint" style="margin-top:-10px; margin-bottom:6px;">Comma-separated. Type whatever you like — new tags just appear on the blog automatically.</div>
+
+        <div class="two-col">
+          <div>
+            <label for="f-excerpt-en">Excerpt (English)</label>
+            <textarea id="f-excerpt-en" required style="min-height:60px;"></textarea>
+          </div>
+          <div>
+            <label for="f-excerpt-gd">Excerpt (Gaelic) — optional</label>
+            <textarea id="f-excerpt-gd" style="min-height:60px;"></textarea>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <label for="f-body-en">Body (English)</label>
+            <textarea id="f-body-en" required style="min-height:220px;"></textarea>
+          </div>
+          <div>
+            <label for="f-body-gd">Body (Gaelic) — optional</label>
+            <textarea id="f-body-gd" style="min-height:220px;"></textarea>
+          </div>
+        </div>
+        <div class="field-hint">Leave a blank line between paragraphs — each one becomes its own paragraph on the blog. If you skip the Gaelic fields, the English version is shown to Gaelic readers too.</div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" id="submit-btn">Publish</button>
+          <button type="button" class="btn btn-outline" id="cancel-edit-btn" style="display:none;">Cancel edit</button>
+        </div>
+        <div id="form-status" class="status-msg"></div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Existing posts</h2>
+      <div id="posts-list"><p class="empty-state">Loading…</p></div>
+    </div>
+
+    <div style="text-align:center;">
+      <button type="button" id="sign-out-btn-2" class="btn btn-outline">Sign out</button>
+    </div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var ADMIN_EMAIL = 'svg6rd6jg6@privaterelay.appleid.com';
+  var sfClient = (typeof window.supabase !== 'undefined')
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  var el = {
+    loginCard: document.getElementById('login-card'),
+    unauthorizedCard: document.getElementById('unauthorized-card'),
+    adminArea: document.getElementById('admin-area'),
+    loginForm: document.getElementById('login-form'),
+    loginEmail: document.getElementById('login-email'),
+    loginStatus: document.getElementById('login-status'),
+    codeForm: document.getElementById('code-form'),
+    loginCode: document.getElementById('login-code'),
+    codeStatus: document.getElementById('code-status'),
+    signOutBtn: document.getElementById('sign-out-btn'),
+    signOutBtn2: document.getElementById('sign-out-btn-2'),
+    postForm: document.getElementById('post-form'),
+    formHeading: document.getElementById('form-heading'),
+    submitBtn: document.getElementById('submit-btn'),
+    cancelEditBtn: document.getElementById('cancel-edit-btn'),
+    formStatus: document.getElementById('form-status'),
+    postsList: document.getElementById('posts-list'),
+    fTitleEn: document.getElementById('f-title-en'),
+    fTitleGd: document.getElementById('f-title-gd'),
+    fSlug: document.getElementById('f-slug'),
+    fDate: document.getElementById('f-date'),
+    fTags: document.getElementById('f-tags'),
+    fExcerptEn: document.getElementById('f-excerpt-en'),
+    fExcerptGd: document.getElementById('f-excerpt-gd'),
+    fBodyEn: document.getElementById('f-body-en'),
+    fBodyGd: document.getElementById('f-body-gd')
+  };
+
+  var currentUser = null;
+  var pendingEmail = '';
+  var editingId = null;
+  var POSTS = [];
+  var slugManuallyEdited = false;
+
+  function slugify(s) {
+    return String(s).toLowerCase().trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-|-$/g, '');
+  }
+
+  el.fTitleEn.addEventListener('input', function () {
+    if (!slugManuallyEdited) el.fSlug.value = slugify(el.fTitleEn.value);
+  });
+  el.fSlug.addEventListener('input', function () { slugManuallyEdited = true; });
+
+  function todayIso() {
+    var d = new Date();
+    var m = String(d.getMonth() + 1).padStart(2, '0');
+    var day = String(d.getDate()).padStart(2, '0');
+    return d.getFullYear() + '-' + m + '-' + day;
+  }
+
+  function resetForm() {
+    el.postForm.reset();
+    el.fDate.value = todayIso();
+    editingId = null;
+    slugManuallyEdited = false;
+    el.formHeading.textContent = 'New post';
+    el.submitBtn.textContent = 'Publish';
+    el.cancelEditBtn.style.display = 'none';
+    el.formStatus.textContent = '';
+    el.formStatus.className = 'status-msg';
+  }
+
+  function fillFormForEdit(p) {
+    editingId = p.id;
+    slugManuallyEdited = true;
+    el.fTitleEn.value = p.title_en || '';
+    el.fTitleGd.value = p.title_gd || '';
+    el.fSlug.value = p.slug || '';
+    el.fDate.value = p.published_at || todayIso();
+    el.fTags.value = (p.tags || []).join(', ');
+    el.fExcerptEn.value = p.excerpt_en || '';
+    el.fExcerptGd.value = p.excerpt_gd || '';
+    el.fBodyEn.value = p.body_en || '';
+    el.fBodyGd.value = p.body_gd || '';
+    el.formHeading.textContent = 'Edit post';
+    el.submitBtn.textContent = 'Save changes';
+    el.cancelEditBtn.style.display = 'inline-flex';
+    el.formStatus.textContent = '';
+    el.formStatus.className = 'status-msg';
+    window.scrollTo({ top: el.postForm.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
+  }
+
+  el.cancelEditBtn.addEventListener('click', resetForm);
+
+  function renderPostsList() {
+    if (!POSTS.length) {
+      el.postsList.innerHTML = '<p class="empty-state">No posts yet.</p>';
+      return;
+    }
+    el.postsList.innerHTML = POSTS.map(function (p) {
+      return '<div class="post-row" data-id="' + p.id + '">' +
+        '<div><div class="post-row-title">' + p.title_en.replace(/</g, '&lt;') + '</div>' +
+        '<div class="post-row-meta">' + p.published_at + (p.tags && p.tags.length ? ' · ' + p.tags.join(', ') : '') + '</div></div>' +
+        '<div class="post-row-actions">' +
+          '<button type="button" class="btn btn-outline edit-btn">Edit</button>' +
+          '<button type="button" class="btn btn-danger delete-btn">Delete</button>' +
+        '</div></div>';
+    }).join('');
+    Array.prototype.forEach.call(el.postsList.querySelectorAll('.post-row'), function (row) {
+      var id = row.getAttribute('data-id');
+      var post = POSTS.find(function (p) { return String(p.id) === id; });
+      row.querySelector('.edit-btn').addEventListener('click', function () { fillFormForEdit(post); });
+      row.querySelector('.delete-btn').addEventListener('click', function () { deletePost(post); });
+    });
+  }
+
+  function loadPosts() {
+    el.postsList.innerHTML = '<p class="empty-state">Loading…</p>';
+    sfClient.from('blog_posts').select('*').order('published_at', { ascending: false }).then(function (res) {
+      if (res.error) {
+        el.postsList.innerHTML = '<p class="empty-state">Could not load posts: ' + res.error.message + '</p>';
+        return;
+      }
+      POSTS = res.data || [];
+      renderPostsList();
+    });
+  }
+
+  function deletePost(post) {
+    if (!confirm('Delete "' + post.title_en + '"? This cannot be undone.')) return;
+    sfClient.from('blog_posts').delete().eq('id', post.id).then(function (res) {
+      if (res.error) { alert('Could not delete: ' + res.error.message); return; }
+      if (editingId === post.id) resetForm();
+      loadPosts();
+    });
+  }
+
+  el.postForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var tags = el.fTags.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
+    var row = {
+      slug: el.fSlug.value.trim(),
+      published_at: el.fDate.value,
+      tags: tags,
+      title_en: el.fTitleEn.value.trim(),
+      title_gd: el.fTitleGd.value.trim() || null,
+      excerpt_en: el.fExcerptEn.value.trim(),
+      excerpt_gd: el.fExcerptGd.value.trim() || null,
+      body_en: el.fBodyEn.value.trim(),
+      body_gd: el.fBodyGd.value.trim() || null,
+      updated_at: new Date().toISOString()
+    };
+    el.submitBtn.disabled = true;
+    el.formStatus.textContent = 'Saving…';
+    el.formStatus.className = 'status-msg';
+
+    var op = editingId
+      ? sfClient.from('blog_posts').update(row).eq('id', editingId)
+      : sfClient.from('blog_posts').insert(row);
+
+    op.then(function (res) {
+      el.submitBtn.disabled = false;
+      if (res.error) {
+        el.formStatus.textContent = 'Error: ' + res.error.message;
+        el.formStatus.className = 'status-msg err';
+        return;
+      }
+      el.formStatus.textContent = editingId ? 'Post updated.' : 'Post published.';
+      el.formStatus.className = 'status-msg ok';
+      resetForm();
+      loadPosts();
+    });
+  });
+
+  function updateUI() {
+    if (!currentUser) {
+      el.loginCard.style.display = 'block';
+      el.unauthorizedCard.style.display = 'none';
+      el.adminArea.style.display = 'none';
+      return;
+    }
+    if (currentUser.email !== ADMIN_EMAIL) {
+      el.loginCard.style.display = 'none';
+      el.unauthorizedCard.style.display = 'block';
+      el.adminArea.style.display = 'none';
+      return;
+    }
+    el.loginCard.style.display = 'none';
+    el.unauthorizedCard.style.display = 'none';
+    el.adminArea.style.display = 'block';
+    resetForm();
+    loadPosts();
+  }
+
+  function initAuth() {
+    if (!sfClient) {
+      el.loginStatus.textContent = 'Could not connect to the login service.';
+      el.loginStatus.className = 'status-msg err';
+      return;
+    }
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateUI();
+    });
+
+    el.loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.loginEmail.value.trim();
+      el.loginStatus.textContent = 'Sending code…';
+      el.loginStatus.className = 'status-msg';
+      sfClient.auth.signInWithOtp({ email: email, options: { shouldCreateUser: true } }).then(function (res) {
+        if (res.error) {
+          el.loginStatus.textContent = 'Error: ' + res.error.message;
+          el.loginStatus.className = 'status-msg err';
+          return;
+        }
+        pendingEmail = email;
+        el.loginStatus.textContent = 'Code sent — check your email.';
+        el.loginStatus.className = 'status-msg ok';
+        el.codeForm.style.display = 'block';
+      });
+    });
+
+    el.codeForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var code = el.loginCode.value.trim();
+      el.codeStatus.textContent = 'Verifying…';
+      el.codeStatus.className = 'status-msg';
+      sfClient.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' }).then(function (res) {
+        if (res.error) {
+          el.codeStatus.textContent = 'Error: ' + res.error.message;
+          el.codeStatus.className = 'status-msg err';
+          return;
+        }
+        el.codeStatus.textContent = '';
+      });
+    });
+
+    function doSignOut() {
+      sfClient.auth.signOut().then(function () {
+        currentUser = null;
+        updateUI();
+        el.loginForm.reset();
+        el.codeForm.reset();
+        el.codeForm.style.display = 'none';
+        el.loginStatus.textContent = '';
+        el.codeStatus.textContent = '';
+      });
+    }
+    el.signOutBtn.addEventListener('click', doSignOut);
+    el.signOutBtn2.addEventListener('click', doSignOut);
+  }
+
+  initAuth();
+})();
+</script>
+
+</body>
+</html>
