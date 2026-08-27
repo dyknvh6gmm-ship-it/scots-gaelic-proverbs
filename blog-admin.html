@@ -28,7 +28,7 @@
 
   label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--thistle); margin: 14px 0 5px; }
   label:first-child { margin-top: 0; }
-  input[type=text], input[type=email], input[type=date], textarea {
+  input[type=text], input[type=email], input[type=date], input[type=url], textarea {
     width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
     font-size: 0.9rem; font-family: inherit; background: #fff; color: var(--ink);
   }
@@ -36,6 +36,8 @@
   .field-hint { font-size: 0.72rem; color: rgba(43,35,32,0.5); margin-top: 4px; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+  .image-preview { margin-top: 8px; max-width: 220px; border-radius: 8px; display: none; border: 1px solid rgba(142,108,156,0.2); }
 
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; border: none; font-size: 0.88rem; cursor: pointer; font-weight: 700; }
   .btn-primary { background: var(--thistle); color: #fff; }
@@ -119,6 +121,11 @@
         <input type="text" id="f-slug" required pattern="[a-z0-9\-]+" />
         <div class="field-hint">Lowercase letters, numbers and hyphens only. Auto-filled from the English title — change it if you like.</div>
 
+        <label for="f-image-url">Cover image URL — optional</label>
+        <input type="url" id="f-image-url" placeholder="https://…" />
+        <div class="field-hint">Shown as the picture on the blog card and in the email. Leave blank and a plain card is used instead.</div>
+        <img id="image-preview" class="image-preview" alt="Cover preview" />
+
         <div class="two-col">
           <div>
             <label for="f-date">Published date</label>
@@ -133,7 +140,7 @@
 
         <div class="two-col">
           <div>
-            <label for="f-excerpt-en">Excerpt (English)</label>
+            <label for="f-excerpt-en">Excerpt / caption (English)</label>
             <textarea id="f-excerpt-en" required style="min-height:60px;"></textarea>
           </div>
           <div>
@@ -141,6 +148,7 @@
             <textarea id="f-excerpt-gd" style="min-height:60px;"></textarea>
           </div>
         </div>
+        <div class="field-hint" style="margin-top:-10px; margin-bottom:6px;">This is what shows on the summary card, so keep it short and punchy — a bit like a tweet caption.</div>
 
         <div class="two-col">
           <div>
@@ -207,6 +215,8 @@
     fTitleEn: document.getElementById('f-title-en'),
     fTitleGd: document.getElementById('f-title-gd'),
     fSlug: document.getElementById('f-slug'),
+    fImageUrl: document.getElementById('f-image-url'),
+    imagePreview: document.getElementById('image-preview'),
     fDate: document.getElementById('f-date'),
     fTags: document.getElementById('f-tags'),
     fExcerptEn: document.getElementById('f-excerpt-en'),
@@ -234,6 +244,19 @@
   });
   el.fSlug.addEventListener('input', function () { slugManuallyEdited = true; });
 
+  function updateImagePreview() {
+    var url = el.fImageUrl.value.trim();
+    if (url) {
+      el.imagePreview.src = url;
+      el.imagePreview.style.display = 'block';
+    } else {
+      el.imagePreview.style.display = 'none';
+      el.imagePreview.removeAttribute('src');
+    }
+  }
+  el.fImageUrl.addEventListener('input', updateImagePreview);
+  el.imagePreview.addEventListener('error', function () { el.imagePreview.style.display = 'none'; });
+
   function todayIso() {
     var d = new Date();
     var m = String(d.getMonth() + 1).padStart(2, '0');
@@ -251,6 +274,7 @@
     el.cancelEditBtn.style.display = 'none';
     el.formStatus.textContent = '';
     el.formStatus.className = 'status-msg';
+    updateImagePreview();
   }
 
   function fillFormForEdit(p) {
@@ -259,6 +283,7 @@
     el.fTitleEn.value = p.title_en || '';
     el.fTitleGd.value = p.title_gd || '';
     el.fSlug.value = p.slug || '';
+    el.fImageUrl.value = p.image_url || '';
     el.fDate.value = p.published_at || todayIso();
     el.fTags.value = (p.tags || []).join(', ');
     el.fExcerptEn.value = p.excerpt_en || '';
@@ -270,6 +295,7 @@
     el.cancelEditBtn.style.display = 'inline-flex';
     el.formStatus.textContent = '';
     el.formStatus.className = 'status-msg';
+    updateImagePreview();
     window.scrollTo({ top: el.postForm.getBoundingClientRect().top + window.scrollY - 20, behavior: 'smooth' });
   }
 
@@ -318,8 +344,48 @@
     });
   }
 
+  // After publishing a brand-new post (not an edit), ask whether to send it
+  // out as email + push right now. Declining just leaves it published with
+  // no notification sent — you can't currently trigger this later from here,
+  // it's a one-time prompt at publish time.
+  function offerToNotify(row) {
+    var ok = confirm('Send "' + row.title_en + '" out now as an email and push notification to subscribers?');
+    if (!ok) return;
+    sfClient.auth.getSession().then(function (res) {
+      var session = res.data && res.data.session;
+      if (!session) {
+        alert('Could not read your session — try signing in again, then use the edit/save flow to retry sending.');
+        return;
+      }
+      var headers = {
+        'Authorization': 'Bearer ' + session.access_token,
+        'Content-Type': 'application/json'
+      };
+      var payload = JSON.stringify({
+        slug: row.slug,
+        title: row.title_en,
+        excerpt: row.excerpt_en,
+        imageUrl: row.image_url || ''
+      });
+      Promise.allSettled([
+        fetch(SUPABASE_URL + '/functions/v1/send-blog-email', { method: 'POST', headers: headers, body: payload }),
+        fetch(SUPABASE_URL + '/functions/v1/send-blog-push', { method: 'POST', headers: headers, body: payload })
+      ]).then(function (results) {
+        var okCount = results.filter(function (r) { return r.status === 'fulfilled' && r.value && r.value.ok; }).length;
+        if (okCount === 2) {
+          alert('Sent! Email and push notification are on their way.');
+        } else if (okCount === 1) {
+          alert('Partly sent — one of email/push worked, the other didn\'t. Check that both Edge Functions are deployed and their secrets are set.');
+        } else {
+          alert('Could not send — check that the send-blog-email and send-blog-push Edge Functions are deployed on Supabase with their secrets set.');
+        }
+      });
+    });
+  }
+
   el.postForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    var wasNewPost = !editingId;
     var tags = el.fTags.value.split(',').map(function (t) { return t.trim(); }).filter(Boolean);
     var row = {
       slug: el.fSlug.value.trim(),
@@ -327,6 +393,7 @@
       tags: tags,
       title_en: el.fTitleEn.value.trim(),
       title_gd: el.fTitleGd.value.trim() || null,
+      image_url: el.fImageUrl.value.trim() || null,
       excerpt_en: el.fExcerptEn.value.trim(),
       excerpt_gd: el.fExcerptGd.value.trim() || null,
       body_en: el.fBodyEn.value.trim(),
@@ -348,10 +415,11 @@
         el.formStatus.className = 'status-msg err';
         return;
       }
-      el.formStatus.textContent = editingId ? 'Post updated.' : 'Post published.';
+      el.formStatus.textContent = wasNewPost ? 'Post published.' : 'Post updated.';
       el.formStatus.className = 'status-msg ok';
       resetForm();
       loadPosts();
+      if (wasNewPost) offerToNotify(row);
     });
   });
 
