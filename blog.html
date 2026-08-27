@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title id="doc-title">Blog — Sean-fhaclan &amp; Auld Sayins</title>
+<title id="doc-title">Blog — Sean-fhaclan & Auld Sayins</title>
 <link rel="manifest" href="manifest.json" />
 <meta name="theme-color" content="#5b2a86" />
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
@@ -67,12 +67,11 @@
 
   .post-card { cursor: pointer; }
   .post-card:hover { border-color: rgba(142,108,156,0.4); }
-  .post-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.75rem; flex-wrap: wrap; }
+  .post-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.75rem; flex-wrap: wrap; }
   .post-date { color: rgba(43,35,32,0.5); }
-  .post-badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; }
-  .post-badge.tips { background: rgba(0,101,189,0.12); color: var(--saltire); }
-  .post-badge.news { background: rgba(163,105,31,0.15); color: var(--amber); }
-  .post-badge.personal { background: rgba(91,42,134,0.12); color: var(--thistle); }
+  .post-tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+  .post-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.01em; background: rgba(91,42,134,0.08); color: var(--thistle); cursor: pointer; border: none; font-family: inherit; }
+  .post-tag:hover { background: rgba(91,42,134,0.16); }
   .post-card h2 { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
   .post-excerpt { line-height: 1.6; color: rgba(43,35,32,0.8); margin: 0 0 14px; }
   .read-more { font-size: 0.85rem; font-weight: 600; color: var(--thistle); }
@@ -120,6 +119,7 @@
     <h1 class="proverb-text" id="page-title">Blog</h1>
   </div>
 </header>
+
 <script>
 document.querySelectorAll('.nav-dropdown-toggle').forEach(function (btn) {
   btn.addEventListener('click', function (e) {
@@ -155,64 +155,16 @@ window.addEventListener('scroll', function (e) {
 
 <footer class="app-footer" id="footer-text">Sean-fhaclan &amp; Auld Sayins</footer>
 
-<script type="application/json" id="blog-posts">
-[
-  {
-    "slug": "shareable-result-image",
-    "date": "2026-08-27",
-    "category": "news",
-    "title": {
-      "en": "New: Save Your Word Game Result as an Image",
-      "gd": "Ùr: Sàbhail Toradh a' Gheama Facail mar Dhealbh"
-    },
-    "excerpt": {
-      "en": "You can now save today's Am Facal or The Wurd result as a proper image — tiles, score, and your streak — ready to drop straight into a message or story.",
-      "gd": "'S urrainn dhut an-dràsta toradh an latha ann an Am Facal no The Wurd a shàbhaladh mar dhealbh — leacagan, sgòr, agus an t-sreath agad — deiseil airson a chur ann an teachdaireachd no sgeulachd."
-    },
-    "body": {
-      "en": "Small feature, but one people have been asking for: once you finish today's word in Am Facal or The Wurd, you'll now see a Save Image button next to the usual copy-result option.\n\nTap it and it builds a parchment-coloured card on the spot — your guess grid in the site's own greens and ambers, your score out of six, and your current streak if you're signed in. On a phone it opens straight into your share sheet, so it goes to Messages, WhatsApp, or Instagram Stories in two taps. On desktop it just downloads.\n\nIt's a small thing, but it means you can actually show someone your result instead of just telling them about it — and it's a much better advert for the site than a screenshot of the whole page.\n\nAm Facal and The Wurd both have it now. If you spot anything odd with it, let me know through My Account.",
-      "gd": "Rud beag, ach rud a bha daoine ag iarraidh: nuair a chrìochnaicheas tu facal an latha ann an Am Facal no The Wurd, chì thu a-nis putan Sàbhail Dealbh ri taobh an roghainn àbhaisteach airson an toradh a chopaigeadh.\n\nBrùth air agus togaidh e cairt dath pàipear-crùin sa bhad — an grid tomhais agad anns na dathan uaine is òir aig an làrach fhèin, an sgòr agad a-mach à sia, agus an t-sreath làithreach agad ma tha thu clàraichte a-steach. Air fòn, fosglaidh e dìreach a-steach don t-seata co-roinnidh agad, mar sin thèid e gu Teachdaireachdan, WhatsApp, no Sgeulachdan Instagram ann an dà bhruthadh. Air deasg, luchdaichidh e a-nuas dìreach.\n\n'S e rud beag a th' ann, ach tha e a' ciallachadh gum faod thu do thoradh a shealltainn dha cuideigin an àite dìreach innse dhaibh mu dheidhinn — agus 's e sanas fada nas fheàrr airson na làraich na glacadh-sgrìn den duilleag gu lèir.\n\nTha e aig Am Facal agus The Wurd le chèile a-nis. Ma chì thu rudeigin neònach leis, cuir fios thugam tron Chunntas Agam."
-    }
-  },
-  {
-    "slug": "tha-vs-is-gaelic-to-be",
-    "date": "2026-08-20",
-    "category": "tips",
-    "title": {
-      "en": "Tha vs Is: Gaelic's Two Words for 'To Be'",
-      "gd": "Tha no Is: Dà Fhacal na Gàidhlig airson 'Is'"
-    },
-    "excerpt": {
-      "en": "Gaelic uses two completely different verbs for 'is' — and knowing which one to reach for is one of the first real hurdles every learner hits. Here's the shortcut.",
-      "gd": "Bidh Gàidhlig a' cleachdadh dà ghnìomhair gu tur eadar-dhealaichte airson 'is' — agus 's e fiosrachadh dè am fear a chleachdas tu aon de na ciad chnapan-starra aig gach neach-ionnsachaidh. Seo an ath-ghoirid."
-    },
-    "body": {
-      "en": "If you've started learning Gaelic, you've probably already noticed something odd: there isn't one word for 'is'. There are two — tha and is — and they're not interchangeable.\n\nTha is the verb you'll use constantly. It covers states, descriptions, feelings, locations — anything temporary or changeable. Tha mi sgìth (I am tired). Tha an cù anns a' ghàrradh (The dog is in the garden). Tha i brèagha an-diugh (It's lovely today).\n\nIs is different. It's used for identity and classification — saying what something fundamentally is, not how it currently is. Is mise Iain (I am Iain). Is tidsear i (She's a teacher). Is Albannach mi (I'm Scottish).\n\nA rough shortcut that helped me: if you could put 'right now' in front of the English sentence and it still makes sense, reach for tha. If you're stating a fact about identity, category, or permanent truth, reach for is.\n\nIt won't click after one read — it didn't for me either. The fastest way to build the instinct is repetition in context, which is exactly what today's word in Am Facal is for. Play a few rounds and start noticing which verb the example sentences use.",
-      "gd": "Ma tha thu air tòiseachadh ag ionnsachadh Gàidhlig, is dòcha gu bheil thu air rudeigin neònach fhaicinn mu thràth: chan eil dìreach aon fhacal ann airson 'is'. Tha dhà ann — tha agus is — agus chan eil iad co-ionann.\n\nBidh tu a' cleachdadh 'tha' fad na h-ùine. Tha e a' còmhdach staid, tuairisgeul, faireachdainn, ionad — rud sam bith sealach no a dh'atharraicheas. Tha mi sgìth. Tha an cù anns a' ghàrradh. Tha i brèagha an-diugh.\n\nTha 'is' eadar-dhealaichte. Thathar ga chleachdadh airson dearbh-aithne agus seòrsachadh — ag ràdh dè th' ann an rudeigin gu bunaiteach, seach mar a tha e an-dràsta. Is mise Iain. Is tidsear i. Is Albannach mi.\n\nSeo dòigh a chuidich mise: nam biodh tu comasach air 'an-dràsta' a chur air beulaibh na seantans Beurla agus gum biodh ciall fhathast ann, cleachd 'tha'. Ma tha thu ag ràdh fìrinn mu dhearbh-aithne, seòrsa, no fìrinn mhaireannach, cleachd 'is'.\n\nCha bhi e follaiseach às dèidh aon leughadh — cha robh e mar sin dhòmhsa nas motha. Is e an dòigh as luaithe air an instinct a thogail na bhith ga chleachdadh a-rithist agus a-rithist ann an co-theacsa, agus 's e sin dìreach a th' aig facal an latha ann an Am Facal. Cluich beagan chuairtean agus tòisich a' toirt an aire dè an gnìomhair a chleachdas na seantansan mar eisimpleir."
-    }
-  },
-  {
-    "slug": "why-i-built-this",
-    "date": "2026-08-13",
-    "category": "personal",
-    "title": {
-      "en": "Why I Built This Site",
-      "gd": "Carson a Thog Mi an Làrach Seo"
-    },
-    "excerpt": {
-      "en": "I want as many Scots as possible to feel proud of — and comfortable speaking — both languages that are genuinely their own. Here's where that came from.",
-      "gd": "Tha mi ag iarraidh gum bi uiread de dh'Albannaich 's a ghabhas moiteil às — agus cofhurtail a' bruidhinn — an dà chànan a tha fìor leotha fhèin. Seo às an tàinig sin."
-    },
-    "body": {
-      "en": "Sean-fhaclan & Auld Sayins started as a small side project — a list of proverbs I liked, in two languages that don't always get put side by side. Scots and Gaelic have very different reputations in Scotland, but they're both genuinely ours, and I wanted a place that treated them that way: equally, without ranking one above the other.\n\nIt grew from there. Proverbs turned into a grammar section, then a couple of daily word games, then accounts so people could save favourites and suggest ones I'd missed. None of it was planned out in advance — it's grown in evenings and weekends, a bit at a time, mostly based on what people actually asked for.\n\nI believe learning resources should be free, accessible, and fun. That's really the whole guiding idea behind everything here — the proverbs, the games, this blog. If something on the site could be better, or you've got a proverb, word, or idea I should add, the suggestion box in My Account goes straight to me.\n\nThanks for being here, and for helping keep both languages alive a little longer.",
-      "gd": "Thòisich Sean-fhaclan & Auld Sayins mar phròiseact beag air an taobh — liosta de sheann-fhaclan a chòrd rium, ann an dà chànan nach tèid a chur ri chèile glè thric. Tha cliù gu math eadar-dhealaichte aig Beurla Ghallda agus Gàidhlig ann an Alba, ach tha an dà chuid fìor leinn fhèin, agus bha mi ag iarraidh àite a bhiodh gan làimhseachadh mar sin: co-ionann, gun aon a chur os cionn an tè eile.\n\nDh'fhàs e às a sin. Thionndaidh seann-fhaclan gu earrann gràmair, an uair sin dà gheama facail làitheil, an uair sin cunntasan gus an còrdadh e daoine a fàbharaichean a shàbhaladh agus feadhainn a mhol iad a bha mi air a call. Cha robh gin dheth planaichte ro-làimh — tha e air fàs feasgairean is deireadh-sheachdainean, beagan aig aon àm, stèidhichte sa mhòr-chuid air na dh'iarr daoine.\n\nTha mi a' creidsinn gum bu chòir goireasan ionnsachaidh a bhith an-asgaidh, ruigsinneach, agus spòrsail. Sin dìreach am prìomh smuain air cùl a h-uile càil an seo — na seann-fhaclan, na geamannan, am bloga seo. Ma tha rudeigin air an làrach a dh'fhaodadh a bhith na b' fheàrr, no ma tha seann-fhacal, facal, no beachd agad a bu chòir dhomh a chur ris, thèid am bogsa molaidh sa Chunntas Agam dìreach thugam.\n\nMòran taing airson a bhith an seo, agus airson cuideachadh le bhith a' cumail an dà chànan beò beagan nas fhaide."
-    }
-  }
-]
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
 (function () {
   'use strict';
+
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var sfClient = (typeof window.supabase !== 'undefined')
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
 
   var I18N = {
     docTitle: { en: 'Blog — Sean-fhaclan & Auld Sayins', gd: 'Bloga — Sean-fhaclan & Auld Sayins' },
@@ -227,13 +179,12 @@ window.addEventListener('scroll', function (e) {
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navBlog: { en: 'Blog', gd: 'Bloga' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
-    filterAll: { en: 'All', gd: 'Na h-uile' },
-    filterTips: { en: 'Learning Tips', gd: 'Puingean Ionnsachaidh' },
-    filterNews: { en: 'Site News', gd: 'Naidheachdan an Làraich' },
-    filterPersonal: { en: 'Behind the Scenes', gd: 'Air Cùl an Sgeòil' },
+    filterAll: { en: 'All posts', gd: 'A h-uile post' },
     readMore: { en: 'Read more →', gd: 'Leugh tuilleadh →' },
     backToBlog: { en: '← Back to all posts', gd: '← Air ais gu na puist uile' },
-    emptyState: { en: 'No posts in this category yet.', gd: "Chan eil post sam bith san roinn seo fhathast." }
+    emptyState: { en: 'No posts with this tag yet.', gd: "Chan eil post sam bith leis an tag seo fhathast." },
+    loading: { en: 'Loading posts…', gd: 'A’ luchdachadh nam post…' },
+    loadError: { en: 'Could not load posts right now — try refreshing the page.', gd: 'Cha b’ urrainn na puist a luchdachadh an-dràsta — feuch an duilleag ath-luchdachadh.' }
   };
 
   var el = {
@@ -257,9 +208,9 @@ window.addEventListener('scroll', function (e) {
     blogDetail: document.getElementById('blog-detail')
   };
 
-  var POSTS = JSON.parse(document.getElementById('blog-posts').textContent);
-  var CATS = ['all', 'tips', 'news', 'personal'];
-  var state = { lang: 'en', filter: 'all' };
+  var POSTS = [];
+  var postsLoaded = false;
+  var state = { lang: 'en', tag: null };
 
   function loadJSON(key, fallback) {
     try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
@@ -273,7 +224,7 @@ window.addEventListener('scroll', function (e) {
   }
 
   var MONTHS_EN = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var MONTHS_GD = ['Am Faoilleach','An Gearran','Am Màrt','An Giblean','An Cèitean','An t-Ògmhios','An t-Iuchar','An Lùnastal','An t-Sultain','An Dàmhair','An t-Samhain','An Dùbhlachd'];
+  var MONTHS_GD = ['Am Faoilleach','An Gearran','Am Màrt','An Giblean','An Cèitean','An t-Ògmhios','An t-Iuchar','An Dønastal','An t-Sultain','An Dàmhair','An t-Samhain','An Dùbhlachd'];
 
   function fmtDate(iso, lang) {
     var d = new Date(iso + 'T00:00:00');
@@ -281,52 +232,90 @@ window.addEventListener('scroll', function (e) {
     return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
   }
 
-  function badgeLabel(cat) {
-    var key = 'filter' + cat.charAt(0).toUpperCase() + cat.slice(1);
-    return I18N[key][state.lang];
+  function allTags() {
+    var seen = {};
+    var out = [];
+    POSTS.forEach(function (p) {
+      (p.tags || []).forEach(function (tg) {
+        if (!seen[tg]) { seen[tg] = true; out.push(tg); }
+      });
+    });
+    out.sort(function (a, b) { return a.localeCompare(b); });
+    return out;
   }
 
-  function sortedPosts() {
-    return POSTS.slice().sort(function (a, b) { return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+  function tagPillsHtml(tags, clickable) {
+    return (tags || []).map(function (tg) {
+      return '<' + (clickable ? 'button type="button"' : 'span') + ' class="post-tag" data-tag="' + escapeHtml(tg) + '">' + escapeHtml(tg) + '</' + (clickable ? 'button' : 'span') + '>';
+    }).join('');
   }
 
   function renderFilters() {
-    el.blogFilters.innerHTML = CATS.map(function (c) {
-      var key = 'filter' + c.charAt(0).toUpperCase() + c.slice(1);
-      return '<button type="button" class="filter-tab' + (state.filter === c ? ' active' : '') + '" data-cat="' + c + '">' + I18N[key][state.lang] + '</button>';
-    }).join('');
+    var tags = allTags();
+    if (!tags.length) { el.blogFilters.innerHTML = ''; return; }
+    var pills = ['<button type="button" class="filter-tab' + (!state.tag ? ' active' : '') + '" data-tag="">' + I18N.filterAll[state.lang] + '</button>']
+      .concat(tags.map(function (tg) {
+        return '<button type="button" class="filter-tab' + (state.tag === tg ? ' active' : '') + '" data-tag="' + escapeHtml(tg) + '">' + escapeHtml(tg) + '</button>';
+      }));
+    el.blogFilters.innerHTML = pills.join('');
     Array.prototype.forEach.call(el.blogFilters.querySelectorAll('.filter-tab'), function (btn) {
       btn.addEventListener('click', function () {
-        state.filter = btn.getAttribute('data-cat');
+        state.tag = btn.getAttribute('data-tag') || null;
         renderFilters();
         renderList();
       });
     });
   }
 
+  function sortedPosts() {
+    return POSTS.slice().sort(function (a, b) { return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
+  }
+
+  function selectTag(tg) {
+    state.tag = tg || null;
+    renderFilters();
+    renderList();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   function renderList() {
-    var filtered = sortedPosts().filter(function (p) { return state.filter === 'all' || p.category === state.filter; });
+    if (!postsLoaded) {
+      el.blogList.innerHTML = '<p class="empty-state">' + I18N.loading[state.lang] + '</p>';
+      return;
+    }
+    var filtered = sortedPosts().filter(function (p) { return !state.tag || (p.tags || []).indexOf(state.tag) !== -1; });
     if (!filtered.length) {
       el.blogList.innerHTML = '<p class="empty-state">' + I18N.emptyState[state.lang] + '</p>';
       return;
     }
     el.blogList.innerHTML = filtered.map(function (p) {
       return '<div class="card post-card" data-slug="' + p.slug + '">' +
-        '<div class="post-meta"><span class="post-badge ' + p.category + '">' + badgeLabel(p.category) + '</span>' +
-        '<span class="post-date">' + fmtDate(p.date, state.lang) + '</span></div>' +
+        '<div class="post-meta"><span class="post-date">' + fmtDate(p.date, state.lang) + '</span>' +
+        '<span class="post-tags">' + tagPillsHtml(p.tags, false) + '</span></div>' +
         '<h2>' + escapeHtml(p.title[state.lang]) + '</h2>' +
         '<p class="post-excerpt">' + escapeHtml(p.excerpt[state.lang]) + '</p>' +
         '<span class="read-more">' + I18N.readMore[state.lang] + '</span>' +
       '</div>';
     }).join('');
     Array.prototype.forEach.call(el.blogList.querySelectorAll('.post-card'), function (card) {
-      card.addEventListener('click', function () {
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('.post-tag')) return;
         location.hash = 'post=' + card.getAttribute('data-slug');
+      });
+      Array.prototype.forEach.call(card.querySelectorAll('.post-tag'), function (pill) {
+        pill.addEventListener('click', function (e) {
+          e.stopPropagation();
+          selectTag(pill.getAttribute('data-tag'));
+        });
       });
     });
   }
 
   function renderDetail(slug) {
+    if (!postsLoaded) {
+      el.blogDetail.innerHTML = '<p class="empty-state">' + I18N.loading[state.lang] + '</p>';
+      return;
+    }
     var matches = POSTS.filter(function (p) { return p.slug === slug; });
     var post = matches.length ? matches[0] : null;
     if (!post) { location.hash = ''; return; }
@@ -335,14 +324,20 @@ window.addEventListener('scroll', function (e) {
     el.blogDetail.innerHTML =
       '<a href="#" class="back-link" id="back-link">' + I18N.backToBlog[state.lang] + '</a>' +
       '<div class="card post-detail">' +
-        '<div class="post-meta"><span class="post-badge ' + post.category + '">' + badgeLabel(post.category) + '</span>' +
-        '<span class="post-date">' + fmtDate(post.date, state.lang) + '</span></div>' +
+        '<div class="post-meta"><span class="post-date">' + fmtDate(post.date, state.lang) + '</span>' +
+        '<span class="post-tags">' + tagPillsHtml(post.tags, true) + '</span></div>' +
         '<h2>' + escapeHtml(post.title[state.lang]) + '</h2>' +
         '<div class="post-body">' + bodyHtml + '</div>' +
       '</div>';
     document.getElementById('back-link').addEventListener('click', function (e) {
       e.preventDefault();
       location.hash = '';
+    });
+    Array.prototype.forEach.call(el.blogDetail.querySelectorAll('.post-tag'), function (pill) {
+      pill.addEventListener('click', function () {
+        location.hash = '';
+        selectTag(pill.getAttribute('data-tag'));
+      });
     });
   }
 
@@ -360,6 +355,32 @@ window.addEventListener('scroll', function (e) {
   }
 
   window.addEventListener('hashchange', route);
+
+  function loadPosts() {
+    if (!sfClient) {
+      el.blogList.innerHTML = '<p class="empty-state">' + I18N.loadError[state.lang] + '</p>';
+      return;
+    }
+    sfClient.from('blog_posts').select('*').order('published_at', { ascending: false }).then(function (res) {
+      if (res.error || !res.data) {
+        el.blogList.innerHTML = '<p class="empty-state">' + I18N.loadError[state.lang] + '</p>';
+        return;
+      }
+      POSTS = res.data.map(function (row) {
+        return {
+          slug: row.slug,
+          date: row.published_at,
+          tags: row.tags || [],
+          title: { en: row.title_en, gd: row.title_gd || row.title_en },
+          excerpt: { en: row.excerpt_en, gd: row.excerpt_gd || row.excerpt_en },
+          body: { en: row.body_en, gd: row.body_gd || row.body_en }
+        };
+      });
+      postsLoaded = true;
+      renderFilters();
+      route();
+    });
+  }
 
   function applyChrome(lang) {
     state.lang = lang;
@@ -391,6 +412,7 @@ window.addEventListener('scroll', function (e) {
 
   var savedUiLang = loadJSON('sf-ui-lang', 'en');
   setUiLang(savedUiLang === 'gd' ? 'gd' : 'en');
+  loadPosts();
 })();
 </script>
 
