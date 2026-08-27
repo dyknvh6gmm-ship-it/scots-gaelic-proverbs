@@ -14,10 +14,28 @@
 // it on a schedule), this one is only meant to be called from blog-admin.html
 // by you. It checks the caller's Supabase auth token and refuses to run for
 // anyone but the admin account.
+//
+// Because this is called directly from the browser (blog-admin.html), it
+// needs to handle CORS itself — the browser sends a pre-flight OPTIONS
+// request before the real POST, and without a proper response to that,
+// the whole call silently fails client-side with "Failed to fetch".
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const ADMIN_EMAIL = "contact@gaelicwithsteve.com";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
+
+function json(body: unknown, status = 200): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json", ...corsHeaders },
+  });
+}
 
 function getServiceKey(): string {
   const secretKeys = Deno.env.get("SUPABASE_SECRET_KEYS");
@@ -37,19 +55,23 @@ function getServiceKey(): string {
 }
 
 Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "POST only" }), { status: 405 });
+    return json({ error: "POST only" }, 405);
   }
 
   const resendKey = Deno.env.get("RESEND_API_KEY");
   if (!resendKey) {
-    return new Response(JSON.stringify({ error: "RESEND_API_KEY is not set — add it under Edge Functions → send-blog-email → Secrets (or copy it from send-daily-proverb if already set there)." }), { status: 500 });
+    return json({ error: "RESEND_API_KEY is not set — add it under Edge Functions → send-blog-email → Secrets (or copy it from send-daily-proverb if already set there)." }, 500);
   }
 
   const authHeader = req.headers.get("Authorization") || "";
   const token = authHeader.replace(/^Bearer\s+/i, "");
   if (!token) {
-    return new Response(JSON.stringify({ error: "Missing Authorization header." }), { status: 401 });
+    return json({ error: "Missing Authorization header." }, 401);
   }
 
   const supabase = createClient(
@@ -60,14 +82,14 @@ Deno.serve(async (req) => {
   // Verify the caller is actually the site admin before sending anything.
   const { data: userData, error: userErr } = await supabase.auth.getUser(token);
   if (userErr || !userData?.user || userData.user.email !== ADMIN_EMAIL) {
-    return new Response(JSON.stringify({ error: "Not authorised." }), { status: 403 });
+    return json({ error: "Not authorised." }, 403);
   }
 
   let body: any = {};
   try {
     body = await req.json();
   } catch (_e) {
-    return new Response(JSON.stringify({ error: "Expected a JSON body with slug, title, excerpt." }), { status: 400 });
+    return json({ error: "Expected a JSON body with slug, title, excerpt." }, 400);
   }
 
   const slug = String(body.slug || "").trim();
@@ -75,7 +97,7 @@ Deno.serve(async (req) => {
   const excerpt = String(body.excerpt || "").trim();
   const imageUrl = body.imageUrl ? String(body.imageUrl).trim() : "";
   if (!slug || !title) {
-    return new Response(JSON.stringify({ error: "slug and title are required." }), { status: 400 });
+    return json({ error: "slug and title are required." }, 400);
   }
 
   const { data: subscribers, error } = await supabase
@@ -84,10 +106,10 @@ Deno.serve(async (req) => {
     .eq("newsletter_opt_in", true);
 
   if (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    return json({ error: error.message }, 500);
   }
   if (!subscribers || subscribers.length === 0) {
-    return new Response(JSON.stringify({ sent: 0, total: 0 }), { status: 200 });
+    return json({ sent: 0, total: 0 });
   }
 
   const postUrl = `https://www.gaelicwithsteve.com/blog.html#post=${encodeURIComponent(slug)}`;
@@ -127,8 +149,5 @@ Deno.serve(async (req) => {
     if (res.ok) sent++;
   }
 
-  return new Response(JSON.stringify({ sent, total: subscribers.length }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" }
-  });
+  return json({ sent, total: subscribers.length });
 });
