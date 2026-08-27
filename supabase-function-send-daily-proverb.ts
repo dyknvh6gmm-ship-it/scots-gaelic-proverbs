@@ -17,6 +17,14 @@
 //
 // Once deployed, schedule it to run once a day — see README for how, using
 // Supabase's built-in Cron Jobs feature.
+//
+// Deliverability note: this also sends a List-Unsubscribe header (RFC 8058
+// one-click unsubscribe) pointing at the "unsubscribe" Edge Function, plus a
+// plain-text body alongside the HTML one. Gmail/Yahoo weight both of these
+// for recurring mail like this — without them, mail is much more likely to
+// land in spam/junk even with SPF/DKIM/DMARC all correctly configured.
+// Deploy supabase-function-unsubscribe.ts as "unsubscribe" for the link to
+// actually work.
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -36,6 +44,21 @@ function getServiceKey(): string {
   const legacy = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (legacy) return legacy;
   throw new Error("No Supabase service key found — checked SUPABASE_SECRET_KEYS and SUPABASE_SERVICE_ROLE_KEY.");
+}
+
+// Same token scheme used by supabase-function-unsubscribe.ts to verify the
+// link — keep these in sync if you ever change this.
+async function hmacToken(email: string, secret: string): Promise<string> {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(email.trim().toLowerCase()));
+  return Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, "0")).join("").slice(0, 32);
 }
 
 // The full proverb pool — every proverb on the site that has an English
@@ -204,12 +227,18 @@ Deno.serve(async () => {
       <p style="margin-top: 26px;">
         <a href="https://www.gaelicwithsteve.com/geama.html" style="display:inline-block; background:#5b2a86; color:#fff; text-decoration:none; padding:10px 20px; border-radius:999px; font-family:-apple-system,sans-serif; font-size:0.85rem; font-weight:600;">Cluich Am Facal — today's word game</a>
       </p>
-      <p style="font-size:0.75rem; color:#888; margin-top: 20px;">You're getting this because you opted in on Sean-fhaclan &amp; Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop.</p>
+      <p style="font-size:0.75rem; color:#888; margin-top: 20px;">You're getting this because you opted in on Sean-fhaclan &amp; Auld Sayins. Log in and turn off "Email me the proverb of the day" any time to stop, or use the unsubscribe link below.</p>
     </div>
   `;
 
+  const textLines = langBlocks.map((b) => `${b.label}: ${b.text}`).join("\n");
+
   let sent = 0;
   for (const sub of subscribers) {
+    const token = await hmacToken(sub.email, resendKey);
+    const unsubUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/unsubscribe?email=${encodeURIComponent(sub.email)}&token=${token}`;
+    const text = `Sean-fhaclan & Auld Sayins\n\n${textLines}\n\nCluich Am Facal — today's word game: https://www.gaelicwithsteve.com/geama.html\n\nUnsubscribe: ${unsubUrl}`;
+
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -221,7 +250,15 @@ Deno.serve(async () => {
         from: "Sean-fhaclan <contact@gaelicwithsteve.com>",
         to: sub.email,
         subject: "Today's proverb — Sean-fhaclan & Auld Sayins",
-        html
+        html,
+        text,
+        // RFC 8058 one-click unsubscribe — Gmail/Yahoo weight this heavily
+        // for recurring mail. Requires supabase-function-unsubscribe.ts to
+        // be deployed as "unsubscribe" for the link to actually work.
+        headers: {
+          "List-Unsubscribe": `<${unsubUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+        }
       })
     });
     if (res.ok) sent++;
