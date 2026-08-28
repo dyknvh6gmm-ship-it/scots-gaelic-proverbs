@@ -320,7 +320,7 @@
       var id = row.getAttribute('data-id');
       var post = POSTS.find(function (p) { return String(p.id) === id; });
       row.querySelector('.edit-btn').addEventListener('click', function () { fillFormForEdit(post); });
-      row.querySelector('.email-btn').addEventListener('click', function () { offerToNotify(post); });
+      row.querySelector('.email-btn').addEventListener('click', function (evt) { offerToNotify(post, evt.currentTarget); });
       row.querySelector('.delete-btn').addEventListener('click', function () { deletePost(post); });
     });
   }
@@ -350,13 +350,12 @@
   // out as email + push right now. Declining just leaves it published with
   // no notification sent — you can't currently trigger this later from here,
   // it's a one-time prompt at publish time.
-  function offerToNotify(row) {
-    var ok = confirm('Send "' + row.title_en + '" out now as an email and push notification to subscribers?');
-    if (!ok) return;
+  function offerToNotify(row, btn) {
+    if (btn) { btn.disabled = true; btn.dataset.origText = btn.textContent; btn.textContent = 'Sending…'; }
     sfClient.auth.getSession().then(function (res) {
       var session = res.data && res.data.session;
       if (!session) {
-        alert('Could not read your session — try signing in again, then use the edit/save flow to retry sending.');
+        if (btn) { btn.disabled = false; btn.textContent = 'Session expired'; setTimeout(function () { btn.textContent = btn.dataset.origText || 'Send email'; }, 3000); }
         return;
       }
       var headers = {
@@ -374,12 +373,14 @@
         fetch(SUPABASE_URL + '/functions/v1/send-blog-push', { method: 'POST', headers: headers, body: payload })
       ]).then(function (results) {
         var okCount = results.filter(function (r) { return r.status === 'fulfilled' && r.value && r.value.ok; }).length;
-        if (okCount === 2) {
-          alert('Sent! Email and push notification are on their way.');
-        } else if (okCount === 1) {
-          alert('Partly sent — one of email/push worked, the other didn\'t. Check that both Edge Functions are deployed and their secrets are set.');
+        var label = okCount === 2 ? 'Sent ✓' : (okCount === 1 ? 'Partly sent' : 'Send failed');
+        if (btn) {
+          btn.textContent = label;
+          btn.disabled = false;
+          setTimeout(function () { btn.textContent = btn.dataset.origText || 'Send email'; }, 3500);
         } else {
-          alert('Could not send — check that the send-blog-email and send-blog-push Edge Functions are deployed on Supabase with their secrets set.');
+          el.formStatus.textContent = label + (okCount < 2 ? ' — check the Edge Functions are deployed with their secrets set.' : ' Email and push notification are on their way.');
+          el.formStatus.className = 'status-msg ' + (okCount === 2 ? 'ok' : 'err');
         }
       });
     });
