@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Droch-chainnt (18+) — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320; --danger: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 32px 20px; }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 1.9rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 640px; }
+  .badge-18 { display: inline-flex; align-items: center; justify-content: center; background: #fff; color: var(--danger); font-size: 0.85rem; font-weight: 800; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.02em; }
+
+  .ui-lang-toggle { display: inline-flex; flex: 0 0 auto; background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px; }
+  .ui-lang-toggle button { border: none; background: transparent; color: rgba(255,255,255,0.85); padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+  .header-top-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .site-nav { display: flex; gap: 4px; flex: 1 1 auto; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); }
+  .site-nav a:hover { background: rgba(255,255,255,0.12); }
+  .site-nav a.active { background: #fff; color: var(--thistle); border-color: #fff; }
+  .nav-dropdown { position: relative; flex: 0 0 auto; }
+  .nav-dropdown-toggle { font-family: inherit; color: rgba(255,255,255,0.8); background: transparent; text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+  .nav-dropdown-toggle:hover { background: rgba(255,255,255,0.12); }
+  .nav-dropdown.open .nav-dropdown-toggle, .nav-dropdown-toggle.active { background: #fff; color: var(--thistle); border-color: #fff; }
+  .nav-caret { font-size: 0.6rem; }
+  .nav-dropdown-menu { display: none; position: fixed; z-index: 200; background: #fff; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); padding: 6px; min-width: 210px; }
+  .nav-dropdown.open .nav-dropdown-menu { display: block; }
+  .nav-dropdown-menu a { display: block; padding: 8px 12px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+  .nav-dropdown-menu a:hover { background: rgba(142,108,156,0.1); }
+  .nav-dropdown-menu a.active { color: var(--thistle); }
+  @media (max-width: 700px) { .nav-dropdown-menu { position: static !important; box-shadow: none; margin-top: 4px; width: 100%; } }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px 60px; }
+
+  .warning-box { background: #fdeceb; border: 1px solid rgba(179,38,30,0.35); border-radius: 12px; padding: 18px 20px; margin-bottom: 22px; }
+  .warning-box h2 { margin: 0 0 8px; font-size: 1rem; color: var(--danger); display: flex; align-items: center; gap: 8px; }
+  .warning-box p { margin: 0 0 8px; font-size: 0.88rem; line-height: 1.55; color: rgba(43,35,32,0.85); }
+  .warning-box p:last-child { margin-bottom: 0; }
+
+  .intro-box { background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 12px; padding: 20px 22px; margin-bottom: 8px; font-size: 0.92rem; color: rgba(43,35,32,0.82); line-height: 1.65; }
+  .intro-box p { margin: 0 0 14px; }
+  .intro-box p:last-child { margin-bottom: 0; }
+
+  .section-block { margin-top: 34px; }
+  .section-block h2 { font-size: 1.2rem; margin: 0 0 4px; font-family: Georgia, 'Iowan Old Style', serif; }
+  .section-block .sec-desc { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 0 0 16px; max-width: 640px; line-height: 1.5; }
+
+  .tier { margin-bottom: 16px; }
+  .tier-label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 12px; border-radius: 999px; margin-bottom: 10px; }
+  .tier-note { font-size: 0.8rem; font-style: italic; color: rgba(43,35,32,0.6); margin: -4px 0 10px; }
+  .tier.polite .tier-label { background: rgba(26,122,60,0.12); color: #1a7a3c; }
+  .tier.context .tier-label { background: rgba(0,101,189,0.12); color: var(--saltire); }
+  .tier.rude .tier-label { background: rgba(163,105,31,0.14); color: var(--amber); }
+  .tier.very-rude .tier-label { background: rgba(179,38,30,0.12); color: var(--danger); }
+
+  .phrase-grid { display: grid; gap: 8px; }
+  .phrase-card { background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 12px 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+  .phrase-gd { font-weight: 700; font-family: Georgia, 'Iowan Old Style', serif; font-size: 1rem; color: var(--ink); }
+  .phrase-en { font-size: 0.86rem; color: rgba(43,35,32,0.62); }
+  .phrase-en::before { content: "— "; }
+
+  .vocab-table-wrap { overflow-x: auto; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; background: #fff; margin-bottom: 4px; }
+  table.vocab-table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+  table.vocab-table caption { text-align: left; font-weight: 700; padding: 10px 14px 0; font-size: 0.85rem; color: var(--thistle); caption-side: top; }
+  table.vocab-table th, table.vocab-table td { padding: 9px 14px; text-align: left; border-bottom: 1px solid rgba(142,108,156,0.12); vertical-align: top; }
+  table.vocab-table th { background: rgba(91,42,134,0.06); color: var(--thistle); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  table.vocab-table tr:last-child td { border-bottom: none; }
+
+  .word-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
+  .word-list li { background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 8px 14px; font-size: 0.85rem; }
+  .word-list li b { font-family: Georgia, 'Iowan Old Style', serif; }
+
+  .ref-list { font-size: 0.85rem; color: rgba(43,35,32,0.75); line-height: 1.7; padding-left: 20px; margin: 0; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+
+  .social-follow { text-align: center; font-size: 0.8rem; color: rgba(43,35,32,0.5); margin: 6px 0 0; }
+  .social-follow a { display: inline-flex; align-items: center; gap: 4px; color: var(--thistle); text-decoration: none; font-weight: 600; margin: 6px 8px 0; }
+  .social-follow a:hover { text-decoration: underline; }
+  .social-follow .icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .social-follow .icon svg { width: 100%; height: 100%; display: block; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="header-top-row">
+      <nav class="site-nav">
+      <a href="index.html" id="nav-home">Home</a>
+      <a href="games.html" id="nav-games">Games</a>
+      <a href="my-account.html" id="nav-my-account">My Account</a>
+      <div class="nav-dropdown" id="nav-dd-collections">
+        <button type="button" class="nav-dropdown-toggle">Collections <span class="nav-caret">&#9662;</span></button>
+        <div class="nav-dropdown-menu">
+          <a href="gaelic-collection.html" id="nav-gaelic-collection">Gaelic Collection</a>
+          <a href="scots-collection.html" id="nav-scots-collection">Scots Collection</a>
+        </div>
+      </div>
+      <div class="nav-dropdown open-hint" id="nav-dd-learn">
+        <button type="button" class="nav-dropdown-toggle active">Learn proper Scottish! <span class="nav-caret">&#9662;</span></button>
+        <div class="nav-dropdown-menu">
+          <a href="grammar.html" id="nav-grammar">Grammar</a>
+          <a href="resources.html" id="nav-resources">Resources</a>
+          <a href="droch-chainnt.html" class="active" id="nav-droch-chainnt">Droch-chainnt &#128686; 18+</a>
+        </div>
+      </div>
+      <a href="about.html" id="nav-about">About</a>
+    <a href="blog.html" id="nav-blog">Blog</a>
+    </nav>
+    <script>
+      document.querySelectorAll('.nav-dropdown-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var dd = btn.closest('.nav-dropdown');
+          var menu = dd.querySelector('.nav-dropdown-menu');
+          var wasOpen = dd.classList.contains('open');
+          document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+          if (!wasOpen) {
+            var r = btn.getBoundingClientRect();
+            menu.style.top = (r.bottom + 6) + 'px';
+            menu.style.left = r.left + 'px';
+            dd.classList.add('open');
+          }
+        });
+      });
+      document.addEventListener('click', function () {
+        document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+      });
+      window.addEventListener('scroll', function (e) {
+        if (e.target !== document) return;
+        document.querySelectorAll('.nav-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+      }, true);
+    </script>
+      <div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    </div>
+    <h1 class="proverb-text">Droch-chainnt sa Ghàidhlig <span class="badge-18">18+</span></h1>
+    <p>Swearing, insults and near-the-knuckle Gaelic — registers, curses, and a bit of the language nobody teaches you in class.</p>
+  </div>
+</header>
+
+<main>
+  <div class="warning-box">
+    <h2>&#9888;&#65039; Mature language content</h2>
+    <p>This page is for adults. It covers swearing, insults, and explicit vocabulary in Scottish Gaelic — presented for its genuine linguistic and cultural value, the same way a dictionary of profanity in any language would be. If that's not what you're after, no bother — the <a href="grammar.html" style="color:var(--thistle); font-weight:700;">Grammar</a> and <a href="resources.html" style="color:var(--thistle); font-weight:700;">Resources</a> pages are right next door.</p>
+    <p>Registers of politeness are marked throughout, but use your own judgement: none of this will land the same everywhere, especially with older folk in rural areas. What you do with any of it is on you.</p>
+  </div>
+
+  <div class="intro-box">
+    <p>Swearing and politeness both depend on the context you're in. It isn't polite to say "Hey, pal!" to the King, but it's perfectly fine with a friend, or even a stranger, down the pub. In the same way, it's quite impolite to say "Jesus!" in a church or among strongly religious people — but not in most other settings.</p>
+    <p>In Gaelic specifically, because there hasn't been a Gaelic-speaking nobility for over 200 years, and there aren't many ministers or priests with Gaelic left either, the <em>highest</em> registers of the language are fading. The lowest registers are disappearing too, in much the same way: swearing is normally picked up from peers, not taught by parents or at school. Because Gaelic isn't much used among young people any more, and now feels natural only in specific settings — church, school, semi-formal community events — there's little chance left to socialise in the kind of casual, unguarded company where swearing gets learned. Historically, women would swear (or at least talk more freely) while washing or waulking cloth together, and men while out on the hill or at sea — informal, friendly company, in both cases.</p>
+    <p>What counts as swearing at all is also a matter of cultural heritage. Gaelic tradition is closely tied to Christianity, so swearing that invokes religion carries noticeably more weight in Gaelic than the equivalent does in English.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>&#128169; Tapagan <span style="font-weight:400; color:rgba(43,35,32,0.5); font-size:0.9rem;">(Swears)</span></h2>
+    <p class="sec-desc">Exclamations — the Gaelic equivalent of "damn it!" through to much stronger stuff.</p>
+
+    <div class="tier polite">
+      <span class="tier-label">Polite</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Mo chreach-sa thàinig!</span><span class="phrase-en">My goodness! Good grief!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A chiall!</span><span class="phrase-en">Good grief! (lit. "O sense!")</span></div>
+        <div class="phrase-card"><span class="phrase-gd">M' anam!</span><span class="phrase-en">Goodness me! (lit. "My soul!")</span></div>
+      </div>
+    </div>
+
+    <div class="tier context">
+      <span class="tier-label">Polite, depending on context</span>
+      <p class="tier-note">Religious oaths — not fine in church or with strongly religious folk, but safe enough generally.</p>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">A Thighearna (nan Gràs)!</span><span class="phrase-en">Good Lord!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A Mhoire (Mhàthair)!</span><span class="phrase-en">Mother Mary!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">An ainm an Àigh!</span><span class="phrase-en">For goodness' sake! (lit. "in the name of the Blessed one")</span></div>
+      </div>
+    </div>
+
+    <div class="tier rude">
+      <span class="tier-label">Impolite</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Cac!</span><span class="phrase-en">Shit!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Daing!</span><span class="phrase-en">Damn!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Dògan!</span><span class="phrase-en">Blast!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A Dhiabhail!</span><span class="phrase-en">Damn it! (lit. "the Devil!")</span></div>
+      </div>
+    </div>
+
+    <div class="tier very-rude">
+      <span class="tier-label">Very impolite</span>
+      <p class="tier-note">Be careful with these!</p>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Taigh na galla!</span><span class="phrase-en">Bloody hell! (lit. "house of the bitch")</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Bod an Diabhail!</span><span class="phrase-en">Devil's dick!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Pit air iteig!</span><span class="phrase-en">Flying cunt! (very vulgar)</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A Thighearna Bhalaich!</span><span class="phrase-en">Good God! (strong intensifier)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>&#128128; Droch-bheul <span style="font-weight:400; color:rgba(43,35,32,0.5); font-size:0.9rem;">(Insults)</span></h2>
+    <p class="sec-desc">Words for insulting or cursing someone, plus the terms of abuse themselves.</p>
+
+    <ul class="word-list">
+      <li><b>mallaich, a' cur mallachd air</b> — to curse/insult somebody</li>
+      <li><b>a' cur tàmailt air</b> — to insult</li>
+      <li><b>fhuair mi droch-bheul</b> — I was insulted</li>
+      <li><b>a' toirt droch-ghuidhe do</b> — to wish ill on somebody</li>
+    </ul>
+
+    <div class="tier rude">
+      <span class="tier-label">Impolite</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Amadan</span><span class="phrase-en">fool, idiot (male)</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Òinseach</span><span class="phrase-en">fool, idiot (female)</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Tòn</span><span class="phrase-en">arse</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Glaoic</span><span class="phrase-en">imbecile</span></div>
+        <div class="phrase-card"><span class="phrase-gd">(Thalla is) Hiort ort!</span><span class="phrase-en">Bugger off! (lit. "off to St Kilda with you")</span></div>
+        <div class="phrase-card"><span class="phrase-gd">An-uair ort!</span><span class="phrase-en">Curse you!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Bùrn dubh ort!</span><span class="phrase-en">Curse you! (lit. "black water on you")</span></div>
+      </div>
+    </div>
+
+    <div class="tier very-rude">
+      <span class="tier-label">Very impolite</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">A mhic/nighean an uilc!</span><span class="phrase-en">You bastard! Arsehole!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A mhic/nighean a' choin!</span><span class="phrase-en">You bastard! (lit. "son/daughter of the dog")</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A thrustair!</span><span class="phrase-en">You scoundrel! Bastard!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">A mhic/nighean an diabhail/donais/dunaidh!</span><span class="phrase-en">You bastard! Arsehole!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Taigh na galla ort!</span><span class="phrase-en">Fuck off!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Bàs gun sagart ort!</span><span class="phrase-en">Fuck you! (lit. wishing death without a priest — an old, dark curse)</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Ith do chac!</span><span class="phrase-en">Fuck you! (lit. "eat your shit")</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Droch abairtean eile <span style="font-weight:400; color:rgba(43,35,32,0.5); font-size:0.9rem;">(Other bad expressions)</span></h2>
+    <p class="sec-desc">Everyday frustration and emphasis — the Gaelic "bloody" and "fucking".</p>
+
+    <div class="tier context">
+      <span class="tier-label">Strong, without being too rude</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Dè fon ghrèin a tha seo?</span><span class="phrase-en">What on Earth is this?</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Cò fon ghrèin a th' annaibh?</span><span class="phrase-en">Who the heck are you?</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Chuir e thuige mi!</span><span class="phrase-en">It really annoyed me.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Bha mi diombach dheth!</span><span class="phrase-en">I was mad at it.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Chàirich thu gu h-olc e!</span><span class="phrase-en">You screwed it up.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Rinn thu bùrach dheth!</span><span class="phrase-en">You made a mess of it.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Chan eil ann ach drafas/truilleas/sgudal!</span><span class="phrase-en">It's a whole lot of rubbish!</span></div>
+      </div>
+    </div>
+
+    <div class="tier rude">
+      <span class="tier-label">Impolite</span>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Tha mi air mo lionnrachadh leis!</span><span class="phrase-en">I'm really pissed off at him.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Rinn thu tòn dheth!</span><span class="phrase-en">You fucked it up.</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Chan eil spùt de thuigse aige!</span><span class="phrase-en">He has no bloody clue!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Bugair</span><span class="phrase-en">"bloody" — an intensifier</span></div>
+        <div class="phrase-card"><span class="phrase-gd">'S e bugair bùraich a th' ann!</span><span class="phrase-en">It's a bloody mess!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Tha an donas coimpiutair briste a-rithist</span><span class="phrase-en">The bloody computer's broken again!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Mo thòn a bhith am Beàrnaraigh!</span><span class="phrase-en">What bullshit! (lit. "my arse in Bernera!")</span></div>
+      </div>
+    </div>
+
+    <div class="tier very-rude">
+      <span class="tier-label">Very impolite</span>
+      <p class="tier-note">Invoking the Devil's name is far stronger in Gaelic than English's fairly mild "the devil" — treat it like the F-word.</p>
+      <div class="phrase-grid">
+        <div class="phrase-card"><span class="phrase-gd">Dè an diabhal a tha seo?</span><span class="phrase-en">What the fuck is this?</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Cò an diabhal a th' annaibh?</span><span class="phrase-en">Who the fuck are you?</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Cho cinnteach is a tha bod san each</span><span class="phrase-en">Sure as fuck</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Chan eil diù a' choin agam dha!</span><span class="phrase-en">I don't give a fuck about it!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Diabhalta, diabhlaidh</span><span class="phrase-en">"fucking" — a strong intensifier</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Abair bùrach diabhalta a tha seo!</span><span class="phrase-en">What a fucking mess!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Tha mi diabhlaidh coma dheth!</span><span class="phrase-en">I don't give a fuck about it!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Gabh an còta diabhalta agad agus Hiort ort!</span><span class="phrase-en">Take your fucking coat and bugger off!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">An donachd càil a gheibh thu bhuaithe!</span><span class="phrase-en">You won't get a damn thing from him!</span></div>
+        <div class="phrase-card"><span class="phrase-gd">Tha fios agad diabhlaidh math!</span><span class="phrase-en">You know bloody well!</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Facail ceangailte le feis <span style="font-weight:400; color:rgba(43,35,32,0.5); font-size:0.9rem;">(Sex-related words)</span></h2>
+    <p class="sec-desc">Words used neutrally for animals (mating, breeding) are always rude when applied to people — that shift matters more in Gaelic than it does in English.</p>
+
+    <ul class="word-list">
+      <li><b>Bigein</b> — genitalia (general)</li>
+      <li><b>Clachan</b> — testicles (neutral)</li>
+      <li><b>Drabasta</b> — lewd, obscene</li>
+      <li><b>Drabastachd</b> — obscene/lewd material</li>
+    </ul>
+
+    <div class="vocab-table-wrap">
+      <table class="vocab-table">
+        <caption>Genitalia, by register</caption>
+        <thead><tr><th>Register</th><th>Male</th><th>Female</th></tr></thead>
+        <tbody>
+          <tr><td>Neutral</td><td>Ball</td><td>Ròmag; brillean (clitoris)</td></tr>
+          <tr><td>Informal</td><td>Crann; slat</td><td>Croiteag; faighean; duille; bodach beag a' bhàta (clitoris)</td></tr>
+          <tr><td>Impolite</td><td>Bod</td><td>Pit, clais</td></tr>
+          <tr><td>Child language</td><td>Clibean; gille</td><td>Peàrrsag</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="vocab-table-wrap" style="margin-top:14px;">
+      <table class="vocab-table">
+        <caption>Having sex, by register</caption>
+        <thead><tr><th>Register</th><th>Verb (to have sex)</th><th>Noun (coitus)</th></tr></thead>
+        <tbody>
+          <tr><td>Neutral</td><td>Co-laigh, a' co-laighe; co-ghin, a' co-ghineadh</td><td>Co-laighe; cleamhnas; co-ghineadh; co-riatain</td></tr>
+          <tr><td>Informal</td><td>Maistir, a' maistreadh; marcaich, a' marcachd</td><td>Maistreadh; marcachd; obair na h-oidhche; seinn an clàrsaich <span style="opacity:0.6;">(lit. "playing the harp")</span></td></tr>
+          <tr><td>Impolite</td><td>Dàir, a' dàireadh</td><td>Bogadh; dàir; piteireachd; reitheachas; slataireachd</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>References</h2>
+    <ol class="ref-list">
+      <li>MacAoidh, Peadar, &amp; Iain S. Mac a' Phearsain. 2016. <em>An Leabhar Liath – 500 Years of Gaelic Love and Transgressive Verse</em> (Dùn Èideann: Luath Press).</li>
+      <li>Newton, Michael. 2014. <em>The Naughty Little Book of Gaelic</em> (Baile Shidni: Cape Breton University Press).</li>
+    </ol>
+  </div>
+</main>
+
+<p class="social-follow">
+    Follow for more of what I do:<br />
+    <a href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg></span>Instagram</a>
+    <a href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2.5" y="5.5" width="19" height="13" rx="4" stroke="currentColor" stroke-width="1.8"/><polygon points="10,9 10,15 15.5,12" fill="currentColor"/></svg></span>YouTube</a>
+    <a href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9.5" stroke="currentColor" stroke-width="1.8"/><text x="12" y="16.3" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="700" fill="currentColor">f</text></svg></span>Facebook</a>
+    <a href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="9.5" cy="16" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12.5 16V4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12.5 4.5c.4 2.6 2.2 4.4 4.5 4.7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round"/></svg></span>TikTok</a>
+  </p>
+  <footer class="app-footer">Sean-fhaclan &amp; Auld Sayins</footer>
+
+<script>
+(function () {
+  'use strict';
+  function loadJSON(key, fallback) {
+    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  var en = document.getElementById('ui-lang-en');
+  var gd = document.getElementById('ui-lang-gd');
+  // This page's content is an inherently bilingual glossary already laid out
+  // Gaelic-term / English-gloss, so the EN/GD toggle here just reflects the
+  // site-wide preference for consistency rather than re-translating a page
+  // that already shows both languages side by side.
+  if (savedUiLang === 'gd') { gd.classList.add('active'); en.classList.remove('active'); }
+  en.addEventListener('click', function () {
+    try { localStorage.setItem('sf-ui-lang', JSON.stringify('en')); } catch (e) {}
+    en.classList.add('active'); gd.classList.remove('active');
+  });
+  gd.addEventListener('click', function () {
+    try { localStorage.setItem('sf-ui-lang', JSON.stringify('gd')); } catch (e) {}
+    gd.classList.add('active'); en.classList.remove('active');
+  });
+})();
+</script>
+
+</body>
+</html>
