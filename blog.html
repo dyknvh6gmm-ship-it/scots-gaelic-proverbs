@@ -65,12 +65,11 @@
   .section-tab { flex: 1; text-align: center; border: 1px solid rgba(142,108,156,0.3); background: #fff; color: var(--thistle); font-size: 0.9rem; font-weight: 700; padding: 10px 16px; border-radius: 10px; cursor: pointer; }
   .section-tab.active { background: var(--thistle); color: #fff; border-color: var(--thistle); }
 
-  .blog-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
-  .filter-tab { border: 1px solid rgba(142,108,156,0.3); background: #fff; color: var(--thistle); font-size: 0.82rem; font-weight: 600; padding: 7px 16px; border-radius: 999px; cursor: pointer; }
-  .filter-tab.active { background: var(--thistle); color: #fff; border-color: var(--thistle); }
-  .filter-tab:hover:not(.active) { background: rgba(91,42,134,0.05); }
+  .blog-toprow { display: flex; align-items: center; justify-content: flex-end; margin: -8px 0 14px; }
+  .write-post-link { font-size: 0.8rem; font-weight: 600; color: var(--thistle); text-decoration: none; opacity: 0.75; display: inline-flex; align-items: center; gap: 4px; }
+  .write-post-link:hover { text-decoration: underline; opacity: 1; }
 
-  /* Tweet-style post cards */
+  /* Continuous Substack-style post feed (no filter/section pills) */
   .post-card { cursor: pointer; padding: 0; overflow: hidden; }
   .post-card:hover { border-color: rgba(142,108,156,0.4); }
   .tweet-media { width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: linear-gradient(135deg, var(--thistle), var(--saltire)); display: flex; align-items: center; justify-content: center; }
@@ -80,8 +79,7 @@
   .post-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.75rem; flex-wrap: wrap; }
   .post-date { color: rgba(43,35,32,0.5); }
   .post-tags { display: inline-flex; gap: 6px; flex-wrap: wrap; }
-  .post-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.01em; background: rgba(91,42,134,0.08); color: var(--thistle); cursor: pointer; border: none; font-family: inherit; }
-  .post-tag:hover { background: rgba(91,42,134,0.16); }
+  .post-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.01em; background: rgba(91,42,134,0.08); color: var(--thistle); }
   .post-card h2 { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
   .post-excerpt { line-height: 1.6; color: rgba(43,35,32,0.8); margin: 0 0 14px; }
   .read-more { font-size: 0.85rem; font-weight: 600; color: var(--thistle); }
@@ -110,6 +108,8 @@
   .ig-scroll-item { flex: 0 0 auto; width: 320px; scroll-snap-align: start; }
   .ig-scroll-item blockquote.instagram-media { margin: 0 !important; min-width: 0 !important; width: 320px !important; }
   .ig-loading { text-align: center; color: rgba(43,35,32,0.5); font-size: 0.85rem; padding: 20px 0; }
+  .ig-fallback-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 320px; height: 320px; border-radius: 12px; text-decoration: none; background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7); color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; padding: 20px; }
+  .ig-fallback-icon { font-size: 2rem; }
 </style>
 </head>
 <body>
@@ -133,6 +133,7 @@
         <div class="nav-dropdown-menu">
           <a href="grammar.html" id="nav-grammar">Grammar</a>
           <a href="resources.html" id="nav-resources">Resources</a>
+          <a href="droch-chainnt.html" id="nav-droch-chainnt">Droch-chainnt &#128686; 18+</a>
         </div>
       </div>
       <a href="blog.html" class="active" id="nav-blog">Blog</a>
@@ -179,8 +180,10 @@ window.addEventListener('scroll', function (e) {
   </div>
 
   <div id="blog-section">
+    <div class="blog-toprow">
+      <a href="blog-admin.html" class="write-post-link" id="write-post-link">&#9998; Write a post</a>
+    </div>
     <div id="blog-list-view">
-      <div class="blog-filters" id="blog-filters"></div>
       <div id="blog-list"></div>
     </div>
     <div id="blog-detail" style="display:none;"></div>
@@ -246,12 +249,13 @@ window.addEventListener('scroll', function (e) {
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
     tabBlog: { en: 'Blog', gd: 'Bloga' },
     tabSocials: { en: 'Socials', gd: 'Meadhanan Sòisealta' },
+    writePost: { en: '✎ Write a post', gd: '✎ Sgrìobh post' },
     followHeading: { en: 'Follow along', gd: 'Lean sinn' },
     igHeading: { en: 'Latest on Instagram', gd: 'Air Instagram an-dràsta' },
-    filterAll: { en: 'All posts', gd: 'A h-uile post' },
+    igViewOn: { en: 'View on Instagram ↗', gd: 'Seall air Instagram ↗' },
     readMore: { en: 'Read more →', gd: 'Leugh tuilleadh →' },
     backToBlog: { en: '← Back to all posts', gd: '← Air ais gu na puist uile' },
-    emptyState: { en: 'No posts with this tag yet.', gd: "Chan eil post sam bith leis an tag seo fhathast." },
+    emptyState: { en: 'No posts yet — check back soon.', gd: "Chan eil post sam bith fhathast — thig air ais a dh'aithghearr." },
     loading: { en: 'Loading posts…', gd: 'A’ luchdachadh nam post…' },
     loadError: { en: 'Could not load posts right now — try refreshing the page.', gd: 'Cha b’ urrainn na puist a luchdachadh an-dràsta — feuch an duilleag ath-luchdachadh.' }
   };
@@ -273,12 +277,12 @@ window.addEventListener('scroll', function (e) {
     uiLangGd: document.getElementById('ui-lang-gd'),
     tabBlog: document.getElementById('tab-blog'),
     tabSocials: document.getElementById('tab-socials'),
+    writePostLink: document.getElementById('write-post-link'),
     blogSection: document.getElementById('blog-section'),
     socialsSection: document.getElementById('socials-section'),
     followHeading: document.getElementById('follow-heading'),
     igHeading: document.getElementById('ig-heading'),
     igScroll: document.getElementById('ig-scroll'),
-    blogFilters: document.getElementById('blog-filters'),
     blogListView: document.getElementById('blog-list-view'),
     blogList: document.getElementById('blog-list'),
     blogDetail: document.getElementById('blog-detail')
@@ -287,7 +291,7 @@ window.addEventListener('scroll', function (e) {
   var POSTS = [];
   var postsLoaded = false;
   var igLoaded = false;
-  var state = { lang: 'en', tag: null, section: 'blog' };
+  var state = { lang: 'en', section: 'blog' };
 
   function loadJSON(key, fallback) {
     try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
@@ -309,50 +313,14 @@ window.addEventListener('scroll', function (e) {
     return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
   }
 
-  function allTags() {
-    var seen = {};
-    var out = [];
-    POSTS.forEach(function (p) {
-      (p.tags || []).forEach(function (tg) {
-        if (!seen[tg]) { seen[tg] = true; out.push(tg); }
-      });
-    });
-    out.sort(function (a, b) { return a.localeCompare(b); });
-    return out;
-  }
-
-  function tagPillsHtml(tags, clickable) {
+  function tagPillsHtml(tags) {
     return (tags || []).map(function (tg) {
-      return '<' + (clickable ? 'button type="button"' : 'span') + ' class="post-tag" data-tag="' + escapeHtml(tg) + '">' + escapeHtml(tg) + '</' + (clickable ? 'button' : 'span') + '>';
+      return '<span class="post-tag">' + escapeHtml(tg) + '</span>';
     }).join('');
-  }
-
-  function renderFilters() {
-    var tags = allTags();
-    if (!tags.length) { el.blogFilters.innerHTML = ''; return; }
-    var pills = ['<button type="button" class="filter-tab' + (!state.tag ? ' active' : '') + '" data-tag="">' + I18N.filterAll[state.lang] + '</button>']
-      .concat(tags.map(function (tg) {
-        return '<button type="button" class="filter-tab' + (state.tag === tg ? ' active' : '') + '" data-tag="' + escapeHtml(tg) + '">' + escapeHtml(tg) + '</button>';
-      }));
-    el.blogFilters.innerHTML = pills.join('');
-    Array.prototype.forEach.call(el.blogFilters.querySelectorAll('.filter-tab'), function (btn) {
-      btn.addEventListener('click', function () {
-        state.tag = btn.getAttribute('data-tag') || null;
-        renderFilters();
-        renderList();
-      });
-    });
   }
 
   function sortedPosts() {
     return POSTS.slice().sort(function (a, b) { return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
-  }
-
-  function selectTag(tg) {
-    state.tag = tg || null;
-    renderFilters();
-    renderList();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // Short pull-quote used as a fallback "cover image" for posts with no
@@ -367,12 +335,12 @@ window.addEventListener('scroll', function (e) {
       el.blogList.innerHTML = '<p class="empty-state">' + I18N.loading[state.lang] + '</p>';
       return;
     }
-    var filtered = sortedPosts().filter(function (p) { return !state.tag || (p.tags || []).indexOf(state.tag) !== -1; });
-    if (!filtered.length) {
+    var all = sortedPosts();
+    if (!all.length) {
       el.blogList.innerHTML = '<p class="empty-state">' + I18N.emptyState[state.lang] + '</p>';
       return;
     }
-    el.blogList.innerHTML = filtered.map(function (p) {
+    el.blogList.innerHTML = all.map(function (p) {
       var media = p.image
         ? '<img src="' + escapeHtml(p.image) + '" alt="" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=&quot;tweet-media-fallback&quot;&gt;' + escapeHtml(fallbackQuote(p.excerpt[state.lang])).replace(/'/g, '&#39;') + '&lt;/div&gt;\'" />'
         : '<div class="tweet-media-fallback">' + escapeHtml(fallbackQuote(p.excerpt[state.lang])) + '</div>';
@@ -380,22 +348,15 @@ window.addEventListener('scroll', function (e) {
         '<div class="tweet-media">' + media + '</div>' +
         '<div class="tweet-body">' +
         '<div class="post-meta"><span class="post-date">' + fmtDate(p.date, state.lang) + '</span>' +
-        '<span class="post-tags">' + tagPillsHtml(p.tags, false) + '</span></div>' +
+        '<span class="post-tags">' + tagPillsHtml(p.tags) + '</span></div>' +
         '<h2>' + escapeHtml(p.title[state.lang]) + '</h2>' +
         '<p class="post-excerpt">' + escapeHtml(p.excerpt[state.lang]) + '</p>' +
         '<span class="read-more">' + I18N.readMore[state.lang] + '</span>' +
         '</div></div>';
     }).join('');
     Array.prototype.forEach.call(el.blogList.querySelectorAll('.post-card'), function (card) {
-      card.addEventListener('click', function (e) {
-        if (e.target.closest('.post-tag')) return;
+      card.addEventListener('click', function () {
         location.hash = 'post=' + card.getAttribute('data-slug');
-      });
-      Array.prototype.forEach.call(card.querySelectorAll('.post-tag'), function (pill) {
-        pill.addEventListener('click', function (e) {
-          e.stopPropagation();
-          selectTag(pill.getAttribute('data-tag'));
-        });
       });
     });
   }
@@ -416,19 +377,13 @@ window.addEventListener('scroll', function (e) {
       '<div class="card post-detail">' +
         imageHtml +
         '<div class="post-meta"><span class="post-date">' + fmtDate(post.date, state.lang) + '</span>' +
-        '<span class="post-tags">' + tagPillsHtml(post.tags, true) + '</span></div>' +
+        '<span class="post-tags">' + tagPillsHtml(post.tags) + '</span></div>' +
         '<h2>' + escapeHtml(post.title[state.lang]) + '</h2>' +
         '<div class="post-body">' + bodyHtml + '</div>' +
       '</div>';
     document.getElementById('back-link').addEventListener('click', function (e) {
       e.preventDefault();
       location.hash = '';
-    });
-    Array.prototype.forEach.call(el.blogDetail.querySelectorAll('.post-tag'), function (pill) {
-      pill.addEventListener('click', function () {
-        location.hash = '';
-        selectTag(pill.getAttribute('data-tag'));
-      });
     });
   }
 
@@ -469,29 +424,54 @@ window.addEventListener('scroll', function (e) {
         };
       });
       postsLoaded = true;
-      renderFilters();
       route();
     });
   }
 
   // Instagram's official client-side embed — no API key or account signup
-  // needed, just the public post URLs and their embed.js script.
+  // needed, just the public post URLs and their embed.js script. Instagram's
+  // embed can silently fail to resize (iframe stays 0px tall) under some
+  // browsers' third-party-cookie/tracking-prevention settings, so after a
+  // few seconds we check each item and swap any that never rendered for a
+  // plain "View on Instagram" card, so the strip never looks empty/broken.
   function loadInstagramEmbeds() {
     if (igLoaded) return;
     igLoaded = true;
     el.igScroll.innerHTML = IG_POSTS.map(function (url) {
-      return '<div class="ig-scroll-item"><blockquote class="instagram-media" data-instgrm-permalink="' + url + '" data-instgrm-version="14"></blockquote></div>';
+      return '<div class="ig-scroll-item" data-ig-url="' + escapeHtml(url) + '"><blockquote class="instagram-media" data-instgrm-permalink="' + url + '" data-instgrm-version="14"></blockquote></div>';
     }).join('');
+
+    function process() {
+      if (window.instgrm) window.instgrm.Embeds.process();
+    }
+
     var existing = document.getElementById('ig-embed-script');
     if (existing && window.instgrm) {
-      window.instgrm.Embeds.process();
+      process();
     } else if (!existing) {
       var s = document.createElement('script');
       s.id = 'ig-embed-script';
       s.async = true;
       s.src = 'https://www.instagram.com/embed.js';
+      s.onload = process;
       document.body.appendChild(s);
+    } else {
+      setTimeout(process, 800);
     }
+
+    setTimeout(function () {
+      Array.prototype.forEach.call(el.igScroll.querySelectorAll('.ig-scroll-item'), function (item) {
+        var iframe = item.querySelector('iframe');
+        var rendered = iframe && iframe.offsetHeight > 60;
+        if (!rendered) {
+          var url = item.getAttribute('data-ig-url');
+          item.innerHTML = '<a class="ig-fallback-card" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' +
+            '<span class="ig-fallback-icon">&#128247;</span>' +
+            '<span>' + I18N.igViewOn[state.lang] + '</span>' +
+          '</a>';
+        }
+      });
+    }, 4000);
   }
 
   function setSection(section) {
@@ -521,9 +501,9 @@ window.addEventListener('scroll', function (e) {
     el.navAbout.textContent = I18N.navAbout[lang];
     el.tabBlog.textContent = I18N.tabBlog[lang];
     el.tabSocials.textContent = I18N.tabSocials[lang];
+    el.writePostLink.textContent = I18N.writePost[lang];
     el.followHeading.textContent = I18N.followHeading[lang];
     el.igHeading.textContent = I18N.igHeading[lang];
-    renderFilters();
     route();
   }
 
