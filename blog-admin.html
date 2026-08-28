@@ -312,6 +312,7 @@
         '<div class="post-row-meta">' + p.published_at + (p.tags && p.tags.length ? ' · ' + p.tags.join(', ') : '') + '</div></div>' +
         '<div class="post-row-actions">' +
           '<button type="button" class="btn btn-outline edit-btn">Edit</button>' +
+          '<button type="button" class="btn btn-outline email-btn">Send email</button>' +
           '<button type="button" class="btn btn-danger delete-btn">Delete</button>' +
         '</div></div>';
     }).join('');
@@ -319,6 +320,7 @@
       var id = row.getAttribute('data-id');
       var post = POSTS.find(function (p) { return String(p.id) === id; });
       row.querySelector('.edit-btn').addEventListener('click', function () { fillFormForEdit(post); });
+      row.querySelector('.email-btn').addEventListener('click', function () { offerToNotify(post); });
       row.querySelector('.delete-btn').addEventListener('click', function () { deletePost(post); });
     });
   }
