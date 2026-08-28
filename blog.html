@@ -60,12 +60,7 @@
 
   .app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
 
-  /* Section tabs: Blog / Socials */
-  .section-tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-  .section-tab { flex: 1; text-align: center; border: 1px solid rgba(142,108,156,0.3); background: #fff; color: var(--thistle); font-size: 0.9rem; font-weight: 700; padding: 10px 16px; border-radius: 10px; cursor: pointer; }
-  .section-tab.active { background: var(--thistle); color: #fff; border-color: var(--thistle); }
-
-  .blog-toprow { display: flex; align-items: center; justify-content: flex-end; margin: -8px 0 14px; }
+  .blog-toprow { display: flex; align-items: center; justify-content: flex-end; margin: 0 0 14px; }
   .write-post-link { font-size: 0.8rem; font-weight: 600; color: var(--thistle); text-decoration: none; opacity: 0.75; display: inline-flex; align-items: center; gap: 4px; }
   .write-post-link:hover { text-decoration: underline; opacity: 1; }
 
@@ -82,7 +77,17 @@
   .post-tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.01em; background: rgba(91,42,134,0.08); color: var(--thistle); }
   .post-card h2 { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
   .post-excerpt { line-height: 1.6; color: rgba(43,35,32,0.8); margin: 0 0 14px; }
+  .post-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .read-more { font-size: 0.85rem; font-weight: 600; color: var(--thistle); }
+
+  .like-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(142,108,156,0.3); background: #fff; border-radius: 999px; padding: 6px 14px; font-size: 0.82rem; font-weight: 700; color: var(--heather); cursor: pointer; line-height: 1; transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease, border-color 0.15s ease; }
+  .like-btn:hover { border-color: rgba(179,38,30,0.35); }
+  .like-btn .like-icon { font-size: 1rem; }
+  .like-btn.liked { background: rgba(179,38,30,0.06); border-color: rgba(179,38,30,0.35); color: #b3261e; }
+  .like-btn.liked .like-icon { color: #b3261e; }
+  .like-btn.just-liked { animation: like-pop 0.35s ease; }
+  @keyframes like-pop { 0% { transform: scale(1); } 40% { transform: scale(1.3); } 100% { transform: scale(1); } }
+  .post-detail .like-btn { margin: 4px 0 18px; }
 
   .post-detail h2 { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; font-size: 1.5rem; }
   .post-detail .post-body p { line-height: 1.75; color: rgba(43,35,32,0.88); margin: 0 0 16px; }
@@ -92,24 +97,6 @@
   .back-link:hover { text-decoration: underline; }
 
   .empty-state { text-align: center; color: rgba(43,35,32,0.5); padding: 40px 0; }
-
-  /* Socials tab */
-  .follow-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 480px) { .follow-grid { grid-template-columns: 1fr; } }
-  .follow-btn { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 12px; text-decoration: none; color: #fff; font-weight: 700; font-size: 0.95rem; }
-  .follow-btn .fb-icon { font-size: 1.4rem; line-height: 1; }
-  .follow-btn.ig { background: linear-gradient(45deg, #f9ce34, #ee2a7b, #6228d7); }
-  .follow-btn.yt { background: #ff0000; }
-  .follow-btn.fb { background: #1877f2; }
-  .follow-btn.tt { background: #000000; }
-  .follow-btn:hover { opacity: 0.92; }
-
-  .ig-scroll { display: flex; gap: 14px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; scroll-snap-type: x mandatory; }
-  .ig-scroll-item { flex: 0 0 auto; width: 320px; scroll-snap-align: start; }
-  .ig-scroll-item blockquote.instagram-media { margin: 0 !important; min-width: 0 !important; width: 320px !important; }
-  .ig-loading { text-align: center; color: rgba(43,35,32,0.5); font-size: 0.85rem; padding: 20px 0; }
-  .ig-fallback-card { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; width: 320px; height: 320px; border-radius: 12px; text-decoration: none; background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7); color: #fff; font-weight: 700; font-size: 0.95rem; text-align: center; padding: 20px; }
-  .ig-fallback-icon { font-size: 2rem; }
 </style>
 </head>
 <body>
@@ -174,11 +161,6 @@ window.addEventListener('scroll', function (e) {
 </script>
 
 <main>
-  <div class="section-tabs" id="section-tabs">
-    <button type="button" class="section-tab active" data-section="blog" id="tab-blog">Blog</button>
-    <button type="button" class="section-tab" data-section="socials" id="tab-socials">Socials</button>
-  </div>
-
   <div id="blog-section">
     <div class="blog-toprow">
       <a href="blog-admin.html" class="write-post-link" id="write-post-link">&#9998; Write a post</a>
@@ -187,24 +169,6 @@ window.addEventListener('scroll', function (e) {
       <div id="blog-list"></div>
     </div>
     <div id="blog-detail" style="display:none;"></div>
-  </div>
-
-  <div id="socials-section" style="display:none;">
-    <div class="card">
-      <h2 id="follow-heading">Follow along</h2>
-      <div class="follow-grid">
-        <a class="follow-btn ig" href="https://www.instagram.com/gaidhlignamchridhe/" target="_blank" rel="noopener"><span class="fb-icon">&#128247;</span> Instagram</a>
-        <a class="follow-btn yt" href="https://www.youtube.com/@GaelicwithSteve" target="_blank" rel="noopener"><span class="fb-icon">&#9654;&#65039;</span> YouTube</a>
-        <a class="follow-btn fb" href="https://www.facebook.com/profile.php?id=61591756268678" target="_blank" rel="noopener"><span class="fb-icon">&#128101;</span> Facebook</a>
-        <a class="follow-btn tt" href="https://www.tiktok.com/@gaelic_with_steve" target="_blank" rel="noopener"><span class="fb-icon">&#127925;</span> TikTok</a>
-      </div>
-    </div>
-    <div class="card">
-      <h2 id="ig-heading">Latest on Instagram</h2>
-      <div class="ig-scroll" id="ig-scroll">
-        <div class="ig-loading" id="ig-loading">Loading…</div>
-      </div>
-    </div>
   </div>
 </main>
 
@@ -221,19 +185,6 @@ window.addEventListener('scroll', function (e) {
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
 
-  // A handful of recent public post/reel permalinks, used for the scrollable
-  // "Latest on Instagram" strip via Instagram's official oEmbed widget.
-  // These don't update automatically — refresh this list occasionally with
-  // your newest posts from instagram.com/gaidhlignamchridhe/.
-  var IG_POSTS = [
-    'https://www.instagram.com/gaidhlignamchridhe/reel/Dcg9LdmlWGw/',
-    'https://www.instagram.com/gaidhlignamchridhe/reel/DcUZ9YElJQs/',
-    'https://www.instagram.com/gaidhlignamchridhe/reel/DcQ7i0fj0Jt/',
-    'https://www.instagram.com/gaidhlignamchridhe/p/DcLCtEzMAcR/',
-    'https://www.instagram.com/gaidhlignamchridhe/reel/DcKDVMnil9_/',
-    'https://www.instagram.com/gaidhlignamchridhe/p/DcI8kj_AhTS/'
-  ];
-
   var I18N = {
     docTitle: { en: 'Blog — Sean-fhaclan & Auld Sayins', gd: 'Bloga — Sean-fhaclan & Auld Sayins' },
     pageTitle: { en: 'Blog', gd: 'Bloga' },
@@ -247,12 +198,7 @@ window.addEventListener('scroll', function (e) {
     navResources: { en: 'Resources', gd: 'Goireasan' },
     navBlog: { en: 'Blog', gd: 'Bloga' },
     navAbout: { en: 'About', gd: 'Mun Dèidhinn' },
-    tabBlog: { en: 'Blog', gd: 'Bloga' },
-    tabSocials: { en: 'Socials', gd: 'Meadhanan Sòisealta' },
     writePost: { en: '✎ Write a post', gd: '✎ Sgrìobh post' },
-    followHeading: { en: 'Follow along', gd: 'Lean sinn' },
-    igHeading: { en: 'Latest on Instagram', gd: 'Air Instagram an-dràsta' },
-    igViewOn: { en: 'View on Instagram ↗', gd: 'Seall air Instagram ↗' },
     readMore: { en: 'Read more →', gd: 'Leugh tuilleadh →' },
     backToBlog: { en: '← Back to all posts', gd: '← Air ais gu na puist uile' },
     emptyState: { en: 'No posts yet — check back soon.', gd: "Chan eil post sam bith fhathast — thig air ais a dh'aithghearr." },
@@ -275,14 +221,7 @@ window.addEventListener('scroll', function (e) {
     navAbout: document.getElementById('nav-about'),
     uiLangEn: document.getElementById('ui-lang-en'),
     uiLangGd: document.getElementById('ui-lang-gd'),
-    tabBlog: document.getElementById('tab-blog'),
-    tabSocials: document.getElementById('tab-socials'),
     writePostLink: document.getElementById('write-post-link'),
-    blogSection: document.getElementById('blog-section'),
-    socialsSection: document.getElementById('socials-section'),
-    followHeading: document.getElementById('follow-heading'),
-    igHeading: document.getElementById('ig-heading'),
-    igScroll: document.getElementById('ig-scroll'),
     blogListView: document.getElementById('blog-list-view'),
     blogList: document.getElementById('blog-list'),
     blogDetail: document.getElementById('blog-detail')
@@ -290,8 +229,7 @@ window.addEventListener('scroll', function (e) {
 
   var POSTS = [];
   var postsLoaded = false;
-  var igLoaded = false;
-  var state = { lang: 'en', section: 'blog' };
+  var state = { lang: 'en' };
 
   function loadJSON(key, fallback) {
     try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
@@ -299,6 +237,13 @@ window.addEventListener('scroll', function (e) {
   function saveJSON(key, value) {
     try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
   }
+
+  // Likes are a simple one-way "heart" — once a slug is in this list on this
+  // browser, the heart shows filled and clicking again does nothing. There's
+  // no login involved, so it's tracked per-browser via localStorage rather
+  // than per-account; good enough to stop casual repeat-clicking.
+  var likedSlugs = loadJSON('sf-liked-posts', []);
+  function isLiked(slug) { return likedSlugs.indexOf(slug) !== -1; }
 
   function escapeHtml(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -319,6 +264,14 @@ window.addEventListener('scroll', function (e) {
     }).join('');
   }
 
+  function likeBtnHtml(slug, likes) {
+    var liked = isLiked(slug);
+    return '<button type="button" class="like-btn' + (liked ? ' liked' : '') + '" data-slug="' + escapeHtml(slug) + '" aria-pressed="' + (liked ? 'true' : 'false') + '">' +
+      '<span class="like-icon">' + (liked ? '♥' : '♡') + '</span>' +
+      '<span class="like-count">' + (likes || 0) + '</span>' +
+    '</button>';
+  }
+
   function sortedPosts() {
     return POSTS.slice().sort(function (a, b) { return a.date < b.date ? 1 : (a.date > b.date ? -1 : 0); });
   }
@@ -328,6 +281,40 @@ window.addEventListener('scroll', function (e) {
   function fallbackQuote(excerpt) {
     var words = String(excerpt || '').split(/\s+/).slice(0, 16).join(' ');
     return '“' + words + (words.length < String(excerpt || '').length ? '…' : '') + '”';
+  }
+
+  function bindLikeButtons(root) {
+    Array.prototype.forEach.call(root.querySelectorAll('.like-btn'), function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        handleLike(btn.getAttribute('data-slug'), btn);
+      });
+    });
+  }
+
+  function handleLike(slug, btn) {
+    if (isLiked(slug)) return;
+    likedSlugs.push(slug);
+    saveJSON('sf-liked-posts', likedSlugs);
+
+    var post = POSTS.filter(function (p) { return p.slug === slug; })[0];
+    if (post) post.likes = (post.likes || 0) + 1;
+
+    // Optimistic UI update across every like button for this post (list +
+    // detail can both be rendered at once in the DOM, just hidden/shown).
+    Array.prototype.forEach.call(document.querySelectorAll('.like-btn[data-slug="' + slug.replace(/"/g, '') + '"]'), function (b) {
+      b.classList.add('liked', 'just-liked');
+      b.setAttribute('aria-pressed', 'true');
+      b.querySelector('.like-icon').textContent = '♥';
+      b.querySelector('.like-count').textContent = String(post ? post.likes : (parseInt(b.querySelector('.like-count').textContent, 10) || 0) + 1);
+    });
+
+    if (sfClient) {
+      sfClient.rpc('increment_post_likes', { post_slug: slug }).then(function (res) {
+        if (res.error) return; // keep the optimistic UI either way — not worth reverting a heart tap
+        if (typeof res.data === 'number' && post) post.likes = res.data;
+      });
+    }
   }
 
   function renderList() {
@@ -351,7 +338,10 @@ window.addEventListener('scroll', function (e) {
         '<span class="post-tags">' + tagPillsHtml(p.tags) + '</span></div>' +
         '<h2>' + escapeHtml(p.title[state.lang]) + '</h2>' +
         '<p class="post-excerpt">' + escapeHtml(p.excerpt[state.lang]) + '</p>' +
+        '<div class="post-card-footer">' +
         '<span class="read-more">' + I18N.readMore[state.lang] + '</span>' +
+        likeBtnHtml(p.slug, p.likes) +
+        '</div>' +
         '</div></div>';
     }).join('');
     Array.prototype.forEach.call(el.blogList.querySelectorAll('.post-card'), function (card) {
@@ -359,6 +349,7 @@ window.addEventListener('scroll', function (e) {
         location.hash = 'post=' + card.getAttribute('data-slug');
       });
     });
+    bindLikeButtons(el.blogList);
   }
 
   function renderDetail(slug) {
@@ -379,12 +370,14 @@ window.addEventListener('scroll', function (e) {
         '<div class="post-meta"><span class="post-date">' + fmtDate(post.date, state.lang) + '</span>' +
         '<span class="post-tags">' + tagPillsHtml(post.tags) + '</span></div>' +
         '<h2>' + escapeHtml(post.title[state.lang]) + '</h2>' +
+        likeBtnHtml(post.slug, post.likes) +
         '<div class="post-body">' + bodyHtml + '</div>' +
       '</div>';
     document.getElementById('back-link').addEventListener('click', function (e) {
       e.preventDefault();
       location.hash = '';
     });
+    bindLikeButtons(el.blogDetail);
   }
 
   function route() {
@@ -418,6 +411,7 @@ window.addEventListener('scroll', function (e) {
           date: row.published_at,
           tags: row.tags || [],
           image: row.image_url || null,
+          likes: row.likes || 0,
           title: { en: row.title_en, gd: row.title_gd || row.title_en },
           excerpt: { en: row.excerpt_en, gd: row.excerpt_gd || row.excerpt_en },
           body: { en: row.body_en, gd: row.body_gd || row.body_en }
@@ -427,63 +421,6 @@ window.addEventListener('scroll', function (e) {
       route();
     });
   }
-
-  // Instagram's official client-side embed — no API key or account signup
-  // needed, just the public post URLs and their embed.js script. Instagram's
-  // embed can silently fail to resize (iframe stays 0px tall) under some
-  // browsers' third-party-cookie/tracking-prevention settings, so after a
-  // few seconds we check each item and swap any that never rendered for a
-  // plain "View on Instagram" card, so the strip never looks empty/broken.
-  function loadInstagramEmbeds() {
-    if (igLoaded) return;
-    igLoaded = true;
-    el.igScroll.innerHTML = IG_POSTS.map(function (url) {
-      return '<div class="ig-scroll-item" data-ig-url="' + escapeHtml(url) + '"><blockquote class="instagram-media" data-instgrm-permalink="' + url + '" data-instgrm-version="14"></blockquote></div>';
-    }).join('');
-
-    function process() {
-      if (window.instgrm) window.instgrm.Embeds.process();
-    }
-
-    var existing = document.getElementById('ig-embed-script');
-    if (existing && window.instgrm) {
-      process();
-    } else if (!existing) {
-      var s = document.createElement('script');
-      s.id = 'ig-embed-script';
-      s.async = true;
-      s.src = 'https://www.instagram.com/embed.js';
-      s.onload = process;
-      document.body.appendChild(s);
-    } else {
-      setTimeout(process, 800);
-    }
-
-    setTimeout(function () {
-      Array.prototype.forEach.call(el.igScroll.querySelectorAll('.ig-scroll-item'), function (item) {
-        var iframe = item.querySelector('iframe');
-        var rendered = iframe && iframe.offsetHeight > 60;
-        if (!rendered) {
-          var url = item.getAttribute('data-ig-url');
-          item.innerHTML = '<a class="ig-fallback-card" href="' + escapeHtml(url) + '" target="_blank" rel="noopener">' +
-            '<span class="ig-fallback-icon">&#128247;</span>' +
-            '<span>' + I18N.igViewOn[state.lang] + '</span>' +
-          '</a>';
-        }
-      });
-    }, 4000);
-  }
-
-  function setSection(section) {
-    state.section = section;
-    el.tabBlog.classList.toggle('active', section === 'blog');
-    el.tabSocials.classList.toggle('active', section === 'socials');
-    el.blogSection.style.display = section === 'blog' ? 'block' : 'none';
-    el.socialsSection.style.display = section === 'socials' ? 'block' : 'none';
-    if (section === 'socials') loadInstagramEmbeds();
-  }
-  el.tabBlog.addEventListener('click', function () { setSection('blog'); });
-  el.tabSocials.addEventListener('click', function () { setSection('socials'); });
 
   function applyChrome(lang) {
     state.lang = lang;
@@ -499,11 +436,7 @@ window.addEventListener('scroll', function (e) {
     el.navResources.textContent = I18N.navResources[lang];
     el.navBlog.textContent = I18N.navBlog[lang];
     el.navAbout.textContent = I18N.navAbout[lang];
-    el.tabBlog.textContent = I18N.tabBlog[lang];
-    el.tabSocials.textContent = I18N.tabSocials[lang];
     el.writePostLink.textContent = I18N.writePost[lang];
-    el.followHeading.textContent = I18N.followHeading[lang];
-    el.igHeading.textContent = I18N.igHeading[lang];
     route();
   }
 
