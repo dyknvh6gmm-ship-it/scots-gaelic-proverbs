@@ -575,8 +575,8 @@ navGroupLearn: document.getElementById('nav-group-learn')
     return (
       '<div class="gcard">' +
         '<p class="gaelic proverb-text">' + esc(entry.gaelic) + '</p>' +
-        '<div class="breakdown"><span class="lbl">' + esc(I18N.breakdownLabel[lang]) + '</span>' + esc(entry.breakdown) + '</div>' +
-        '<p class="english"><span class="lbl">' + esc(I18N.englishLabel[lang]) + '</span>' + esc(entry.english) + '</p>' +
+        '<div class="breakdown"><span class="lbl">' + esc(t('breakdownLabel')) + '</span>' + esc(entry.breakdown) + '</div>' +
+        '<p class="english"><span class="lbl">' + esc(t('englishLabel')) + '</span>' + esc(entry.english) + '</p>' +
         scotsHtml +
         '<p class="source">' + esc(entry.source) + '</p>' +
       '</div>'
@@ -651,12 +651,12 @@ navGroupLearn: document.getElementById('nav-group-learn')
     el.navResources.textContent = I18N.navResources[state.uiLang];
     el.navAbout.textContent = I18N.navAbout[state.uiLang];
   
-if (el.navBlog) el.navBlog.textContent = I18N.navBlog[lang];
-if (el.navSuggested) el.navSuggested.textContent = I18N.navSuggested[lang];
-if (el.navDrochChainnt) el.navDrochChainnt.textContent = I18N.navDrochChainnt[lang];
-if (el.navMenuLabel) el.navMenuLabel.textContent = I18N.navMenu[lang];
-if (el.navGroupCollections) el.navGroupCollections.textContent = I18N.navGroupCollections[lang];
-if (el.navGroupLearn) el.navGroupLearn.textContent = I18N.navGroupLearn[lang];
+if (el.navBlog) el.navBlog.textContent = t('navBlog');
+if (el.navSuggested) el.navSuggested.textContent = t('navSuggested');
+if (el.navDrochChainnt) el.navDrochChainnt.textContent = t('navDrochChainnt');
+if (el.navMenuLabel) el.navMenuLabel.textContent = t('navMenu');
+if (el.navGroupCollections) el.navGroupCollections.textContent = t('navGroupCollections');
+if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
 }
 
   function setUiLang(lang) {
