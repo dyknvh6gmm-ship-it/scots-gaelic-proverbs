@@ -164,6 +164,7 @@
     <a href="grammar.html" id="nav-grammar"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>Grammar</a>
     <a href="resources.html" id="nav-resources"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>Resources</a>
     <a href="droch-chainnt.html" id="nav-droch-chainnt" class="active"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg></span>Droch-chainnt</a>
+    <a href="regional-words.html" id="nav-regional-words"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>Regional Words</a>
   </div>
 </div>
 <div class="ui-lang-toggle" id="ui-lang-toggle">
@@ -401,7 +402,7 @@ function loadJSON(key, fallback) {
 function saveJSON(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
 }
-var NAV_I18N = {"navHome":{"en":"Home","gd":"Dachaigh"},"navMyAccount":{"en":"My Account","gd":"An Cunntas Agam"},"navGrammar":{"en":"Grammar","gd":"Gràmar"},"navGaelicCollection":{"en":"Gaelic Collection","gd":"Cruinneachadh Gàidhlig"},"navScotsCollection":{"en":"Scots Collection","gd":"Cruinneachadh Beurla Ghallda"},"navSuggested":{"en":"Suggested Abairtean","gd":"Abairtean Air am Moladh"},"navGames":{"en":"Games","gd":"Geamannan"},"navResources":{"en":"Resources","gd":"Goireasan"},"navAbout":{"en":"About","gd":"Mun Dèidhinn"},"navBlog":{"en":"Blog","gd":"Blog"},"navMenu":{"en":"Menu","gd":"Clàr-taice"},"navGroupCollections":{"en":"Collections","gd":"Cruinneachaidhean"},"navGroupLearn":{"en":"Learn","gd":"Ionnsaich"},"navDrochChainnt":{"en":"Droch-chainnt","gd":"Droch-chainnt"}};
+var NAV_I18N = {"navHome":{"en":"Home","gd":"Dachaigh"},"navMyAccount":{"en":"My Account","gd":"An Cunntas Agam"},"navGrammar":{"en":"Grammar","gd":"Gràmar"},"navGaelicCollection":{"en":"Gaelic Collection","gd":"Cruinneachadh Gàidhlig"},"navScotsCollection":{"en":"Scots Collection","gd":"Cruinneachadh Beurla Ghallda"},"navSuggested":{"en":"Suggested Abairtean","gd":"Abairtean Air am Moladh"},"navGames":{"en":"Games","gd":"Geamannan"},"navResources":{"en":"Resources","gd":"Goireasan"},"navAbout":{"en":"About","gd":"Mun Dèidhinn"},"navBlog":{"en":"Blog","gd":"Blog"},"navMenu":{"en":"Menu","gd":"Clàr-taice"},"navGroupCollections":{"en":"Collections","gd":"Cruinneachaidhean"},"navGroupLearn":{"en":"Learn","gd":"Ionnsaich"},"navDrochChainnt":{"en":"Droch-chainnt","gd":"Droch-chainnt"},"navRegionalWords":{"en":"Regional Words","gd":"Faclan Sgìreil"}};
 var CONTENT_I18N = {
   pageSubtitle: { en: `Swearing, insults and near-the-knuckle Gaelic — registers, curses, and a bit of the language nobody teaches you in class.`, gd: `Droch-chainnt, tàmailtean, agus Gàidhlig a tha faisg air an rubha — clàran, mallachdan, agus beagan den chànan nach teagaisg duine dhut anns a' chlas.` },
   warnHeading: { en: `\u26A0\uFE0F Mature language content`, gd: `\u26A0\uFE0F Susbaint ch\u00e0nain do dh'inbhich` },
@@ -435,7 +436,7 @@ var en = document.getElementById('ui-lang-en');
 var gd = document.getElementById('ui-lang-gd');
 function applyLang(lang) {
   Object.keys(NAV_I18N).forEach(function (key) {
-    var idMap = { navHome:'nav-home', navMyAccount:'nav-my-account', navGrammar:'nav-grammar', navGaelicCollection:'nav-gaelic-collection', navScotsCollection:'nav-scots-collection', navSuggested:'nav-suggested', navGames:'nav-games', navResources:'nav-resources', navAbout:'nav-about', navBlog:'nav-blog', navMenu:'nav-menu-label', navGroupCollections:'nav-group-collections', navGroupLearn:'nav-group-learn', navDrochChainnt:'nav-droch-chainnt' };
+    var idMap = { navHome:'nav-home', navMyAccount:'nav-my-account', navGrammar:'nav-grammar', navGaelicCollection:'nav-gaelic-collection', navScotsCollection:'nav-scots-collection', navSuggested:'nav-suggested', navGames:'nav-games', navResources:'nav-resources', navAbout:'nav-about', navBlog:'nav-blog', navMenu:'nav-menu-label', navGroupCollections:'nav-group-collections', navGroupLearn:'nav-group-learn', navDrochChainnt:'nav-droch-chainnt', navRegionalWords:'nav-regional-words' };
     var elId = idMap[key];
     var target = elId ? document.getElementById(elId) : null;
     if (target) target.textContent = NAV_I18N[key][lang] || NAV_I18N[key].en;
