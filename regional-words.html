@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faclan Sgìreil | How Many Ways Can You Say It? — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Caveat:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  :root{
+    --sand:#fbf3e5;
+    --panel:#f5e6cd;
+    --panel-2:#efe0c3;
+    --ink:#20302c;
+    --muted:#6f7a70;
+    --line:#e6d3ac;
+    --coral:#dd5b3e;
+    --coral-soft:#fbe1d6;
+    --turquoise:#1a8f8a;
+    --turquoise-soft:#d9f0ee;
+    --gold:#c98a1f;
+    --gold-soft:#f6e6c2;
+    --seafoam:#3f8f5f;
+    --rg-lewis-bg:#fbe1d6;   --rg-lewis-ink:#b4441f;
+    --rg-hub-bg:#d9f0ee;     --rg-hub-ink:#146b67;
+    --rg-skye-bg:#e1f0e2;    --rg-skye-ink:#2f7248;
+    --rg-argyll-bg:#f6e6c2;  --rg-argyll-ink:#93650f;
+    --rg-mainland-bg:#f1ded0; --rg-mainland-ink:#a1552b;
+    --shadow: 0 2px 10px rgba(60,35,10,0.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --sand:#151f1c; --panel:#1e2b26; --panel-2:#23322c;
+      --ink:#f2ead9; --muted:#a3ac9f; --line:#2d3f38;
+      --coral:#ff8f6b; --coral-soft:#3a271f;
+      --turquoise:#5fd2cb; --turquoise-soft:#173330;
+      --gold:#e8bb5c; --gold-soft:#332a15;
+      --seafoam:#7bc696;
+      --rg-lewis-bg:#3a271f;   --rg-lewis-ink:#ffab8a;
+      --rg-hub-bg:#173330;     --rg-hub-ink:#8fe3dc;
+      --rg-skye-bg:#1e2f21;    --rg-skye-ink:#9bd6a9;
+      --rg-argyll-bg:#332a15;  --rg-argyll-ink:#f0c46a;
+      --rg-mainland-bg:#33231a; --rg-mainland-ink:#f0a877;
+      --shadow: 0 2px 14px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --sand:#151f1c; --panel:#1e2b26; --panel-2:#23322c;
+    --ink:#f2ead9; --muted:#a3ac9f; --line:#2d3f38;
+    --coral:#ff8f6b; --coral-soft:#3a271f;
+    --turquoise:#5fd2cb; --turquoise-soft:#173330;
+    --gold:#e8bb5c; --gold-soft:#332a15;
+    --seafoam:#7bc696;
+    --rg-lewis-bg:#3a271f;   --rg-lewis-ink:#ffab8a;
+    --rg-hub-bg:#173330;     --rg-hub-ink:#8fe3dc;
+    --rg-skye-bg:#1e2f21;    --rg-skye-ink:#9bd6a9;
+    --rg-argyll-bg:#332a15;  --rg-argyll-ink:#f0c46a;
+    --rg-mainland-bg:#33231a; --rg-mainland-ink:#f0a877;
+    --shadow: 0 2px 14px rgba(0,0,0,0.4);
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; } }
+  body{ background:var(--sand); color:var(--ink); font-family:'Literata', Georgia, serif; line-height:1.62; -webkit-font-smoothing:antialiased; }
+  ::selection{ background:var(--coral); color:#fff; }
+  a{ color:var(--turquoise); }
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{ outline:2px solid var(--coral); outline-offset:2px; }
+
+  .wrap{ max-width:900px; margin:0 auto; padding:0 1.4rem 5rem; }
+  .wrap-wide{ max-width:1080px; margin:0 auto; padding:0 1.4rem; }
+
+  h1,h2,h3{ font-family:'Bricolage Grotesque', 'Work Sans', sans-serif; text-wrap:balance; margin:0; }
+
+  /* ---------------- hero ---------------- */
+  .hero{ padding:3.4rem 0 2.2rem; }
+  .eyebrow{ font-family:'Work Sans', sans-serif; font-size:0.76rem; font-weight:700; letter-spacing:0.13em; text-transform:uppercase; color:var(--coral); }
+  .hero h1{ font-size:clamp(2rem, 5.4vw, 3.15rem); font-weight:700; margin-top:0.6rem; line-height:1.08; }
+  .hero-word{
+    display:inline-block; font-style:italic; font-family:'Fraunces', serif; font-weight:600; color:var(--turquoise);
+    transition:opacity 0.25s ease; min-width:1ch;
+  }
+  .hero-word.swap{ opacity:0; }
+  .hero .lede{ margin-top:1rem; font-size:1.08rem; max-width:56ch; color:var(--ink); }
+  .hero .lede + .lede{ margin-top:0.6rem; color:var(--muted); }
+
+  .showcase{
+    margin-top:2rem; background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:1.6rem 1.7rem; box-shadow:var(--shadow); position:relative; overflow:hidden;
+  }
+  .showcase::before{
+    content:''; position:absolute; top:-40px; right:-40px; width:150px; height:150px; border-radius:50%;
+    background:radial-gradient(circle, var(--gold-soft) 0%, transparent 70%); pointer-events:none;
+  }
+  .showcase-topline{ display:flex; justify-content:space-between; align-items:baseline; gap:1rem; font-family:'Work Sans',sans-serif; }
+  .showcase-kicker{ font-size:0.72rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:var(--muted); }
+  .showcase-nav{ display:flex; gap:0.4rem; }
+  .showcase-nav button{
+    width:1.9rem; height:1.9rem; border-radius:50%; border:1px solid var(--line); background:var(--sand);
+    color:var(--ink); cursor:pointer; font-size:0.9rem; line-height:1; display:flex; align-items:center; justify-content:center;
+  }
+  .showcase-nav button:hover{ border-color:var(--coral); color:var(--coral); }
+  .showcase-body{ margin-top:0.9rem; min-height:6.6rem; transition:opacity 0.25s ease; }
+  .showcase-body.swap{ opacity:0; }
+  .showcase-forms{ display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; margin-bottom:0.7rem; }
+  .showcase-blurb{ font-size:1.02rem; max-width:60ch; }
+  .showcase-blurb b{ color:var(--coral); font-weight:600; }
+  .showcase-dots{ display:flex; gap:0.4rem; margin-top:1.1rem; }
+  .showcase-dots button{
+    width:0.5rem; height:0.5rem; border-radius:50%; border:none; background:var(--line); padding:0; cursor:pointer;
+  }
+  .showcase-dots button.active{ background:var(--coral); width:1.3rem; border-radius:99px; transition:width 0.2s; }
+
+  .try-row{ margin-top:1.6rem; display:flex; flex-wrap:wrap; align-items:center; gap:0.55rem; }
+  .try-row .try-label{ font-family:'Work Sans', sans-serif; font-size:0.82rem; color:var(--muted); margin-right:0.3rem; }
+  .try-chip{
+    font-family:'Work Sans', sans-serif; font-size:0.8rem; font-weight:600; padding:0.4rem 0.85rem;
+    border-radius:99px; border:1px solid var(--line); background:var(--sand); color:var(--ink); cursor:pointer;
+  }
+  .try-chip:hover{ border-color:var(--turquoise); color:var(--turquoise); }
+
+  /* ---------------- wave divider ---------------- */
+  .wave{ width:100%; height:34px; overflow:hidden; margin-top:2.6rem; }
+  .wave svg{ width:200%; height:100%; animation:drift 18s linear infinite; }
+  @keyframes drift{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  /* ---------------- section shells ---------------- */
+  section.block{ padding:2.6rem 0; }
+  section.block h2{ font-size:1.55rem; font-weight:700; }
+  .block-intro{ font-family:'Work Sans', sans-serif; font-size:0.92rem; color:var(--muted); margin-top:0.4rem; max-width:60ch; }
+
+  details.sources-note{ margin-top:1.2rem; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
+  details.sources-note summary{
+    cursor:pointer; list-style:none; padding:0.75rem 1rem; font-family:'Work Sans', sans-serif;
+    font-size:0.8rem; font-weight:600; color:var(--ink); display:flex; align-items:center; gap:0.5rem;
+  }
+  details.sources-note summary::-webkit-details-marker{ display:none; }
+  details.sources-note summary::before{ content:'+'; color:var(--coral); font-weight:700; width:1em; }
+  details.sources-note[open] summary::before{ content:'\2212'; }
+  details.sources-note .body{ padding:0 1.1rem 1rem; font-family:'Work Sans', sans-serif; font-size:0.83rem; color:var(--muted); border-top:1px solid var(--line); padding-top:0.8rem; }
+  details.sources-note .body a{ color:var(--turquoise); }
+
+  /* ---------------- map ---------------- */
+  .map-flex{ display:flex; gap:1.8rem; flex-wrap:wrap; align-items:flex-start; margin-top:1.3rem; }
+  .map-svg-wrap{ flex:0 0 auto; }
+  svg.gmap{ width:270px; height:auto; }
+  .gmap .landmass{ fill:var(--panel); stroke:var(--line); stroke-width:2; cursor:pointer; transition:fill 0.15s, stroke 0.15s, transform 0.15s; transform-origin:center; }
+  .gmap .landmass:hover{ stroke:var(--ink); }
+  .gmap g[data-node]:hover .landmass{ transform:scale(1.03); }
+  .gmap text{ font-family:'Work Sans', sans-serif; font-size:11px; fill:var(--ink); pointer-events:none; }
+  .gmap text.active-label{ fill:var(--sand); font-weight:700; }
+  .gmap .count{ font-family:'Work Sans', sans-serif; font-size:9px; fill:var(--muted); pointer-events:none; }
+  .gmap .count.active-count{ fill:var(--sand); opacity:0.92; }
+  .gmap g[data-node="lewis"] .landmass{ stroke:var(--rg-lewis-ink); }
+  .gmap g[data-node="hub"] .landmass{ stroke:var(--rg-hub-ink); }
+  .gmap g[data-node="skye"] .landmass{ stroke:var(--rg-skye-ink); }
+  .gmap g[data-node="argyll"] .landmass{ stroke:var(--rg-argyll-ink); }
+  .gmap g[data-node="mainland"] .landmass{ stroke:var(--rg-mainland-ink); }
+  .gmap g[data-node="lewis"] .landmass.active{ fill:var(--rg-lewis-ink); }
+  .gmap g[data-node="hub"] .landmass.active{ fill:var(--rg-hub-ink); }
+  .gmap g[data-node="skye"] .landmass.active{ fill:var(--rg-skye-ink); }
+  .gmap g[data-node="argyll"] .landmass.active{ fill:var(--rg-argyll-ink); }
+  .gmap g[data-node="mainland"] .landmass.active{ fill:var(--rg-mainland-ink); }
+  .map-caption{ font-family:'Work Sans', sans-serif; font-size:0.75rem; color:var(--muted); font-style:italic; margin-top:0.6rem; max-width:270px; }
+  .map-detail{ flex:1; min-width:230px; padding-top:0.2rem; }
+  .map-detail .placeholder{ font-family:'Work Sans', sans-serif; font-size:0.9rem; color:var(--muted); font-style:italic; }
+  .region-chip{ display:inline-flex; align-items:center; gap:0.4rem; font-family:'Work Sans', sans-serif; font-size:0.82rem; font-weight:700; padding:0.32rem 0.7rem 0.32rem 0.9rem; border-radius:99px; }
+  .region-chip button{ background:none; border:none; font-size:1.05rem; cursor:pointer; line-height:1; padding:0 0.1rem; color:inherit; }
+  .map-detail-list{ margin-top:0.9rem; font-family:'Literata', serif; font-size:0.92rem; display:flex; flex-direction:column; gap:0.4rem; }
+  .map-detail-list .md-row{ padding-bottom:0.35rem; border-bottom:1px dotted var(--line); }
+  .map-detail-list em{ color:var(--ink); font-style:italic; }
+  .map-detail-list .md-en{ color:var(--muted); font-family:'Work Sans', sans-serif; font-size:0.78rem; }
+  .map-more{ color:var(--muted); font-style:italic; font-family:'Work Sans', sans-serif; font-size:0.82rem; margin-top:0.3rem; }
+
+  /* ---------------- lucky dip ---------------- */
+  .lucky{
+    margin-top:1.4rem; background:linear-gradient(135deg, var(--turquoise-soft), var(--sand) 60%);
+    border:1px solid var(--line); border-radius:16px; padding:1.6rem 1.7rem; box-shadow:var(--shadow);
+  }
+  .lucky-head{ display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+  .lucky-btn{
+    font-family:'Work Sans', sans-serif; font-weight:700; font-size:0.88rem; color:#fff; background:var(--turquoise);
+    border:none; padding:0.65rem 1.2rem; border-radius:99px; cursor:pointer; display:inline-flex; align-items:center; gap:0.5rem;
+    box-shadow:0 2px 0 rgba(0,0,0,0.1);
+  }
+  .lucky-btn:hover{ filter:brightness(1.06); }
+  .lucky-btn svg{ width:1rem; height:1rem; }
+  .lucky-result{ margin-top:1.1rem; }
+  .lucky-placeholder{ font-family:'Work Sans', sans-serif; font-size:0.88rem; color:var(--muted); margin-top:1.1rem; font-style:italic; }
+  .lucky-topic{ font-family:'Work Sans', sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; color:var(--muted); }
+  .lucky-gloss{ font-family:'Bricolage Grotesque', sans-serif; font-size:1.3rem; font-weight:700; margin-top:0.2rem; }
+
+  /* ---------------- controls ---------------- */
+  .controls-bar{ position:sticky; top:0; z-index:6; background:var(--sand); padding:0.9rem 0 0.7rem; border-bottom:1px solid var(--line); }
+  .search-row{ display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center; }
+  #search{ font-family:'Literata', serif; font-size:0.95rem; padding:0.55rem 0.9rem; border:1px solid var(--line); border-radius:8px; background:var(--panel); color:var(--ink); flex:1; min-width:180px; }
+  #search::placeholder{ color:var(--muted); }
+  .count-readout{ font-family:'Work Sans', sans-serif; font-size:0.76rem; color:var(--muted); white-space:nowrap; font-variant-numeric:tabular-nums; }
+  .tab-row{ display:flex; flex-wrap:wrap; gap:0.35rem; margin-top:0.7rem; }
+  .tab{ font-family:'Work Sans', sans-serif; font-size:0.74rem; font-weight:600; padding:0.42rem 0.8rem; border:1px solid var(--line); border-bottom:2px solid transparent; border-radius:8px 8px 0 0; background:var(--panel); color:var(--muted); cursor:pointer; }
+  .tab:hover{ color:var(--ink); }
+  .tab.active{ background:var(--sand); color:var(--ink); border-color:var(--line); border-bottom-color:var(--coral); }
+  .tab.variant-tab{ color:var(--coral); }
+  .tab.unclear-tab{ color:var(--gold); }
+  .region-legend{ font-family:'Work Sans', sans-serif; font-size:0.72rem; color:var(--muted); margin-top:0.6rem; }
+
+  /* ---------------- entries ---------------- */
+  #results{ margin-top:0.4rem; }
+  .topic-section{ margin:2.4rem 0; scroll-margin-top:6.4rem; }
+  .topic-section h3{ font-size:1.32rem; font-weight:700; font-family:'Bricolage Grotesque',sans-serif; display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding-bottom:0.3rem; border-bottom:2px solid var(--line); }
+  .topic-section h3 .tally{ font-family:'Work Sans', sans-serif; font-weight:500; font-size:0.72rem; color:var(--muted); white-space:nowrap; }
+  .topic-blurb{ font-family:'Caveat', cursive; font-size:1.25rem; color:var(--muted); margin:0.35rem 0 0.9rem; line-height:1.3; }
+
+  .entry{ display:grid; grid-template-columns:minmax(140px,210px) 1fr; column-gap:1.1rem; row-gap:0.3rem; padding:0.6rem 0; border-bottom:1px dotted var(--line); align-items:start; }
+  .entry.is-variant{ background:var(--coral-soft); border-radius:10px; border-bottom:none; padding:0.7rem 0.85rem; margin:0.2rem -0.85rem; }
+  .gloss{ font-family:'Literata', serif; font-weight:600; font-size:0.98rem; color:var(--ink); padding-top:0.1rem; }
+  .variant-badge{ display:inline-block; font-family:'Work Sans', sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--coral); border:1px solid var(--coral); border-radius:99px; padding:0.05rem 0.5rem; margin-left:0.5rem; vertical-align:middle; }
+  .unclear-badge{ display:inline-block; font-family:'Work Sans', sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold); border:1px solid var(--gold); border-radius:99px; padding:0.05rem 0.5rem; margin-left:0.5rem; vertical-align:middle; }
+  .forms{ display:flex; flex-wrap:wrap; gap:0.4rem 0.45rem; align-items:center; }
+  .tag{ display:inline-flex; align-items:baseline; gap:0.4rem; font-family:'Fraunces', serif; font-style:italic; font-weight:500; font-size:1.03rem; color:var(--ink); background:var(--panel); border-radius:6px; padding:0.18rem 0.6rem 0.18rem 0.55rem; }
+  .tag .tag-region{ font-family:'Work Sans', sans-serif; font-style:normal; font-size:0.6rem; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; }
+  .tag[data-region="lewis"]{ background:var(--rg-lewis-bg); } .tag[data-region="lewis"] .tag-region{ color:var(--rg-lewis-ink); }
+  .tag[data-region="hub"]{ background:var(--rg-hub-bg); } .tag[data-region="hub"] .tag-region{ color:var(--rg-hub-ink); }
+  .tag[data-region="skye"]{ background:var(--rg-skye-bg); } .tag[data-region="skye"] .tag-region{ color:var(--rg-skye-ink); }
+  .tag[data-region="argyll"]{ background:var(--rg-argyll-bg); } .tag[data-region="argyll"] .tag-region{ color:var(--rg-argyll-ink); }
+  .tag[data-region="mainland"]{ background:var(--rg-mainland-bg); } .tag[data-region="mainland"] .tag-region{ color:var(--rg-mainland-ink); }
+  .entry-meta{ grid-column:1/-1; font-family:'Work Sans', sans-serif; font-size:0.78rem; color:var(--muted); line-height:1.5; }
+  .entry-meta .std{ color:var(--turquoise); font-weight:600; font-style:normal; }
+  .entry-meta .std.unrecorded{ color:var(--muted); font-weight:400; font-style:italic; }
+  .entry-fact{ grid-column:1/-1; font-family:'Caveat', cursive; font-size:1.18rem; color:var(--gold); line-height:1.25; margin-top:0.1rem; }
+  .entry-fact::before{ content:'\2726 \00a0'; }
+  .no-results{ padding:2.5rem 0; text-align:center; font-family:'Work Sans', sans-serif; color:var(--muted); font-style:italic; }
+
+  @media (max-width:560px){
+    .entry{ grid-template-columns:1fr; }
+    .entry.is-variant{ margin:0.2rem 0; }
+  }
+
+  /* ---------------- fingers ---------------- */
+  .hand-wrap{ display:flex; gap:2rem; align-items:center; flex-wrap:wrap; margin-top:1.2rem; }
+  svg.hand{ width:185px; height:auto; flex-shrink:0; }
+  .hand-labels{ flex:1; min-width:220px; font-family:'Work Sans', sans-serif; font-size:0.86rem; display:flex; flex-direction:column; gap:0.5rem; }
+  .hand-labels .hl{ display:flex; justify-content:space-between; gap:1rem; border-bottom:1px dotted var(--line); padding-bottom:0.4rem; cursor:default; }
+  .hand-labels .hl b{ font-family:'Fraunces', serif; font-style:italic; font-weight:500; color:var(--ink); font-size:1.05rem; }
+  .hand-labels .hl span{ color:var(--muted); text-align:right; }
+  .hand-labels .hl:hover b{ color:var(--coral); }
+  .fingers-note{ font-family:'Work Sans', sans-serif; font-size:0.85rem; color:var(--muted); margin-top:1rem; max-width:62ch; }
+
+  footer{ margin-top:1rem; padding-top:1.6rem; border-top:1px solid var(--line); font-family:'Work Sans', sans-serif; font-size:0.82rem; color:var(--muted); }
+  footer h3{ font-size:0.76rem; font-weight:700; letter-spacing:0.09em; text-transform:uppercase; color:var(--coral); margin-bottom:0.7rem; font-style:normal; font-family:'Work Sans',sans-serif; }
+  footer ul{ margin:0 0 1.3rem; padding-left:1.1rem; }
+  footer li{ margin-bottom:0.4rem; }
+  footer a{ color:var(--turquoise); }
+  footer .fine{ margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--line); font-style:italic; }
+
+  @media (max-width:640px){
+    .map-flex{ flex-direction:column; }
+    svg.gmap{ width:100%; max-width:300px; }
+    .controls-bar{ position:static; }
+    .lucky-head{ flex-direction:column; align-items:flex-start; }
+  }
+
+  /* ---------------- site chrome (shared header/nav) ---------------- */
+  :root{ --saltire:#0065bd; --thistle:#5b2a86; --heather:#8e6c9c; }
+  header.app-header{ background:linear-gradient(to right, var(--saltire), var(--thistle)); color:#fff; padding:32px 20px; margin:-1px -1px 0; }
+  header.app-header .inner{ max-width:900px; margin:0 auto; position:relative; }
+  header.app-header h1{ margin:0; font-size:1.9rem; display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-family:'Bricolage Grotesque', 'Work Sans', sans-serif; }
+  header.app-header p{ margin:8px 0 0; opacity:0.9; max-width:640px; font-family:'Work Sans', sans-serif; font-size:0.95rem; }
+
+  .ui-lang-toggle{ display:inline-flex; flex:0 0 auto; background:rgba(255,255,255,0.15); border-radius:999px; padding:3px; }
+  .ui-lang-toggle button{ border:none; background:transparent; color:rgba(255,255,255,0.85); padding:5px 10px; border-radius:999px; font-size:0.75rem; font-weight:700; cursor:pointer; font-family:'Work Sans', sans-serif; }
+  .ui-lang-toggle button.active{ background:#fff; color:var(--thistle); }
+
+  .header-top-row{ display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:14px; flex-wrap:wrap; }
+  .site-nav{ display:flex; align-items:center; gap:20px; flex:1 1 auto; min-width:0; }
+  .site-nav a{ color:rgba(255,255,255,0.85); text-decoration:none; font-size:0.9rem; font-weight:600; white-space:nowrap; padding:4px 0; border-bottom:2px solid transparent; font-family:'Work Sans', sans-serif; }
+  .site-nav a:hover, .site-nav a:focus-visible{ color:#fff; }
+  .site-nav a.active{ color:#fff; border-bottom-color:#fff; }
+
+  .nav-menu{ position:relative; flex:0 0 auto; }
+  .nav-menu-btn{ display:inline-flex; align-items:center; gap:6px; font-family:'Work Sans', sans-serif; background:rgba(255,255,255,0.15); color:#fff; border:none; border-radius:999px; padding:7px 14px; font-size:0.85rem; font-weight:600; cursor:pointer; white-space:nowrap; }
+  .nav-menu-btn:hover{ background:rgba(255,255,255,0.25); }
+  .nav-menu-btn .icon{ width:15px; height:15px; display:inline-flex; }
+  .nav-menu-btn .icon svg{ width:100%; height:100%; }
+  .nav-menu-btn .chevron{ width:11px; height:11px; transition:transform 0.15s ease; }
+  .nav-menu.open .nav-menu-btn .chevron{ transform:rotate(180deg); }
+  .nav-menu.open .nav-menu-btn{ background:#fff; color:var(--thistle); }
+
+  .nav-menu-backdrop{ display:none; position:fixed; inset:0; z-index:70; background:transparent; }
+  .nav-menu.open .nav-menu-backdrop{ display:block; }
+
+  .nav-menu-panel{ display:none; position:absolute; right:0; top:calc(100% + 8px); background:#fff; color:var(--ink); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.18); border:1px solid rgba(142,108,156,0.15); min-width:240px; padding:8px; z-index:80; }
+  .nav-menu.open .nav-menu-panel{ display:block; }
+  .nav-menu-panel a{ display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px; color:var(--ink); text-decoration:none; font-size:0.9rem; font-weight:500; font-family:'Work Sans', sans-serif; }
+  .nav-menu-panel a:hover{ background:rgba(91,42,134,0.08); }
+  .nav-menu-panel a.active{ color:var(--thistle); font-weight:700; background:rgba(91,42,134,0.08); }
+  .nav-menu-panel a .icon{ width:17px; height:17px; flex:0 0 auto; color:var(--heather); }
+  .nav-menu-panel a .icon svg{ width:100%; height:100%; }
+  .nav-menu-panel .group-label{ font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color:rgba(43,35,32,0.45); padding:12px 12px 4px; font-family:'Work Sans', sans-serif; }
+  .nav-menu-panel .group-label:first-child{ padding-top:6px; }
+  .nav-menu-panel hr{ border:none; border-top:1px solid rgba(142,108,156,0.15); margin:6px 4px; }
+
+  @media (max-width:640px){ .site-nav{ gap:14px; } .nav-menu-panel{ min-width:220px; } }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="header-top-row"><nav class="site-nav">
+  <a href="index.html" id="nav-home">Home</a>
+  <a href="games.html" id="nav-games">Games</a>
+  <a href="blog.html" id="nav-blog">Blog</a>
+</nav>
+<div class="nav-menu" id="nav-menu">
+  <button type="button" class="nav-menu-btn" id="nav-menu-btn" aria-expanded="false" aria-haspopup="true">
+    <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></span>
+    <span id="nav-menu-label">Menu</span>
+    <span class="icon chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+  </button>
+  <div class="nav-menu-backdrop" id="nav-menu-backdrop"></div>
+  <div class="nav-menu-panel" id="nav-menu-panel">
+    <a href="my-account.html" id="nav-my-account"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>My Account</a>
+    <a href="about.html" id="nav-about"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>About</a>
+    <hr>
+    <div class="group-label" id="nav-group-collections">Collections</div>
+    <a href="gaelic-collection.html" id="nav-gaelic-collection"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>Gaelic Collection</a>
+    <a href="scots-collection.html" id="nav-scots-collection"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>Scots Collection</a>
+    <a href="suggested-abairtean.html" id="nav-suggested"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg></span>Suggested Abairtean</a>
+    <hr>
+    <div class="group-label" id="nav-group-learn">Learn</div>
+    <a href="grammar.html" id="nav-grammar"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>Grammar</a>
+    <a href="resources.html" id="nav-resources"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>Resources</a>
+    <a href="droch-chainnt.html" id="nav-droch-chainnt"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg></span>Droch-chainnt</a>
+    <a href="regional-words.html" id="nav-regional-words" class="active"><span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>Regional Words</a>
+  </div>
+</div>
+<div class="ui-lang-toggle" id="ui-lang-toggle">
+      <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+      <button id="ui-lang-gd" data-lang="gd">GD</button>
+    </div>
+    </div>
+    <h1 class="proverb-text">Faclan Sgìreil</h1>
+    <p id="page-subtitle">Real dialect words gathered island by island — Lewis to Islay.</p>
+  </div>
+</header>
+<script>
+(function () {
+  var menu = document.getElementById('nav-menu');
+  var btn = document.getElementById('nav-menu-btn');
+  var backdrop = document.getElementById('nav-menu-backdrop');
+  if (!menu || !btn) return;
+  function closeMenu() { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  function toggleMenu() {
+    var isOpen = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  }
+  btn.addEventListener('click', function (e) { e.stopPropagation(); toggleMenu(); });
+  if (backdrop) backdrop.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+})();
+</script>
+
+<div class="wrap">
+
+  <header class="hero">
+    <span class="eyebrow">A living language, out loud</span>
+    <h1>How many ways can you say <span class="hero-word" id="heroWord">it</span>?</h1>
+    <p class="lede">Gaelic isn't one fixed thing &mdash; it's whatever the people on your bit of coastline decided to call it. This page collects real words gathered island by island, so you can see the variety for yourself: a beginner's first taste of just how much personality one small language can hold.</p>
+    <p class="lede">Everything below comes from real word-lists (one hand-compiled on Lewis, one from an Islay glossary) and has been checked against <a href="https://www.faclair.com" target="_blank" rel="noopener">Am Faclair Beag</a>, the standard online dictionary &mdash; so what you're seeing is real dialect, not a guess.</p>
+
+    <div class="showcase" id="showcase" aria-live="polite">
+      <div class="showcase-topline">
+        <span class="showcase-kicker">Word of the moment</span>
+        <div class="showcase-nav">
+          <button id="showcasePrev" aria-label="Previous example">&larr;</button>
+          <button id="showcaseNext" aria-label="Next example">&rarr;</button>
+        </div>
+      </div>
+      <div class="showcase-body" id="showcaseBody">
+        <div class="showcase-forms" id="showcaseForms"></div>
+        <p class="showcase-blurb" id="showcaseBlurb"></p>
+      </div>
+      <div class="showcase-dots" id="showcaseDots"></div>
+    </div>
+
+    <div class="try-row">
+      <span class="try-label">Curious already? Try:</span>
+      <div id="tryChips"></div>
+    </div>
+  </header>
+
+  <div class="wave" aria-hidden="true">
+    <svg viewBox="0 0 400 34" preserveAspectRatio="none"><path d="M0 17 C 25 0, 75 34, 100 17 S 175 0, 200 17 S 275 34, 300 17 S 375 0, 400 17 L 400 34 L 0 34 Z" fill="var(--turquoise-soft)"/><path d="M400 17 C 425 0, 475 34, 500 17 S 575 0, 600 17 S 675 34, 700 17 S 775 0, 800 17 L 800 34 L 400 34 Z" fill="var(--turquoise-soft)"/></svg>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="block" id="map-section">
+    <h2>Explore the isles</h2>
+    <p class="block-intro">Every shape below is a real dialect area. Click one to filter the whole page down to just its words &mdash; then click it again to see everything at once.</p>
+    <div class="map-flex">
+      <div class="map-svg-wrap">
+        <svg class="gmap" viewBox="0 0 420 520" role="img" aria-label="Schematic map of the Gaelic-speaking regions">
+          <g data-node="mainland">
+            <rect class="landmass" x="250" y="20" width="140" height="105" rx="26"/>
+            <text x="320" y="65" text-anchor="middle">Sutherland &amp;</text>
+            <text x="320" y="80" text-anchor="middle">Wester Ross</text>
+            <text class="count" x="320" y="98" text-anchor="middle"></text>
+          </g>
+          <g data-node="lewis">
+            <rect class="landmass" x="35" y="30" width="135" height="95" rx="26" transform="rotate(-7 102 77)"/>
+            <text x="102" y="72" text-anchor="middle">Lewis</text>
+            <text class="count" x="102" y="90" text-anchor="middle"></text>
+          </g>
+          <g data-node="hub">
+            <rect class="landmass" x="50" y="150" width="95" height="230" rx="32" transform="rotate(-6 97 265)"/>
+            <text x="97" y="245" text-anchor="middle">Harris,</text>
+            <text x="97" y="261" text-anchor="middle">Uist &amp;</text>
+            <text x="97" y="277" text-anchor="middle">Barra</text>
+            <text class="count" x="97" y="295" text-anchor="middle"></text>
+          </g>
+          <g data-node="skye">
+            <rect class="landmass" x="185" y="165" width="120" height="105" rx="26" transform="rotate(4 245 217)"/>
+            <text x="245" y="212" text-anchor="middle">Skye &amp;</text>
+            <text x="245" y="228" text-anchor="middle">West Mainland</text>
+            <text class="count" x="245" y="246" text-anchor="middle"></text>
+          </g>
+          <g data-node="argyll">
+            <rect class="landmass" x="130" y="400" width="210" height="95" rx="28"/>
+            <text x="235" y="438" text-anchor="middle">Islay, Kintyre</text>
+            <text x="235" y="454" text-anchor="middle">&amp; Arran</text>
+            <text class="count" x="235" y="472" text-anchor="middle"></text>
+          </g>
+        </svg>
+        <p class="map-caption">A schematic layout, not a survey map &mdash; roughly north (top) to south (bottom). Colours match the tags used everywhere below.</p>
+      </div>
+      <div class="map-detail" id="mapDetail">
+        <p class="placeholder">Select a sgìre to see its words here &mdash; or scroll down, everything is also in the full list.</p>
+      </div>
+    </div>
+
+    <div class="lucky">
+      <div class="lucky-head">
+        <div>
+          <h2 style="font-size:1.15rem;">Feeling lucky?</h2>
+          <p class="block-intro" style="margin-top:0.2rem;">Pull a random word from all 180+ entries &mdash; a good way to find something you'd never have searched for.</p>
+        </div>
+        <button class="lucky-btn" id="luckyBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="15.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="15.5" cy="8.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="8.5" cy="15.5" r="1.2" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>
+          Roll the dice
+        </button>
+      </div>
+      <div class="lucky-result" id="luckyResult">
+        <p class="lucky-placeholder">Your word will land here&hellip;</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="controls-section">
+    <h2>Or browse everything</h2>
+    <p class="block-intro">Search, filter by theme, or jump straight to the entries where two areas genuinely disagree &mdash; that filter is the whole point of this page.</p>
+    <div class="controls-bar">
+      <div class="search-row">
+        <input type="text" id="search" placeholder="Search a word or meaning&hellip; (e.g. water, drunk, fuirich)" />
+        <span class="count-readout" id="countReadout"></span>
+      </div>
+      <div class="tab-row" id="topicTabs"></div>
+      <p class="region-legend">Each tag names the exact region on record (Lewis, Islay, Argyll, Uist, Sutherland, Wester Ross&hellip;); the map above groups these into five browsable areas.</p>
+    </div>
+  </section>
+
+  <div id="results"></div>
+  <p class="no-results" id="noResults" hidden>Nothing matches that &mdash; try clearing the search or the sgìre filter.</p>
+
+  <section class="block" id="fingers-diagram">
+    <h2>Even your hand has an accent</h2>
+    <p class="block-intro">Hover a label to see it highlighted &mdash; the forefinger and little finger (both also in "The Fingers" above) are the two that split cleanly by region.</p>
+    <div class="hand-wrap">
+      <svg class="hand" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Outline of a right hand with each finger labelled">
+        <path d="M60 260 L58 140 C57 128 66 120 76 121 C85 122 91 130 91 140 L92 190" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M92 190 L90 90 C89 78 99 70 109 71 C118 72 124 81 124 92 L125 180" stroke="var(--coral)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M125 180 L124 78 C123 66 133 58 143 59 C152 60 158 69 158 80 L159 185" stroke="var(--muted)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M159 185 L158 92 C157 81 166 73 175 75 C183 77 188 86 187 96 L182 190" stroke="var(--turquoise)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 190 L20 150 C15 141 20 130 30 128 C39 127 46 134 49 143 L60 175" stroke="var(--gold)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M42 190 C36 220 44 245 66 252 C100 262 155 258 175 235 C190 217 189 195 182 190 L159 185 L125 180 L92 190 L60 175 Z" stroke="var(--muted)" stroke-width="2.2" stroke-linejoin="round"/>
+        <circle cx="76" cy="130" r="3" fill="var(--muted)"/>
+        <circle cx="109" cy="80" r="3" fill="var(--coral)"/>
+        <circle cx="143" cy="68" r="3" fill="var(--muted)"/>
+        <circle cx="175" cy="84" r="3" fill="var(--turquoise)"/>
+        <circle cx="30" cy="137" r="3" fill="var(--gold)"/>
+      </svg>
+      <div class="hand-labels">
+        <div class="hl"><b>Thumb</b><span>òrdag &mdash; everywhere</span></div>
+        <div class="hl"><b>Forefinger</b><span>sgealbag (Lewis) &nbsp;/&nbsp; gealbag (Uist)</span></div>
+        <div class="hl"><b>Middle finger</b><span>Fionnlagh fada / gille fada &mdash; "long lad"</span></div>
+        <div class="hl"><b>Ring finger</b><span>mac an aba &mdash; "son of the abbot"</span></div>
+        <div class="hl"><b>Little finger</b><span>lùdag (most areas) &nbsp;/&nbsp; fideag (Argyll)</span></div>
+      </div>
+    </div>
+    <p class="fingers-note">The five-finger naming rhyme is shared across most of the Gàidhealtachd &mdash; a middle finger called "long lad" and a ring finger named for an abbot are the kind of detail no textbook bothers to mention, but a native speaker grows up just knowing.</p>
+  </section>
+
+  <details class="sources-note">
+    <summary>Where this comes from &amp; why "not recorded" shows up sometimes</summary>
+    <div class="body">
+      Most entries come from two sources kindly shared with me: a Lewis word-list booklet, <em>Beagan Briathran Leòdhasaich</em> ("a few words of Lewis Gaelic"), pairing the dictionary form of a word with how it actually sounds on the island &mdash; and an Argyll &amp; Bute Council / Bòrd na Gàidhlig glossary of Islay Gaelic. A handful of extra items (marked accordingly) come from published dialect research where island fieldwork didn't cover a region. Every entry has been individually checked against <a href="https://www.faclair.com" target="_blank" rel="noopener">Am Faclair Beag</a> (which incorporates Dwelly's dictionary); where the dictionary uses a different spelling, or confirms a fuller idiom, that's noted underneath. One word &mdash; the Lewis term for mica &mdash; isn't recorded there under any spelling, so it's marked "not recorded" rather than guessed at.
+    </div>
+  </details>
+
+  <footer>
+    <h3>Sources</h3>
+    <ul>
+      <li><em>Beagan Briathran Leòdhasaich</em> &mdash; a Lewis Gaelic word-list booklet shared by the user (dictionary form vs. island pronunciation, compiled by "CSM")</li>
+      <li><em>Faclan Gàidhlig Ìle / Islay Gaelic glossary</em> &mdash; Bòrd na Gàidhlig &amp; Argyll and Bute Council, shared by the user</li>
+      <li>An Argyll &amp; Bute Council word-comparison sheet (dialect / standard / English), shared by the user</li>
+      <li><a href="https://www.faclair.com">Am Faclair Beag</a> &mdash; used to cross-check every standard/dictionary form (incorporates Dwelly's dictionary)</li>
+      <li><a href="https://en.wikipedia.org/wiki/Southern_Hebridean_dialect_group">Southern Hebridean dialect group &mdash; Wikipedia</a> (duilich / doirbh, Harris&ndash;Uist&ndash;Barra)</li>
+      <li><a href="https://en.wikipedia.org/wiki/South_Argyll_dialect_group">South Argyll dialect group &mdash; Wikipedia</a> (independent confirmation of <em>mand</em>)</li>
+      <li><a href="https://learngaelic.scot/litirbheag/litir.jsp?l=898">Faclan airson uisge (Words for water) &mdash; An Litir Bheag 898, LearnGaelic</a></li>
+      <li><a href="https://www.learngaelic.net/watch/watch.jsp?v=5">'S iomadh facal a th'ann airson corragan &mdash; WatchGaelic, LearnGaelic</a> (finger names)</li>
+    </ul>
+    <p>The English glosses on the "Everyday Words A&ndash;Z" entries are my own translations of the standard headword, added for convenience &mdash; the original sheet gave only the two Gaelic forms (plus the odd pronunciation note). Question marks carried over in brackets are the original compiler's own uncertainty, kept as written rather than smoothed over.</p>
+    <p class="fine">This is a working list, not an exhaustive one &mdash; if a fluent speaker corrects or adds to any entry, that should win over what's written here. If something here makes you want to go looking for more, that's the whole idea &mdash; <a href="https://learngaelic.scot/">LearnGaelic</a> is a good next stop.</p>
+  </footer>
+
+</div>
+
+<script>
+const DATA = [
+// ---- Weather & Sky ----
+{r:'Lewis',t:'Weather & Sky',d:'Gaothach',s:'gaothach',e:'windy'},
+{r:'Lewis',t:'Weather & Sky',d:'Ceò',s:'ceò',e:'fog'},
+{r:'Lewis',t:'Weather & Sky',d:'Geile',s:'gèile',e:'gale',n:'Dictionary spelling has a long vowel mark (gèile) that the sheet’s plain "Geile" drops.'},
+{r:'Lewis',t:'Weather & Sky',d:'Bogha-froise',s:'bogha-froise',e:'rainbow'},
+{r:'Lewis',t:'Weather & Sky',d:'Rionnag',s:'rionnag',e:'star'},
+{r:'Lewis',t:'Weather & Sky',d:'Aiteamh',s:'aiteamh',e:'thaw'},
+{r:'Lewis',t:'Weather & Sky',d:'Bleideag',s:'bleideag',e:'snowflake'},
+{r:'Lewis',t:'Weather & Sky',d:'Cìthe sneachda',s:'cuithe sneachda',e:'bank of snow',n:'Am Faclair Beag cross-references "cithe" straight to "cuithe" — same word, the sheet’s spelling just drops the u.'},
+{r:'Lewis',t:'Weather & Sky',d:'Cabhadh',s:'cathadh',e:'snowdrift',n:'Dwelly cross-references "cabhadh" to "cathadh" for this sense — there’s also an unrelated, unconnected word "cabhadh" meaning a stench.'},
+{r:'Lewis',t:'Weather & Sky',d:'Cathadh',s:'cathadh',e:'snowdrift'},
+{r:'Lewis',t:'Weather & Sky',d:'Cadag sneachda',s:'cadag sneachda',e:'flurry of snow',n:'"Cadag" on its own just means a handful — "a handful of snow" for a flurry.'},
+{r:'Lewis',t:'Weather & Sky',d:'Reòthadh',s:'reòthadh',e:'frost'},
+{r:'Lewis',t:'Weather & Sky',d:'Clachan-mheallan',s:'clach-mheallain',e:'hail-stones',n:'Dictionary singular; the sheet gives the plural form.'},
+{r:'Lewis',t:'Weather & Sky',d:'Tàirneanach',s:'tàirneanach',e:'thunder'},
+{r:'Lewis',t:'Weather & Sky',d:'Dealanaich',s:'dealanaich',e:'lightning'},
+{r:'Lewis',t:'Weather & Sky',d:'A dòrtadh',s:'dòrtadh',e:'pouring down (rain)'},
+{r:'Lewis',t:'Weather & Sky',d:'Sgòthan',s:'sgòthan',e:'clouds'},
+{r:'Sutherland',t:'Weather & Sky',d:'Bùrn',s:'uisge',e:'water',n:'Also means "rain" in Sutherland. A Lewis word-list confirms islanders say "buirn" for drinking water too — see the A–Z list.'},
+{r:'Wester Ross',t:'Weather & Sky',d:'Uisge',s:'uisge',e:'water',n:'The general dictionary word, still standard almost everywhere.'},
+
+// ---- Food & Drink ----
+{r:'Lewis',t:'Food & Drink',d:'Balgam',s:'balgam',e:'a mouthful'},
+{r:'Lewis',t:'Food & Drink',d:'Làn mo bheòil',s:'làn mo bheòil',e:'a mouthful',n:'Am Faclair Beag records the same idiom (as "an gabh thu làn do bheòil?") for offering someone a dram.'},
+{r:'Lewis',t:'Food & Drink',d:'Streòdag',s:'streòdag',e:'a good dram',n:'Dwelly notes this one specifically as a Skye word for a small quantity of liquor.'},
+{r:'Lewis',t:'Food & Drink',d:'Amh-dheoch',s:'amh-dheoch',e:'a hangover'},
+{r:'Lewis',t:'Food & Drink',d:'Smùid air',s:'smùid air',e:'drunk',n:'"Smùid" itself just means smoke or steam — "tha smùid air" is the idiom for drunk.'},
+{r:'Lewis',t:'Food & Drink',d:'Daorach',s:'daorach',e:'drunk'},
+{r:'Lewis',t:'Food & Drink',d:'Gun bhoillsg',s:'gun bhoillsg',e:'blind drunk',n:'Literally "without a flash/gleam" — Am Faclair Beag confirms "chan eil boillsg aig X" as an idiom for blind drunk.'},
+{r:'Lewis',t:'Food & Drink',d:'Sgrìob-dràma',s:'sgrìob dràma',e:'the itch for a whisky',n:'Confirmed idiom — Am Faclair Beag has "tha sgrìob drama air" for "his mouth is watering for a dram".'},
+{r:'Lewis',t:'Food & Drink',d:'Boinne bainne',s:'boinne bainne',e:'a drop of milk',n:'Said doubled up as "boinne boinne" for emphasis.'},
+{r:'Islay',t:'Food & Drink',d:'Gun robh math agad / agaibh',s:'tapadh leat / leibh',e:'thank you'},
+
+// ---- People & Character ----
+{r:'Lewis',t:'People & Character',d:'Mosach',s:'mosach',e:'mean (a person)'},
+{r:'Lewis',t:'People & Character',d:'Gillean',s:'gillean',e:'servants',n:'Plural of "gille" (lad, man-servant).'},
+{r:'Lewis',t:'People & Character',d:'Gràisg',s:'gràisg',e:'hoi polloi'},
+{r:'Lewis',t:'People & Character',d:'Càidreamh',s:'caidreabh',e:'a group of friends',n:'Am Faclair Beag’s headword is "caidreabh" — "càidreamh" is listed as a recognised variant spelling.'},
+{r:'Lewis',t:'People & Character',d:'Ròlaist',s:'ròlaist',e:'a child’s fib'},
+{r:'Lewis',t:'People & Character',d:'Dìobaireach',s:'dìobarach',e:'outcast',n:'Am Faclair Beag’s headword is "dìobarach" — "dìobaireach" is listed as a variant.'},
+{r:'Lewis',t:'People & Character',d:'Dìol-dèirce',s:'dìol-dèirce',e:'beggar'},
+{r:'Lewis',t:'People & Character',d:'Ùghdar',s:'ùghdar',e:'author'},
+{r:'Lewis',t:'People & Character',d:'Oideachadh',s:'oideachadh',e:'instructor, lecturer'},
+{r:'Lewis',t:'People & Character',d:'Maoidh',s:'maoidh',e:'to threaten'},
+{r:'Lewis',t:'People & Character',d:'Teich',s:'teich',e:'go away, flee'},
+{r:'Lewis',t:'People & Character',d:'Bracail',s:'bragail',e:'over-confident',n:'Am Faclair Beag’s headword is "bragail" (boastful, cocky) — the sheet’s "Bracail" swaps the two middle consonants.'},
+{r:'Lewis',t:'People & Character',d:'Impis',s:'ìmpis',e:'exhortation',n:'Dictionary form has a long first vowel: "ìmpis" (imminence; "an ìmpis" = about to, on the verge of).'},
+{r:'Argyll',t:'People & Character',d:'Patach/aich',s:'pàiste',e:'children'},
+{r:'Argyll',t:'People & Character',d:'Coimheach',s:'diùid',e:'shy'},
+{r:'Argyll',t:'People & Character',d:'Baibheil',s:'baibheil',e:'excellent',n:'Dwelly confirms this exact spelling: "incredible, enormous, exaggerated, terrible" (Am Faclair Beag’s own headword "baidhbheil" is a variant of the same word).'},
+{r:'Argyll',t:'People & Character',d:'Fuathasach',s:'iongantach',e:'wonderful'},
+{r:'Argyll',t:'People & Character',d:'Soirbh',s:'furasta',e:'easy'},
+
+// ---- Land, Farming & Nature ----
+{r:'Lewis',t:'Land, Farming & Nature',d:'Frìthe',s:'frìth',e:'deer forest',n:'"Frìth" is the dictionary singular (deer forest/park); the sheet gives a plural-looking form.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Agh',s:'agh',e:'hind (female deer)'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Damh',s:'damh',e:'stag, ox'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Làn damh',s:'làn-damh',e:'a fully-grown stag'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Cabrach',s:'cabrach',e:'stag'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Corrach',s:'corrach',e:'steep'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Aonach',s:'aonach',e:'market',n:'Also covers a steep place/ridge/upland moor — "aonach" is a fair or gathering as well as terrain.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Airgead-mheall',s:'',e:'mica',n:'Not found as a fixed compound in Am Faclair Beag. Its parts are attested separately — "airgead" (money/silver) and "meall" (lump, mound) — but the "mica" sense as one word isn’t recorded there.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Fiachan',s:'fiachan',e:'debts',n:'Plural of "fiach" (value, debt).'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Ceap',s:'ceap',e:'turf',n:'A wide-ranging word — block, last, cap, and (peat) turf/scraw are all listed senses.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Dubhag',s:'dubhag',e:'fishing hook',n:'As given on the sheet — the reverse of the usual dictionary assignment (Am Faclair Beag has dubhan = hook, dubhag = kidney). Kept as written.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Dubhan',s:'dubhan',e:'kidney',n:'As given on the sheet — see note on "Dubhag" above.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Seangan',s:'sliggean',e:'ant'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Uircean',s:'uircean',e:'threepence (old coin) / piglets',n:'One entry covering two senses, as given — Am Faclair Beag confirms "piglet/young pig", but has no record of the coin sense.'},
+{r:'Lewis',t:'Land, Farming & Nature',d:'Grota',s:'gròta',e:'fourpence (a groat)'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'Gort',s:'achadh',e:'a field (small, arable)'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'Imir(ean)',s:'feannag(an)',e:'lazybed(s)'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'Sùgag(an)',s:'caora(ich)',e:'sheep'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'Figheadair',s:'damhan-allaidh',e:'spider'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'Crannag',s:'cùbaid',e:'pulpit'},
+{r:'Argyll',t:'Land, Farming & Nature',d:'A’ tabhann',s:'a’ comhartaich',e:'barking'},
+
+// ---- Body & House ----
+{r:'Lewis',t:'Body & House',d:'Sgàthan',s:'sgàthan',e:'mirror'},
+{r:'Lewis',t:'Body & House',d:'Meilich',s:'meilich',e:'fainting',n:'To chill, benumb, or faint from cold — confirmed distinct from "mèilich" (bleating) below by vowel length alone.'},
+{r:'Lewis',t:'Body & House',d:'Fanntaig',s:'fanndaig',e:'fainting',n:'Am Faclair Beag’s headword spells it with -nd- rather than -nt-: "fanndaig".'},
+{r:'Lewis',t:'Body & House',d:'Meilich (le è fada)',s:'mèilich',e:'bleating of sheep',n:'Same headword as "fainting" above, but with a long e — a different word, confirmed in the dictionary.'},
+{r:'Lewis',t:'Body & House',d:'Air do theangaidh',s:'air do theangaidh',e:'off by heart (memorised)',n:'"Teangaidh" is the genitive/dative of "teanga" (tongue), confirmed in Am Faclair Beag/Dwelly.'},
+{r:'Lewis',t:'Body & House',d:'Leum-sròn',s:'leum-sròine',e:'nose-bleed',n:'Am Faclair Beag’s exact headword is "leum-sròine" — "my nose started to bleed" is given as an example.'},
+{r:'Lewis',t:'Body & House',d:'Sgochadh',s:'sgochadh',e:'sprain'},
+{r:'Islay',t:'Body & House',d:'A’ mothachainn',s:'a’ faireachdainn',e:'feeling'},
+{r:'Islay',t:'Body & House',d:'Siubhail',s:'caochail',e:'to die'},
+{r:'Islay',t:'Body & House',d:'Tòrradh',s:'tiodhlacadh',e:'funeral'},
+{r:'Islay',t:'Body & House',d:'Flat',s:'sàsar',e:'saucer'},
+{r:'Islay',t:'Body & House',d:'Gealbhan',s:'teine',e:'fire (in the fireplace)'},
+{r:'Argyll',t:'Body & House',d:'Gruag',s:'falt',e:'hair'},
+{r:'Argyll',t:'Body & House',d:'Ciabhag',s:'feusag',e:'beard'},
+
+// ---- Time, Numbers & Money ----
+{r:'Lewis',t:'Time, Numbers & Money',d:'Ciaradh',s:'ciaradh',e:'evening dusk'},
+{r:'Lewis',t:'Time, Numbers & Money',d:'A(n) raoir',s:'an-raoir',e:'last night'},
+{r:'Lewis',t:'Time, Numbers & Money',d:'Dripeil',s:'trang',e:'busy',n:'Explained on the sheet as "tha torr ri dhèanamh" — "there’s a lot to do".'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'"Treng"',s:'trang',e:'busy',n:'On Islay the ‘a’ in a word like trang often shifts toward an ‘e’ sound — same word, different vowel.'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'Sè',s:'sia',e:'six'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'Datha',s:'latha',e:'day'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'Deas',s:'deiseil',e:'ready'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'Rèidh',s:'deiseil',e:'finished'},
+{r:'Argyll',t:'Time, Numbers & Money',d:'A-nis is a-rithist',s:'an-dràsta is a-rithist',e:'now and again'},
+
+// ---- Greetings, Sayings & Phrases ----
+{r:'Islay',t:'Greetings & Phrases',d:'Dè mar a tha thu?',s:'ciamar a tha thu?',e:'How are you?'},
+{r:'Lewis',t:'Greetings & Phrases',d:'"De man a tha thu"',s:'ciamar a tha thu?',e:'How are you?',n:'The Lewis sheet’s own phonetic rendering — a third variant, distinct from Islay’s "dè mar".'},
+{r:'Islay',t:'Greetings & Phrases',d:'A’ fantail',s:'a’ fuireach',e:'staying, living',n:'This is the fuirich/fan pair — confirmed directly by an Islay glossary.'},
+{r:'Islay',t:'Greetings & Phrases',d:'Cha mhand mi a dhèanamh',s:'chan urrainn dhomh a dhèanamh',e:'I cannot do it',n:'“Mand” as a distinct South Argyll modal verb is independently confirmed by Wikipedia’s South Argyll dialect group article too.'},
+{r:'Argyll',t:'Greetings & Phrases',d:'Cosail ri',s:'coltach ri',e:'similar to, like'},
+{r:'Lewis',t:'Greetings & Phrases',d:'Collach',s:'coltach',e:'similar to, like'},
+{r:'Argyll',t:'Greetings & Phrases',d:'Theirinn',s:'canainn',e:'I would say'},
+{r:'Argyll',t:'Greetings & Phrases',d:'Abair sin a-rithist',s:'can sin a-rithist',e:'say that again'},
+{r:'Argyll',t:'Greetings & Phrases',d:'Thalla!',s:'thig!',e:'Come!',n:'Note: "thalla" is the standard imperative for "go" elsewhere — kept as given on the sheet.'},
+{r:'Lewis',t:'Greetings & Phrases',d:'Dragh a choin!',s:'dragh a’ choin',e:'too bad!',n:'Am Faclair Beag confirms the idiom exactly: "(chan eil) dragh a’ choin!" ("too bad, tough luck!").'},
+{r:'Lewis',t:'Greetings & Phrases',d:'Foghnaidh na dh’fhòghnas',s:'fòghnaidh na dh’fhòghnas',e:'enough is enough'},
+{r:'Argyll',t:'Greetings & Phrases',d:'Deifir',s:'cabhag',e:'hurry'},
+{r:'Uist',t:'Greetings & Phrases',d:'Doirbh',s:'doirbh',e:'difficult',n:'Harris, Uist & Barra keep "sorry" and "difficult" as separate words; Lewis uses "duilich" for both.'},
+{r:'Lewis',t:'Greetings & Phrases',d:'Duilich',s:'duilich',e:'difficult',n:'Lewis uses the same word ("duilich") for "sorry" as well — it collapses both meanings.'},
+
+// ---- Fingers (table rows; diagram above has the rest) ----
+{r:'Argyll',t:'The Fingers',d:'Fideag',s:'lùdag',e:'little finger (pinkie)'},
+{r:'Lewis',t:'The Fingers',d:'Sgealbag',s:'sgealbag',e:'forefinger'},
+{r:'Uist',t:'The Fingers',d:'Gealbag',s:'gealbag',e:'forefinger'},
+
+// ---- Everyday Words A-Z (Lewis, dictionary form vs island form) ----
+{r:'Lewis',t:'Everyday A–Z',d:'Amhaich',s:'Amhach',e:'neck'},
+{r:'Lewis',t:'Everyday A–Z',d:'H’unnam',s:'Annam',e:'in me'},
+{r:'Lewis',t:'Everyday A–Z',d:'A(n) raoir',s:'A(n) raoir',e:'last night',n:'Given as identical on the sheet.'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bhunas (?bhurras)',s:'Bheireas',e:'will give / will bring'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bhoum (occasionally)',s:'Bhuam',e:'from me'},
+{r:'Lewis',t:'Everyday A–Z',d:'Boinne',s:'Bainne',e:'milk'},
+{r:'Lewis',t:'Everyday A–Z',d:'Diathad (also)',s:'Biadh',e:'food'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bucais',s:'Bocsa',e:'box'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bord (no ‘s’ sound)',s:'Bòr(s)d',e:'table'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bois',s:'Bos',e:'palm of the hand'},
+{r:'Lewis',t:'Everyday A–Z',d:'Priogais',s:'Briogais',e:'trousers'},
+{r:'Lewis',t:'Everyday A–Z',d:'Priste',s:'Briste',e:'broken'},
+{r:'Lewis',t:'Everyday A–Z',d:'Brailleach',s:'Broilleach',e:'chest, breast'},
+{r:'Lewis',t:'Everyday A–Z',d:'Bu mhoo',s:'Bu mhotha',e:'bigger, rather'},
+{r:'Lewis',t:'Everyday A–Z',d:'Buitean',s:'Bùthan',e:'shops'},
+{r:'Lewis',t:'Everyday A–Z',d:'Casdaich',s:'Casadaich',e:'coughing'},
+{r:'Lewis',t:'Everyday A–Z',d:'Chennea',s:'Cheannaich',e:'bought'},
+{r:'Lewis',t:'Everyday A–Z',d:'"De man a tha thu"',s:'Ciamar a tha thu',e:'how are you'},
+{r:'Lewis',t:'Everyday A–Z',d:'Cluais',s:'Cluas',e:'ear'},
+{r:'Lewis',t:'Everyday A–Z',d:'Carre (or cathe)',s:'Coire',e:'kettle / corrie'},
+{r:'Lewis',t:'Everyday A–Z',d:'Collach',s:'Coltach',e:'similar, alike'},
+{r:'Lewis',t:'Everyday A–Z',d:'Lot (more common?)',s:'Croit',e:'croft'},
+{r:'Lewis',t:'Everyday A–Z',d:'De (hard d sound)',s:'De (soft d sound)',e:'what'},
+{r:'Lewis',t:'Everyday A–Z',d:'De (soft d sound)',s:'Deagh',e:'good'},
+{r:'Lewis',t:'Everyday A–Z',d:'Dean-u',s:'Dèanamh',e:'doing, making'},
+{r:'Lewis',t:'Everyday A–Z',d:'Dh’an (occasionally)',s:'D’en',e:'to the'},
+{r:'Lewis',t:'Everyday A–Z',d:'Diumach',s:'Diombach',e:'displeased'},
+{r:'Lewis',t:'Everyday A–Z',d:'Dha’n',s:'D’on',e:'to the'},
+{r:'Lewis',t:'Everyday A–Z',d:'Daruis',s:'Doruis',e:'door(s)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Attraidh',s:'Eachdraidh',e:'history'},
+{r:'Lewis',t:'Everyday A–Z',d:'Attar',s:'Eadar',e:'between'},
+{r:'Lewis',t:'Everyday A–Z',d:'Innichail (??)',s:'Enachainn',e:'uncertain — original marked unclear'},
+{r:'Lewis',t:'Everyday A–Z',d:'Eibheachd',s:'Eigheachd',e:'shouting'},
+{r:'Lewis',t:'Everyday A–Z',d:'Fincinn',s:'Faicinn',e:'seeing'},
+{r:'Lewis',t:'Everyday A–Z',d:'H-fhalla',s:'Falbh',e:'going, leaving'},
+{r:'Lewis',t:'Everyday A–Z',d:'Aradh',s:'Faradh',e:'fare / ladder'},
+{r:'Lewis',t:'Everyday A–Z',d:'Faireachduinn',s:'Faireachdainn',e:'feeling'},
+{r:'Lewis',t:'Everyday A–Z',d:'Fuileadh (??)',s:'Fèile',e:'kilt / festival'},
+{r:'Lewis',t:'Everyday A–Z',d:'Fiach',s:'Feuch',e:'try'},
+{r:'Lewis',t:'Everyday A–Z',d:'Feer',s:'Fiar',e:'squint, wry'},
+{r:'Lewis',t:'Everyday A–Z',d:'Digean',s:'Foghnan',e:'thistle'},
+{r:'Lewis',t:'Everyday A–Z',d:'Fulaig',s:'Fulang',e:'suffering'},
+{r:'Lewis',t:'Everyday A–Z',d:'Saigh (?)',s:'Galla',e:'bitch (female dog)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Farasd (no ferasd)',s:'Furasta',e:'easy'},
+{r:'Lewis',t:'Everyday A–Z',d:'Gerr',s:'Geir',e:'tallow, fat'},
+{r:'Lewis',t:'Everyday A–Z',d:'Gothas',s:'Ghabhas',e:'will take'},
+{r:'Lewis',t:'Everyday A–Z',d:'Go',s:'Gheibh',e:'will get'},
+{r:'Lewis',t:'Everyday A–Z',d:'Glainne',s:'Gloinne',e:'glass'},
+{r:'Lewis',t:'Everyday A–Z',d:'Dha (?)',s:'Gu',e:'to'},
+{r:'Lewis',t:'Everyday A–Z',d:'I’ish (no ‘n’)',s:'Innis',e:'tell'},
+{r:'Lewis',t:'Everyday A–Z',d:'Le',s:'Leatha',e:'with her'},
+{r:'Lewis',t:'Everyday A–Z',d:'Lo (slender l)',s:'Leotha',e:'with them'},
+{r:'Lewis',t:'Everyday A–Z',d:'Laidh-brath',s:'Leth-bhreith',e:'half-judgement, partiality'},
+{r:'Lewis',t:'Everyday A–Z',d:'Leobag',s:'Liabag',e:'flounder (fish)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Loot',s:'Liuthad',e:'so many, so great a number',n:'A handwritten note on the sheet glosses this as "length / weight".'},
+{r:'Lewis',t:'Everyday A–Z',d:'Luit',s:'Loit',e:'wound, injury'},
+{r:'Lewis',t:'Everyday A–Z',d:'Mac (no ‘chd’ sound)',s:'Mac(hd)',e:'son'},
+{r:'Lewis',t:'Everyday A–Z',d:'Man',s:'Mar',e:'as, like'},
+{r:'Lewis',t:'Everyday A–Z',d:'Maragh',s:'Marbhadh',e:'killing'},
+{r:'Lewis',t:'Everyday A–Z',d:'Corragan',s:'Meuran',e:'fingers, thimbles'},
+{r:'Lewis',t:'Everyday A–Z',d:'Drunn(g)aire (?)',s:'Misgear',e:'drunkard'},
+{r:'Lewis',t:'Everyday A–Z',d:'Mutha',s:'Motha',e:'bigger, greater'},
+{r:'Lewis',t:'Everyday A–Z',d:'Muinichill',s:'Muinchill',e:'sleeve'},
+{r:'Lewis',t:'Everyday A–Z',d:'Muith',s:'Muir',e:'sea'},
+{r:'Lewis',t:'Everyday A–Z',d:'Orrainster (?)',s:'Orainsear',e:'orange (fruit)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Amhran',s:'Òran',e:'song'},
+{r:'Lewis',t:'Everyday A–Z',d:'Aram',s:'Orm',e:'on me'},
+{r:'Lewis',t:'Everyday A–Z',d:'Crampagan (rare?)',s:'Pancagan (?)',e:'pancakes'},
+{r:'Lewis',t:'Everyday A–Z',d:'Runnag',s:'Reul',e:'star'},
+{r:'Lewis',t:'Everyday A–Z',d:'Rithe',s:'Roimhe',e:'before (him), already'},
+{r:'Lewis',t:'Everyday A–Z',d:'Rithinn',s:'Ruigsinn',e:'reaching, arriving'},
+{r:'Lewis',t:'Everyday A–Z',d:'Saboind',s:'Sabaid (latha na)',e:'fight, quarrel',n:'Pairing as given on the sheet ("the day of the fight").'},
+{r:'Lewis',t:'Everyday A–Z',d:'Sliggean',s:'Seangan',e:'ant'},
+{r:'Lewis',t:'Everyday A–Z',d:'Seomhrag (?)',s:'Seòmrach',e:'roomy (having rooms)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Seasair (more common?)',s:'Sinnsear',e:'great-grandparent / ancestor'},
+{r:'Lewis',t:'Everyday A–Z',d:'Smaoineachadh',s:'Smaointinn',e:'thinking'},
+{r:'Lewis',t:'Everyday A–Z',d:'Smachaid (?)',s:'Smigead',e:'chin'},
+{r:'Lewis',t:'Everyday A–Z',d:'Stron',s:'Sròn',e:'nose'},
+{r:'Lewis',t:'Everyday A–Z',d:'Tuthail',s:'Tadhail',e:'visit'},
+{r:'Lewis',t:'Everyday A–Z',d:'Te',s:'Tì',e:'person, thing (feminine)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Toigh (uireagan)',s:'Taigh',e:'house'},
+{r:'Lewis',t:'Everyday A–Z',d:'Caomh',s:'Toigh (leam)',e:'fond of'},
+{r:'Lewis',t:'Everyday A–Z',d:'Toirt (no ‘s’ sound)',s:'Toirt (with an ‘s’ sound)',e:'giving'},
+{r:'Lewis',t:'Everyday A–Z',d:'Traum (?)',s:'Trom',e:'heavy'},
+{r:'Lewis',t:'Everyday A–Z',d:'Od',s:'Ud',e:'yon, that (over there)'},
+{r:'Lewis',t:'Everyday A–Z',d:'Buirn (for drinking)',s:'Uisge',e:'water'},
+];
+
+const TOPICS = [...new Set(DATA.map(d=>d.t))];
+const NODE_MAP = { Lewis:'lewis', Islay:'argyll', Argyll:'argyll', Uist:'hub', Sutherland:'mainland', 'Wester Ross':'mainland', Skye:'skye' };
+const NODE_LABEL = { lewis:'Lewis', hub:'Harris, Uist & Barra', skye:'Skye & West Mainland', mainland:'Sutherland & Wester Ross', argyll:'Islay, Kintyre & Arran' };
+const COLS = ['lewis','hub','skye','argyll','mainland'];
+
+const TOPIC_INTRO = {
+  'Weather & Sky': 'Scotland hands you a lot of weather, so naturally it hands you a lot of words for it.',
+  'Food & Drink': 'From a shy first sip to hopelessly, blindly drunk — Lewis has a word for every stage of the evening.',
+  'People & Character': 'The words your neighbours actually use about each other. Some kinder than others.',
+  'Land, Farming & Nature': 'Deer, fishing hooks, turf and old coins — the working vocabulary of a croft.',
+  'Body & House': 'Everyday aches, mirrors, and things said around the fire.',
+  'Time, Numbers & Money': 'How the day gets away from you, in Gaelic.',
+  'Greetings & Phrases': 'The small phrases that give away exactly which island you grew up on.',
+  'The Fingers': 'Even a hand gets a dialect.',
+  'Everyday A–Z': 'An entire booklet of Lewis pronunciation, sound by sound — dip in anywhere.'
+};
+
+// A little extra colour for entries that have a genuinely fun story behind
+// them — hand-picked, not auto-generated, and never contradicting the
+// dictionary-checked "standard" field above it.
+const FACTS = {
+  'People & Character|hoi polloi': 'Same root, grander destination: "gràisg-fhlaitheachd" uses this very word to mean democracy — mob-rule, literally.',
+  'Food & Drink|the itch for a whisky': 'Am Faclair Beag has the exact phrase on file: "tha sgrìob dràma air" — his mouth is watering for a dram.',
+  'Food & Drink|blind drunk': 'Literally "without a flash" — as in, the light has gone out of your eyes.',
+  'Food & Drink|a drop of milk': 'Said twice in a row — "boinne boinne" — when one drop really isn’t enough.',
+  'People & Character|excellent': 'Dwelly’s own gloss for this word swings from "incredible" all the way to "terrible" — context does a lot of work here.',
+  'Land, Farming & Nature|turf': 'One word for a shoemaker’s last, a peaked cap, and a slice of peat turf. Gaelic gets a lot of mileage out of "ceap".',
+  'Greetings & Phrases|difficult': 'Lewis quietly economises: "duilich" covers both "difficult" and "sorry" — one word, two very different situations.',
+  'Weather & Sky|water': 'In Sutherland, "bùrn" can mean the rain falling from the sky too — the same word for water however it arrives.'
+};
+
+// A short, curated tour for the hero showcase — real entries, framed for
+// someone seeing this for the first time.
+const SHOWCASE = [
+  {
+    word: 'water',
+    forms: [{region:'Sutherland', word:'Bùrn'}, {region:'Wester Ross', word:'Uisge'}],
+    blurb: 'Cross a stretch of hills in the north-west and the word for <b>water</b> changes under your feet: <b>bùrn</b> gives way to <b>uisge</b> — the word every learner meets first, but not the only one.'
+  },
+  {
+    word: 'staying, living',
+    forms: [{region:'Islay', word:'a’ fantail'}, {region:'the standard form', word:'a’ fuireach'}],
+    blurb: 'The word that started this whole page: Islay says <b>a’ fantail</b> for "staying" where most textbooks teach <b>a’ fuireach</b>. Same idea, different island.'
+  },
+  {
+    word: 'difficult',
+    forms: [{region:'Uist', word:'doirbh'}, {region:'Lewis', word:'duilich'}],
+    blurb: 'Harris, Uist &amp; Barra keep "difficult" and "sorry" as two separate words. Lewis folds them into one: <b>duilich</b> does both jobs.'
+  },
+  {
+    word: 'how are you?',
+    forms: [{region:'Lewis (phonetic)', word:'"De man a tha thu"'}, {region:'Islay', word:'Dè mar a tha thu?'}],
+    blurb: 'Three ways to open a conversation, all correct: Islay’s <b>dè mar</b>, Lewis’s own phonetic spin on the same phrase, and the standard <b>ciamar a tha thu?</b> taught in class.'
+  },
+  {
+    word: 'forefinger',
+    forms: [{region:'Lewis', word:'sgealbag'}, {region:'Uist', word:'gealbag'}],
+    blurb: 'One consonant apart, one strait of water apart: Lewis’s <b>sgealbag</b> and Uist’s <b>gealbag</b> point at exactly the same finger.'
+  },
+  {
+    word: 'blind drunk',
+    forms: [{region:'Lewis', word:'gun bhoillsg'}],
+    blurb: 'Literally "without a flash" — the dictionary confirms the exact idiom: the light has well and truly gone out of your eyes.'
+  },
+  {
+    word: 'busy',
+    forms: [{region:'Lewis', word:'dripeil'}, {region:'Islay', word:'"treng"'}],
+    blurb: 'Same word, same meaning, one vowel drifted: Islay’s <b>treng</b> is the standard <b>trang</b> with the "a" leaning toward an "e".'
+  }
+];
+
+let activeNode = null;
+let activeTopic = null;
+let variantOnly = false;
+let unclearOnly = false;
+let searchText = '';
+
+// The original word-lists sometimes flag their own entries as shaky —
+// a hand-written "(?)" or "(more common?)" next to a word, straight from
+// the source sheets. We surface those as their own browsable tab rather
+// than quietly presenting them with full confidence.
+function looksUncertain(word){
+  return /\([^)]*\?[^)]*\)/.test(word || '');
+}
+
+function normalize(w){ return (w||'').toLowerCase().replace(/[^a-z]/gi, m => {
+  const map = {'à':'a','á':'a','â':'a','è':'e','é':'e','ê':'e','ì':'i','í':'i','î':'i','ò':'o','ó':'o','ô':'o','ù':'u','ú':'u','û':'u'};
+  return map[m] || '';
+}); }
+
+function nodeCounts(){
+  const counts = {};
+  DATA.forEach(d=>{ const n = NODE_MAP[d.r]; counts[n] = (counts[n]||0)+1; });
+  return counts;
+}
+
+function renderMapCounts(){
+  const counts = nodeCounts();
+  document.querySelectorAll('.gmap g[data-node]').forEach(g=>{
+    const node = g.getAttribute('data-node');
+    const countEl = g.querySelector('.count');
+    const n = counts[node] || 0;
+    countEl.textContent = n ? n + ' word' + (n===1?'':'s') : 'no data yet';
+  });
+}
+
+function buildConcepts(entries){
+  const map = new Map();
+  const order = [];
+  entries.forEach(d=>{
+    const key = d.t + '|' + d.e.toLowerCase();
+    if (!map.has(key)){
+      map.set(key, { topic:d.t, english:d.e, standard:'', notes:[], rawRegions:new Set(), isUnclear:false,
+        cells:{ lewis:[], hub:[], skye:[], argyll:[], mainland:[] } });
+      order.push(key);
+    }
+    const c = map.get(key);
+    if (d.s && !c.standard.split(' / ').includes(d.s)) c.standard = c.standard ? c.standard+' / '+d.s : d.s;
+    const node = NODE_MAP[d.r];
+    if (!c.cells[node].some(x=>x.region===d.r && x.word===d.d)) c.cells[node].push({region:d.r, word:d.d});
+    if (d.n && !c.notes.includes(d.n)) c.notes.push(d.n);
+    c.rawRegions.add(d.r);
+    if (looksUncertain(d.d) || looksUncertain(d.s)) c.isUnclear = true;
+  });
+  return order.map(k=>{
+    const c = map.get(k);
+    const allWords = COLS.flatMap(col=>c.cells[col].map(x=>x.word));
+    const normSet = new Set(allWords.map(normalize));
+    c.isVariant = c.rawRegions.size > 1 && normSet.size > 1;
+    c.skipStandard = !!c.standard && normSet.size===1 && normSet.has(normalize(c.standard));
+    c.fact = FACTS[c.topic + '|' + c.english.toLowerCase()] || '';
+    return c;
+  });
+}
+
+function renderTabs(){
+  const row = document.getElementById('topicTabs');
+  row.innerHTML = '';
+  const allTab = document.createElement('button');
+  allTab.className = 'tab' + (activeTopic===null ? ' active' : '');
+  allTab.textContent = 'All topics';
+  allTab.onclick = () => { activeTopic = null; render(); };
+  row.appendChild(allTab);
+  TOPICS.forEach(t=>{
+    const tab = document.createElement('button');
+    tab.className = 'tab' + (activeTopic===t ? ' active' : '');
+    tab.textContent = t;
+    tab.onclick = () => { activeTopic = (activeTopic===t ? null : t); render(); };
+    row.appendChild(tab);
+  });
+  const variantTab = document.createElement('button');
+  const allConcepts = buildConcepts(DATA);
+  const variantCount = allConcepts.filter(c=>c.isVariant).length;
+  variantTab.className = 'tab variant-tab' + (variantOnly ? ' active' : '');
+  variantTab.textContent = '✦ Where the isles disagree (' + variantCount + ')';
+  variantTab.onclick = () => { variantOnly = !variantOnly; render(); };
+  row.appendChild(variantTab);
+
+  const unclearTab = document.createElement('button');
+  const unclearCount = allConcepts.filter(c=>c.isUnclear).length;
+  unclearTab.className = 'tab unclear-tab' + (unclearOnly ? ' active' : '');
+  unclearTab.textContent = '❔ Unknown / not quite clear (' + unclearCount + ')';
+  unclearTab.onclick = () => { unclearOnly = !unclearOnly; render(); };
+  row.appendChild(unclearTab);
+}
+
+function baseMatches(d){
+  if (activeTopic && d.t !== activeTopic) return false;
+  if (searchText){
+    const hay = (d.d+' '+d.s+' '+d.e+' '+d.r).toLowerCase();
+    if (!hay.includes(searchText)) return false;
+  }
+  return true;
+}
+
+function tagHTML(col, c){
+  const items = c.cells[col];
+  if (!items.length) return '';
+  const byRegion = new Map();
+  items.forEach(it=>{
+    if (!byRegion.has(it.region)) byRegion.set(it.region, []);
+    if (!byRegion.get(it.region).includes(it.word)) byRegion.get(it.region).push(it.word);
+  });
+  return [...byRegion.entries()].map(([region, words])=>
+    '<span class="tag" data-region="'+col+'" title="'+NODE_LABEL[col]+'"><span class="tag-region">'+region+'</span>'+words.join(' / ')+'</span>'
+  ).join('');
+}
+
+function entryHTML(c){
+  const classes = 'entry' + (c.isVariant ? ' is-variant' : '');
+  let html = '<div class="'+classes+'">';
+  html += '<div class="gloss">'+c.english
+    + (c.isVariant ? '<span class="variant-badge">'+c.rawRegions.size+' regional forms</span>' : '')
+    + (c.isUnclear ? '<span class="unclear-badge" title="The original word-list itself marked this one with a question mark">unclear in the source</span>' : '')
+    + '</div>';
+  html += '<div class="forms">'+COLS.map(col=>tagHTML(col,c)).join('')+'</div>';
+  const metaParts = [];
+  if (!c.skipStandard){
+    if (c.standard) metaParts.push('<span class="std">standard: '+c.standard+'</span>');
+    else metaParts.push('<span class="std unrecorded">standard: not recorded</span>');
+  }
+  if (c.notes.length) metaParts.push(c.notes.join(' '));
+  if (metaParts.length) html += '<div class="entry-meta">'+metaParts.join(' &mdash; ')+'</div>';
+  if (c.fact) html += '<div class="entry-fact">'+c.fact+'</div>';
+  html += '</div>';
+  return html;
+}
+
+function render(){
+  const baseRows = DATA.filter(baseMatches);
+  let concepts = buildConcepts(baseRows);
+  if (activeNode) concepts = concepts.filter(c => c.cells[activeNode].length > 0);
+  if (variantOnly) concepts = concepts.filter(c => c.isVariant);
+  if (unclearOnly) concepts = concepts.filter(c => c.isUnclear);
+
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+
+  let totalWords = 0;
+  TOPICS.forEach(topic=>{
+    const topicConcepts = concepts.filter(c => c.topic === topic).sort((a,b)=>a.english.localeCompare(b.english));
+    if (topicConcepts.length === 0) return;
+    const section = document.createElement('section');
+    section.className = 'topic-section';
+    section.id = 'topic-' + topic.replace(/[^a-z0-9]+/gi,'-').toLowerCase();
+    const heading = document.createElement('h3');
+    heading.innerHTML = topic + ' <span class="tally">'+ topicConcepts.length + ' entr' + (topicConcepts.length===1?'y':'ies') + '</span>';
+    section.appendChild(heading);
+    if (TOPIC_INTRO[topic]){
+      const blurb = document.createElement('p');
+      blurb.className = 'topic-blurb';
+      blurb.textContent = TOPIC_INTRO[topic];
+      section.appendChild(blurb);
+    }
+    const list = document.createElement('div');
+    list.innerHTML = topicConcepts.map(entryHTML).join('');
+    section.appendChild(list);
+    results.appendChild(section);
+    topicConcepts.forEach(c => { totalWords += COLS.reduce((n,col)=>n+c.cells[col].length,0); });
+  });
+
+  document.getElementById('noResults').hidden = concepts.length !== 0;
+  document.getElementById('countReadout').textContent = concepts.length + ' entr' + (concepts.length===1?'y':'ies') + ' shown (' + totalWords + ' words)';
+
+  document.querySelectorAll('.gmap .landmass').forEach(rect=>{
+    const node = rect.parentElement.getAttribute('data-node');
+    rect.classList.toggle('active', node === activeNode);
+  });
+  document.querySelectorAll('.gmap g[data-node] text:not(.count)').forEach(t=>{
+    const node = t.parentElement.getAttribute('data-node');
+    t.classList.toggle('active-label', node === activeNode);
+  });
+  document.querySelectorAll('.gmap g[data-node] .count').forEach(t=>{
+    const node = t.parentElement.getAttribute('data-node');
+    t.classList.toggle('active-count', node === activeNode);
+  });
+
+  const detail = document.getElementById('mapDetail');
+  if (!activeNode){
+    detail.innerHTML = '<p class="placeholder">Select a sgìre to filter the list to concepts it has words for &mdash; other regions still show in each entry, for comparison.</p>';
+  } else {
+    const label = NODE_LABEL[activeNode];
+    let html = '<span class="region-chip" style="background:var(--rg-'+activeNode+'-bg); color:var(--rg-'+activeNode+'-ink);">'+label+' <button aria-label="Clear filter">&times;</button></span>';
+    html += '<div class="map-detail-list">';
+    if (concepts.length === 0){
+      html += '<div style="font-style:italic; color:var(--muted);">No confirmed vocabulary here yet &mdash; contributions welcome.</div>';
+    } else {
+      concepts.slice(0, 8).forEach(c=>{
+        const items = c.cells[activeNode];
+        const multiRegion = new Set(items.map(i=>i.region)).size > 1;
+        const label2 = items.map(i => multiRegion ? i.region+' '+i.word : i.word).join(' / ');
+        html += '<div class="md-row"><em>'+label2+'</em><br><span class="md-en">'+c.english+'</span></div>';
+      });
+      if (concepts.length > 8) html += '<div class="map-more">+ '+(concepts.length-8)+' more in the list below&hellip;</div>';
+    }
+    html += '</div>';
+    detail.innerHTML = html;
+    detail.querySelector('.region-chip button').onclick = () => { activeNode = null; render(); };
+  }
+
+  renderTabs();
+}
+
+document.querySelectorAll('.gmap g[data-node]').forEach(g=>{
+  g.style.cursor = 'pointer';
+  g.addEventListener('click', ()=>{
+    const node = g.getAttribute('data-node');
+    activeNode = (activeNode === node) ? null : node;
+    render();
+    document.getElementById('controls-section').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+
+document.getElementById('search').addEventListener('input', (e)=>{
+  searchText = e.target.value.trim().toLowerCase();
+  render();
+});
+
+function goToSearch(term){
+  searchText = term.toLowerCase();
+  document.getElementById('search').value = term;
+  activeTopic = null; activeNode = null; variantOnly = false;
+  render();
+  document.getElementById('controls-section').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+const TRY_TERMS = ['water','drunk','difficult','forefinger','hail-stones','mica','hangover'];
+(function renderTryChips(){
+  const wrap = document.getElementById('tryChips');
+  TRY_TERMS.forEach(term=>{
+    const chip = document.createElement('button');
+    chip.className = 'try-chip';
+    chip.textContent = term;
+    chip.onclick = () => goToSearch(term);
+    wrap.appendChild(chip);
+  });
+})();
+
+// ---- hero showcase ----
+let showcaseIndex = 0;
+let showcaseTimer = null;
+const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function renderShowcaseDots(){
+  const dots = document.getElementById('showcaseDots');
+  dots.innerHTML = '';
+  SHOWCASE.forEach((s,i)=>{
+    const b = document.createElement('button');
+    b.className = i===showcaseIndex ? 'active' : '';
+    b.setAttribute('aria-label', 'Show example ' + (i+1));
+    b.onclick = () => { showcaseIndex = i; renderShowcase(); resetShowcaseTimer(); };
+    dots.appendChild(b);
+  });
+}
+
+function renderShowcase(){
+  const s = SHOWCASE[showcaseIndex];
+  const body = document.getElementById('showcaseBody');
+  const heroWord = document.getElementById('heroWord');
+  const apply = () => {
+    document.getElementById('showcaseForms').innerHTML = s.forms.map(f=>
+      '<span class="tag" data-region="lewis" style="background:var(--panel-2);"><span class="tag-region" style="color:var(--turquoise);">'+f.region+'</span>'+f.word+'</span>'
+    ).join('');
+    document.getElementById('showcaseBlurb').innerHTML = s.blurb;
+    heroWord.textContent = s.word;
+    body.classList.remove('swap');
+    heroWord.classList.remove('swap');
+  };
+  if (reduceMotion){ apply(); renderShowcaseDots(); return; }
+  body.classList.add('swap');
+  heroWord.classList.add('swap');
+  setTimeout(apply, 200);
+  renderShowcaseDots();
+}
+
+function resetShowcaseTimer(){
+  if (showcaseTimer) clearInterval(showcaseTimer);
+  if (reduceMotion) return;
+  showcaseTimer = setInterval(()=>{
+    showcaseIndex = (showcaseIndex + 1) % SHOWCASE.length;
+    renderShowcase();
+  }, 5200);
+}
+
+document.getElementById('showcasePrev').onclick = () => { showcaseIndex = (showcaseIndex - 1 + SHOWCASE.length) % SHOWCASE.length; renderShowcase(); resetShowcaseTimer(); };
+document.getElementById('showcaseNext').onclick = () => { showcaseIndex = (showcaseIndex + 1) % SHOWCASE.length; renderShowcase(); resetShowcaseTimer(); };
+
+renderShowcase();
+resetShowcaseTimer();
+
+// ---- feeling lucky ----
+document.getElementById('luckyBtn').addEventListener('click', ()=>{
+  const all = buildConcepts(DATA);
+  const pick = all[Math.floor(Math.random() * all.length)];
+  const box = document.getElementById('luckyResult');
+  box.innerHTML = '<div class="lucky-topic">'+pick.topic+'</div><div class="lucky-gloss">'+pick.english+'</div><div class="forms" style="margin-top:0.6rem;">'+COLS.map(col=>tagHTML(col,pick)).join('')+'</div>'
+    + (pick.standard && !pick.skipStandard ? '<div class="entry-meta" style="margin-top:0.5rem;"><span class="std">standard: '+pick.standard+'</span></div>' : '')
+    + (pick.fact ? '<div class="entry-fact" style="margin-top:0.4rem;">'+pick.fact+'</div>' : '');
+});
+
+renderMapCounts();
+render();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  function loadJSON(key, fallback) {
+    try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  var NAV_I18N = {"navHome":{"en":"Home","gd":"Dachaigh"},"navMyAccount":{"en":"My Account","gd":"An Cunntas Agam"},"navGrammar":{"en":"Grammar","gd":"Gràmar"},"navGaelicCollection":{"en":"Gaelic Collection","gd":"Cruinneachadh Gàidhlig"},"navScotsCollection":{"en":"Scots Collection","gd":"Cruinneachadh Beurla Ghallda"},"navSuggested":{"en":"Suggested Abairtean","gd":"Abairtean Air am Moladh"},"navGames":{"en":"Games","gd":"Geamannan"},"navResources":{"en":"Resources","gd":"Goireasan"},"navAbout":{"en":"About","gd":"Mun Dèidhinn"},"navBlog":{"en":"Blog","gd":"Blog"},"navMenu":{"en":"Menu","gd":"Clàr-taice"},"navGroupCollections":{"en":"Collections","gd":"Cruinneachaidhean"},"navGroupLearn":{"en":"Learn","gd":"Ionnsaich"},"navDrochChainnt":{"en":"Droch-chainnt","gd":"Droch-chainnt"},"navRegionalWords":{"en":"Regional Words","gd":"Faclan Sgìreil"}};
+  var CONTENT_I18N = {
+    pageSubtitle: { en: "Real dialect words gathered island by island — Lewis to Islay.", gd: "Fìor fhaclan dualchainnt air an cruinneachadh eilean air eilean — Leòdhas gu Ìle." }
+  };
+  var idMap = { navHome:'nav-home', navMyAccount:'nav-my-account', navGrammar:'nav-grammar', navGaelicCollection:'nav-gaelic-collection', navScotsCollection:'nav-scots-collection', navSuggested:'nav-suggested', navGames:'nav-games', navResources:'nav-resources', navAbout:'nav-about', navBlog:'nav-blog', navMenu:'nav-menu-label', navGroupCollections:'nav-group-collections', navGroupLearn:'nav-group-learn', navDrochChainnt:'nav-droch-chainnt', navRegionalWords:'nav-regional-words' };
+  var en = document.getElementById('ui-lang-en');
+  var gd = document.getElementById('ui-lang-gd');
+  function applyLang(lang) {
+    Object.keys(NAV_I18N).forEach(function (key) {
+      var elId = idMap[key];
+      var target = elId ? document.getElementById(elId) : null;
+      if (target) target.textContent = NAV_I18N[key][lang] || NAV_I18N[key].en;
+    });
+    var subtitle = document.getElementById('page-subtitle');
+    if (subtitle) subtitle.textContent = CONTENT_I18N.pageSubtitle[lang] || CONTENT_I18N.pageSubtitle.en;
+    if (en) en.classList.toggle('active', lang === 'en');
+    if (gd) gd.classList.toggle('active', lang === 'gd');
+    saveJSON('sf-ui-lang', lang);
+  }
+  if (en) en.addEventListener('click', function () { applyLang('en'); });
+  if (gd) gd.addEventListener('click', function () { applyLang('gd'); });
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  applyLang(savedUiLang === 'gd' ? 'gd' : 'en');
+})();
+</script>
+</body>
+</html>
