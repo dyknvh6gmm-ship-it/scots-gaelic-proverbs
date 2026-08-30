@@ -179,6 +179,10 @@ Resources
 <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg></span>
 Droch-chainnt
 </a>
+<a href="regional-words.html" id="nav-regional-words">
+<span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>
+Regional Words
+</a>
 </div>
 </div>
 <div class="ui-lang-toggle" id="ui-lang-toggle">
@@ -322,6 +326,7 @@ navMenu: { en: 'Menu', gd: 'Clàr-taice' },
 navGroupCollections: { en: 'Collections', gd: 'Cruinneachaidhean' },
 navGroupLearn: { en: 'Learn', gd: 'Ionnsaich' },
 navDrochChainnt: { en: 'Droch-chainnt', gd: 'Droch-chainnt' },
+    navRegionalWords: { en: 'Regional Words', gd: 'Faclan Sgìreil' },
     pageTitle: { en: 'Other Gaelic Resources', gd: 'Goireasan Gàidhlig Eile' },
     pageSubtitle: {
       en: "A short list of other places to learn, look things up, and listen to Scottish Gaelic — beyond what's on this site.",
@@ -386,6 +391,7 @@ navDrochChainnt: { en: 'Droch-chainnt', gd: 'Droch-chainnt' },
 navBlog: document.getElementById('nav-blog'),
 navSuggested: document.getElementById('nav-suggested'),
 navDrochChainnt: document.getElementById('nav-droch-chainnt'),
+navRegionalWords: document.getElementById('nav-regional-words'),
 navMenuLabel: document.getElementById('nav-menu-label'),
 navGroupCollections: document.getElementById('nav-group-collections'),
 navGroupLearn: document.getElementById('nav-group-learn')
@@ -428,6 +434,7 @@ navGroupLearn: document.getElementById('nav-group-learn')
 if (el.navBlog) el.navBlog.textContent = I18N.navBlog[lang];
 if (el.navSuggested) el.navSuggested.textContent = I18N.navSuggested[lang];
 if (el.navDrochChainnt) el.navDrochChainnt.textContent = I18N.navDrochChainnt[lang];
+if (el.navRegionalWords) el.navRegionalWords.textContent = t('navRegionalWords');
 if (el.navMenuLabel) el.navMenuLabel.textContent = I18N.navMenu[lang];
 if (el.navGroupCollections) el.navGroupCollections.textContent = I18N.navGroupCollections[lang];
 if (el.navGroupLearn) el.navGroupLearn.textContent = I18N.navGroupLearn[lang];
