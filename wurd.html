@@ -730,7 +730,7 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
     saveGame();
     renderGrid();
     renderReveal();
-    if (game.status !== 'playing') syncResultToAccount();
+    if (game.status !== 'playing') { syncResultToAccount(); if (!currentUser) renderStats(null); }
   }
 
   document.addEventListener('keydown', function (e) {
@@ -907,10 +907,22 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
   });
 
   // ---- Stats: fetch/update game_stats row for this user ----
+  var LOCAL_STREAK_KEY = 'sf_local_streak_wordle_sco';
+  function localStreak(record) {
+    var s = loadJSON(LOCAL_STREAK_KEY, { day: null, current: 0 });
+    if (record && s.day !== dayIdx) {
+      var won = game.status === 'won';
+      var newCurrent = won ? (s.day === dayIdx - 1 ? s.current + 1 : 1) : 0;
+      s = { day: dayIdx, current: newCurrent };
+      saveJSON(LOCAL_STREAK_KEY, s);
+    }
+    return s.current;
+  }
+
   function renderStats(row) {
     var played = row ? row.games_played : 0;
     var won = row ? row.games_won : 0;
-    var streak = row ? row.current_streak : 0;
+    var streak = row ? row.current_streak : localStreak(game.status !== 'playing');
     el.statStreak.textContent = String(streak);
     el.statPlayed.textContent = String(played);
     el.statWinPct.textContent = played ? Math.round((won / played) * 100) + '%' : '0%';
