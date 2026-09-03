@@ -404,5 +404,60 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
   loadSuggestions();
 })();
 </script>
+<!-- gws-fbtab: feedback slide-out tab -->
+<div id="gws-fbtab-toggle" style="position:fixed; left:0; top:50%; transform:translateY(-50%); z-index:9999; background:#0065bd; color:#fff; padding:12px 8px; border-radius:0 8px 8px 0; cursor:pointer; font-size:0.8rem; font-weight:700; writing-mode:vertical-rl; text-orientation:mixed; box-shadow:2px 0 8px rgba(0,0,0,0.3); letter-spacing:0.5px;">Feedback</div>
+<div id="gws-fbtab-panel" style="position:fixed; left:-340px; top:0; height:100%; width:320px; max-width:85vw; background:#1e1e1e; color:#fff; z-index:10000; box-shadow:4px 0 20px rgba(0,0,0,0.5); transition:left 0.3s ease; padding:20px; box-sizing:border-box; overflow-y:auto; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+    <h3 style="margin:0; font-size:1.1rem;">Send Feedback</h3>
+    <span id="gws-fbtab-close" style="cursor:pointer; font-size:1.4rem; line-height:1; padding:0 4px;">&times;</span>
+  </div>
+  <p style="font-size:0.85rem; opacity:0.8; margin:0 0 12px;">Spot an error or have a suggestion? Let us know below.</p>
+  <select id="gws-fbtab-type" style="width:100%; padding:8px; margin-bottom:10px; border-radius:6px; border:none; background:#2a2a2a; color:#fff; box-sizing:border-box;">
+    <option value="Error">Report an error</option>
+    <option value="Suggestion">Suggestion</option>
+    <option value="Other">Other</option>
+  </select>
+  <textarea id="gws-fbtab-message" placeholder="Your feedback..." style="width:100%; min-height:100px; padding:8px; margin-bottom:10px; border-radius:6px; border:none; background:#2a2a2a; color:#fff; box-sizing:border-box; font-family:inherit; resize:vertical;"></textarea>
+  <input id="gws-fbtab-email" type="email" placeholder="Your email (optional)" style="width:100%; padding:8px; margin-bottom:10px; border-radius:6px; border:none; background:#2a2a2a; color:#fff; box-sizing:border-box;" />
+  <button id="gws-fbtab-submit" style="width:100%; padding:10px; border:none; border-radius:6px; background:#0065bd; color:#fff; font-weight:700; cursor:pointer; font-size:0.9rem;">Send</button>
+  <div id="gws-fbtab-status" style="margin-top:10px; font-size:0.8rem;"></div>
+</div>
+<script>
+(function(){
+  var toggle = document.getElementById('gws-fbtab-toggle');
+  var panel = document.getElementById('gws-fbtab-panel');
+  var closeBtn = document.getElementById('gws-fbtab-close');
+  var submitBtn = document.getElementById('gws-fbtab-submit');
+  var status = document.getElementById('gws-fbtab-status');
+  if (!toggle || !panel) return;
+  function openPanel(){ panel.style.left = '0'; }
+  function closePanel(){ panel.style.left = '-340px'; }
+  toggle.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+  submitBtn.addEventListener('click', function(){
+    var type = document.getElementById('gws-fbtab-type').value;
+    var message = document.getElementById('gws-fbtab-message').value.trim();
+    var email = document.getElementById('gws-fbtab-email').value.trim();
+    if (!message) { status.textContent = 'Please enter a message.'; status.style.color = '#ff8080'; return; }
+    submitBtn.disabled = true;
+    status.textContent = 'Sending...';
+    status.style.color = '#fff';
+    fetch('https://iikjqxqjqfvqvqvqvqvq.supabase.co/functions/v1/send-feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: type, message: message, email: email, page: window.location.href })
+    }).then(function(r){ return r.json(); }).then(function(data){
+      status.textContent = 'Thanks for your feedback!';
+      status.style.color = '#8ee68e';
+      document.getElementById('gws-fbtab-message').value = '';
+      submitBtn.disabled = false;
+    }).catch(function(err){
+      status.textContent = 'Something went wrong. Please try again.';
+      status.style.color = '#ff8080';
+      submitBtn.disabled = false;
+    });
+  });
+})();
+</script>
 </body>
 </html>
