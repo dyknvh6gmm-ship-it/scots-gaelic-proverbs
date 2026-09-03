@@ -463,5 +463,122 @@ applyLang(savedUiLang === 'gd' ? 'gd' : 'en');
 </script>
 
 
+<!-- Feedback slide-out tab (site-wide) -->
+<div id="gws-fbtab-launcher">
+  <button id="gws-fbtab-btn" type="button" aria-label="Send feedback" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    <span>Feedback</span>
+  </button>
+</div>
+<div id="gws-fbtab-overlay"></div>
+<div id="gws-fbtab-panel" role="dialog" aria-modal="true" aria-labelledby="gws-fbtab-title">
+  <div class="gws-fbtab-head">
+    <h3 id="gws-fbtab-title">Feedback</h3>
+    <button id="gws-fbtab-close" type="button" aria-label="Close">&times;</button>
+  </div>
+  <p class="gws-fbtab-sub">Spot a mistake or have an idea? Tell Steven directly &mdash; it goes straight to his inbox.</p>
+  <form id="gws-fbtab-form">
+    <label for="gws-fbtab-message">Your message *</label>
+    <textarea id="gws-fbtab-message" name="message" rows="5" required maxlength="4000" placeholder="Found a typo, broken link, wrong translation, or just an idea..."></textarea>
+    <label for="gws-fbtab-name">Name (optional)</label>
+    <input id="gws-fbtab-name" name="name" type="text" maxlength="120" autocomplete="name">
+    <label for="gws-fbtab-email">Email (optional, for a reply)</label>
+    <input id="gws-fbtab-email" name="email" type="email" maxlength="200" autocomplete="email">
+    <button id="gws-fbtab-submit" type="submit">Send feedback</button>
+    <p id="gws-fbtab-status" role="status"></p>
+  </form>
+</div>
+<style>
+#gws-fbtab-launcher{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:9998;}
+#gws-fbtab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#2b3a8f,#6b3fa0);color:#fff;border:none;border-radius:0 10px 10px 0;padding:14px 8px;cursor:pointer;box-shadow:2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
+#gws-fbtab-btn:hover{padding-left:12px;background:linear-gradient(135deg,#34459e,#7c4bb0);}
+#gws-fbtab-btn svg{transform:rotate(90deg);flex-shrink:0;}
+#gws-fbtab-overlay{position:fixed;inset:0;background:rgba(5,7,15,0.55);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+#gws-fbtab-overlay.gws-fbtab-open{opacity:1;pointer-events:auto;}
+#gws-fbtab-panel{position:fixed;top:0;left:0;height:100%;width:min(380px,92vw);background:#14172a;color:#e8e9f3;z-index:10000;box-shadow:4px 0 24px rgba(0,0,0,0.45);transform:translateX(-105%);transition:transform 0.25s ease;padding:24px 20px 20px;overflow-y:auto;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+#gws-fbtab-panel.gws-fbtab-open{transform:translateX(0);}
+.gws-fbtab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.gws-fbtab-head h3{margin:0;font-size:20px;color:#fff;}
+#gws-fbtab-close{background:none;border:none;color:#aaaabb;font-size:26px;line-height:1;cursor:pointer;padding:0 4px;}
+#gws-fbtab-close:hover{color:#fff;}
+.gws-fbtab-sub{font-size:13.5px;color:#b7bad0;line-height:1.5;margin:0 0 18px;}
+#gws-fbtab-form{display:flex;flex-direction:column;gap:6px;}
+#gws-fbtab-form label{font-size:12.5px;color:#c7c9dc;margin-top:10px;font-weight:600;}
+#gws-fbtab-form textarea,#gws-fbtab-form input{background:#1d2039;border:1px solid #33375a;border-radius:8px;color:#f0f1f8;padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical;}
+#gws-fbtab-form textarea:focus,#gws-fbtab-form input:focus{outline:none;border-color:#7c8cff;box-shadow:0 0 0 3px rgba(124,140,255,0.2);}
+#gws-fbtab-submit{margin-top:16px;background:linear-gradient(135deg,#2b3a8f,#6b3fa0);color:#fff;border:none;border-radius:8px;padding:11px 16px;font-size:14.5px;font-weight:700;cursor:pointer;transition:opacity 0.15s ease;}
+#gws-fbtab-submit:disabled{opacity:0.6;cursor:default;}
+#gws-fbtab-submit:hover:not(:disabled){opacity:0.92;}
+#gws-fbtab-status{margin-top:10px;font-size:13px;min-height:18px;}
+#gws-fbtab-status.gws-fbtab-ok{color:#7ee2b8;}
+#gws-fbtab-status.gws-fbtab-err{color:#ff9b9b;}
+@media (max-width:480px){#gws-fbtab-btn{font-size:12px;padding:12px 6px;}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById("gws-fbtab-btn");
+  var overlay = document.getElementById("gws-fbtab-overlay");
+  var panel = document.getElementById("gws-fbtab-panel");
+  var closeBtn = document.getElementById("gws-fbtab-close");
+  var form = document.getElementById("gws-fbtab-form");
+  var statusEl = document.getElementById("gws-fbtab-status");
+  var submitBtn = document.getElementById("gws-fbtab-submit");
+  if (!btn || !panel || !form) return;
+  function openPanel(){
+    panel.classList.add("gws-fbtab-open");
+    overlay.classList.add("gws-fbtab-open");
+    btn.setAttribute("aria-expanded","true");
+    setTimeout(function(){ var m = document.getElementById("gws-fbtab-message"); if (m) m.focus(); }, 260);
+  }
+  function closePanel(){
+    panel.classList.remove("gws-fbtab-open");
+    overlay.classList.remove("gws-fbtab-open");
+    btn.setAttribute("aria-expanded","false");
+  }
+  btn.addEventListener("click", function(){
+    if (panel.classList.contains("gws-fbtab-open")) { closePanel(); } else { openPanel(); }
+  });
+  if (closeBtn) closeBtn.addEventListener("click", closePanel);
+  if (overlay) overlay.addEventListener("click", closePanel);
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") closePanel();
+  });
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var msgEl = document.getElementById("gws-fbtab-message");
+    var nameEl = document.getElementById("gws-fbtab-name");
+    var emailEl = document.getElementById("gws-fbtab-email");
+    var message = msgEl ? msgEl.value.trim() : "";
+    var name = nameEl ? nameEl.value.trim() : "";
+    var email = emailEl ? emailEl.value.trim() : "";
+    if (!message) return;
+    submitBtn.disabled = true;
+    statusEl.textContent = "Sending...";
+    statusEl.className = "";
+    fetch("https://kgbmdazcupgyypfvvqbv.supabase.co/functions/v1/send-feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message, name: name, email: email, page: window.location.pathname + window.location.search })
+    }).then(function(r){
+      return r.json().then(function(d){ return { ok: r.ok, data: d }; });
+    }).then(function(res){
+      if (res.ok) {
+        statusEl.textContent = "Thanks \u2014 feedback sent!";
+        statusEl.className = "gws-fbtab-ok";
+        form.reset();
+        setTimeout(closePanel, 1800);
+      } else {
+        statusEl.textContent = (res.data && res.data.error) || "Something went wrong \u2014 please try again.";
+        statusEl.className = "gws-fbtab-err";
+      }
+    }).catch(function(){
+      statusEl.textContent = "Network error \u2014 please try again.";
+      statusEl.className = "gws-fbtab-err";
+    }).finally(function(){
+      submitBtn.disabled = false;
+    });
+  });
+})();
+</script>
 </body>
 </html>
