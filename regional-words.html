@@ -1107,7 +1107,7 @@ function resetShowcaseTimer(){
   showcaseTimer = setInterval(()=>{
     showcaseIndex = (showcaseIndex + 1) % SHOWCASE.length;
     renderShowcase();
-  }, 5200);
+  }, 7000);
 }
 
 document.getElementById('showcasePrev').onclick = () => { showcaseIndex = (showcaseIndex - 1 + SHOWCASE.length) % SHOWCASE.length; renderShowcase(); resetShowcaseTimer(); };
