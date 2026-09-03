@@ -91,6 +91,9 @@
 
   main { max-width: 720px; margin: 0 auto; padding: 28px 20px 60px; }
 
+  .streak-banner { display: none; align-items: center; gap: 8px; background: linear-gradient(to right, rgba(163,105,31,0.12), rgba(163,105,31,0.04)); border: 1px solid rgba(163,105,31,0.3); border-radius: 12px; padding: 10px 14px; margin-bottom: 16px; font-weight: 700; color: var(--amber); font-size: 0.95rem; }
+  .streak-banner.show { display: flex; }
+
   .lang-tabs { display: flex; gap: 8px; margin-bottom: 22px; }
   .lang-tab {
     flex: 1; text-align: center; padding: 12px 16px; border-radius: 10px;
@@ -188,6 +191,21 @@
 </script>
 
 <main>
+  <div class="streak-banner" id="streak-banner">U0001F525 <span id="streak-banner-text"></span></div>
+  <script>
+  (function () {
+    function loadJSON(key) { try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } }
+    var keys = ['sf_local_streak_wordle', 'sf_local_streak_wordle_sco', 'sf_local_streak_bee_sco', 'sf_local_streak_bee_gd'];
+    var best = 0;
+    keys.forEach(function (k) { var s = loadJSON(k); if (s && s.current > best) best = s.current; });
+    if (best > 0) {
+      var banner = document.getElementById('streak-banner');
+      var text = document.getElementById('streak-banner-text');
+      text.textContent = best + '-day streak';
+      banner.classList.add('show');
+    }
+  })();
+  </script>
   <div class="lang-tabs">
     <button type="button" class="lang-tab active" id="tab-gaelic" data-tab="gaelic">Gàidhlig</button>
     <button type="button" class="lang-tab" id="tab-scots" data-tab="scots">Beurla Ghallda</button>
