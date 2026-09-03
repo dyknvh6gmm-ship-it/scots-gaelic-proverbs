@@ -258,6 +258,7 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clos
       <div><div class="stat-num" id="stat-found">0</div><div class="stat-label" id="stat-found-label">Air Lorg</div></div>
       <div><div class="stat-num" id="stat-score">0</div><div class="stat-label" id="stat-score-label">Sgòr</div></div>
       <div><div class="stat-num" id="stat-rank">Tòiseachadh</div><div class="stat-label" id="stat-rank-label">Ìre</div></div>
+      <div><div class="stat-num" id="stat-streak">0</div><div class="stat-label" id="stat-streak-label">Sreath</div></div>
     </div>
 
     <p class="game-message" id="game-message"></p>
@@ -383,6 +384,7 @@ document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clos
       gd: "Dèan faclan Gàidhlig leis na seachd litrichean gu h-ìosal. Feumaidh gach facal am prìomh litir (san amber) a chleachdadh, agus ceithir litrichean air a' char as lugha."
     },
     statFoundLabel: { en: 'Found', gd: 'Air Lorg' },
+    statStreakLabel: { en: 'Streak', gd: 'Sreath' },
     statScoreLabel: { en: 'Score', gd: 'Sgòr' },
     statRankLabel: { en: 'Rank', gd: 'Ìre' },
     gameOverFullMsg: { en: "You found every word today — nice one!", gd: "Lorg thu a h-uile facal an-diugh — taghadh!" },
@@ -442,6 +444,8 @@ navGroupLearn: { en: 'Learn', gd: 'Ionnsaich' },
     gameHeading: document.getElementById('game-heading'),
     gameHint: document.getElementById('game-hint'),
     statFound: document.getElementById('stat-found'),
+    statStreak: document.getElementById('stat-streak'),
+    statStreakLabel: document.getElementById('stat-streak-label'),
     statScore: document.getElementById('stat-score'),
     statRank: document.getElementById('stat-rank'),
     statFoundLabel: document.getElementById('stat-found-label'),
@@ -509,6 +513,7 @@ navGroupLearn: document.getElementById('nav-group-learn')
     el.gameHeading.textContent = t('gameHeading');
     el.gameHint.textContent = t('gameHint');
     el.statFoundLabel.textContent = t('statFoundLabel');
+    el.statStreakLabel.textContent = t('statStreakLabel');
     el.statScoreLabel.textContent = t('statScoreLabel');
     el.statRankLabel.textContent = t('statRankLabel');
     el.btnSubmit.textContent = t('submitBtn');
@@ -710,6 +715,16 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
     return game.found.filter(function (w) { return answerMap.hasOwnProperty(w); }).length;
   }
 
+  var LOCAL_STREAK_KEY = 'sf_local_streak_bee_gd';
+  function localStreak(record) {
+    var s = loadJSON(LOCAL_STREAK_KEY, { day: null, current: 0 });
+    if (record && s.day !== dayIdx) {
+      s = { day: dayIdx, current: (s.day === dayIdx - 1 ? s.current + 1 : 1) };
+      saveJSON(LOCAL_STREAK_KEY, s);
+    }
+    return s.current;
+  }
+
   function renderStats() {
     var score = currentScore();
     var mainCount = mainFoundCount();
@@ -717,6 +732,7 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
     el.statFound.textContent = mainCount + '/' + puzzle.words.length;
     el.statScore.textContent = String(score);
     el.statRank.textContent = rankLabel(pct);
+    el.statStreak.textContent = String(localStreak(mainCount > 0));
   }
 
   // ---- Sync progress to Supabase (game_stats, game = 'bee') ----
