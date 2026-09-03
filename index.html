@@ -298,7 +298,12 @@
   #install-banner img { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
   #install-banner .msg { flex: 1; min-width: 0; }
   #install-banner .msg strong { display: block; font-size: 0.9rem; }
-  #install-banner .msg span { display: block; font-size: 0.78rem; color: rgba(43,35,32,0.6); margin-top: 2px; }
+  #install-banner .msg span, #install-banner .msg > div { display: block; font-size: 0.78rem; color: rgba(43,35,32,0.6); margin-top: 2px; }
+  .install-steps { display: flex; flex-direction: column; gap: 4px; margin-top: 3px; }
+  .install-step { display: flex; align-items: center; gap: 7px; }
+  .install-step .step-num { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; background: var(--thistle, #8e6c9c); color: #fff; font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .install-step span:last-child { font-size: 0.78rem; color: rgba(43,35,32,0.75); }
+  .install-step strong { color: rgba(43,35,32,0.95); }
   #install-banner .actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   #install-banner button.install { background: var(--thistle); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
   #install-banner button.dismiss { background: none; border: none; color: rgba(43,35,32,0.4); font-size: 1.2rem; cursor: pointer; padding: 4px 6px; line-height: 1; }
@@ -551,7 +556,7 @@ OneSignal.init({ appId: '2640bf1b-a55c-4819-ba51-3acde7c4b430' });
     <img src="icons/icon-192.png" alt="" />
     <div class="msg">
       <strong data-i18n="installBannerTitle">Install Sean-fhaclan</strong>
-      <span id="install-banner-text">Add this to your home screen for quick, offline access.</span>
+      <div id="install-banner-text">Add this to your home screen for quick, offline access.</div>
     </div>
     <div class="actions">
       <button class="install" id="install-banner-btn" data-i18n="installBtn">Install</button>
@@ -1301,6 +1306,8 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
     installTextAndroid: { en: "Add this to your home screen for quick, offline access.", gd: "Cuir seo ri sgrìn dachaigh do fhòn airson cothrom luath, fiù 's far loidhne." },
     installTextAndroidManual: { en: 'Tap the menu (⋮) in your browser, then "Add to Home screen" or "Install app".', gd: 'Brùth air a\' chlàr-taice (⋮) san bhrabhsair agad, an uair sin "Add to Home screen" no "Install app".' },
     installTextIOS: { en: 'Tap the Share icon, then "Add to Home Screen".', gd: 'Brùth air an ìomhaigh Share, an uair sin "Add to Home Screen".' },
+    installStepShare: { en: 'Tap the <strong>Share</strong> icon in Safari’s toolbar', gd: 'Brùth air an ìomhaigh <strong>Share</strong> ann am bàr-inneal Safari' },
+    installStepAdd: { en: 'Scroll down and tap <strong>Add to Home Screen</strong>', gd: 'Sgrolaich síos agus brùth air <strong>Add to Home Screen</strong>' },
     searchPlaceholder: {
       scots: { en: "Search a Scots word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla Ghallda…" },
       gaelic: { en: "Search a Gaelic word or proverb…", gd: "Dèan lorg air facal no seanfhacal Gàidhlig…" },
@@ -1849,7 +1856,15 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
 
     updateInstallBannerText = function () {
       var hasPrompt = !!deferredPrompt;
-      bannerText.textContent = t(isIOS ? 'installTextIOS' : (hasPrompt ? 'installTextAndroid' : 'installTextAndroidManual'));
+      if (isIOS) {
+        bannerText.innerHTML =
+          '<div class="install-steps">' +
+          '<div class="install-step"><span class="step-num">1</span><span>' + t('installStepShare') + '</span></div>' +
+          '<div class="install-step"><span class="step-num">2</span><span>' + t('installStepAdd') + '</span></div>' +
+          '</div>';
+      } else {
+        bannerText.textContent = t(hasPrompt ? 'installTextAndroid' : 'installTextAndroidManual');
+      }
       btnInstall.textContent = t(hasPrompt ? 'installBtn' : 'installGotIt');
     };
 
