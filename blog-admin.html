@@ -123,6 +123,11 @@
 
         <label for="f-image-url">Cover image URL — optional</label>
         <input type="url" id="f-image-url" placeholder="https://…" />
+        <div class="upload-row" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:8px;">
+          <button type="button" id="upload-image-btn" class="btn btn-outline">Upload image</button>
+          <input type="file" id="f-image-file" accept="image/*" style="display:none;" />
+          <span id="upload-status" class="field-hint" style="margin:0;"></span>
+        </div>
         <div class="field-hint">Shown as the picture on the blog card and in the email. Leave blank and a plain card is used instead.</div>
         <img id="image-preview" class="image-preview" alt="Cover preview" />
 
@@ -505,6 +510,45 @@
     el.signOutBtn.addEventListener('click', doSignOut);
     el.signOutBtn2.addEventListener('click', doSignOut);
   }
+
+  (function () {
+    var uploadBtn = document.getElementById('upload-image-btn');
+    var fileInput = document.getElementById('f-image-file');
+    var uploadStatus = document.getElementById('upload-status');
+    var imageUrlInput = document.getElementById('f-image-url');
+    if (uploadBtn && fileInput && sfClient) {
+      uploadBtn.addEventListener('click', function () { fileInput.click(); });
+      fileInput.addEventListener('change', function () {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        if (file.size > 5 * 1024 * 1024) {
+          uploadStatus.textContent = 'Image is too large (max 5MB).';
+          uploadStatus.style.color = 'var(--danger)';
+          return;
+        }
+        uploadBtn.disabled = true;
+        uploadStatus.style.color = '';
+        uploadStatus.textContent = 'Uploading…';
+        var ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        var path = Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.' + ext;
+        sfClient.storage.from('blog-images').upload(path, file, { cacheControl: '3600', upsert: false }).then(function (res) {
+          uploadBtn.disabled = false;
+          if (res.error) {
+            uploadStatus.textContent = 'Upload failed: ' + res.error.message;
+            uploadStatus.style.color = 'var(--danger)';
+            return;
+          }
+          var pub = sfClient.storage.from('blog-images').getPublicUrl(res.data.path);
+          var url = pub && pub.data ? pub.data.publicUrl : '';
+          imageUrlInput.value = url;
+          imageUrlInput.dispatchEvent(new Event('input', { bubbles: true }));
+          uploadStatus.textContent = 'Uploaded.';
+          uploadStatus.style.color = '#1a7a3c';
+          fileInput.value = '';
+        });
+      });
+    }
+  })();
 
   initAuth();
 })();
