@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Suggestion Review — Sean-fhaclan & Auld Sayins</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<style>
+  :root {
+    --saltire: #0065bd; --thistle: #5b2a86; --amber: #a3691f; --heather: #8e6c9c;
+    --parchment: #faf6ee; --ink: #2b2320; --danger: #b3261e;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--parchment); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header { background: linear-gradient(to right, var(--saltire), var(--thistle)); color: #fff; padding: 26px 20px; }
+  header.app-header .inner { max-width: 860px; margin: 0 auto; }
+  header.app-header a { color: rgba(255,255,255,0.85); font-size: 0.85rem; text-decoration: none; font-weight: 600; }
+  header.app-header a:hover { text-decoration: underline; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  .card { background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2); box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 24px; margin-bottom: 20px; }
+  .card h2 { margin: 0 0 14px; font-size: 1.1rem; }
+
+  label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--thistle); margin: 14px 0 5px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=email] {
+    width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid rgba(142,108,156,0.3);
+    font-size: 0.9rem; font-family: inherit;
+  }
+
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; border: none; font-size: 0.88rem; cursor: pointer; font-weight: 700; }
+  .btn-primary { background: var(--thistle); color: #fff; }
+  .btn-primary:hover { background: #4a2270; }
+  .btn-outline { background: #fff; border: 1px solid rgba(142,108,156,0.3); color: var(--thistle); }
+  .btn-outline:hover { background: rgba(91,42,134,0.05); }
+  .btn-danger { background: #fff; border: 1px solid rgba(179,38,30,0.35); color: var(--danger); }
+  .btn-danger:hover { background: rgba(179,38,30,0.06); }
+  .btn-success { background: #fff; border: 1px solid rgba(26,122,60,0.35); color: #1a7a3c; }
+  .btn-success:hover { background: rgba(26,122,60,0.06); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-sm { padding: 7px 14px; font-size: 0.78rem; }
+
+  .form-actions { display: flex; gap: 10px; margin-top: 16px; align-items: center; }
+  .status-msg { font-size: 0.85rem; margin-top: 10px; }
+  .status-msg.ok { color: #1a7a3c; }
+  .status-msg.err { color: var(--danger); }
+
+  .unauthorized { text-align: center; padding: 30px 0; color: rgba(43,35,32,0.7); }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+  .tab-btn { background: #fff; border: 1px solid rgba(142,108,156,0.3); color: var(--thistle); padding: 8px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+  .tab-btn.active { background: var(--thistle); color: #fff; border-color: var(--thistle); }
+  .tab-count { opacity: 0.75; font-weight: 600; }
+
+  .sugg-row { border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 16px 18px; margin-bottom: 14px; }
+  .sugg-row .lang-row { margin-bottom: 8px; }
+  .sugg-row .lang-row:last-of-type { margin-bottom: 0; }
+  .sugg-row .lang-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .sugg-row .lang-label.scots { color: var(--saltire); }
+  .sugg-row .lang-label.gaelic { color: var(--thistle); }
+  .sugg-row .lang-label.english { color: var(--amber); }
+  .sugg-row .text { margin: 0; font-size: 1rem; }
+  .sugg-row .meaning { margin: 10px 0 0; font-size: 0.85rem; color: rgba(43,35,32,0.75); font-style: italic; }
+  .sugg-row .meta { margin-top: 12px; font-size: 0.75rem; color: rgba(43,35,32,0.5); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .sugg-row .row-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .status-pill { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .status-pill.pending { background: rgba(163,105,31,0.12); color: var(--amber); }
+  .status-pill.approved { background: rgba(26,122,60,0.12); color: #1a7a3c; }
+  .status-pill.rejected { background: rgba(179,38,30,0.1); color: var(--danger); }
+
+  .empty-state { text-align: center; color: rgba(43,35,32,0.5); padding: 30px 0; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <a href="my-account.html">&larr; Back to My Account</a>
+    <h1 style="margin-top:8px;">Suggestion Review</h1>
+  </div>
+</header>
+
+<main>
+
+  <div id="login-card" class="card">
+    <h2>Sign in</h2>
+    <form id="login-form">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" required placeholder="you@example.com" />
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Send code</button>
+      </div>
+      <div id="login-status" class="status-msg"></div>
+    </form>
+    <form id="code-form" style="display:none;">
+      <label for="login-code">6-digit code</label>
+      <input type="text" id="login-code" pattern="[0-9]*" maxlength="6" required placeholder="123456" />
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Verify</button>
+      </div>
+      <div id="code-status" class="status-msg"></div>
+    </form>
+  </div>
+
+  <div id="unauthorized-card" class="card" style="display:none;">
+    <div class="unauthorized">
+      Signed in, but this account isn't authorised to review suggestions.
+      <div style="margin-top:14px;"><button type="button" id="sign-out-btn" class="btn btn-outline">Sign out</button></div>
+    </div>
+  </div>
+
+  <div id="admin-area" style="display:none;">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0;">
+        <h2 style="margin:0;">Submitted proverbs</h2>
+        <button type="button" id="sign-out-btn-2" class="btn btn-outline btn-sm">Sign out</button>
+      </div>
+    </div>
+
+    <div class="tabs" id="tabs"></div>
+
+    <div id="sugg-list"></div>
+  </div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var ADMIN_EMAIL = 'contact@gaelicwithsteve.com';
+  var sfClient = (typeof window.supabase !== 'undefined')
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  var el = {
+    loginCard: document.getElementById('login-card'),
+    unauthorizedCard: document.getElementById('unauthorized-card'),
+    adminArea: document.getElementById('admin-area'),
+    loginForm: document.getElementById('login-form'),
+    loginEmail: document.getElementById('login-email'),
+    loginStatus: document.getElementById('login-status'),
+    codeForm: document.getElementById('code-form'),
+    loginCode: document.getElementById('login-code'),
+    codeStatus: document.getElementById('code-status'),
+    signOutBtn: document.getElementById('sign-out-btn'),
+    signOutBtn2: document.getElementById('sign-out-btn-2'),
+    tabs: document.getElementById('tabs'),
+    suggList: document.getElementById('sugg-list')
+  };
+
+  var currentUser = null;
+  var pendingEmail = null;
+  var allSuggestions = null; // array once loaded
+  var activeTab = 'pending';
+  var busyIds = {};
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch (e) { return iso; }
+  }
+
+  function langRow(cls, label, val) {
+    if (!val) return '';
+    return '<div class="lang-row"><div class="lang-label ' + cls + '">' + esc(label) + '</div><p class="text proverb-text">' + esc(val) + '</p></div>';
+  }
+
+  function loadSuggestions() {
+    if (!sfClient || !currentUser) return;
+    el.suggList.innerHTML = '<p class="empty-state">Loading…</p>';
+    sfClient.from('suggestions').select('*').order('created_at', { ascending: false }).then(function (res) {
+      if (res.error) {
+        el.suggList.innerHTML = '<p class="empty-state">Couldn\'t load suggestions — ' + esc(res.error.message) + '</p>';
+        return;
+      }
+      allSuggestions = res.data || [];
+      renderTabs();
+      renderList();
+    });
+  }
+
+  function countByStatus(status) {
+    if (!allSuggestions) return 0;
+    if (status === 'all') return allSuggestions.length;
+    return allSuggestions.filter(function (s) { return s.status === status; }).length;
+  }
+
+  function renderTabs() {
+    var tabs = [
+      { key: 'pending', label: 'Pending' },
+      { key: 'approved', label: 'Approved' },
+      { key: 'rejected', label: 'Rejected' },
+      { key: 'all', label: 'All' }
+    ];
+    el.tabs.innerHTML = tabs.map(function (t) {
+      return '<button type="button" class="tab-btn' + (activeTab === t.key ? ' active' : '') + '" data-tab="' + t.key + '">' +
+        esc(t.label) + ' <span class="tab-count">(' + countByStatus(t.key) + ')</span></button>';
+    }).join('');
+    Array.prototype.forEach.call(el.tabs.querySelectorAll('.tab-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        activeTab = btn.getAttribute('data-tab');
+        renderTabs();
+        renderList();
+      });
+    });
+  }
+
+  function renderList() {
+    if (!allSuggestions) return;
+    var rows = activeTab === 'all' ? allSuggestions : allSuggestions.filter(function (s) { return s.status === activeTab; });
+    if (!rows.length) {
+      el.suggList.innerHTML = '<p class="empty-state">Nothing here yet.</p>';
+      return;
+    }
+    el.suggList.innerHTML = rows.map(function (s) {
+      var busy = !!busyIds[s.id];
+      var actions = '';
+      if (s.status !== 'approved') {
+        actions += '<button type="button" class="btn btn-success btn-sm" data-action="approve" data-id="' + s.id + '"' + (busy ? ' disabled' : '') + '>Approve</button>';
+      }
+      if (s.status !== 'rejected') {
+        actions += '<button type="button" class="btn btn-danger btn-sm" data-action="reject" data-id="' + s.id + '"' + (busy ? ' disabled' : '') + '>Reject</button>';
+      }
+      if (s.status !== 'pending') {
+        actions += '<button type="button" class="btn btn-outline btn-sm" data-action="pending" data-id="' + s.id + '"' + (busy ? ' disabled' : '') + '>Back to pending</button>';
+      }
+      return (
+        '<div class="sugg-row" data-row="' + s.id + '">' +
+        langRow('scots', 'Scots', s.scots_text) +
+        langRow('gaelic', 'Gàidhlig', s.gaelic_text) +
+        langRow('english', 'English', s.english_text) +
+        (s.meaning ? '<p class="meaning">"' + esc(s.meaning) + '"</p>' : '') +
+        '<div class="meta">' +
+        '<span><span class="status-pill ' + esc(s.status) + '">' + esc(s.status) + '</span> &nbsp; Submitted' + (s.submitted_by ? ' by ' + esc(s.submitted_by) : '') + ' on ' + esc(fmtDate(s.created_at)) + '</span>' +
+        '</div>' +
+        '<div class="row-actions">' + actions + '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(el.suggList.querySelectorAll('button[data-action]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-id');
+        var action = btn.getAttribute('data-action');
+        var newStatus = action === 'approve' ? 'approved' : (action === 'reject' ? 'rejected' : 'pending');
+        setStatus(id, newStatus);
+      });
+    });
+  }
+
+  function setStatus(id, newStatus) {
+    if (busyIds[id]) return;
+    busyIds[id] = true;
+    renderList();
+    sfClient.from('suggestions').update({ status: newStatus }).eq('id', id).then(function (res) {
+      delete busyIds[id];
+      if (res.error) {
+        alert('Could not update: ' + res.error.message);
+        renderList();
+        return;
+      }
+      var row = allSuggestions.filter(function (s) { return s.id === id; })[0];
+      if (row) row.status = newStatus;
+      renderTabs();
+      renderList();
+    });
+  }
+
+  function updateUI() {
+    if (!currentUser) {
+      el.loginCard.style.display = 'block';
+      el.unauthorizedCard.style.display = 'none';
+      el.adminArea.style.display = 'none';
+      return;
+    }
+    if (currentUser.email !== ADMIN_EMAIL) {
+      el.loginCard.style.display = 'none';
+      el.unauthorizedCard.style.display = 'block';
+      el.adminArea.style.display = 'none';
+      return;
+    }
+    el.loginCard.style.display = 'none';
+    el.unauthorizedCard.style.display = 'none';
+    el.adminArea.style.display = 'block';
+    loadSuggestions();
+  }
+
+  function doSignOut() {
+    sfClient.auth.signOut().then(function () {
+      currentUser = null;
+      updateUI();
+      el.loginForm.reset();
+      el.codeForm.reset();
+      el.codeForm.style.display = 'none';
+      el.loginStatus.textContent = '';
+      el.codeStatus.textContent = '';
+    });
+  }
+
+  function initAuth() {
+    if (!sfClient) {
+      el.loginStatus.textContent = 'Could not connect to the login service.';
+      el.loginStatus.className = 'status-msg err';
+      return;
+    }
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateUI();
+    });
+
+    el.loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.loginEmail.value.trim();
+      el.loginStatus.textContent = 'Sending code…';
+      el.loginStatus.className = 'status-msg';
+      sfClient.auth.signInWithOtp({ email: email, options: { shouldCreateUser: true } }).then(function (res) {
+        if (res.error) {
+          el.loginStatus.textContent = 'Error: ' + res.error.message;
+          el.loginStatus.className = 'status-msg err';
+          return;
+        }
+        pendingEmail = email;
+        el.loginStatus.textContent = 'Code sent — check your email.';
+        el.loginStatus.className = 'status-msg ok';
+        el.codeForm.style.display = 'block';
+      });
+    });
+
+    el.codeForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var code = el.loginCode.value.trim();
+      el.codeStatus.textContent = 'Verifying…';
+      el.codeStatus.className = 'status-msg';
+      sfClient.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' }).then(function (res) {
+        if (res.error) {
+          el.codeStatus.textContent = 'Error: ' + res.error.message;
+          el.codeStatus.className = 'status-msg err';
+          return;
+        }
+        el.codeStatus.textContent = '';
+      });
+    });
+
+    el.signOutBtn.addEventListener('click', doSignOut);
+    el.signOutBtn2.addEventListener('click', doSignOut);
+  }
+
+  initAuth();
+})();
+</script>
+
+</body>
+</html>
