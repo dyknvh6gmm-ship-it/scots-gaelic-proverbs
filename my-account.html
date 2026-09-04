@@ -130,7 +130,11 @@ font-size: 0.92rem; font-weight: 500; transition: background 0.15s;
 .fav-card .lang-label.gaelic { color: var(--thistle); }
 .fav-card .lang-label.english { color: var(--amber); }
 .fav-card .text { margin: 0; font-size: 1rem; }
-.fav-card .theme-tag { display: inline-block; font-size: 0.7rem; color: var(--thistle); background: rgba(91,42,134,0.08); padding: 2px 8px; border-radius: 999px; margin-bottom: 8px; }
+
+.streak-item { display: flex; align-items: center; justify-content: space-between; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 12px 16px; }
+.streak-item .streak-game { font-weight: 600; }
+.streak-item .streak-nums { display: flex; gap: 14px; font-size: 0.85rem; color: rgba(43,35,32,0.7); }
+.streak-item .streak-nums b { color: var(--thistle); font-size: 1rem; }
 
 form#suggest-form { display: grid; gap: 12px; margin-top: 4px; }
 form#suggest-form .row3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
@@ -243,6 +247,11 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 <div class="card" id="favourites-card" style="display:none;">
 <h2 id="favourites-heading">My favourites</h2>
 <div class="fav-list" id="fav-list"><p class="empty" id="fav-loading">Loading…</p></div>
+</div>
+
+<div class="card" id="streaks-card" style="display:none;">
+<h2 id="streaks-heading">My game streaks</h2>
+<div class="fav-list" id="streaks-list"><p class="empty" id="streaks-loading">Loading…</p></div>
 </div>
 
 <div class="card" id="updates-card" style="display:none;">
@@ -362,6 +371,12 @@ en: "You haven't favourited anything yet — head to the Home page and tap the h
 gd: "Chan eil dad agad fhathast — theirig dhan duilleig Dhachaigh agus brùth air a' chridhe air seanfhacal as toigh leat."
 },
 favLoadError: { en: "Couldn't load your favourites right now — try refreshing.", gd: "Cha b' urrainn dhuinn na feadhainn as fheàrr leat a luchdachadh an-dràsta — feuch ath-nuadhachadh." },
+streaksHeading: { en: 'My game streaks', gd: 'Na sreathan cluiche agam' },
+streaksLoading: { en: 'Loading…', gd: 'A luchdachadh…' },
+streaksEmpty: { en: "You haven't played any games yet — head to the Games page to get started.", gd: "Cha do chluich thu geama fhathast — theirig dhan duilleig Gheamannan." },
+streaksLoadError: { en: "Couldn't load your streaks right now — try refreshing.", gd: "Cha b' urrainn dhuinn na sreathan agad a luchdachadh an-dràsta — feuch ath-nuadhachadh." },
+streaksCurrent: { en: 'Current', gd: 'An-dràsta' },
+streaksBest: { en: 'Best', gd: 'As fheàrr' },
 updatesHeading: { en: "Stay updated", gd: "Fuirich fiosraichte" },
 updatesBody: {
 en: "Get the proverb of the day by email or push notification — tied to your account, so it follows you between devices.",
@@ -423,6 +438,9 @@ accountStatus: document.getElementById('account-status'),
 favouritesCard: document.getElementById('favourites-card'),
 favouritesHeading: document.getElementById('favourites-heading'),
 favList: document.getElementById('fav-list'),
+streaksCard: document.getElementById('streaks-card'),
+streaksHeading: document.getElementById('streaks-heading'),
+streaksList: document.getElementById('streaks-list'),
 updatesCard: document.getElementById('updates-card'),
 updatesHeading: document.getElementById('updates-heading'),
 updatesBody: document.getElementById('updates-body'),
@@ -496,6 +514,7 @@ var accCodeBackEl = document.getElementById('account-code-back');
 if (accCodeBackEl) accCodeBackEl.textContent = t('useDifferentEmail');
 el.accountLogoutBtn.textContent = t('logOut');
 el.favouritesHeading.textContent = t('favouritesHeading');
+el.streaksHeading.textContent = t('streaksHeading');
 el.updatesHeading.textContent = t('updatesHeading');
 el.updatesBody.textContent = t('updatesBody');
 el.updatesEmailLabel.textContent = t('updatesEmailLabel');
@@ -547,6 +566,14 @@ el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
 // actual proverb text (kept in one place, not duplicated across pages). ----
 var loadedFavData = null; // { ids, proverbs } once loaded
 var favLoadStarted = false;
+var loadedStreaksData = null;
+var streaksLoadStarted = false;
+var STREAK_GAMES = [
+{ key: 'wordle', name: 'Am Facal' },
+{ key: 'wordle-sco', name: 'Wurd' },
+{ key: 'bee-sco', name: 'Bumbee' },
+{ key: 'bee-gd', name: 'Seillean' }
+];
 
 function fetchAllProverbs() {
 return fetch('index.html').then(function (r) { return r.text(); }).then(function (html) {
@@ -575,6 +602,19 @@ renderFavourites(loadedFavData);
 });
 }
 
+function loadStreaks() {
+if (streaksLoadStarted || !sfClient || !currentUser) return;
+streaksLoadStarted = true;
+sfClient.from('game_stats').select('*').eq('user_id', currentUser.id).then(function (res) {
+if (res.error) { loadedStreaksData = { error: true }; renderStreaks(loadedStreaksData); return; }
+loadedStreaksData = { rows: res.data };
+renderStreaks(loadedStreaksData);
+}).catch(function () {
+loadedStreaksData = { error: true };
+renderStreaks(loadedStreaksData);
+});
+}
+
 function favLangRow(cls, label, val) {
 if (!val) return '';
 return '<div class="lang-row"><div class="lang-label ' + cls + '">' + esc(label) + '</div><p class="text proverb-text">' + esc(val.text) + '</p></div>';
@@ -591,6 +631,27 @@ return (
 favLangRow('scots', 'Beurla Ghallda', p.scots) +
 favLangRow('gaelic', 'Gàidhlig', p.gaelic) +
 favLangRow('english', 'Beurla', p.english) +
+'</div>'
+);
+}).join('');
+}
+
+function renderStreaks(data) {
+if (!data) { el.streaksList.innerHTML = '<p class="empty">' + esc(t('streaksLoading')) + '</p>'; return; }
+if (data.error) { el.streaksList.innerHTML = '<p class="empty">' + esc(t('streaksLoadError')) + '</p>'; return; }
+var byGame = {};
+(data.rows || []).forEach(function (r) { byGame[r.game] = r; });
+var played = STREAK_GAMES.filter(function (g) { return byGame[g.key]; });
+if (!played.length) { el.streaksList.innerHTML = '<p class="empty">' + esc(t('streaksEmpty')) + '</p>'; return; }
+el.streaksList.innerHTML = played.map(function (g) {
+var row = byGame[g.key];
+return (
+'<div class="streak-item">' +
+'<span class="streak-game">' + esc(g.name) + '</span>' +
+'<span class="streak-nums">' +
+'<span>' + esc(t('streaksCurrent')) + ': <b>' + (row.current_streak || 0) + '</b></span>' +
+'<span>' + esc(t('streaksBest')) + ': <b>' + (row.max_streak || 0) + '</b></span>' +
+'</span>' +
 '</div>'
 );
 }).join('');
@@ -692,14 +753,17 @@ el.accountSignedOut.style.display = 'none';
 el.accountSignedIn.style.display = 'block';
 el.accountSignedInText.textContent = t('signedInAs', { email: currentUser.email });
 el.favouritesCard.style.display = 'block';
+el.streaksCard.style.display = 'block';
 el.updatesCard.style.display = 'block';
 el.suggestCard.style.display = 'block';
 loadFavourites();
+loadStreaks();
 loadSubscriberRow();
 } else {
 el.accountSignedOut.style.display = 'block';
 el.accountSignedIn.style.display = 'none';
 el.favouritesCard.style.display = 'none';
+el.streaksCard.style.display = 'none';
 el.updatesCard.style.display = 'none';
 el.suggestCard.style.display = 'none';
 }
