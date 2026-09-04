@@ -78,12 +78,20 @@ create policy "Anyone can view approved suggestions"
 -- with status = 'approved', which is what powers the public
 -- suggested-abairtean.html page.
 --
--- No update/delete policies for suggestions on purpose — once submitted, a
--- visitor can't edit or withdraw it from the public site. You review and
--- change "status" (pending → approved/rejected) from the Table Editor — that's
--- also how a suggestion gets onto suggested-abairtean.html (set it to
--- "approved") and how you'd remove one from there again (set it back to
--- "pending", or "rejected", or delete the row).
+-- Admin (contact@gaelicwithsteve.com) can see and update every suggestion
+-- regardless of status, which powers the review panel on
+-- suggestions-admin.html — that's where you approve/reject submissions now,
+-- instead of editing rows by hand in the Table Editor.
+drop policy if exists "Admin can view all suggestions" on public.suggestions;
+create policy "Admin can view all suggestions"
+  on public.suggestions for select
+  using ((auth.jwt() ->> 'email') = 'contact@gaelicwithsteve.com');
+
+drop policy if exists "Admin can update suggestions" on public.suggestions;
+create policy "Admin can update suggestions"
+  on public.suggestions for update
+  using ((auth.jwt() ->> 'email') = 'contact@gaelicwithsteve.com')
+  with check ((auth.jwt() ->> 'email') = 'contact@gaelicwithsteve.com');
 
 
 create table if not exists public.subscribers (
