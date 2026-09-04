@@ -265,6 +265,9 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 <input type="checkbox" id="chk-push-optin" />
 <span id="updates-push-label">🔔 Send push notifications</span>
 </label>
+<div class="actions">
+<button type="button" id="btn-save-updates">Save</button>
+</div>
 <p class="hint" id="updates-status"></p>
 </div>
 
@@ -391,6 +394,13 @@ updatesPushUnavailable: {
 en: "Push notifications aren't available in this browser right now.",
 gd: "Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta."
 },
+updatesSaveBtn: { en: "Save", gd: "Sàbhail" },
+updatesSaving: { en: "Saving…", gd: "'Ga shàbhaladh…" },
+updatesSaved: { en: "Preferences saved.", gd: "Roghainnean air an sàbhaladh." },
+updatesSavedPushWarn: {
+en: "Preferences saved. Push notifications couldn't be turned on in this browser — check your browser/device notification settings.",
+gd: "Roghainnean air an sàbhaladh. Cha b' urrainn brathan putaidh a chur air air a' bhrobhsair seo — thoir sùil air roghainnean brathan a' bhrobhsair/an inneil agad."
+},
 browseHeading: { en: 'Browse', gd: 'Sgrùd' },
 suggestHeading: { en: 'Suggest a proverb', gd: 'Mol seanfhacal' },
 suggestHint: {
@@ -448,6 +458,7 @@ updatesEmailLabel: document.getElementById('updates-email-label'),
 updatesPushLabel: document.getElementById('updates-push-label'),
 chkNewsletter: document.getElementById('chk-newsletter-optin'),
 chkPush: document.getElementById('chk-push-optin'),
+btnSaveUpdates: document.getElementById('btn-save-updates'),
 browseHeading: document.getElementById('browse-heading'),
 browseGrammar: document.getElementById('browse-grammar'),
 browseGaelicCollection: document.getElementById('browse-gaelic-collection'),
@@ -519,6 +530,7 @@ el.updatesHeading.textContent = t('updatesHeading');
 el.updatesBody.textContent = t('updatesBody');
 el.updatesEmailLabel.textContent = t('updatesEmailLabel');
 el.updatesPushLabel.textContent = t('updatesPushLabel');
+el.btnSaveUpdates.textContent = t('updatesSaveBtn');
 el.browseHeading.textContent = t('browseHeading');
 el.browseGrammar.textContent = t('navGrammar');
 el.browseGaelicCollection.textContent = t('navGaelicCollection');
@@ -665,8 +677,12 @@ subscriberLoadStarted = true;
 sfClient.from('subscribers').select('newsletter_opt_in,push_opt_in')
 .eq('user_id', currentUser.id).maybeSingle().then(function (res) {
 if (res.error) { el.updatesStatus.textContent = res.error.message; return; }
-el.chkNewsletter.checked = !!(res.data && res.data.newsletter_opt_in);
-el.chkPush.checked = !!(res.data && res.data.push_opt_in);
+if (res.data) {
+el.chkNewsletter.checked = !!res.data.newsletter_opt_in;
+el.chkPush.checked = !!res.data.push_opt_in;
+} else {
+el.chkPush.checked = true;
+}
 });
 }
 
@@ -699,27 +715,22 @@ OneSignal.User.PushSubscription.optOut();
 });
 }
 
-el.chkNewsletter.addEventListener('change', function () {
-upsertSubscriber({ newsletter_opt_in: el.chkNewsletter.checked });
-el.updatesStatus.textContent = t('updatesEmailSaved');
-});
-
-el.chkPush.addEventListener('change', function () {
-if (el.chkPush.checked) {
-enablePush().then(function (ok) {
-el.chkPush.checked = ok;
-if (ok) {
-upsertSubscriber({ push_opt_in: true });
-el.updatesStatus.textContent = t('updatesPushEnabled');
+el.btnSaveUpdates.addEventListener('click', function () {
+el.btnSaveUpdates.disabled = true;
+el.updatesStatus.textContent = t('updatesSaving');
+var wantsPush = el.chkPush.checked;
+var wantsEmail = el.chkNewsletter.checked;
+var pushStep = wantsPush ? enablePush() : Promise.resolve(true);
+if (!wantsPush) disablePush();
+pushStep.then(function (pushOk) {
+upsertSubscriber({ newsletter_opt_in: wantsEmail, push_opt_in: wantsPush });
+el.btnSaveUpdates.disabled = false;
+if (wantsPush && !pushOk) {
+el.updatesStatus.textContent = t('updatesSavedPushWarn');
 } else {
-el.updatesStatus.textContent = t('updatesPushUnavailable');
+el.updatesStatus.textContent = t('updatesSaved');
 }
 });
-} else {
-disablePush();
-upsertSubscriber({ push_opt_in: false });
-el.updatesStatus.textContent = t('updatesPushDisabled');
-}
 });
 
 // ---- Suggestion form: always requires being logged in on this page. ----
