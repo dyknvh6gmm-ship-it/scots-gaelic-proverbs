@@ -149,6 +149,11 @@ form#suggest-form button {
 background: var(--thistle); color: #fff; border: none; padding: 9px 18px; border-radius: 6px;
 font-size: 0.875rem; font-weight: 500; cursor: pointer;
 }
+#btn-save-updates {
+background: var(--thistle); color: #fff; border: none; padding: 9px 18px; border-radius: 6px;
+font-size: 0.875rem; font-weight: 500; cursor: pointer; margin-top: 10px;
+}
+#btn-save-updates:disabled { opacity: 0.6; cursor: default; }
 form#suggest-form button:hover { opacity: 0.9; }
 
 .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 10px 0; }
@@ -308,6 +313,14 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 </div>
 </form>
 </div>
+
+<div class="card" id="admin-card" style="display:none">
+<h2 id="admin-heading">Site Admin</h2>
+<div class="links-list">
+<a href="suggestions-admin.html" id="admin-suggestions-link">Review suggestions</a>
+<a href="blog-admin.html" id="admin-blog-link">Write a blog post</a>
+</div>
+</div>
 </main>
 
 <p class="social-follow" id="social-follow">
@@ -331,6 +344,7 @@ var sfClient = (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABA
 ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 : null;
 var currentUser = null;
+var ADMIN_EMAIL = 'contact@gaelicwithsteve.com';
 
 // ---- OneSignal (push notifications) ----
 var ONESIGNAL_APP_ID = '2640bf1b-a55c-4819-ba51-3acde7c4b430';
@@ -395,6 +409,9 @@ en: "Push notifications aren't available in this browser right now.",
 gd: "Chan eil brathan putaidh ri fhaighinn air a' bhrobhsair seo an-dràsta."
 },
 updatesSaveBtn: { en: "Save", gd: "Sàbhail" },
+adminHeading: { en: 'Site Admin', gd: 'Rianachd an Làraich' },
+adminSuggestionsLink: { en: 'Review suggestions', gd: 'Sgrùd molaidhean' },
+adminBlogLink: { en: 'Write a blog post', gd: 'Sgrìobh post blog' },
 updatesSaving: { en: "Saving…", gd: "'Ga shàbhaladh…" },
 updatesSaved: { en: "Preferences saved.", gd: "Roghainnean air an sàbhaladh." },
 updatesSavedPushWarn: {
@@ -459,6 +476,10 @@ updatesPushLabel: document.getElementById('updates-push-label'),
 chkNewsletter: document.getElementById('chk-newsletter-optin'),
 chkPush: document.getElementById('chk-push-optin'),
 btnSaveUpdates: document.getElementById('btn-save-updates'),
+adminCard: document.getElementById('admin-card'),
+adminHeading: document.getElementById('admin-heading'),
+adminSuggestionsLink: document.getElementById('admin-suggestions-link'),
+adminBlogLink: document.getElementById('admin-blog-link'),
 browseHeading: document.getElementById('browse-heading'),
 browseGrammar: document.getElementById('browse-grammar'),
 browseGaelicCollection: document.getElementById('browse-gaelic-collection'),
@@ -531,6 +552,9 @@ el.updatesBody.textContent = t('updatesBody');
 el.updatesEmailLabel.textContent = t('updatesEmailLabel');
 el.updatesPushLabel.textContent = t('updatesPushLabel');
 el.btnSaveUpdates.textContent = t('updatesSaveBtn');
+el.adminHeading.textContent = t('adminHeading');
+el.adminSuggestionsLink.textContent = t('adminSuggestionsLink');
+el.adminBlogLink.textContent = t('adminBlogLink');
 el.browseHeading.textContent = t('browseHeading');
 el.browseGrammar.textContent = t('navGrammar');
 el.browseGaelicCollection.textContent = t('navGaelicCollection');
@@ -767,6 +791,7 @@ el.favouritesCard.style.display = 'block';
 el.streaksCard.style.display = 'block';
 el.updatesCard.style.display = 'block';
 el.suggestCard.style.display = 'block';
+el.adminCard.style.display = (currentUser.email === ADMIN_EMAIL) ? 'block' : 'none';
 loadFavourites();
 loadStreaks();
 loadSubscriberRow();
@@ -777,6 +802,7 @@ el.favouritesCard.style.display = 'none';
 el.streaksCard.style.display = 'none';
 el.updatesCard.style.display = 'none';
 el.suggestCard.style.display = 'none';
+el.adminCard.style.display = 'none';
 }
 }
 
