@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 – Page Not Found | Sean-fhaclan &amp; Auld Sayins</title>
+<meta name="robots" content="noindex,follow" />
+<meta name="description" content="Page not found on Sean-fhaclan and Auld Sayins." />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Sean-fhaclan" />
+<style>
+  :root {
+    --saltire: #0065bd;
+    --thistle: #5b2a86;
+    --amber: #a3691f;
+    --heather: #8e6c9c;
+    --parchment: #faf6ee;
+    --ink: #2b2320;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--parchment);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+  ::selection { background: var(--thistle); color: #fff; }
+  .proverb-text { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; }
+
+  header.app-header {
+    background: linear-gradient(to right, var(--saltire), var(--thistle));
+    color: #fff;
+    padding: 32px 20px;
+  }
+  header.app-header .inner { max-width: 820px; margin: 0 auto; position: relative; }
+  header.app-header h1 { margin: 0; font-size: 2rem; }
+  header.app-header p { margin: 8px 0 0; opacity: 0.9; max-width: 620px; }
+
+  .ui-lang-toggle {
+    display: inline-flex; flex: 0 0 auto;
+    background: rgba(255,255,255,0.15); border-radius: 999px; padding: 3px;
+  }
+  .ui-lang-toggle button {
+    border: none; background: transparent; color: rgba(255,255,255,0.85);
+    padding: 5px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; cursor: pointer;
+  }
+  .ui-lang-toggle button.active { background: #fff; color: var(--thistle); }
+
+  .header-top-row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 14px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .site-nav { display: flex; align-items: center; gap: 20px; flex: 1 1 auto; min-width: 0; }
+  .site-nav a {
+    color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    white-space: nowrap; padding: 4px 0; border-bottom: 2px solid transparent;
+  }
+  .site-nav a:hover, .site-nav a:focus-visible { color: #fff; }
+  .site-nav a.active { color: #fff; border-bottom-color: #fff; }
+
+  .nav-menu { position: relative; flex: 0 0 auto; }
+  .nav-menu-btn {
+    display: inline-flex; align-items: center; gap: 6px; font-family: inherit;
+    background: rgba(255,255,255,0.15); color: #fff; border: none;
+    border-radius: 999px; padding: 7px 14px; font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+  }
+  .nav-menu-btn:hover { background: rgba(255,255,255,0.25); }
+  .nav-menu-btn .icon { width: 15px; height: 15px; display: inline-flex; }
+  .nav-menu-btn .icon svg { width: 100%; height: 100%; }
+  .nav-menu-btn .chevron { width: 11px; height: 11px; transition: transform 0.15s ease; }
+  .nav-menu.open .nav-menu-btn .chevron { transform: rotate(180deg); }
+  .nav-menu.open .nav-menu-btn { background: #fff; color: var(--thistle); }
+
+  .nav-menu-backdrop { display: none; position: fixed; inset: 0; z-index: 70; background: transparent; }
+  .nav-menu.open .nav-menu-backdrop { display: block; }
+
+  .nav-menu-panel {
+    display: none; position: absolute; right: 0; top: calc(100% + 8px);
+    background: #fff; color: var(--ink); border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.18); border: 1px solid rgba(142,108,156,0.15);
+    min-width: 240px; padding: 8px; z-index: 80;
+  }
+  .nav-menu.open .nav-menu-panel { display: block; }
+  .nav-menu-panel a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; color: var(--ink); text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+  }
+  .nav-menu-panel a:hover { background: rgba(91,42,134,0.08); }
+  .nav-menu-panel a.active { color: var(--thistle); font-weight: 700; background: rgba(91,42,134,0.08); }
+  .nav-menu-panel a .icon { width: 17px; height: 17px; flex: 0 0 auto; color: var(--heather); }
+  .nav-menu-panel a .icon svg { width: 100%; height: 100%; }
+  .nav-menu-panel .group-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
+    color: rgba(43,35,32,0.45); padding: 12px 12px 4px;
+  }
+  .nav-menu-panel .group-label:first-child { padding-top: 6px; }
+  .nav-menu-panel hr { border: none; border-top: 1px solid rgba(142,108,156,0.15); margin: 6px 4px; }
+
+  @media (max-width: 640px) {
+    .site-nav { gap: 14px; }
+    .nav-menu-panel { min-width: 220px; }
+  }
+  .nav-dropdown { position: relative; flex: 0 0 auto; }
+  .nav-dropdown-toggle { font-family: inherit; color: rgba(255,255,255,0.8); background: transparent; text-decoration: none; font-size: 0.85rem; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.25); white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+  .nav-dropdown-toggle:hover { background: rgba(255,255,255,0.12); }
+  .nav-dropdown.open .nav-dropdown-toggle, .nav-dropdown-toggle.active { background: #fff; color: var(--thistle); border-color: #fff; }
+  .nav-caret { font-size: 0.6rem; }
+  .nav-dropdown-menu { display: none; position: fixed; z-index: 200; background: #fff; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,0.18); padding: 6px; min-width: 190px; }
+  .nav-dropdown.open .nav-dropdown-menu { display: block; }
+  .nav-dropdown-menu a { display: block; padding: 8px 12px; border-radius: 6px; color: var(--ink); text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap; }
+  .nav-dropdown-menu a:hover { background: rgba(142,108,156,0.1); }
+  .nav-dropdown-menu a.active { color: var(--thistle); }
+  @media (max-width: 700px) {
+    .nav-dropdown-menu { position: static !important; box-shadow: none; margin-top: 4px; width: 100%; }
+  }
+
+  main { max-width: 820px; margin: 0 auto; padding: 24px 20px; }
+
+  .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+  .toggle-group {
+    display: inline-flex; border-radius: 999px; background: #fff;
+    border: 1px solid rgba(142,108,156,0.3); padding: 4px; flex-wrap: wrap;
+  }
+  .toggle-group button {
+    border: none; background: transparent; padding: 7px 14px; border-radius: 999px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer; color: rgba(43,35,32,0.7);
+  }
+  .toggle-group button.active.scots { background: var(--saltire); color: #fff; }
+  .toggle-group button.active.gaelic { background: var(--thistle); color: #fff; }
+  .toggle-group button.active.english { background: var(--amber); color: #fff; }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(142,108,156,0.3);
+    background: #fff; font-size: 0.875rem; color: rgba(43,35,32,0.7); cursor: pointer;
+  }
+  .link-btn {
+    margin-left: auto; font-size: 0.875rem; color: rgba(43,35,32,0.5);
+    text-decoration: underline; text-underline-offset: 2px; background: none; border: none; cursor: pointer;
+  }
+
+  #search-input {
+    width: 100%; border-radius: 10px; border: 1px solid rgba(142,108,156,0.3);
+    padding: 12px 16px; font-size: 1.125rem; font-family: Georgia, serif;
+    background: #fff; color: var(--ink); margin-bottom: 12px;
+  }
+  #search-input:focus { outline: 2px solid rgba(91,42,134,0.5); }
+
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; font-size: 0.875rem; }
+  .theme-field { display: inline-flex; align-items: center; gap: 6px; }
+  .theme-field .theme-lbl { color: rgba(43,35,32,0.6); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .filters select {
+    border-radius: 6px; border: 1px solid rgba(142,108,156,0.35); padding: 6px 10px; background: #fff; color: var(--thistle); font-weight: 600;
+  }
+  .filters label { display: inline-flex; align-items: center; gap: 6px; color: rgba(43,35,32,0.7); }
+  .filters .count { margin-left: auto; color: rgba(43,35,32,0.4); }
+  .theme-chip {
+    display: none; align-items: center; gap: 6px; background: rgba(91,42,134,0.08); color: var(--thistle);
+    border-radius: 999px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; margin-top: 10px;
+  }
+  .theme-chip.show { display: inline-flex; }
+  .theme-chip button {
+    border: none; background: none; color: var(--thistle); cursor: pointer; font-weight: 700; font-size: 0.9rem; line-height: 1; padding: 0;
+  }
+
+  .results { display: grid; gap: 16px; margin-top: 20px; }
+  .empty { color: rgba(43,35,32,0.5); font-style: italic; padding: 40px 0; text-align: center; }
+
+  .card {
+    background: #fff; border-radius: 12px; border: 1px solid rgba(142,108,156,0.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04); padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .theme-tag { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--heather); font-weight: 600; }
+  .fav-btn { background: none; border: none; cursor: pointer; padding: 0; line-height: 0; }
+
+  .lang-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; margin-bottom: 4px; }
+  .lang-label.scots { color: var(--saltire); }
+  .lang-label.gaelic { color: var(--thistle); }
+  .lang-label.english { color: var(--amber); }
+  .card p.text { font-size: 1.125rem; margin: 0; line-height: 1.4; }
+  .card p.gloss { font-size: 0.875rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .card .secondary-block { border-top: 1px solid rgba(142,108,156,0.15); padding-top: 12px; }
+  .card .no-match { font-size: 0.875rem; font-style: italic; color: rgba(43,35,32,0.5); }
+  .card .source { font-size: 0.75rem; color: rgba(43,35,32,0.4); margin: 0; }
+
+  .contribute-toggle {
+    margin-top: 40px; border-top: 1px solid rgba(142,108,156,0.2); padding-top: 24px;
+  }
+  .contribute-toggle > button {
+    background: none; border: none; color: var(--thistle); font-weight: 600; cursor: pointer; font-size: 1rem;
+    text-decoration: none;
+  }
+  .contribute-toggle > button:hover { text-decoration: underline; }
+
+  form#contribute-form {
+    margin-top: 16px; background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 12px;
+    padding: 20px; display: grid; gap: 12px;
+  }
+  form#contribute-form .row3 { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { form#contribute-form .row3 { grid-template-columns: 1fr 1fr 1fr; } }
+  form#contribute-form label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; color: rgba(43,35,32,0.6); }
+  form#contribute-form input, form#contribute-form textarea {
+    width: 100%; border-radius: 6px; border: 1px solid rgba(142,108,156,0.3); padding: 8px 10px; margin-top: 4px;
+    font-family: inherit; font-size: 0.95rem;
+  }
+  form#contribute-form .actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--thistle); color: #fff; border: none; padding: 9px 18px; border-radius: 6px;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .export-link { font-size: 0.875rem; color: rgba(43,35,32,0.6); background: none; border: none; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+  form#contribute-form .hint { font-size: 0.75rem; color: rgba(43,35,32,0.4); margin: 0; }
+
+  #toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: #fff; font-size: 0.875rem; padding: 10px 18px; border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); display: none;
+  }
+
+  .account-box {
+    background: #fff; border: 1px solid rgba(142,108,156,0.2); border-radius: 10px;
+    padding: 12px 16px; margin-bottom: 16px; font-size: 0.85rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+  }
+  .account-text { color: rgba(43,35,32,0.75); }
+  .account-signed-out { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; width: 100%; }
+  .account-login-form { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-left: auto; }
+  .account-login-form input[type="email"] {
+    border: 1px solid rgba(142,108,156,0.3); border-radius: 6px; padding: 6px 10px; font-size: 0.85rem; min-width: 200px;
+    font-family: inherit;
+  }
+  .account-login-form button {
+    background: none; border: 1px solid var(--thistle); color: var(--thistle); border-radius: 6px;
+    padding: 6px 14px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+  }
+  .account-login-form button:hover { background: rgba(91,42,134,0.08); }
+  .account-signed-in { display: flex; align-items: center; gap: 12px; width: 100%; justify-content: space-between; }
+  .account-signed-in .link-btn {
+    background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px;
+    font-size: 0.82rem; cursor: pointer; padding: 0;
+  }
+  .account-status { width: 100%; margin: 2px 0 0; font-size: 0.78rem; color: rgba(43,35,32,0.5); }
+  .account-status.error { color: #a33d2e; }
+
+  #about-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+    align-items: center; justify-content: center; padding: 16px; z-index: 50;
+  }
+  #about-overlay .modal {
+    background: #fff; border-radius: 12px; max-width: 560px; width: 100%; padding: 24px;
+    max-height: 80vh; overflow-y: auto;
+  }
+  #about-overlay .modal h2 { margin-top: 0; }
+  #about-overlay .modal p { font-size: 0.9rem; color: rgba(43,35,32,0.75); line-height: 1.5; }
+  #about-overlay .modal button.close { margin-top: 8px; background: none; border: none; color: var(--thistle); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; font-size: 0.9rem; }
+
+  footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32,0.4); padding: 32px 0; }
+
+  .potd { margin-bottom: 20px; }
+  .potd-card {
+    background: linear-gradient(135deg, rgba(0,101,189,0.07), rgba(91,42,134,0.07));
+    border: 1px solid rgba(142,108,156,0.25); border-radius: 14px; padding: 20px;
+  }
+  .potd-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; gap: 12px; }
+  .potd-badge {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--amber); background: rgba(163,105,31,0.12); padding: 5px 12px; border-radius: 999px;
+  }
+  .potd-nav button {
+    background: #fff; border: 1px solid rgba(142,108,156,0.3); width: 30px; height: 30px;
+    border-radius: 50%; cursor: pointer; font-size: 1rem; color: var(--ink); margin-left: 6px; line-height: 1;
+  }
+  .potd-nav button:hover { background: rgba(142,108,156,0.1); }
+  .potd-body { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .potd-body { grid-template-columns: 1fr 1fr 1fr; } }
+  .potd-lang-block p.text { font-size: 1.05rem; margin: 0; line-height: 1.35; }
+  .potd-lang-block p.gloss { font-size: 0.8rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .potd-lang-block p.no-match { font-size: 0.8rem; font-style: italic; color: rgba(43,35,32,0.4); margin: 0; }
+  .potd-dots { display: flex; gap: 6px; justify-content: center; margin-top: 16px; }
+  .potd-dots button { width: 8px; height: 8px; border-radius: 50%; border: none; background: rgba(142,108,156,0.3); padding: 0; cursor: pointer; }
+  .potd-dots button.active { background: var(--thistle); }
+
+  /* Install banner (mobile only) */
+  #install-banner {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+    background: #fff; border-top: 1px solid rgba(142,108,156,0.3);
+    box-shadow: 0 -4px 16px rgba(0,0,0,0.12); padding: 14px 16px;
+  }
+  #install-banner .row { display: flex; align-items: center; gap: 12px; max-width: 640px; margin: 0 auto; }
+  #install-banner img { width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0; }
+  #install-banner .msg { flex: 1; min-width: 0; }
+  #install-banner .msg strong { display: block; font-size: 0.9rem; }
+  #install-banner .msg span, #install-banner .msg > div { display: block; font-size: 0.78rem; color: rgba(43,35,32,0.6); margin-top: 2px; }
+  .install-steps { display: flex; flex-direction: column; gap: 4px; margin-top: 3px; }
+  .install-step { display: flex; align-items: center; gap: 7px; }
+  .install-step .step-num { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; background: var(--thistle, #8e6c9c); color: #fff; font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .install-step span:last-child { font-size: 0.78rem; color: rgba(43,35,32,0.75); }
+  .install-step strong { color: rgba(43,35,32,0.95); }
+  #install-banner .actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  #install-banner button.install { background: var(--thistle); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+  #install-banner button.dismiss { background: none; border: none; color: rgba(43,35,32,0.4); font-size: 1.2rem; cursor: pointer; padding: 4px 6px; line-height: 1; }
+
+  /* Featured section + expand/collapse */
+  .featured-section { margin-bottom: 16px; }
+  .featured-card {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(0,101,189,0.09), rgba(91,42,134,0.09));
+    border: 1px solid rgba(142,108,156,0.25); border-radius: 14px; padding: 18px 20px;
+  }
+  .featured-icon { font-size: 2rem; flex-shrink: 0; }
+  .featured-body { flex: 1; min-width: 180px; }
+  .featured-body h3 { margin: 0 0 4px; font-size: 1.05rem; font-family: Georgia, serif; }
+  .featured-body p { margin: 0; font-size: 0.85rem; color: rgba(43,35,32,0.65); }
+  .featured-btn {
+    display: inline-block; background: var(--thistle); color: #fff; text-decoration: none;
+    padding: 9px 20px; border-radius: 999px; font-weight: 600; font-size: 0.85rem; flex-shrink: 0;
+  }
+  .featured-btn:hover { opacity: 0.9; }
+
+  .expand-btn {
+    display: block; width: 100%; text-align: center; margin: 14px 0 0;
+    background: var(--thistle); border: none; border-radius: 10px; box-shadow: 0 2px 8px rgba(91,42,134,0.3);
+    padding: 14px; font-size: 0.95rem; font-weight: 700; color: #fff; cursor: pointer;
+  }
+  .expand-btn:hover { background: rgba(91,42,134,0.85); } #secondary-content { margin-top: 16px; }
+
+  /* Map section */
+  .map-section {
+    margin-top: 36px; background: #fff; border: 1px solid rgba(142,108,156,0.2);
+    border-radius: 14px; padding: 22px;
+  }
+  .map-section h3 { margin: 0 0 4px; font-size: 1.1rem; }
+  .map-section > p { margin: 0 0 14px; font-size: 0.875rem; color: rgba(43,35,32,0.65); max-width: 520px; }
+  .map-frame-wrap {
+    border-radius: 10px; overflow: hidden; border: 1px solid rgba(142,108,156,0.25);
+    height: 320px; background: #eee;
+  }
+  .map-frame { width: 100%; height: 100%; border: 0; }
+  .map-info {
+    margin-top: 12px; padding: 12px 14px; background: rgba(91,42,134,0.05);
+    border-radius: 8px; font-size: 0.9rem;
+  }
+  .map-info .place { font-weight: 600; font-size: 0.8rem; color: var(--thistle); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .map-info p.text { font-size: 1.05rem; margin: 4px 0 0; }
+  .map-info p.gloss { font-size: 0.85rem; color: rgba(43,35,32,0.6); margin: 4px 0 0; }
+  .map-info p.credit { font-size: 0.75rem; color: rgba(43,35,32,0.45); margin: 8px 0 0; }
+  #map-view-larger { display: inline-block; margin-top: 8px; }
+
+  /* On phones, the language toggle + quick actions move to a fixed bar at the
+     bottom of the screen, like a native app's tab bar. JS pads the page content
+     and repositions the install banner so nothing overlaps — see applyMobileBar(). */
+  @media (max-width: 640px) {
+    .toolbar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 55;
+      background: #fff; margin: 0;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid rgba(142,108,156,0.25);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+      justify-content: center;
+    }
+    .toolbar .toggle-group { flex: 1 1 100%; justify-content: center; order: 1; }
+    .toolbar .btn-outline, .toolbar .link-btn { font-size: 0.78rem; padding: 6px 12px; order: 2; margin: 0; }
+    .toolbar .link-btn { margin-left: 0; }
+
+    .account-login-form { margin-left: 0; width: 100%; }
+    .account-login-form input[type="email"] { flex: 1 1 auto; min-width: 0; }
+    .account-signed-in { flex-direction: column; align-items: flex-start; gap: 6px; }
+  }
+
+  .social-follow { text-align: center; font-size: 0.8rem; color: rgba(43,35,32,0.5); margin: 6px 0 0; }
+  .social-follow a { display: inline-flex; align-items: center; gap: 4px; color: var(--thistle); text-decoration: none; font-weight: 600; margin: 6px 8px 0; }
+  .social-follow a:hover { text-decoration: underline; }
+  .social-follow .icon { width: 15px; height: 15px; flex-shrink: 0; }
+  .social-follow .icon svg { width: 100%; height: 100%; display: block; }
+</style>
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer="defer"></script>
+<script>
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+window.OneSignalDeferred.push(function (OneSignal) {
+OneSignal.init({ appId: '2640bf1b-a55c-4819-ba51-3acde7c4b430' });
+});
+</script>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="inner">
+    <div class="header-top-row">
+      <nav class="site-nav">
+        <a href="index.html" class="active" data-i18n="navHome">Home</a>
+        <a href="games.html" data-i18n="navGames">Games</a>
+        <a href="blog.html" data-i18n="navBlog">Blog</a>
+      </nav>
+      <div class="nav-menu" id="nav-menu">
+        <button type="button" class="nav-menu-btn" id="nav-menu-btn" aria-haspopup="true" aria-expanded="false">
+          <span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span data-i18n="navMenu">Menu</span>
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="nav-menu-backdrop" id="nav-menu-backdrop"></div>
+        <div class="nav-menu-panel" role="menu">
+          <a href="my-account.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.8"/><path d="M5 20c1.2-3.8 4.2-6 7-6s5.8 2.2 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span data-i18n="navMyAccount">My Account</span></a>
+          <a href="about.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.5M12 8v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span data-i18n="navAbout">About</span></a>
+          <div class="group-label" data-i18n="navGroupCollections">Collections</div>
+          <a href="gaelic-collection.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13zM20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5v-13z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span data-i18n="navGaelicCollection">Gaelic Collection</span></a>
+          <a href="scots-collection.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H12v16H5.5c-.8 0-1.5-.7-1.5-1.5v-13zM20 5.5c0-.8-.7-1.5-1.5-1.5H12v16h6.5c.8 0 1.5-.7 1.5-1.5v-13z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span data-i18n="navScotsCollection">Scots Collection</span></a>
+          <a href="suggested-abairtean.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3.5l2.5 5.6 6 .6-4.5 4 1.3 6-5.3-3.2-5.3 3.2 1.3-6-4.5-4 6-.6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span data-i18n="navSuggested">Suggested Abairtean</span></a>
+          <div class="group-label" data-i18n="navGroupLearn">Learn proper Scottish!</div>
+          <a href="grammar.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5L2 9.5 12 14l10-4.5L12 5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span data-i18n="navGrammar">Grammar</span></a>
+          <a href="resources.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1.5 1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span data-i18n="navResources">Resources</span></a>
+          <a href="droch-chainnt.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l9.5 16h-19L12 4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4M12 17v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span data-i18n="navDrochChainnt">Droch-chainnt &#128686; 18+</span></a>
+          <a href="regional-words.html" role="menuitem"><span class="icon"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><line x1="2" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-i18n="navRegionalWords">Regional Words</span></a>
+        </div>
+      </div>
+      <div class="ui-lang-toggle" id="ui-lang-toggle">
+        <button id="ui-lang-en" class="active" data-lang="en">EN</button>
+        <button id="ui-lang-gd" data-lang="gd">GD</button>
+      </div>
+    </div>
+    <h1 class="proverb-text">Sean-fhaclan &amp; Auld Sayins</h1>
+    <p data-i18n="appSubtitle">Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.</p>
+  </div>
+</header>
+
+<script>
+(function () {
+  var menu = document.getElementById('nav-menu');
+  var btn = document.getElementById('nav-menu-btn');
+  var backdrop = document.getElementById('nav-menu-backdrop');
+  if (!menu || !btn) return;
+  function closeMenu() { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+  function toggleMenu(e) {
+    e.stopPropagation();
+    var open = menu.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  btn.addEventListener('click', toggleMenu);
+  if (backdrop) backdrop.addEventListener('click', closeMenu);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
+})();
+</script>
+
+<main>
+  <section style="max-width:640px;margin:60px auto;padding:0 20px;text-align:center;">
+    <div style="font-size:72px;font-weight:800;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;">404</div>
+    <h1 style="margin:16px 0 8px;font-size:1.6rem;">Page not found</h1>
+    <p style="opacity:0.75;margin:0 0 6px;">We couldn't find that page &mdash; it may have moved, or the link might be wrong.</p>
+    <p lang="gd" style="font-style:italic;opacity:0.65;margin:0 0 28px;">Cha do lorg sinn an duilleag sin &mdash; is dòcha gun deach a gluasad, no gu bheil an ceangal ceàrr.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="index.html" style="background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;text-decoration:none;border-radius:8px;padding:12px 20px;font-weight:700;">Home / Dachaigh</a>
+      <a href="games.html" style="background:rgba(120,120,140,0.12);color:inherit;text-decoration:none;border-radius:8px;padding:12px 20px;font-weight:700;border:1px solid rgba(120,120,140,0.25);">Games / Geamannan</a>
+      <a href="blog.html" style="background:rgba(120,120,140,0.12);color:inherit;text-decoration:none;border-radius:8px;padding:12px 20px;font-weight:700;border:1px solid rgba(120,120,140,0.25);">Blog</a>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer" data-i18n="footerText">Made for browsing, learning, and the odd argument doon the pub.</footer>
+<p style="text-align:center; margin:-16px 0 24px; font-size:0.75rem;"><a href="manager.html" style="color:rgba(43,35,32,0.35);">+ Add a proverb</a></p>
+
+<script type="application/json" id="proverb-data">
+[
+  {"id":1,"theme":"Fate & Meeting",
+   "scots":{"text":"Thay gang faur that disna meet ae day.","gloss":"It's a small world — paths cross again."},
+   "gaelic":{"text":"Coinnichidh na daoine far nach coinnich na cnuic.","gloss":"People will meet where the hills never will — it's a small world."},
+   "english":{"text":"It's a small world.","gloss":"A well-known English idiom with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 480 (Ruairidh MacIlleathain, 2008)."},
+
+  {"id":2,"theme":"Hardship & Change",
+   "scots":{"text":"It's a bare muir that ye gang throu and no find a heather cou.","gloss":"It's a long lane that has no turning — hard times ease eventually."},
+   "gaelic":{"text":"Chan eil tuil air nach tig traoghadh.","gloss":"There isn't a flood that will not subside."},
+   "english":{"text":"It's a long lane that has no turning.","gloss":"A traditional English proverb with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: Colin B. D. Mark, The Gaelic-English Dictionary (2003), via Wikiquote."},
+
+  {"id":3,"theme":"Work & Home",
+   "scots":{"text":"The sowter's wife is aye the warst shod.","gloss":"The cobbler's wife is worst shod — working hard for others, we neglect our own."},
+   "gaelic":{"text":"Is minig a bha droch bhròg air mnaoi griasaiche.","gloss":"Often a shoemaker's wife has bad shoes."},
+   "english":{"text":"The cobbler's wife is always the worst shod.","gloss":"The standard English form of this proverb."},
+   "source":"Scots: traditional, recorded from 1598. Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":4,"theme":"Caution & Value",
+   "scots":{"text":"Better a moose in the pat nor nae flesh.","gloss":"A bird in the hand is worth two in the bush."},
+   "gaelic":{"text":"Is fheàrr an t-iasg na thig na làimh na dhà a' dol às.","gloss":"Better the fish that comes to hand than two that get away."},
+   "english":{"text":"A bird in the hand is worth two in the bush.","gloss":"The standard English proverb — same meaning, different creature."},
+   "source":"Scots: scots-online.org. Gaelic: traditional Gaelic proverb collections (CeltGuide)."},
+
+  {"id":5,"theme":"Work & Effort",
+   "scots":{"text":"A man o wirds but no o deeds is like a gairden fou wi weeds.","gloss":"Action speaks louder than words."},
+   "gaelic":{"text":"Is fheàrr obair na beul.","gloss":"Work is better than talk."},
+   "english":{"text":"Actions speak louder than words.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org. Gaelic: traditional Gaelic proverb collections (CeltGuide)."},
+
+  {"id":6,"theme":"Money & Value",
+   "scots":{"text":"A fuil and his siller's easy pairtit.","gloss":"A fool and his money are easily parted."},
+   "gaelic":null,
+   "english":{"text":"A fool and his money are soon parted.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":7,"theme":"Reputation",
+   "scots":{"text":"A guid name's suiner tint nor wun.","gloss":"A good name is sooner lost than gained."},
+   "gaelic":null,
+   "english":{"text":"A good name is easier lost than won.","gloss":"A widely used English rendering of the same proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":8,"theme":"Gifts & Gratitude",
+   "scots":{"text":"A gien cou shoudna be leukit in the mou.","gloss":"Don't look a gift horse in the mouth."},
+   "gaelic":null,
+   "english":{"text":"Don't look a gift horse in the mouth.","gloss":"The standard English idiom — horse rather than cow, same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":9,"theme":"Change & Restlessness",
+   "scots":{"text":"A rowin stane gaithers nae fog.","gloss":"A rolling stone gathers no moss."},
+   "gaelic":null,
+   "english":{"text":"A rolling stone gathers no moss.","gloss":"Near-identical wording in both languages."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":10,"theme":"Work & Effort",
+   "scots":{"text":"An ill shearer aye blames his tuils.","gloss":"A bad workman always blames his tools."},
+   "gaelic":null,
+   "english":{"text":"A bad workman always blames his tools.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":11,"theme":"Opportunity",
+   "scots":{"text":"As ae door's steekit anither appens.","gloss":"As one door closes, another opens."},
+   "gaelic":null,
+   "english":{"text":"When one door closes, another opens.","gloss":"A widely used English saying with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":12,"theme":"Age & Habit",
+   "scots":{"text":"Auld speugies is ill tae tame.","gloss":"You can't teach an old dog new tricks (old sparrows are hard to tame)."},
+   "gaelic":null,
+   "english":{"text":"You can't teach an old dog new tricks.","gloss":"The standard English proverb — dogs rather than sparrows, same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":13,"theme":"Timing",
+   "scots":{"text":"Better suin nor syne.","gloss":"Better sooner than later."},
+   "gaelic":null,
+   "english":{"text":"Better sooner than later.","gloss":"A plain-English rendering — no widely fixed English proverb matches this one."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":14,"theme":"Home & Family",
+   "scots":{"text":"It's an ill bird that fyles it's ain nest.","gloss":"Don't foul your own nest."},
+   "gaelic":null,
+   "english":{"text":"Don't foul your own nest.","gloss":"The standard English idiom with the same wording and meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":15,"theme":"Regret",
+   "scots":{"text":"It's like butter in the black dug's hause.","gloss":"There's no use crying over spilt milk."},
+   "gaelic":null,
+   "english":{"text":"Don't cry over spilt milk.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":16,"theme":"Home & Family",
+   "scots":{"text":"Keep yer ain fish-guts tae yer ain seamaws.","gloss":"Charity begins at home."},
+   "gaelic":null,
+   "english":{"text":"Charity begins at home.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":17,"theme":"Judgement",
+   "scots":{"text":"Ne'er find faut wi ma shuin unless ye pey ma souter.","gloss":"Don't criticise something that's none of your business."},
+   "gaelic":null,
+   "english":{"text":"Don't criticise something that's none of your business.","gloss":"A plain-English rendering — no single fixed English proverb matches this one exactly."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":18,"theme":"Truth",
+   "scots":{"text":"The pruif o the pudden's in the preein o't.","gloss":"The proof of the pudding is in the eating."},
+   "gaelic":null,
+   "english":{"text":"The proof of the pudding is in the eating.","gloss":"Near-identical wording in both languages."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":19,"theme":"Age & Habit",
+   "scots":{"text":"Ye canna pit a young heid on auld shouders.","gloss":"You can't give the young the wisdom of the old."},
+   "gaelic":null,
+   "english":{"text":"You can't put an old head on young shoulders.","gloss":"A widely used English rendering of the same proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":20,"theme":"Timing",
+   "scots":{"text":"Gae tae bed wi the lamm and rise wi the laverock.","gloss":"Early to bed, early to rise."},
+   "gaelic":null,
+   "english":{"text":"Early to bed, early to rise, makes a man healthy, wealthy, and wise.","gloss":"The fuller, well-known English proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":21,"theme":"Hunger & Need",
+   "scots":{"text":"Hunger's a guid kitchen.","gloss":"Hunger is the best sauce."},
+   "gaelic":null,
+   "english":{"text":"Hunger is the best sauce.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":22,"theme":"Money & Value",
+   "scots":{"text":"Mony a puckle maks a muckle.","gloss":"Many a little makes a lot."},
+   "gaelic":null,
+   "english":{"text":"Many a little makes a mickle.","gloss":"A well-known English/Scots crossover proverb."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":23,"theme":"Truth",
+   "scots":{"text":"Facts is chields that winna ding.","gloss":"Facts are stubborn things."},
+   "gaelic":null,
+   "english":{"text":"Facts are stubborn things.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":24,"theme":"Friendship & Society",
+   "scots":{"text":"He that sleeps wi dugs maun rise wi flaes.","gloss":"Keep bad company and you'll suffer for it."},
+   "gaelic":null,
+   "english":{"text":"He that lies down with dogs will rise with fleas.","gloss":"The standard English proverb, nearly identical wording."},
+   "source":"Scots: scots-online.org."},
+
+  {"id":25,"theme":"Family","scots":null,
+   "gaelic":{"text":"Am mac mar an t-athair.","gloss":"Like father, like son."},
+   "english":{"text":"Like father, like son.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":26,"theme":"Family","scots":null,
+   "gaelic":{"text":"A' nighean mar a màthair.","gloss":"Like mother, like daughter."},
+   "english":{"text":"Like mother, like daughter.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":27,"theme":"Advice","scots":null,
+   "gaelic":{"text":"A-staigh air an dàrna cluais 's a-mach air a' chluais eile.","gloss":"In one ear and out the other — advice most needed is least heeded."},
+   "english":{"text":"In one ear and out the other.","gloss":"The standard English idiom with the same wording and meaning."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":28,"theme":"Learning","scots":null,
+   "gaelic":{"text":"Chan eil thu tuilleadh 's sean airson ionnsachadh fhathast.","gloss":"We learn as long as we live."},
+   "english":{"text":"Live and learn.","gloss":"A close English rendering — not an exact match, but the same sentiment."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":29,"theme":"Nature & Fate","scots":null,
+   "gaelic":{"text":"A' bhiast as mutha ag ithe na beiste as lugha.","gloss":"The big fish eats the little fish — the strong overcome the weak."},
+   "english":{"text":"Big fish eat little fish.","gloss":"A close English idiom with the same meaning."},
+   "source":"Gaelic: Wikiquote / Lingalot."},
+
+  {"id":30,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Èist ri gaoth nam beann gus an tràogh na h-uisgeachan.","gloss":"Listen to the wind on the hill till the waters abate — keep a low profile until trouble passes."},
+   "english":{"text":"Keep a low profile until the trouble passes.","gloss":"A plain-English rendering — no widely fixed English proverb matches this one."},
+   "source":"Gaelic: Wikiquote, quoting Sir Walter Scott, Wizards of Waverley Place (1884)."},
+
+  {"id":31,"theme":"Effort","scots":null,
+   "gaelic":{"text":"Is dà thrian tionnsgnadh.","gloss":"Begun is two-thirds done — well begun is half done."},
+   "english":{"text":"Well begun is half done.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Paczolay, European Proverbs in 55 Languages (1997)."},
+
+  {"id":32,"theme":"Language & Identity","scots":null,
+   "gaelic":{"text":"Is fheàrr Gàidhlig bhriste na Gàidhlig sa chiste.","gloss":"Better broken Gaelic than dead Gaelic."},
+   "english":{"text":"Better broken Gaelic than dead Gaelic.","gloss":"A direct translation, describing the Gaelic proverb itself rather than a separate English saying."},
+   "source":"Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 622 (Ruairidh MacIlleathain, 2011)."},
+
+  {"id":33,"theme":"Friendship","scots":null,
+   "gaelic":{"text":"'S fheàrr càirdeas na òr.","gloss":"Friendship is better than gold."},
+   "english":{"text":"Friendship is better than gold.","gloss":"A plain-English rendering of the Gaelic proverb."},
+   "source":"Gaelic: traditional Gaelic proverb collections."},
+
+  {"id":34,"theme":"Mood & Outlook","scots":null,
+   "gaelic":{"text":"Is fheàrr gàire na bròn.","gloss":"Laughter is better than sorrow."},
+   "english":{"text":"Laughter is better than sorrow.","gloss":"A plain-English rendering of the Gaelic proverb."},
+   "source":"Gaelic: traditional Gaelic proverb collections."},
+
+  {"id":35,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Na toir breith air rèir coltais, faodaidh cridhe beartach a bhith fo chòta bochd.","gloss":"Judge not by appearances — a rich heart may be under a poor coat."},
+   "english":{"text":"Don't judge a book by its cover.","gloss":"A close English proverb with the same meaning."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":36,"theme":"Fate & Emotion","scots":null,
+   "gaelic":{"text":"Triùir a thig gun iarraidh – gaol, eud is eagal.","gloss":"Three things come unbidden: love, jealousy and fear."},
+   "english":{"text":"Three things come unbidden: love, jealousy, and fear.","gloss":"A plain-English rendering — no separate fixed English proverb found."},
+   "source":"Gaelic: Wikiquote / Lingalot, citing Alexander Nicolson's collection (1882)."},
+
+  {"id":37,"theme":"Home & Watchfulness","scots":null,
+   "gaelic":{"text":"Tha fios aig an luch nach eil an cat 's an taigh.","gloss":"The mouse knows the cat's not home — when the cat's away, the mice will play."},
+   "english":{"text":"When the cat's away, the mice will play.","gloss":"The standard English proverb with the same meaning."},
+   "source":"Gaelic: Wikiquote, citing Manser, The Facts on File Dictionary of Proverbs (2007)."},
+
+  {"id":38,"theme":"Trouble","scots":null,
+   "gaelic":{"text":"Chuir sin an clamhan gobhlach am measg nan cearc.","gloss":"That put the red kite among the hens — like putting the cat among the pigeons."},
+   "english":{"text":"That put the cat among the pigeons.","gloss":"The standard English idiom with the same meaning."},
+   "source":"Gaelic: Wikiquote, quoting BBC Litir do Luchd-ionnsachaidh 480 (2008)."},
+
+  {"id":39,"theme":"Appearance","scots":null,
+   "gaelic":{"text":"Cha tèid bòidhchead na's doimhne na an craiceann.","gloss":"Beauty is but skin deep."},
+   "english":{"text":"Beauty is only skin deep.","gloss":"Near-identical wording in both languages."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":40,"theme":"Limits","scots":null,
+   "gaelic":{"text":"Cha shìn duine a chas ach mar a ruigeas aodach.","gloss":"A man stretches his foot no farther than his clothes allow — live within your means."},
+   "english":{"text":"Cut your coat according to your cloth.","gloss":"A close English proverb with the same meaning."},
+   "source":"Gaelic: Lingalot."},
+
+  {"id":41,"theme":"Farewell & Dismissal","scots":null,
+   "gaelic":{"text":"Duine an dòras bhon taobh eile.","gloss":"Go on, away with you — a blunt, everyday way of telling someone to leave."},
+   "english":{"text":"Out you go, the other way.","gloss":"A plain-English rendering — a local saying, not a fixed English proverb."},
+   "source":"A saying from Steòrnabhagh (Stornoway), Eilean Leòdhais (Isle of Lewis). Not from a published collection; recorded here as a genuine local/community saying.",
+   "origin":{"place":"Steòrnabhagh (Stornoway), Eilean Leòdhais (Isle of Lewis)","lat":58.2085,"lng":-6.3897,"status":"approved"}},
+
+  {"id":42,"theme":"Absence & Memory","scots":null,
+   "gaelic":{"text":"An rud a thèid fada bhon t-sùil, thèid e fada bhon chridhe.","gloss":"What goes far from the eye goes far from the heart — distance fades feeling."},
+   "english":{"text":"Out of sight, out of mind.","gloss":"The exact English proverb this Gaelic saying is paired with in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 27 — public-domain, digitised by the National Library of Scotland via archive.org."},
+
+  {"id":43,"theme":"Timing","scots":null,
+   "gaelic":{"text":"Am fear a bhios fada aig an aiseag, gheibh e thairis uaireigin.","gloss":"He who waits long at the ferry will get across eventually."},
+   "english":{"text":"Everything comes to him who waits.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 36."},
+
+  {"id":44,"theme":"Acceptance","scots":null,
+   "gaelic":{"text":"An rud nach gabh leasachadh, is fheudar cur suas leis.","gloss":"What cannot be improved must be put up with."},
+   "english":{"text":"What can't be cured must be endured.","gloss":"A traditional English proverb with the same meaning; the source book links this saying to 'crying over spilt milk.'"},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 42."},
+
+  {"id":45,"theme":"Futile Effort","scots":null,
+   "gaelic":{"text":"B' e sin an connadh a chur dhan choille.","gloss":"That would be sending fuel to the forest — giving something to those who already have plenty."},
+   "english":{"text":"Sending coals to Newcastle.","gloss":"The English idiom given alongside this saying in the source collection — same idea, different cargo."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 47."},
+
+  {"id":46,"theme":"Necessity","scots":null,
+   "gaelic":{"text":"Bheir an èiginn air rudeigin a dhèanamh.","gloss":"Necessity will get something done."},
+   "english":{"text":"Necessity is the mother of invention.","gloss":"The standard English proverb, given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 50."},
+
+  {"id":47,"theme":"Persuasion & Limits",
+   "scots":{"text":"Ae man may lead a horse to the water, but ane and twenty winna gar him drink.","gloss":"Even determined effort can't force someone's will — quoted in the source from Allan Ramsay's Proverbs."},
+   "gaelic":{"text":"Bheir aon fhear each gu uisge, ach cha toir a dhà-dheug air òl.","gloss":"One man can lead a horse to water, but twelve can't make it drink."},
+   "english":{"text":"You can lead a horse to water, but you can't make it drink.","gloss":"The familiar modern English form of the same proverb."},
+   "source":"Gaelic and Scots: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 53, where the Scots is credited to Allan Ramsay's Proverbs (18th century)."},
+
+  {"id":48,"theme":"Custom & Conduct","scots":null,
+   "gaelic":{"text":"Beus na tuath, far am bithear, is ann mar sin a nithear.","gloss":"The custom of the place you're in — that's what's done."},
+   "english":{"text":"When in Rome, do as the Romans do.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 59. Flag: the scan of this line was worn — the Gaelic here is a best-effort reconstruction and is worth a native speaker's check before treating as final."},
+
+  {"id":49,"theme":"Futile Effort",
+   "scots":{"text":"A gowk's errand.","gloss":"A fool's errand — 'gowk' is Scots for both cuckoo and fool."},
+   "gaelic":{"text":"Air ghnothach na cuthaige.","gloss":"On the cuckoo's business — sent off on a pointless errand."},
+   "english":{"text":"A wild goose chase.","gloss":"The nearest well-known English idiom for a pointless errand."},
+   "source":"Gaelic and Scots: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 19, which pairs the Gaelic with the Scots saying 'A gowk's errand.'"},
+
+  {"id":50,"theme":"Caution & Value","scots":null,
+   "gaelic":{"text":"Is mall a mharcaicheas am fear a bheachdaicheas.","gloss":"He who takes note rides slowly — but rides more surely."},
+   "english":{"text":"He who takes note rides slowly.","gloss":"A plain rendering — no single fixed English proverb matches this exactly."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), introduction."},
+
+  {"id":51,"theme":"Humility","scots":null,
+   "gaelic":{"text":"Is i an dias as truime as isle a chromas a ceann.","gloss":"The heaviest ear of corn bends its head lowest — true worth doesn't need to boast."},
+   "english":{"text":"The heaviest ear of corn bends its head lowest.","gloss":"A plain rendering of the Gaelic image."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), introduction."},
+
+  {"id":52,"theme":"Humility","scots":null,
+   "gaelic":{"text":"A' chuiseag a dh'fhàsas air an òtrach, is i as àirde a thogas a ceann.","gloss":"The weed on the dunghill holds its head highest — the inverse of the ear of corn above."},
+   "english":{"text":"The weed that grows on the dunghill holds its head highest.","gloss":"A plain rendering — vanity without substance."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), introduction."},
+
+  {"id":53,"theme":"Reputation","scots":null,
+   "gaelic":{"text":"A' bheinn as àirde a th' anns an tìr, 's ann oirre as trice a chithear an ceò.","gloss":"The highest mountain in the land is the one oftenest covered in mist — greatness draws scrutiny."},
+   "english":{"text":"The highest mountain in the land is oftenest covered in mist.","gloss":"A plain rendering of the Gaelic image."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), introduction."},
+
+  {"id":54,"theme":"Work & Effort","scots":null,
+   "gaelic":{"text":"Cha dèan duine dona ach a dhìcheall.","gloss":"A poor man can do no more than his best."},
+   "english":{"text":"A poor man can do but his best.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), closing line of the introduction."},
+
+  {"id":55,"theme":"Speech","scots":null,
+   "gaelic":{"text":"Abair ach beagan, is abair gu math e.","gloss":"Say but little, and say it well."},
+   "english":{"text":"Say but little, and say it well.","gloss":"A close, near word-for-word English rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 2."},
+
+  {"id":56,"theme":"Effort","scots":null,
+   "gaelic":{"text":"Bidh an ùbhal as fheàrr air a' mheanglan as àirde.","gloss":"The best apple is on the highest branch — worth having doesn't come easy."},
+   "english":{"text":"The best apple is on the highest branch.","gloss":"A plain rendering of the Gaelic image."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 78."},
+
+  {"id":57,"theme":"Home & Identity","scots":null,
+   "gaelic":{"text":"Anail a' Ghàidheil, air a mhullach!","gloss":"The Gael's breathing place — on the summit."},
+   "english":{"text":"The Gael's breathing place is on the summit.","gloss":"A plain rendering — the high ground as home ground."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 1."},
+
+  {"id":58,"theme":"Prudence","scots":null,
+   "gaelic":{"text":"A' bhliadhn' is gainne a' mhìn, dèan fuine mhòr aineamh.","gloss":"In a year when meal is scarce, bake big loaves rarely."},
+   "english":{"text":"During the year when meal is scarce, let big bakings be few.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 4."},
+
+  {"id":59,"theme":"Hardship & Change","scots":null,
+   "gaelic":{"text":"A' chungaidh leighis is goirte, 's i is motha tha dèanamh feum.","gloss":"The medicine that hurts most usually heals best."},
+   "english":{"text":"The medicine that hurts the most is generally the best healer.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 5."},
+
+  {"id":60,"theme":"Character","scots":null,
+   "gaelic":{"text":"Aithnichear an leòmhann air sgrìob de ìnean.","gloss":"You know the lion by the scratch of its claw — character shows in small signs."},
+   "english":{"text":"The lion is known by the scratch of its claw.","gloss":"A plain rendering of the Gaelic image."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 10."},
+
+  {"id":61,"theme":"Resourcefulness","scots":null,
+   "gaelic":{"text":"An ràmh as fhaisge air làimh, iomair leis.","gloss":"Row with whatever oar is nearest to hand — make do with what you've got."},
+   "english":{"text":"The oar that's nearest at hand, row with it.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 11."},
+
+  {"id":62,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"A h-uile rud ach an rud bu chòir.","gloss":"Everything except the right thing — missing the point entirely."},
+   "english":{"text":"Everything but the right thing.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 17."},
+
+  {"id":63,"theme":"Work & Effort","scots":null,
+   "gaelic":{"text":"An rud a nithear gu math, chithear a bhuil.","gloss":"What's done well shows in the results."},
+   "english":{"text":"What is well done will be shown by results.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 24."},
+
+  {"id":64,"theme":"Truth","scots":null,
+   "gaelic":{"text":"An uair a chluinneas tu sgeul gun dreach, na creid i.","gloss":"When you hear an ugly tale, don't believe it — a caution against gossip."},
+   "english":{"text":"When you hear a tale that is not pleasant, do not believe it.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 30."},
+
+  {"id":65,"theme":"Reputation","scots":null,
+   "gaelic":{"text":"Air rèir do mheas ort fhèin, 's ann a mheasas each thu.","gloss":"As you esteem yourself, so others will esteem you."},
+   "english":{"text":"According as thou esteemest thyself, others will esteem thee.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 33."},
+
+  {"id":66,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"An ràthad fada glan, is an ràthad goirid salach.","gloss":"The long clean road, and the short dirty road — the honest way versus the quick, grubby one."},
+   "english":{"text":"The long clean road, and the short dirty road.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 40."},
+
+  {"id":67,"theme":"Friendship","scots":null,
+   "gaelic":{"text":"Bu mhath an sgàthan sùil caraid.","gloss":"A friend's eye makes a good mirror — they show you yourself honestly."},
+   "english":{"text":"A friend's eye is a good looking-glass.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 48."},
+
+  {"id":68,"theme":"Age & Habit","scots":null,
+   "gaelic":{"text":"Buinidh urram do'n aois.","gloss":"Honour belongs to old age."},
+   "english":{"text":"Honour belongs to old age.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 49."},
+
+  {"id":69,"theme":"Speech","scots":null,
+   "gaelic":{"text":"Is fheàrr a bhith sàmhach na droch dhàn a ghabhail.","gloss":"Better to stay quiet than sing a bad song."},
+   "english":{"text":"Better be silent than sing a bad song.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 62."},
+
+  {"id":70,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Bithidh cron duine cho mòr ri beinn mas lèir dha fhèin e.","gloss":"A man's faults look mountain-sized by the time he finally sees them himself."},
+   "english":{"text":"A man's faults will be as large as a mountain ere he himself sees them.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 65."},
+
+  {"id":71,"theme":"Truth","scots":null,
+   "gaelic":{"text":"Bithidh na gobhair bodhar 's an fhoghar.","gloss":"The goats go deaf at harvest time — convenient deafness to an inconvenient call."},
+   "english":{"text":"There are none so deaf as those who will not hear.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 66."},
+
+  {"id":72,"theme":"Learning","scots":null,
+   "gaelic":{"text":"B'fheàrr a bhith gun bhreith na bhith gun teagasg.","gloss":"Better never to have been born than to grow up untaught."},
+   "english":{"text":"Better be without being than without instruction.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 75."},
+
+  {"id":73,"theme":"Work & Effort","scots":null,
+   "gaelic":{"text":"B'fheàrr gun tòiseachadh na sguir gun chrìochnachadh.","gloss":"Better never to start than to stop without finishing."},
+   "english":{"text":"Better not to begin than stop without finishing.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 76."},
+
+  {"id":74,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Cha bhi aon duine crìonna am measg mìle amadan.","gloss":"There won't be one wise man among a thousand fools — wisdom is rare, not common."},
+   "english":{"text":"There will not be one wise man among a thousand fools.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 80."},
+
+  {"id":75,"theme":"Character","scots":null,
+   "gaelic":{"text":"Cha'n aithnich thu duine gus am bi do ghnothach ris.","gloss":"You won't really know someone until you've done business with them."},
+   "english":{"text":"You will never know a man until you do business with him.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 91."},
+
+  {"id":76,"theme":"Friendship","scots":null,
+   "gaelic":{"text":"Cha sheas càirdeas air a lèth-chois.","gloss":"Friendship can't stand on one leg — it needs effort from both sides."},
+   "english":{"text":"Friendship will not stand on one leg.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 96."},
+
+  {"id":77,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Cha'n fheum an tì a shealbhaicheas an toradh am blàth a mhilleadh.","gloss":"He who wants the fruit mustn't spoil the blossom — don't ruin the thing you're relying on."},
+   "english":{"text":"He who would enjoy the fruit must not spoil the blossom.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 98."},
+
+  {"id":78,"theme":"Truth","scots":null,
+   "gaelic":{"text":"Cha chuirear gad air gealladh.","gloss":"A promise can't be tethered — nothing binds it but the person who made it."},
+   "english":{"text":"A promise can never be tied.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 103."},
+
+  {"id":79,"theme":"Speech","scots":null,
+   "gaelic":{"text":"Cha mhisde sgeul mhath aithris dà uair.","gloss":"A good tale is none the worse for being told twice."},
+   "english":{"text":"A good tale is not the worse of being twice told.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 113."},
+
+  {"id":80,"theme":"Opportunity","scots":null,
+   "gaelic":{"text":"Cha do dhùin doras nach d'fhosgail doras.","gloss":"No door closes without another door opening."},
+   "english":{"text":"No door closes without opening another door.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 116."},
+
+  {"id":81,"theme":"Truth","scots":null,
+   "gaelic":{"text":"Cha'n eil cleith air an olc, ach gun a dhèanamh.","gloss":"There's no hiding evil, except by not doing it in the first place."},
+   "english":{"text":"There is no concealment of evil but by avoiding it.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 124."},
+
+  {"id":82,"theme":"Work & Effort",
+   "scots":null,
+   "gaelic":{"text":"Cha bhi luathas is grinneas còmhla.","gloss":"Speed and fine work don't go together."},
+   "english":{"text":"The more hurry, the less speed.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 126."},
+
+  {"id":83,"theme":"Character","scots":null,
+   "gaelic":{"text":"Far is sàimhche an t-uisge, 's ann is doimhne e.","gloss":"Where the water is stillest, it is deepest."},
+   "english":{"text":"Still waters run deep.","gloss":"The English proverb given alongside this saying in the source collection — an exact match."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 150."},
+
+  {"id":84,"theme":"Effort","scots":null,
+   "gaelic":{"text":"Far am bi toil bidh gnìomh.","gloss":"Where there's a will, there'll be deeds."},
+   "english":{"text":"Where there's a will there's a way.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 155."},
+
+  {"id":85,"theme":"Reputation","scots":null,
+   "gaelic":{"text":"Fìor no breug, millear bean leis.","gloss":"True or false, a rumour will still damage a woman's name."},
+   "english":{"text":"True or false, 'twill injure a woman.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 157."},
+
+  {"id":86,"theme":"Necessity","scots":null,
+   "gaelic":{"text":"Feumaidh gach beò a bheathachadh.","gloss":"Every living thing must be fed."},
+   "english":{"text":"All living creatures must be fed.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 160."},
+
+  {"id":87,"theme":"Necessity","scots":null,
+   "gaelic":{"text":"Glèidhidh aire innleachd ged nach glèidh i oighreachd.","gloss":"Attentiveness sparks invention, even if it never wins a fortune."},
+   "english":{"text":"Necessity incites inventiveness although it may not win a fortune.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 166."},
+
+  {"id":88,"theme":"Limits","scots":null,
+   "gaelic":{"text":"Gabhaidh gach dath dubh, ach cha ghabh dubh gach dath.","gloss":"Any colour will take black, but black won't take any colour."},
+   "english":{"text":"Any colour will take black, but black will not take any colour.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 168."},
+
+  {"id":89,"theme":"Appearance","scots":null,
+   "gaelic":{"text":"Ged is grinn an sìoda, is coma leis cò air am bi e.","gloss":"Fine as silk is, it doesn't care who's wearing it."},
+   "english":{"text":"Though the silk be fine, it cares not who wears it.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 182."},
+
+  {"id":90,"theme":"Character","scots":null,
+   "gaelic":{"text":"Is fheàrr an cù a bhogas earball na cù a chuireas dranndan air.","gloss":"Better the dog that wags its tail than the one that snarls."},
+   "english":{"text":"Better the dog that dips its tail than the dog that snarls.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 187."},
+
+  {"id":91,"theme":"Learning","scots":null,
+   "gaelic":{"text":"Is mòr an eire an t-aineolas.","gloss":"Ignorance is a heavy load to carry."},
+   "english":{"text":"Ignorance is a great burden.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 191."},
+
+  {"id":92,"theme":"Learning","scots":null,
+   "gaelic":{"text":"Is i a' chiall cheannaichte is fheàrr.","gloss":"Wisdom bought the hard way is worth the most."},
+   "english":{"text":"Bought wit is best.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 198."},
+
+  {"id":93,"theme":"Work & Effort","scots":null,
+   "gaelic":{"text":"Is fheàrr caitheamh na meirgeadh.","gloss":"Better to wear out than rust away — use is better than idleness."},
+   "english":{"text":"Better wear than rust.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 205."},
+
+  {"id":94,"theme":"Truth","scots":null,
+   "gaelic":{"text":"Is buan gach olc.","gloss":"Every evil lasts long."},
+   "english":{"text":"Evil is lasting.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 207."},
+
+  {"id":95,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Is fheàrr duine na daoine.","gloss":"One good man is worth more than a crowd — a call for a strong leader in a crisis."},
+   "english":{"text":"A man is better than men.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 209. The book immediately follows this with its usual counterpart, 'Is fheàrr dà cheann na aon' — two heads are better than one."},
+
+  {"id":96,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Is math an seirbheiseach teine, ach 's olc a mhaighstir e.","gloss":"Fire is a good servant, but a bad master."},
+   "english":{"text":"Fire is a good servant, but a bad master.","gloss":"A near word-for-word rendering — this exact English phrasing is also a standalone English proverb."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 214."},
+
+  {"id":97,"theme":"Hardship & Change","scots":null,
+   "gaelic":{"text":"Is mòr a dh'fhuilingeas cridhe ceart mas bris e.","gloss":"An honest heart endures a great deal before it finally breaks."},
+   "english":{"text":"The upright heart endures a great deal before it breaks.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 217."},
+
+  {"id":98,"theme":"Truth","scots":null,
+   "gaelic":{"text":"Is ionann a bhith ad' thosd ri aideachadh.","gloss":"Staying silent is as good as admitting it."},
+   "english":{"text":"Silence is equivalent to confession.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 225."},
+
+  {"id":99,"theme":"Speech",
+   "scots":null,
+   "gaelic":{"text":"Is labhrach na builg fàs.","gloss":"Empty bladders make the most noise."},
+   "english":{"text":"An empty pail makes most noise.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 228."},
+
+  {"id":100,"theme":"Work & Effort","scots":null,
+   "gaelic":{"text":"Labhraidh a bheul, ach 's e an gnìomh a dhearbhas.","gloss":"The mouth will talk, but it's the deed that proves it."},
+   "english":{"text":"The mouth will speak, but deeds are the proof.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 236."},
+
+  {"id":101,"theme":"Effort","scots":null,
+   "gaelic":{"text":"Lìonar beàrn mòr le clachan beaga.","gloss":"A big gap can be filled with small stones — little efforts add up."},
+   "english":{"text":"Great gaps may be filled with small stones.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 238."},
+
+  {"id":102,"theme":"Caution",
+   "scots":null,
+   "gaelic":{"text":"Mar comas dhut teumadh, na ruisg do dh'eudan.","gloss":"If you can't bite, don't bare your teeth."},
+   "english":{"text":"Discretion is the better part of valour.","gloss":"The English proverb given alongside this saying in the source collection."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 243."},
+
+  {"id":103,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Na las sop nach urrainn dut fhèin a chur às.","gloss":"Don't light a fire you can't put out yourself."},
+   "english":{"text":"Do not light a whisp you cannot yourself put out.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 252."},
+
+  {"id":104,"theme":"Judgement","scots":null,
+   "gaelic":{"text":"Na toir breith air rèir coltais, faodaidh cridhe beartach a bhith fo chòta bochd.","gloss":"Don't judge by appearances — a rich heart may be under a poor coat."},
+   "english":{"text":"Judge not by appearances; a rich heart may be under a poor coat.","gloss":"A plain rendering of the Gaelic."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 256."},
+
+  {"id":105,"theme":"Remembrance","scots":null,
+   "gaelic":{"text":"Sìth do d'anam, is clach air do chàrn.","gloss":"Peace to your soul, and a stone on your cairn — a traditional funeral blessing."},
+   "english":{"text":"Peace to your soul, and a stone on your cairn.","gloss":"A near word-for-word rendering. Traditionally said while adding a stone to a cairn raised for the dead."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 274."},
+
+  {"id":106,"theme":"Caution","scots":null,
+   "gaelic":{"text":"Smaoinich gu math an toiseach, dèanadar an sin.","gloss":"Think it through properly first, then act."},
+   "english":{"text":"Consider well in the first place, then act.","gloss":"A near word-for-word rendering."},
+   "source":"Gaelic: T. D. MacDonald, Gaelic Proverbs and Proverbial Sayings (1926), no. 277."}
+]
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  var DATA = JSON.parse(document.getElementById('proverb-data').textContent);
+  var LANGS = ['scots', 'gaelic', 'english'];
+
+  // ---- Supabase (accounts: favourites sync + suggestions) ----
+  // The URL and key below are meant to be public — they're the "anon"/"publishable"
+  // key, not a secret. Access to actual data is controlled by row-level security
+  // policies set up in Supabase (see supabase-schema.sql), not by hiding this key.
+  var SUPABASE_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+  var sfClient = (typeof window.supabase !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+  var currentUser = null;
+
+  // These three names are fixed in Gaelic regardless of the interface language,
+  // by design — see the chat / README for why.
+  var LABELS_GD = { scots: 'Beurla Ghallda', gaelic: 'Gàidhlig', english: 'Beurla' };
+  var LABELS_EN = { scots: 'Scots', gaelic: 'Gàidhlig', english: 'Beurla' };
+  function currentLabels() { return state.uiLang === 'en' ? LABELS_EN : LABELS_GD; }
+
+  // ---- i18n: interface chrome only (not the language names above, not proverb text) ----
+  // NOTE: Gaelic ("gd") strings here are a best-effort translation, not reviewed by a
+  // fluent speaker yet. See GAELIC_TRANSLATIONS_REVIEW.md to check/correct them.
+  var I18N = {
+    docTitle: {
+      en: "Sean-fhaclan | Scots, Gaelic & English Proverbs",
+      gd: "Sean-fhaclan | Seanfhaclan Beurla Ghallda, Gàidhlig is Beurla"
+    },
+    navHome: { en: "Home", gd: "Dachaigh" },
+    navMyAccount: { en: "My Account", gd: "An Cunntas Agam" },
+    navGrammar: { en: "Grammar", gd: "Gràmar" },
+    navGaelicCollection: { en: "Gaelic Collection", gd: "Cruinneachadh Gàidhlig" },
+    navScotsCollection: { en: "Scots Collection", gd: "Cruinneachadh Beurla Ghallda" },
+    navSuggested: { en: "Suggested Abairtean", gd: "Abairtean Air am Moladh" },
+    navGames: { en: "Games", gd: "Geamannan" },
+    navResources: { en: "Resources", gd: "Goireasan" },
+    navCollectionsMenu: { en: "Collections", gd: "Cruinneachaidhean" },
+    navLearnMenu: { en: "Learn proper Scottish!", gd: "Ionnsaich!" },
+    navAbout: { en: "About", gd: "Mun Dèidhinn" },
+    navBlog: { en: "Blog", gd: "Blog" },
+    navMenu: { en: "Menu", gd: "Clàr-taice" },
+    navGroupCollections: { en: "Collections", gd: "Cruinneachaidhean" },
+    navGroupLearn: { en: "Learn proper Scottish!", gd: "Ionnsaich Beurla Ghallda mar bu chòir!" },
+    navDrochChainnt: { en: "Droch-chainnt 💩 18+", gd: "Droch-chainnt 💩 18+" },
+    navRegionalWords: { en: "Regional Words", gd: "Faclan Sgìreil" },
+    accountPrompt: {
+      en: "Log in to save your favourites across devices and send suggestions straight to us.",
+      gd: "Clàraich a-steach gus na feadhainn as fheàrr leat a shàbhaladh eadar innealan agus molaidhean a chur thugainn gu dìreach."
+    },
+    accountEmailPlaceholder: { en: "you@example.com", gd: "thusa@post-d.com" },
+    accountSendLink: { en: "Send code", gd: "Cuir còd" },
+accountEnterCode: { en: "Enter the 6-digit code we emailed you.", gd: "Cuir a-steach an còd 6-figear a chuir sinn thugad air post-d." },
+accountVerifyBtn: { en: "Verify code", gd: "Dearbh an còd" },
+accountVerifying: { en: "Verifying…", gd: "'Ga dhearbhadh…" },
+accountVerifyError: { en: "That code didn't work — check it and try again.", gd: "Cha do dh'obraich an còd sin — thoir sùil air agus feuch a-rithist." },
+accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eile" },
+    accountSendingLink: { en: "Sending…", gd: "'Ga chur…" },
+    accountLinkSent: {
+      en: "Check your email for a sign-in link.",
+      gd: "Thoir sùil air do phost-d airson ceangal clàraidh."
+    },
+    accountLoginError: {
+      en: "Couldn't send the link — check the email address and try again.",
+      gd: "Cha b' urrainn dhuinn an ceangal a chur — thoir sùil air an t-seòladh puist-d agus feuch a-rithist."
+    },
+    accountSignedInAs: { en: "Signed in as {email}", gd: "Air clàradh a-steach mar {email}" },
+    accountLogOut: { en: "Log out", gd: "Clàraich a-mach" },
+    accountFavesSynced: {
+      en: "Your favourites are now saved to your account.",
+      gd: "Tha na feadhainn as fheàrr leat a-nis air an sàbhaladh nad chunntas."
+    },
+    accountSuggestionSaved: {
+      en: "Thanks — sent directly to us, and saved to your account.",
+      gd: "Taing — air a chur thugainn gu dìreach, agus air a shàbhaladh nad chunntas."
+    },
+    appSubtitle: {
+      en: "Search proverbs in Scots, Scottish Gaelic, or English, and see what the other two languages have to say on the same theme.",
+      gd: "Dèan lorg air seanfhaclan ann am Beurla Ghallda, Gàidhlig, no Beurla, agus faic dè tha aig an dà chànan eile ri ràdh air an aon chuspair."
+    },
+    randomBtn: { en: "🎲 Random proverb", gd: "🎲 Seanfhacal air thuaiream" },
+    aboutBtn: { en: "About & sources", gd: "Mun dèidhinn 's tùsan" },
+    featuredHeading: { en: "New: daily word games", gd: "Ùr: geamannan facal làitheil" },
+    featuredDesc: {
+      en: "Two games each in Gaelic and Scots — a new puzzle every day. Free to play, no login needed.",
+      gd: "Dà gheama sa Ghàidhlig agus dà gheama sa Bheurla Ghallda — tòimhseachan ùr gach latha. An-asgaidh, gun chlàradh a dhìth."
+    },
+    featuredBtn: { en: "Play now", gd: "Cluich a-nis" },
+    expandBtnText: {
+      en: "Show word games, the map & the full collection ▾",
+      gd: "Seall barrachd: geamannan, am mapa, 's an cruinneachadh slàn ▾"
+    },
+    filterAllThree: { en: "Recorded in all three languages", gd: "Clàraichte anns na trì cànain" }, homePreviewHeading: { en: "A taste of the collection", gd: "Blasad den chruinneachadh" },
+    filterFavs: { en: "Favourites only", gd: "Feadhainn as fheàrr leam a-mhàin" },
+    filterThemeLabel: { en: "Theme", gd: "Cuspair" },
+    filterThemeAll: { en: "All themes", gd: "A h-uile cuspair" },
+    filterThemeChip: { en: "Theme: {theme}", gd: "Cuspair: {theme}" },
+    emptyState: { en: "Nae results. Try a different word, or clear yer filters.", gd: "Chan eil toradh ann. Feuch facal eile, no falamhaich na sìoltachain agad." },
+    notRecordedYet: { en: "Not recorded yet.", gd: "Gun chlàradh fhathast." },
+    contributeToggleClosed: { en: "Know a pairing we're missing? Suggest a proverb →", gd: "A bheil fios agad air seanfhacal a tha a dhìth oirnn? Mol fear →" },
+    contributeToggleOpen: { en: "Hide", gd: "Falaich" },
+    formLabelMeaning: { en: "Meaning / notes", gd: "Ciall / notaichean" },
+    formPlaceholderMeaning: { en: "What does it mean, and where's it from?", gd: "Dè tha e a' ciallachadh, agus cò às a tha e?" },
+    formLabelName: { en: "Your name (optional)", gd: "D'ainm (roghainneil)" },
+    formPlaceholderName: { en: "Optional", gd: "Roghainneil" },
+    saveSuggestionBtn: { en: "Save suggestion", gd: "Sàbhail am moladh" },
+    suggestionsHint: {
+      en: "Suggestions are saved in this browser only. Export them and add to the data file to make them permanent — see the README.",
+      gd: "Chan eil molaidhean air an sàbhaladh ach san brobhsair seo. Às-phortaich iad agus cuir ris an fhaidhle dàta iad gus am fàgail buan — faic an README."
+    },
+    suggestionToast: {
+      en: "Thanks — saved to your suggestions. Export them any time from the Contribute panel.",
+      gd: "Taing — air a shàbhaladh nad mholaidhean. Às-phortaich iad uair sam bith bhon phanail Cuir Ris."
+    },
+    installBannerTitle: { en: "Install Sean-fhaclan", gd: "Stàlaich Sean-fhaclan" },
+    installBtn: { en: "Install", gd: "Stàlaich" }, installGotIt: { en: "Got it", gd: "Ceart ma-thà" },
+    aboutHeading: { en: "About this collection", gd: "Mun dèidhinn a' chruinneachaidh seo" },
+    aboutSources: {
+      en: 'Sources: scots-online.org (Andy Eagle); Wikiquote\'s Scottish Gaelic proverbs page, drawing on Alexander Nicolson\'s <em>A Collection of Gaelic Proverbs</em> (1882), Edward Dwelly\'s <em>Scottish Gaelic-English Dictionary</em> (1911), Gyula Paczolay\'s <em>European Proverbs in 55 Languages</em> (1997), and BBC Alba\'s <em>Litir do Luchd-ionnsachaidh</em>; and Lingalot\'s Scottish Gaelic proverbs guide. English equivalents are standard, widely documented English proverbs and sayings where one genuinely exists; where none does, the English text is a plain rendering of the meaning rather than a separate fixed saying (noted on the card).',
+      gd: 'Tùsan: scots-online.org (Andy Eagle); duilleag sheanfhaclan Gàidhlig Wikiquote, a\' tarraing air Cruinneachadh Sheanfhaclan Gàidhlig Alexander Nicolson (1882), Faclair Gàidhlig-Beurla Edward Dwelly (1911), <em>European Proverbs in 55 Languages</em> le Gyula Paczolay (1997), agus Litir do Luchd-ionnsachaidh BBC Alba; agus stiùireadh sheanfhaclan Gàidhlig Lingalot. Tha na co-ionannan Beurla nan seanfhaclan is nan gnàthasan-cainnte àbhaisteach, aithnichte gu farsaing, far a bheil fear ann dha-rìribh; far nach eil, \'s e eadar-theangachadh sìmplidh air a\' chiall a tha ann seach seanfhacal fa leth (air a chomharrachadh air a\' chairt).'
+    },
+    aboutFooterNote: {
+      en: "Each card's source line credits where it was drawn from. Spotted an error, or have a better-attested equivalent? Use the suggestion form.",
+      gd: "Tha loidhne tùsail gach cairt ag innse cò às a thàinig i. An do lorg thu mearachd, no a bheil seanfhacal nas fheàrr agad? Cleachd am foirm molaidh."
+    },
+    aboutCloseBtn: { en: "Close", gd: "Dùin" },
+    footerText: {
+      en: "Made for browsing, learning, and the odd argument doon the pub.",
+      gd: "Air a dhèanamh airson brabhsadh, ionnsachadh, agus an connsachadh neo-àbhaisteach san taigh-sheinnse."
+    },
+    potdBadgeToday: { en: "★ Proverb of the Day", gd: "★ Seanfhacal an Latha" },
+    potdBadgeFeatured: { en: "✦ Featured Proverb", gd: "✦ Seanfhacal Sònraichte" },
+    mapHeading: { en: "Where are the proverbs from?", gd: "Cò às a tha na seanfhaclan?" },
+    mapIntro: {
+      en: "We're starting small — one proverb, one place. Know where a Gaelic proverb comes from? Tell us below.",
+      gd: "Tha sinn a' tòiseachadh beag — aon seanfhacal, aon àite. A bheil fios agad cò às a tha seanfhacal Gàidhlig? Innis dhuinn gu h-ìosal."
+    },
+    mapViewLarger: { en: "View larger map ↗", gd: "Seall màp nas motha ↗" },
+    mapContributedBy: { en: "Contributed by {name}", gd: "Air a thoirt seachad le {name}" },
+    suggestLocationHeading: { en: "Suggest where a proverb is from", gd: "Mol cò às a tha seanfhacal" },
+    suggestLocationProverbLabel: { en: "Gaelic proverb", gd: "Seanfhacal Gàidhlig" },
+    suggestLocationPlaceLabel: { en: "Place (town, island, area)", gd: "Àite (baile, eilean, sgìre)" },
+    suggestLocationCommentsLabel: { en: "Comments", gd: "Beachdan" },
+    suggestLocationSubmitBtn: { en: "Submit for review", gd: "Cuir a-steach airson sgrùdaidh" },
+    suggestLocationHint: {
+      en: "Suggestions are saved in this browser only for now — see the README for how this becomes a real, moderated map.",
+      gd: "Tha molaidhean air an sàbhaladh san brobhsair seo a-mhàin an-dràsta — faic an README airson mar a dh'fhàsas seo na fhìor mhàp le sgrùdadh."
+    },
+    installTextAndroid: { en: "Add this to your home screen for quick, offline access.", gd: "Cuir seo ri sgrìn dachaigh do fhòn airson cothrom luath, fiù 's far loidhne." },
+    installTextAndroidManual: { en: 'Tap the menu (⋮) in your browser, then "Add to Home screen" or "Install app".', gd: 'Brùth air a\' chlàr-taice (⋮) san bhrabhsair agad, an uair sin "Add to Home screen" no "Install app".' },
+    installTextIOS: { en: 'Tap the Share icon, then "Add to Home Screen".', gd: 'Brùth air an ìomhaigh Share, an uair sin "Add to Home Screen".' },
+    installStepShare: { en: 'Tap the <strong>Share</strong> icon in Safari’s toolbar', gd: 'Brùth air an ìomhaigh <strong>Share</strong> ann am bàr-inneal Safari' },
+    installStepAdd: { en: 'Scroll down and tap <strong>Add to Home Screen</strong>', gd: 'Sgrolaich síos agus brùth air <strong>Add to Home Screen</strong>' },
+    searchPlaceholder: {
+      scots: { en: "Search a Scots word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla Ghallda…" },
+      gaelic: { en: "Search a Gaelic word or proverb…", gd: "Dèan lorg air facal no seanfhacal Gàidhlig…" },
+      english: { en: "Search an English word or proverb…", gd: "Dèan lorg air facal no seanfhacal Beurla…" }
+    },
+    noEquivalent: {
+      en: "No {lang} equivalent recorded yet — know one? Suggest it below.",
+      gd: "Chan eil dad ann fhathast ann am {lang} — a bheil fios agad air fear? Mol fear gu h-ìosal."
+    },
+    resultCount: { en: "{n} result{s}", gd: "{n} toradh" },
+    aboutSummary: {
+      en: "This is a starter set of {total} proverbs. {allThree} of them are recorded in all three languages, matched by meaning rather than word-for-word translation. The rest are documented proverbs in one or two languages without a confirmed match yet in the third — genuine gaps, not errors.",
+      gd: "'S e seata tòiseachaidh de {total} seanfhaclan a tha seo. Tha {allThree} dhiubh clàraichte anns na trì cànain, air an càradh a rèir ciall seach eadar-theangachadh facal air an fhacal. Tha an fheadhainn eile nan seanfhaclan clàraichte ann an aon chànan no dhà, gun cho-fhreagairt dhearbhte fhathast san treas fear — beàrnan fìrinneach, chan e mearachdan."
+    },
+    exportSuggestions: {
+      en: "Export {n} saved suggestion{s} as JSON",
+      gd: "Às-phortaich {n} moladh air a shàbhaladh mar JSON"
+    },
+    exportLocations: {
+      en: "Export {n} saved location{s} as JSON",
+      gd: "Às-phortaich {n} àite air a shàbhaladh mar JSON"
+    }
+  };
+
+  function t(key, vars) {
+    var entry = I18N[key];
+    if (!entry) return key;
+    var str = entry[state.uiLang] || entry.en || '';
+    if (vars) {
+      Object.keys(vars).forEach(function (k) {
+        str = str.split('{' + k + '}').join(vars[k]);
+      });
+    }
+    return str;
+  }
+
+  function applyI18n() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'), function (elm) {
+      var key = elm.getAttribute('data-i18n');
+      var text = t(key);
+      if (elm.hasAttribute('data-i18n-attr')) {
+        elm.setAttribute(elm.getAttribute('data-i18n-attr'), text);
+      } else {
+        elm.textContent = text;
+      }
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-html]'), function (elm) {
+      elm.innerHTML = t(elm.getAttribute('data-i18n-html'));
+    });
+  }
+
+  var state = {
+    lang: 'scots',
+    uiLang: 'en',
+    query: '',
+    theme: 'All',
+    onlyFavourites: false,
+    onlyAllThree: false,
+    favourites: loadJSON('sf-favourites', []),
+    suggestions: loadJSON('sf-suggestions', []),
+    locationSuggestions: loadJSON('sf-location-suggestions', [])
+  };
+
+  function loadJSON(key, fallback) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (e) { return fallback; }
+  }
+  function saveJSON(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
+  function normalise(s) {
+    return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---- DOM refs ----
+  var el = {
+    btnLang: {
+      scots: document.getElementById('btn-lang-scots'),
+      gaelic: document.getElementById('btn-lang-gaelic'),
+      english: document.getElementById('btn-lang-english')
+    },
+    btnRandom: document.getElementById('btn-random'),
+    btnAbout: document.getElementById('btn-about'),
+    secondaryContent: document.getElementById('secondary-content'),
+    btnExpand: document.getElementById('btn-expand'),
+    aboutOverlay: document.getElementById('about-overlay'),
+    aboutClose: document.getElementById('btn-about-close'),
+    aboutSummary: document.getElementById('about-summary'),
+    searchInput: document.getElementById('search-input'),
+    themeSelect: document.getElementById('theme-select'),
+    themeChip: document.getElementById('theme-chip'),
+    themeChipText: document.getElementById('theme-chip-text'),
+    themeChipClear: document.getElementById('theme-chip-clear'),
+    chkLinked: document.getElementById('chk-linked'),
+    chkFavs: document.getElementById('chk-favs'),
+    resultCount: document.getElementById('result-count'),
+    results: document.getElementById('results'),
+    contributeToggle: document.getElementById('btn-contribute-toggle'),
+    contributeForm: document.getElementById('contribute-form'),
+    btnExport: document.getElementById('btn-export'),
+    toast: document.getElementById('toast'),
+    uiLangEn: document.getElementById('ui-lang-en'),
+    uiLangGd: document.getElementById('ui-lang-gd'),
+    toolbar: document.querySelector('.toolbar'),
+    main: document.querySelector('main'),
+    accountSignedOut: document.getElementById('account-signed-out'),
+    accountSignedIn: document.getElementById('account-signed-in'),
+    accountSignedInText: document.getElementById('account-signed-in-text'),
+    accountLoginForm: document.getElementById('account-login-form'),
+    accountEmail: document.getElementById('account-email'),
+    accountLogoutBtn: document.getElementById('account-logout'),
+    accountStatus: document.getElementById('account-status')
+  };
+
+  // Language-tab buttons and card language-name labels always show the fixed
+  // Gaelic terms (Gàidhlig / Beurla Ghallda / Beurla), regardless of uiLang.
+  LANGS.forEach(function (l) { el.btnLang[l].textContent = currentLabels()[l]; });
+  var contributeLabelEls = {
+    scots: document.getElementById('contribute-label-scots'),
+    gaelic: document.getElementById('contribute-label-gaelic'),
+    english: document.getElementById('contribute-label-english')
+  };
+  LANGS.forEach(function (l) { contributeLabelEls[l].textContent = currentLabels()[l]; });
+
+  // ---- populate theme filter ----
+  // Every proverb is tagged with a theme (see the "theme" field in the data); this
+  // turns that into a browsable dropdown plus a small "Theme: X" chip with a clear
+  // button, so it's obvious a theme filter is active and easy to find your way back.
+  var themes = Array.from(new Set(DATA.map(function (d) { return d.theme; }))).sort();
+  function populateThemeSelect() {
+    var options = ['<option value="All">' + esc(t('filterThemeAll')) + '</option>'].concat(
+      themes.map(function (th) { return '<option value="' + esc(th) + '">' + esc(th) + '</option>'; })
+    );
+    el.themeSelect.innerHTML = options.join('');
+    el.themeSelect.value = state.theme;
+  }
+  function updateThemeChip() {
+    if (state.theme === 'All') {
+      el.themeChip.classList.remove('show');
+    } else {
+      el.themeChipText.textContent = t('filterThemeChip', { theme: state.theme });
+      el.themeChip.classList.add('show');
+    }
+  }
+  el.themeChipClear.addEventListener('click', function () {
+    state.theme = 'All';
+    el.themeSelect.value = 'All';
+    updateThemeChip();
+    render();
+  });
+
+  // ---- about text ----
+  var allThreeCount = DATA.filter(function (d) { return d.scots && d.gaelic && d.english; }).length;
+  function renderAboutSummary() {
+    el.aboutSummary.textContent = t('aboutSummary', { total: DATA.length, allThree: allThreeCount });
+  }
+
+  // ---- rendering ----
+   function render() { 
+    var q = normalise(state.query);
+    var langKey = state.lang;
+
+    var filtered = DATA.filter(function (entry) {
+      var field = entry[langKey];
+      if (!field) return false;
+      if (state.theme !== 'All' && entry.theme !== state.theme) return false;
+      if (state.onlyFavourites && state.favourites.indexOf(entry.id) === -1) return false;
+      if (state.onlyAllThree && !(entry.scots && entry.gaelic && entry.english)) return false;
+      if (!q) return true;
+      var hay = normalise(field.text + ' ' + field.gloss);
+      return hay.indexOf(q) !== -1;
+    });
+
+    el.resultCount.textContent = t('resultCount', { n: filtered.length, s: filtered.length === 1 ? '' : 's' });
+
+    if (filtered.length === 0) {
+      el.results.innerHTML = '<p class="empty">' + esc(t('emptyState')) + '</p>';
+      return;
+    }
+
+    var otherLangs = LANGS.filter(function (l) { return l !== langKey; });
+
+    el.results.innerHTML = filtered.map(function (entry) {
+      var primary = entry[langKey];
+      var isFav = state.favourites.indexOf(entry.id) !== -1;
+      var heart = isFav
+        ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="#5b2a86" stroke="#5b2a86" stroke-width="1.8"><path d="M12 21s-7.2-4.5-9.6-9.1C.7 8.6 2.1 5 5.6 4.2 8 3.6 10 4.7 12 7.2c2-2.5 4-3.6 6.4-3 3.5.8 4.9 4.4 3.2 7.7C19.2 16.5 12 21 12 21z"/></svg>'
+        : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#5b2a86" stroke-width="1.8"><path d="M12 21s-7.2-4.5-9.6-9.1C.7 8.6 2.1 5 5.6 4.2 8 3.6 10 4.7 12 7.2c2-2.5 4-3.6 6.4-3 3.5.8 4.9 4.4 3.2 7.7C19.2 16.5 12 21 12 21z"/></svg>';
+
+      var otherBlocks = otherLangs.map(function (l) {
+        var val = entry[l];
+        if (val) {
+          return '<div class="secondary-block">' +
+              '<div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div>' +
+              '<p class="text proverb-text">' + esc(val.text) + '</p>' +
+              '<p class="gloss">' + esc(val.gloss) + '</p>' +
+            '</div>';
+        }
+        return '<div class="secondary-block">' +
+            '<p class="no-match">' + esc(t('noEquivalent', { lang: currentLabels()[l] })) + '</p>' +
+          '</div>';
+      }).join('');
+
+      return (
+        '<div class="card" id="card-' + entry.id + '">' +
+          '<div class="card-top">' +
+            '<span class="theme-tag">' + esc(entry.theme) + '</span>' +
+            '<button class="fav-btn" data-fav="' + entry.id + '" aria-label="Toggle favourite">' + heart + '</button>' +
+          '</div>' +
+          '<div>' +
+            '<div class="lang-label ' + langKey + '">' + esc(currentLabels()[langKey]) + '</div>' +
+            '<p class="text proverb-text">' + esc(primary.text) + '</p>' +
+            '<p class="gloss">' + esc(primary.gloss) + '</p>' +
+          '</div>' +
+          otherBlocks +
+          '<p class="source">' + esc(entry.source) + '</p>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(el.results.querySelectorAll('[data-fav]'), function (btn) {
+      btn.addEventListener('click', function () {
+        var id = Number(btn.getAttribute('data-fav'));
+        var idx = state.favourites.indexOf(id);
+        var isNowFav = idx === -1;
+        if (isNowFav) state.favourites.push(id); else state.favourites.splice(idx, 1);
+        saveJSON('sf-favourites', state.favourites);
+        syncFavouriteRemote(id, isNowFav);
+        render();
+      });
+    });
+  }
+
+  function setLanguage(lang) {
+    state.lang = lang;
+    LANGS.forEach(function (l) {
+      el.btnLang[l].classList.toggle('active', l === lang);
+    });
+    el.searchInput.placeholder = I18N.searchPlaceholder[lang][state.uiLang];
+    render();
+  }
+
+  function setUiLang(lang) {
+    state.uiLang = lang;
+    saveJSON('sf-ui-lang', lang);
+    el.uiLangEn.classList.toggle('active', lang === 'en');
+    el.uiLangGd.classList.toggle('active', lang === 'gd');
+    applyI18n();
+    LANGS.forEach(function (l) { el.btnLang[l].textContent = currentLabels()[l]; contributeLabelEls[l].textContent = currentLabels()[l]; });
+    renderAboutSummary();
+    el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
+    updateInstallBannerText();
+    refreshLocationUI();
+    populateThemeSelect();
+    updateThemeChip();
+    updateAccountUI();
+    render();
+    setTimeout(applyMobileBar, 0);
+  }
+
+  // ---- events ----
+  LANGS.forEach(function (l) {
+    el.btnLang[l].addEventListener('click', function () { setLanguage(l); });
+  });
+
+  el.uiLangEn.addEventListener('click', function () { setUiLang('en'); });
+  el.uiLangGd.addEventListener('click', function () { setUiLang('gd'); });
+
+  function expandSecondary() {
+    el.secondaryContent.style.display = 'block'; var hp = document.getElementById('home-preview'); if (hp) hp.style.display = 'none';
+    el.btnExpand.style.display = 'none';
+    // The mobile bottom bar's height is measured from the (now newly-visible)
+    // toolbar — recompute padding/install-banner position now it's on screen.
+    setTimeout(applyMobileBar, 0);
+  }
+  el.btnExpand.addEventListener('click', expandSecondary);
+
+  el.searchInput.addEventListener('input', function () {
+    state.query = el.searchInput.value;
+    if (state.query && el.secondaryContent.style.display === 'none') expandSecondary();
+    render();
+  });
+  el.themeSelect.addEventListener('change', function () { state.theme = el.themeSelect.value; updateThemeChip(); render(); });
+  el.chkLinked.addEventListener('change', function () { state.onlyAllThree = el.chkLinked.checked; render(); });
+  el.chkFavs.addEventListener('change', function () { state.onlyFavourites = el.chkFavs.checked; render(); });
+
+  el.btnRandom.addEventListener('click', function () {
+    var pool = DATA.filter(function (e) { return e[state.lang]; });
+    var pick = pool[Math.floor(Math.random() * pool.length)];
+    state.query = ''; state.theme = 'All'; state.onlyFavourites = false; state.onlyAllThree = false;
+    el.searchInput.value = ''; el.themeSelect.value = 'All'; el.chkFavs.checked = false; el.chkLinked.checked = false;
+    render();
+    setTimeout(function () {
+      var card = document.getElementById('card-' + pick.id);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 30);
+  });
+
+  el.btnAbout.addEventListener('click', function () { el.aboutOverlay.style.display = 'flex'; });
+  el.aboutClose.addEventListener('click', function () { el.aboutOverlay.style.display = 'none'; });
+  el.aboutOverlay.addEventListener('click', function (e) { if (e.target === el.aboutOverlay) el.aboutOverlay.style.display = 'none'; });
+
+  el.contributeToggle.addEventListener('click', function () {
+    var showing = el.contributeForm.style.display !== 'none';
+    el.contributeForm.style.display = showing ? 'none' : 'grid';
+    el.contributeToggle.textContent = showing ? t('contributeToggleClosed') : t('contributeToggleOpen');
+    refreshExportButton();
+  });
+
+  function refreshExportButton() {
+    el.btnExport.style.display = state.suggestions.length > 0 ? 'inline-block' : 'none';
+    el.btnExport.textContent = t('exportSuggestions', { n: state.suggestions.length, s: state.suggestions.length === 1 ? '' : 's' });
+  }
+
+  el.contributeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var entry = {
+      id: 'draft-' + Date.now(),
+      scotsText: form.scotsText.value.trim(),
+      gaelicText: form.gaelicText.value.trim(),
+      englishText: form.englishText.value.trim(),
+      meaning: form.meaning.value.trim(),
+      submittedBy: form.submittedBy.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
+    if (!entry.scotsText && !entry.gaelicText && !entry.englishText) return;
+    state.suggestions.push(entry);
+    saveJSON('sf-suggestions', state.suggestions);
+    submitSuggestionRemote(entry);
+    form.reset();
+    refreshExportButton();
+    showToast(currentUser ? t('accountSuggestionSaved') : t('suggestionToast'));
+  });
+
+  el.btnExport.addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(state.suggestions, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'proverb-suggestions.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  // ---- Accounts (Supabase): magic-link login, favourites sync, suggestions ----
+  // Everything here is optional — if the Supabase library fails to load (offline,
+  // a network block, etc.) sfClient is null and the app falls back to the
+  // local-browser-only behaviour it always had.
+  function setAccountStatus(msg, isError) {
+    el.accountStatus.textContent = msg || '';
+    el.accountStatus.classList.toggle('error', !!isError);
+  }
+
+  function updateAccountUI() {
+    if (currentUser) {
+      el.accountSignedOut.style.display = 'none';
+      el.accountSignedIn.style.display = 'flex';
+      el.accountSignedInText.textContent = t('accountSignedInAs', { email: currentUser.email });
+    } else {
+      el.accountSignedOut.style.display = 'flex';
+      el.accountSignedIn.style.display = 'none';
+    }
+  }
+
+  function fetchRemoteFavourites() {
+    if (!sfClient || !currentUser) return;
+    sfClient.from('favourites').select('proverb_id').eq('user_id', currentUser.id).then(function (res) {
+      if (res.error) { setAccountStatus(res.error.message, true); return; }
+      var remoteIds = res.data.map(function (row) { return row.proverb_id; });
+      // Anything favourited locally before logging in gets pushed up too, then
+      // the merged set becomes the new source of truth.
+      var localOnly = state.favourites.filter(function (id) { return remoteIds.indexOf(id) === -1; });
+      if (localOnly.length) {
+        var rows = localOnly.map(function (id) { return { user_id: currentUser.id, proverb_id: id }; });
+        sfClient.from('favourites').insert(rows).then(function () {});
+      }
+      state.favourites = remoteIds.concat(localOnly);
+      saveJSON('sf-favourites', state.favourites);
+      render();
+      setAccountStatus(t('accountFavesSynced'), false);
+    });
+  }
+
+  function syncFavouriteRemote(id, isNowFav) {
+    if (!sfClient || !currentUser) return;
+    if (isNowFav) {
+      sfClient.from('favourites').insert({ user_id: currentUser.id, proverb_id: id }).then(function (res) {
+        if (res.error) setAccountStatus(res.error.message, true);
+      });
+    } else {
+      sfClient.from('favourites').delete().eq('user_id', currentUser.id).eq('proverb_id', id).then(function (res) {
+        if (res.error) setAccountStatus(res.error.message, true);
+      });
+    }
+  }
+
+  function submitSuggestionRemote(entry) {
+    if (!sfClient || !currentUser) return;
+    sfClient.from('suggestions').insert({
+      user_id: currentUser.id,
+      scots_text: entry.scotsText || null,
+      gaelic_text: entry.gaelicText || null,
+      english_text: entry.englishText || null,
+      meaning: entry.meaning || null,
+      submitted_by: entry.submittedBy || null
+    }).then(function (res) {
+      if (res.error) setAccountStatus(res.error.message, true);
+    });
+  }
+
+  function initAccount() {
+    if (!sfClient) return; var pendingEmail = '';
+
+    el.accountLoginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = el.accountEmail.value.trim();
+      if (!email) return;
+      var submitBtn = el.accountLoginForm.querySelector('button');
+      submitBtn.disabled = true;
+      submitBtn.textContent = t('accountSendingLink');
+      sfClient.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: window.location.href.split('#')[0].split('?')[0] }
+      }).then(function (res) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = t('accountSendLink');
+        if (res.error) {
+          setAccountStatus((res.error && res.error.message) || t('accountLoginError'), true);
+        } else {
+          pendingEmail = email; setAccountStatus(t('accountEnterCode'), false); el.accountLoginForm.style.display = 'none'; document.getElementById('account-code-form').style.display = 'flex'; document.getElementById('account-code').focus();
+          el.accountLoginForm.reset();
+        }
+      });
+    });
+
+    document.getElementById('account-code-form').addEventListener('submit', function (e) { e.preventDefault(); var code = document.getElementById('account-code').value.trim(); if (!code || !pendingEmail) return; var verifyBtn = document.getElementById('account-verify-btn'); verifyBtn.disabled = true; verifyBtn.textContent = t('accountVerifying'); sfClient.auth.verifyOtp({ email: pendingEmail, token: code, type: 'email' }).then(function (res) { verifyBtn.disabled = false; verifyBtn.textContent = t('accountVerifyBtn'); if (res.error) { setAccountStatus(t('accountVerifyError'), true); } else { document.getElementById('account-code-form').reset(); document.getElementById('account-code-form').style.display = 'none'; el.accountLoginForm.style.display = 'flex'; } }); }); document.getElementById('account-code-back').addEventListener('click', function () { pendingEmail = ''; document.getElementById('account-code-form').reset(); document.getElementById('account-code-form').style.display = 'none'; el.accountLoginForm.style.display = 'flex'; setAccountStatus('', false); }); el.accountLogoutBtn.addEventListener('click', function () {
+      sfClient.auth.signOut().then(function () { setAccountStatus('', false); });
+    });
+
+    sfClient.auth.onAuthStateChange(function (event, session) {
+      currentUser = (session && session.user) ? session.user : null;
+      updateAccountUI();
+      if (currentUser && (event === 'SIGNED_IN' || event === 'INITIAL_SESSION')) {
+        fetchRemoteFavourites();
+      }
+    });
+  }
+
+  var toastTimer = null;
+  function showToast(msg) {
+    el.toast.textContent = msg;
+    el.toast.style.display = 'block';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.toast.style.display = 'none'; }, 4000);
+  }
+
+  // ---- Proverb of the Day carousel ----
+  var FEATURED_IDS = [1, 2, 3, 4, 5];
+  var featured = FEATURED_IDS.map(function (id) {
+    return DATA.filter(function (d) { return d.id === id; })[0];
+  }).filter(Boolean);
+
+  var todayDate = new Date();
+  var daySeed = todayDate.getFullYear() * 372 + todayDate.getMonth() * 31 + todayDate.getDate();
+  var dayIndex = featured.length ? (daySeed % featured.length) : 0;
+  var potdIndex = dayIndex;
+  var potdTimer = null;
+
+  var elPotd = {
+    badge: document.getElementById('potd-badge'),
+    body: document.getElementById('potd-body'),
+    dots: document.getElementById('potd-dots'),
+    prev: document.getElementById('potd-prev'),
+    next: document.getElementById('potd-next')
+  };
+
+  function renderPotd() {
+    if (!featured.length) return;
+    var entry = featured[potdIndex];
+    elPotd.badge.textContent = potdIndex === dayIndex ? t('potdBadgeToday') : t('potdBadgeFeatured');
+    elPotd.body.innerHTML = LANGS.map(function (l) {
+      var val = entry[l];
+      if (!val) {
+        return '<div class="potd-lang-block"><div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div><p class="no-match">' + esc(t('notRecordedYet')) + '</p></div>';
+      }
+      return '<div class="potd-lang-block">' +
+          '<div class="lang-label ' + l + '">' + esc(currentLabels()[l]) + '</div>' +
+          '<p class="text proverb-text">' + esc(val.text) + '</p>' +
+          '<p class="gloss">' + esc(val.gloss) + '</p>' +
+        '</div>';
+    }).join('');
+    elPotd.dots.innerHTML = featured.map(function (_, i) {
+      return '<button class="' + (i === potdIndex ? 'active' : '') + '" data-idx="' + i + '" aria-label="Go to slide ' + (i + 1) + '"></button>';
+    }).join('');
+    Array.prototype.forEach.call(elPotd.dots.querySelectorAll('button'), function (btn) {
+      btn.addEventListener('click', function () {
+        potdIndex = Number(btn.getAttribute('data-idx'));
+        renderPotd();
+        resetPotdTimer();
+      });
+    });
+  }
+
+  function potdNext() { potdIndex = (potdIndex + 1) % featured.length; renderPotd(); }
+  function potdPrev() { potdIndex = (potdIndex - 1 + featured.length) % featured.length; renderPotd(); }
+  function resetPotdTimer() { clearInterval(potdTimer); potdTimer = setInterval(potdNext, 15000); }
+
+  if (featured.length) {
+    elPotd.next.addEventListener('click', function () { potdNext(); resetPotdTimer(); });
+    elPotd.prev.addEventListener('click', function () { potdPrev(); resetPotdTimer(); });
+    renderPotd();
+    resetPotdTimer();
+  } else {
+    document.getElementById('potd').style.display = 'none';
+  }
+
+  // ---- Service worker registration (offline support + push-ready) ----
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('./sw.js').catch(function () { /* ignore on unsupported hosts, e.g. file:// */ });
+    });
+  }
+
+  // ---- Mobile install banner ----
+  var updateInstallBannerText = function () {}; // replaced below once the banner IIFE runs
+  var positionInstallBanner = function () {}; // replaced below once the banner IIFE runs
+  (function () {
+    var banner = document.getElementById('install-banner');
+    var btnInstall = document.getElementById('install-banner-btn');
+    var btnDismiss = document.getElementById('install-banner-dismiss');
+    var bannerText = document.getElementById('install-banner-text');
+    var DISMISS_KEY = 'sf-install-dismissed-at';
+    var DISMISS_DAYS = 14;
+
+    var ua = navigator.userAgent || '';
+    var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    var isAndroid = /Android/.test(ua);
+    var isMobile = isIOS || isAndroid || Math.min(window.innerWidth, window.innerHeight) < 768;
+    var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    updateInstallBannerText = function () {
+      var hasPrompt = !!deferredPrompt;
+      if (isIOS) {
+        bannerText.innerHTML =
+          '<div class="install-steps">' +
+          '<div class="install-step"><span class="step-num">1</span><span>' + t('installStepShare') + '</span></div>' +
+          '<div class="install-step"><span class="step-num">2</span><span>' + t('installStepAdd') + '</span></div>' +
+          '</div>';
+      } else {
+        bannerText.textContent = t(hasPrompt ? 'installTextAndroid' : 'installTextAndroidManual');
+      }
+      btnInstall.textContent = t(hasPrompt ? 'installBtn' : 'installGotIt');
+    };
+
+    // Keep the install banner sitting above the fixed bottom nav bar on phones,
+    // rather than underneath or overlapping it.
+    positionInstallBanner = function (barHeight) {
+      banner.style.bottom = (barHeight || 0) + 'px';
+    };
+
+    function recentlyDismissed() {
+      var raw = localStorage.getItem(DISMISS_KEY);
+      if (!raw) return false;
+      var days = (Date.now() - Number(raw)) / 86400000;
+      return days < DISMISS_DAYS;
+    }
+
+    var deferredPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (isMobile && !isStandalone && !recentlyDismissed()) {
+        updateInstallBannerText();
+        banner.style.display = 'block';
+      }
+    });
+
+    // iOS has no beforeinstallprompt — show manual instructions instead.
+    if (isIOS && !isStandalone && !recentlyDismissed()) {
+      updateInstallBannerText();
+      banner.style.display = 'block';
+    }
+
+    // Android/Chrome sometimes never fires beforeinstallprompt (already
+    // declined a few times, criteria not met, etc). If that happens, fall
+    // back to manual "Add to Home screen" instructions after a short wait
+    // so the banner isn't just silently missing.
+    if (isMobile && !isIOS && !isStandalone && !recentlyDismissed()) {
+      setTimeout(function () {
+        if (!deferredPrompt && banner.style.display !== 'block') {
+          updateInstallBannerText();
+          banner.style.display = 'block';
+        }
+      }, 2500);
+    }
+
+    function offerPush() {
+      if (!window.OneSignalDeferred) return;
+      window.OneSignalDeferred.push(function (OneSignal) {
+        OneSignal.Notifications.requestPermission()
+          .then(function () { return OneSignal.User.PushSubscription.optIn(); })
+          .catch(function () { /* user declined or unsupported — ignore */ });
+      });
+    }
+
+    btnInstall.addEventListener('click', function () {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.finally(function () {
+          deferredPrompt = null;
+          banner.style.display = 'none';
+          offerPush();
+        });
+      } else {
+        // iOS, or Android/desktop without the native prompt: banner text
+        // already has manual instructions, so just acknowledge + dismiss.
+        banner.style.display = 'none';
+        localStorage.setItem(DISMISS_KEY, String(Date.now()));
+        offerPush();
+      }
+    });
+
+    btnDismiss.addEventListener('click', function () {
+      banner.style.display = 'none';
+      localStorage.setItem(DISMISS_KEY, String(Date.now()));
+    });
+  })();
+
+  // ---- Map: where the proverbs are from ----
+  var refreshLocationUI = function () {};
+  (function () {
+    var frame = document.getElementById('map-frame');
+    var viewLarger = document.getElementById('map-view-larger');
+    var info = document.getElementById('map-info');
+    var form = document.getElementById('location-form');
+    var btnToggle = document.getElementById('btn-location-toggle');
+    var btnExportLoc = document.getElementById('btn-location-export');
+
+    var pinned = DATA.filter(function (d) { return d.origin && d.origin.status === 'approved'; });
+
+    function renderMap() {
+      if (!pinned.length) {
+        document.getElementById('map-section').style.display = 'none';
+        return;
+      }
+      // Single-pin MVP: shows the first approved origin. See README for how this grows.
+      var entry = pinned[0];
+      var lat = entry.origin.lat, lng = entry.origin.lng;
+      var d = 0.25;
+      var bbox = [lng - d, lat - d * 0.6, lng + d, lat + d * 0.6].join(',');
+      frame.src = 'https://www.openstreetmap.org/export/embed.html?bbox=' + encodeURIComponent(bbox) + '&layer=mapnik&marker=' + lat + ',' + lng;
+      viewLarger.href = 'https://www.openstreetmap.org/?mlat=' + lat + '&mlon=' + lng + '#map=11/' + lat + '/' + lng;
+
+      var gaelic = entry.gaelic;
+      info.innerHTML =
+        '<div class="place">' + esc(entry.origin.place) + '</div>' +
+        (gaelic ? '<p class="text proverb-text">' + esc(gaelic.text) + '</p><p class="gloss">' + esc(gaelic.gloss) + '</p>' : '') +
+        (entry.origin.contributedBy ? '<p class="credit">' + esc(t('mapContributedBy', { name: entry.origin.contributedBy })) + '</p>' : '');
+    }
+    renderMap();
+
+    btnToggle.addEventListener('click', function () {
+      var showing = form.style.display !== 'none';
+      form.style.display = showing ? 'none' : 'grid';
+      btnToggle.textContent = showing ? t('suggestLocationHeading') : t('contributeToggleOpen');
+      refreshLocationExport();
+    });
+
+    function refreshLocationExport() {
+      btnExportLoc.style.display = state.locationSuggestions.length > 0 ? 'inline-block' : 'none';
+      btnExportLoc.textContent = t('exportLocations', { n: state.locationSuggestions.length, s: state.locationSuggestions.length === 1 ? '' : 's' });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = e.target;
+      var entry = {
+        id: 'loc-' + Date.now(),
+        proverbText: f.proverbText.value.trim(),
+        place: f.place.value.trim(),
+        comments: f.comments.value.trim(),
+        submittedBy: f.submittedBy.value.trim(),
+        submittedAt: new Date().toISOString(),
+        status: 'pending'
+      };
+      if (!entry.proverbText) return;
+      state.locationSuggestions.push(entry);
+      saveJSON('sf-location-suggestions', state.locationSuggestions);
+      f.reset();
+      refreshLocationExport();
+      showToast(t('suggestionToast'));
+    });
+
+    btnExportLoc.addEventListener('click', function () {
+      var blob = new Blob([JSON.stringify(state.locationSuggestions, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'location-suggestions.json'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    refreshLocationUI = function () {
+      renderMap();
+      refreshLocationExport();
+      if (form.style.display !== 'none') btnToggle.textContent = t('contributeToggleOpen');
+    };
+    refreshLocationExport();
+  })();
+
+  // ---- Mobile bottom bar: pad the page and reposition the install banner so
+  // nothing sits underneath the fixed language-toggle bar on phones. ----
+  var MOBILE_BAR_QUERY = window.matchMedia('(max-width: 640px)');
+  function applyMobileBar() {
+    if (MOBILE_BAR_QUERY.matches) {
+      var barHeight = el.toolbar.offsetHeight;
+      el.main.style.paddingBottom = (barHeight + 24) + 'px';
+      positionInstallBanner(barHeight);
+    } else {
+      el.main.style.paddingBottom = '';
+      positionInstallBanner(0);
+    }
+  }
+  window.addEventListener('resize', applyMobileBar);
+  window.addEventListener('orientationchange', applyMobileBar);
+  if (MOBILE_BAR_QUERY.addEventListener) {
+    MOBILE_BAR_QUERY.addEventListener('change', applyMobileBar);
+  }
+  // Re-measure shortly after load too, in case fonts/icons shift the bar's height.
+  window.addEventListener('load', function () { setTimeout(applyMobileBar, 100); });
+
+  // ---- restore saved UI language, then do the initial render ----
+  var savedUiLang = loadJSON('sf-ui-lang', 'en');
+  state.uiLang = (savedUiLang === 'gd') ? 'gd' : 'en';
+  el.uiLangEn.classList.toggle('active', state.uiLang === 'en');
+  el.uiLangGd.classList.toggle('active', state.uiLang === 'gd');
+  applyI18n();
+  renderAboutSummary();
+  el.searchInput.placeholder = I18N.searchPlaceholder[state.lang][state.uiLang];
+  updateInstallBannerText();
+  refreshLocationUI();
+  applyMobileBar();
+  populateThemeSelect();
+  updateThemeChip();
+
+  refreshExportButton();
+  initAccount();
+  render();
+})();
+</script>
+<!-- Feedback slide-out tab (site-wide) -->
+<div id="gws-fbtab-launcher">
+  <button id="gws-fbtab-btn" type="button" aria-label="Send feedback" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    <span>Feedback</span>
+  </button>
+</div>
+<div id="gws-fbtab-overlay"></div>
+<div id="gws-fbtab-panel" role="dialog" aria-modal="true" aria-labelledby="gws-fbtab-title">
+  <div class="gws-fbtab-head">
+    <h3 id="gws-fbtab-title">Feedback</h3>
+    <button id="gws-fbtab-close" type="button" aria-label="Close">&times;</button>
+  </div>
+  <p class="gws-fbtab-sub">Spot a mistake or have an idea? Tell Steven directly &mdash; it goes straight to his inbox.</p>
+  <form id="gws-fbtab-form">
+    <label for="gws-fbtab-message">Your message *</label>
+    <textarea id="gws-fbtab-message" name="message" rows="5" required maxlength="4000" placeholder="Found a typo, broken link, wrong translation, or just an idea..."></textarea>
+    <label for="gws-fbtab-name">Name (optional)</label>
+    <input id="gws-fbtab-name" name="name" type="text" maxlength="120" autocomplete="name">
+    <label for="gws-fbtab-email">Email (optional, for a reply)</label>
+    <input id="gws-fbtab-email" name="email" type="email" maxlength="200" autocomplete="email">
+    <button id="gws-fbtab-submit" type="submit">Send feedback</button>
+    <p id="gws-fbtab-status" role="status"></p>
+  </form>
+</div>
+<style>
+#gws-fbtab-launcher{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:9998;}
+#gws-fbtab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,#2b3a8f,#6b3fa0);color:#fff;border:none;border-radius:0 10px 10px 0;padding:14px 8px;cursor:pointer;box-shadow:2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
+#gws-fbtab-btn:hover{padding-left:12px;background:linear-gradient(135deg,#34459e,#7c4bb0);}
+#gws-fbtab-btn svg{transform:rotate(90deg);flex-shrink:0;}
+#gws-fbtab-overlay{position:fixed;inset:0;background:rgba(5,7,15,0.55);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+#gws-fbtab-overlay.gws-fbtab-open{opacity:1;pointer-events:auto;}
+#gws-fbtab-panel{position:fixed;top:0;left:0;height:100%;width:min(380px,92vw);background:#14172a;color:#e8e9f3;z-index:10000;box-shadow:4px 0 24px rgba(0,0,0,0.45);transform:translateX(-105%);transition:transform 0.25s ease;padding:24px 20px 20px;overflow-y:auto;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+#gws-fbtab-panel.gws-fbtab-open{transform:translateX(0);}
+.gws-fbtab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.gws-fbtab-head h3{margin:0;font-size:20px;color:#fff;}
+#gws-fbtab-close{background:none;border:none;color:#aaaabb;font-size:26px;line-height:1;cursor:pointer;padding:0 4px;}
+#gws-fbtab-close:hover{color:#fff;}
+.gws-fbtab-sub{font-size:13.5px;color:#b7bad0;line-height:1.5;margin:0 0 18px;}
+#gws-fbtab-form{display:flex;flex-direction:column;gap:6px;}
+#gws-fbtab-form label{font-size:12.5px;color:#c7c9dc;margin-top:10px;font-weight:600;}
+#gws-fbtab-form textarea,#gws-fbtab-form input{background:#1d2039;border:1px solid #33375a;border-radius:8px;color:#f0f1f8;padding:10px 12px;font-size:14px;font-family:inherit;resize:vertical;}
+#gws-fbtab-form textarea:focus,#gws-fbtab-form input:focus{outline:none;border-color:#7c8cff;box-shadow:0 0 0 3px rgba(124,140,255,0.2);}
+#gws-fbtab-submit{margin-top:16px;background:linear-gradient(135deg,#2b3a8f,#6b3fa0);color:#fff;border:none;border-radius:8px;padding:11px 16px;font-size:14.5px;font-weight:700;cursor:pointer;transition:opacity 0.15s ease;}
+#gws-fbtab-submit:disabled{opacity:0.6;cursor:default;}
+#gws-fbtab-submit:hover:not(:disabled){opacity:0.92;}
+#gws-fbtab-status{margin-top:10px;font-size:13px;min-height:18px;}
+#gws-fbtab-status.gws-fbtab-ok{color:#7ee2b8;}
+#gws-fbtab-status.gws-fbtab-err{color:#ff9b9b;}
+@media (max-width:480px){#gws-fbtab-btn{font-size:12px;padding:12px 6px;}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById("gws-fbtab-btn");
+  var overlay = document.getElementById("gws-fbtab-overlay");
+  var panel = document.getElementById("gws-fbtab-panel");
+  var closeBtn = document.getElementById("gws-fbtab-close");
+  var form = document.getElementById("gws-fbtab-form");
+  var statusEl = document.getElementById("gws-fbtab-status");
+  var submitBtn = document.getElementById("gws-fbtab-submit");
+  if (!btn || !panel || !form) return;
+  function openPanel(){
+    panel.classList.add("gws-fbtab-open");
+    overlay.classList.add("gws-fbtab-open");
+    btn.setAttribute("aria-expanded","true");
+    setTimeout(function(){ var m = document.getElementById("gws-fbtab-message"); if (m) m.focus(); }, 260);
+  }
+  function closePanel(){
+    panel.classList.remove("gws-fbtab-open");
+    overlay.classList.remove("gws-fbtab-open");
+    btn.setAttribute("aria-expanded","false");
+  }
+  btn.addEventListener("click", function(){
+    if (panel.classList.contains("gws-fbtab-open")) { closePanel(); } else { openPanel(); }
+  });
+  if (closeBtn) closeBtn.addEventListener("click", closePanel);
+  if (overlay) overlay.addEventListener("click", closePanel);
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") closePanel();
+  });
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var msgEl = document.getElementById("gws-fbtab-message");
+    var nameEl = document.getElementById("gws-fbtab-name");
+    var emailEl = document.getElementById("gws-fbtab-email");
+    var message = msgEl ? msgEl.value.trim() : "";
+    var name = nameEl ? nameEl.value.trim() : "";
+    var email = emailEl ? emailEl.value.trim() : "";
+    if (!message) return;
+    submitBtn.disabled = true;
+    statusEl.textContent = "Sending...";
+    statusEl.className = "";
+    fetch("https://kgbmdazcupgyypfvvqbv.supabase.co/functions/v1/send-feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message, name: name, email: email, page: window.location.pathname + window.location.search })
+    }).then(function(r){
+      return r.json().then(function(d){ return { ok: r.ok, data: d }; });
+    }).then(function(res){
+      if (res.ok) {
+        statusEl.textContent = "Thanks \u2014 feedback sent!";
+        statusEl.className = "gws-fbtab-ok";
+        form.reset();
+        setTimeout(closePanel, 1800);
+      } else {
+        statusEl.textContent = (res.data && res.data.error) || "Something went wrong \u2014 please try again.";
+        statusEl.className = "gws-fbtab-err";
+      }
+    }).catch(function(){
+      statusEl.textContent = "Network error \u2014 please try again.";
+      statusEl.className = "gws-fbtab-err";
+    }).finally(function(){
+      submitBtn.disabled = false;
+    });
+  });
+})();
+</script>
+<!-- Quick settings slide-out tab (site-wide) -->
+<div id="gws-qstab-launcher">
+  <button id="gws-qstab-btn" type="button" aria-label="Quick settings" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    <span id="gws-qstab-label">Settings</span>
+  </button>
+</div>
+<div id="gws-qstab-overlay"></div>
+<div id="gws-qstab-panel" role="dialog" aria-modal="true" aria-labelledby="gws-qstab-title">
+  <div class="gws-qstab-head">
+    <h3 id="gws-qstab-title">Quick settings</h3>
+    <button id="gws-qstab-close" type="button" aria-label="Close">&times;</button>
+  </div>
+  <p class="gws-qstab-sub" id="gws-qstab-sub">Change the site language, switch to dark mode, or jump straight to your notification preferences.</p>
+  <div class="gws-qstab-section">
+    <div class="gws-qstab-label" id="gws-qstab-lang-label">LANGUAGE</div>
+    <div class="gws-qstab-langrow">
+      <button type="button" id="gws-qstab-lang-en" class="gws-qstab-langbtn">English</button>
+      <button type="button" id="gws-qstab-lang-gd" class="gws-qstab-langbtn">Gàidhlig</button>
+    </div>
+  </div>
+  <div class="gws-qstab-section">
+    <div class="gws-qstab-label" id="gws-qstab-theme-label">APPEARANCE</div>
+    <div class="gws-qstab-langrow">
+      <button type="button" id="gws-qstab-theme-light" class="gws-qstab-langbtn gws-qstab-iconbtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <span id="gws-qstab-theme-light-label">Light</span>
+      </button>
+      <button type="button" id="gws-qstab-theme-dark" class="gws-qstab-langbtn gws-qstab-iconbtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <span id="gws-qstab-theme-dark-label">Dark</span>
+      </button>
+    </div>
+  </div>
+  <div class="gws-qstab-section">
+    <div class="gws-qstab-label" id="gws-qstab-notif-label">NOTIFICATIONS</div>
+    <p class="gws-qstab-sub" id="gws-qstab-notif-desc" style="margin-bottom:12px;">Manage your daily proverb and games email/push preferences on My Account.</p>
+    <a id="gws-qstab-notif-link" href="my-account.html#updates-card" class="gws-qstab-cta">Manage notifications &rarr;</a>
+  </div>
+</div>
+<style>
+#gws-qstab-launcher{position:fixed;left:0;top:50%;z-index:9997;}
+#gws-qstab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;border:none;border-radius:0 10px 10px 0;padding:14px 8px;cursor:pointer;box-shadow:2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
+#gws-qstab-btn:hover{padding-left:12px;}
+#gws-qstab-btn svg{transform:rotate(90deg);flex-shrink:0;}
+#gws-qstab-overlay{position:fixed;inset:0;background:rgba(5,7,15,0.55);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+#gws-qstab-overlay.gws-qstab-open{opacity:1;pointer-events:auto;}
+#gws-qstab-panel{position:fixed;top:0;right:0;height:100%;width:min(380px,92vw);background:#14172a;color:#e8e9f3;z-index:10000;box-shadow:-4px 0 24px rgba(0,0,0,0.45);transform:translateX(105%);transition:transform 0.25s ease;padding:24px 20px 20px;overflow-y:auto;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+#gws-qstab-panel.gws-qstab-open{transform:translateX(0);}
+.gws-qstab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.gws-qstab-head h3{margin:0;font-size:20px;color:#fff;}
+#gws-qstab-close{background:none;border:none;color:#aaaabb;font-size:26px;line-height:1;cursor:pointer;padding:0 4px;}
+#gws-qstab-close:hover{color:#fff;}
+.gws-qstab-sub{font-size:13.5px;color:#b7bad0;line-height:1.5;margin:0 0 18px;}
+.gws-qstab-section{margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.gws-qstab-section:last-child{border-bottom:none;}
+.gws-qstab-label{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8e91b0;margin:0 0 10px;font-weight:700;}
+.gws-qstab-langrow{display:flex;gap:8px;}
+.gws-qstab-langbtn{flex:1;background:#1d2039;border:1px solid #33375a;border-radius:8px;color:#e8e9f3;padding:10px 8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.15s ease,border-color 0.15s ease;}
+.gws-qstab-langbtn:hover{border-color:#7c8cff;}
+.gws-qstab-langbtn.gws-qstab-active{background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));border-color:transparent;color:#fff;}
+.gws-qstab-iconbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.gws-qstab-iconbtn svg{flex-shrink:0;}
+.gws-qstab-cta{display:inline-block;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;text-decoration:none;border-radius:8px;padding:11px 16px;font-size:14.5px;font-weight:700;text-align:center;}
+.gws-qstab-cta:hover{opacity:0.92;}
+@media (max-width:480px){#gws-qstab-btn{font-size:12px;padding:12px 6px;}}
+</style>
+<script>
+(function(){
+  var LANG = {
+    en: {
+      title: "Quick settings",
+      sub: "Change the site language, switch to dark mode, or jump straight to your notification preferences.",
+      langLabel: "LANGUAGE",
+      english: "English",
+      gaelic: "Gàidhlig",
+      themeLabel: "APPEARANCE",
+      light: "Light",
+      dark: "Dark",
+      notifLabel: "NOTIFICATIONS",
+      notifDesc: "Manage your daily proverb and games email/push preferences on My Account.",
+      notifBtn: "Manage notifications →",
+      launcher: "Settings"
+    },
+    gd: {
+      title: "Roghainnean luath",
+      sub: "Atharraich cànan an làraich, gluais gu modh dorcha, no rach dìreach gu na roghainnean brath agad.",
+      langLabel: "CÀNAN",
+      english: "Beurla",
+      gaelic: "Gàidhlig",
+      themeLabel: "COLTAS",
+      light: "Soilleir",
+      dark: "Dorcha",
+      notifLabel: "BRATHAN",
+      notifDesc: "Stiùirich na roghainnean puist-d is putaidh agad airson an t-seanfhacail làitheil agus nan geamannan sa Chunntas Agam.",
+      notifBtn: "Stiùirich brathan →",
+      launcher: "Roghainnean"
+    }
+  };
+  var btn = document.getElementById("gws-qstab-btn");
+  var overlay = document.getElementById("gws-qstab-overlay");
+  var panel = document.getElementById("gws-qstab-panel");
+  var closeBtn = document.getElementById("gws-qstab-close");
+  var langEnBtn = document.getElementById("gws-qstab-lang-en");
+  var langGdBtn = document.getElementById("gws-qstab-lang-gd");
+  var realEn = document.getElementById("ui-lang-en");
+  var realGd = document.getElementById("ui-lang-gd");
+  var themeLightBtn = document.getElementById("gws-qstab-theme-light");
+  var themeDarkBtn = document.getElementById("gws-qstab-theme-dark");
+  if (!btn || !panel) return;
+
+  function currentLang(){ return (realGd && realGd.classList.contains("active")) ? "gd" : "en"; }
+  function setText(id, val){ var e = document.getElementById(id); if (e) e.textContent = val; }
+  function applyTexts(){
+    var L = LANG[currentLang()];
+    setText("gws-qstab-title", L.title);
+    setText("gws-qstab-sub", L.sub);
+    setText("gws-qstab-lang-label", L.langLabel);
+    setText("gws-qstab-theme-label", L.themeLabel);
+    setText("gws-qstab-notif-label", L.notifLabel);
+    setText("gws-qstab-notif-desc", L.notifDesc);
+    setText("gws-qstab-notif-link", L.notifBtn);
+    setText("gws-qstab-theme-light-label", L.light);
+    setText("gws-qstab-theme-dark-label", L.dark);
+    setText("gws-qstab-label", L.launcher);
+    if (langEnBtn) langEnBtn.textContent = L.english;
+    if (langGdBtn) langGdBtn.textContent = L.gaelic;
+  }
+  function syncLangButtons(){
+    if (!realEn || !realGd) return;
+    var enActive = realEn.classList.contains("active");
+    langEnBtn.classList.toggle("gws-qstab-active", enActive);
+    langGdBtn.classList.toggle("gws-qstab-active", !enActive);
+    applyTexts();
+  }
+  function openPanel(){
+    panel.classList.add("gws-qstab-open");
+    overlay.classList.add("gws-qstab-open");
+    btn.setAttribute("aria-expanded","true");
+    syncLangButtons();
+  }
+  function closePanel(){
+    panel.classList.remove("gws-qstab-open");
+    overlay.classList.remove("gws-qstab-open");
+    btn.setAttribute("aria-expanded","false");
+  }
+  btn.addEventListener("click", function(){
+    if (panel.classList.contains("gws-qstab-open")) closePanel(); else openPanel();
+  });
+  if (closeBtn) closeBtn.addEventListener("click", closePanel);
+  if (overlay) overlay.addEventListener("click", closePanel);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closePanel(); });
+  if (langEnBtn && realEn) langEnBtn.addEventListener("click", function(){ realEn.click(); syncLangButtons(); });
+  if (langGdBtn && realGd) langGdBtn.addEventListener("click", function(){ realGd.click(); syncLangButtons(); });
+  if (realEn && realGd && window.MutationObserver) {
+    var langMo = new MutationObserver(function(){ syncLangButtons(); });
+    langMo.observe(realEn, { attributes:true, attributeFilter:["class"] });
+    langMo.observe(realGd, { attributes:true, attributeFilter:["class"] });
+  }
+  applyTexts();
+
+  function positionUnderFeedback(){
+    var fb = document.getElementById("gws-fbtab-launcher");
+    var launcher = document.getElementById("gws-qstab-launcher");
+    if (!launcher) return;
+    if (!fb) { launcher.style.top = "62%"; return; }
+    var r = fb.getBoundingClientRect();
+    var overlapPx = 14;
+    launcher.style.transform = "none";
+    launcher.style.top = Math.max(8, r.bottom - overlapPx) + "px";
+  }
+  positionUnderFeedback();
+  window.addEventListener("resize", positionUnderFeedback);
+  window.addEventListener("orientationchange", positionUnderFeedback);
+  setTimeout(positionUnderFeedback, 300);
+
+  var THEME_KEY = "gwsTheme";
+  var darkTouched = [];
+  function brightness(r,g,b){ return (r*299+g*587+b*114)/1000; }
+  function parseColor(str){
+    if (!str) return null;
+    var m = str.match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    var p = m[1].split(",").map(function(s){ return parseFloat(s); });
+    return { r:p[0], g:p[1], b:p[2], a: p[3] === undefined ? 1 : p[3] };
+  }
+  function shouldSkip(el){
+    return !!el.closest("header.app-header, #gws-fbtab-launcher, #gws-fbtab-panel, #gws-fbtab-overlay, #gws-qstab-launcher, #gws-qstab-panel, #gws-qstab-overlay");
+  }
+  function darkenElement(el){
+    if (el.nodeType !== 1 || shouldSkip(el)) return;
+    var cs = getComputedStyle(el);
+    var rec = null;
+    var bg = parseColor(cs.backgroundColor);
+    if (bg && bg.a >= 0.5) {
+      var bri = brightness(bg.r, bg.g, bg.b);
+      if (bri > 244) { rec = rec || {}; rec.bg = el.style.backgroundColor; el.style.backgroundColor = "#22242b"; }
+      else if (bri > 195) { rec = rec || {}; rec.bg = el.style.backgroundColor; el.style.backgroundColor = "#15161b"; }
+    }
+    var fg = parseColor(cs.color);
+    if (fg) {
+      var briF = brightness(fg.r, fg.g, fg.b);
+      if (briF < 90) { rec = rec || {}; rec.fg = el.style.color; el.style.color = "#e9e9ee"; }
+    }
+    var bw = parseFloat(cs.borderTopWidth) || 0;
+    if (bw > 0) {
+      var bc = parseColor(cs.borderTopColor);
+      if (bc && bc.a >= 0.3) {
+        var briB = brightness(bc.r, bc.g, bc.b);
+        if (briB > 195) { rec = rec || {}; rec.border = el.style.borderColor; el.style.borderColor = "#34363f"; }
+      }
+    }
+    if (rec) { darkTouched.push({ el: el, rec: rec }); }
+  }
+  function applyDark(root){
+    darkenElement(root);
+    var all = root.querySelectorAll ? root.querySelectorAll("*") : [];
+    for (var i=0; i<all.length; i++) darkenElement(all[i]);
+  }
+  function removeDark(){
+    for (var i=0; i<darkTouched.length; i++) {
+      var t = darkTouched[i];
+      if (t.rec.bg !== undefined) { if (t.rec.bg) t.el.style.backgroundColor = t.rec.bg; else t.el.style.removeProperty("background-color"); }
+      if (t.rec.fg !== undefined) { if (t.rec.fg) t.el.style.color = t.rec.fg; else t.el.style.removeProperty("color"); }
+      if (t.rec.border !== undefined) { if (t.rec.border) t.el.style.borderColor = t.rec.border; else t.el.style.removeProperty("border-color"); }
+    }
+    darkTouched = [];
+  }
+  var isDark = false;
+  function syncThemeButtons(){
+    if (themeLightBtn) themeLightBtn.classList.toggle("gws-qstab-active", !isDark);
+    if (themeDarkBtn) themeDarkBtn.classList.toggle("gws-qstab-active", isDark);
+  }
+  function setTheme(dark){
+    isDark = dark;
+    document.documentElement.setAttribute("data-gws-theme", dark ? "dark" : "light");
+    try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch(e){}
+    if (dark) applyDark(document.body); else removeDark();
+    syncThemeButtons();
+  }
+  if (themeLightBtn) themeLightBtn.addEventListener("click", function(){ setTheme(false); });
+  if (themeDarkBtn) themeDarkBtn.addEventListener("click", function(){ setTheme(true); });
+  if (window.MutationObserver) {
+    var contentObserver = new MutationObserver(function(muts){
+      if (!isDark) return;
+      for (var i=0;i<muts.length;i++){
+        var added = muts[i].addedNodes;
+        for (var j=0;j<added.length;j++){ if (added[j].nodeType === 1) applyDark(added[j]); }
+      }
+    });
+    contentObserver.observe(document.body, { childList:true, subtree:true });
+  }
+  try {
+    var saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark") setTheme(true);
+    else syncThemeButtons();
+  } catch(e){ syncThemeButtons(); }
+})();
+</script>
+</body>
+</html>
