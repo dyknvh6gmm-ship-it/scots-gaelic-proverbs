@@ -2181,5 +2181,95 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
   });
 })();
 </script>
+<!-- Quick settings slide-out tab (site-wide) -->
+<div id="gws-qstab-launcher">
+  <button id="gws-qstab-btn" type="button" aria-label="Quick settings" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+    <span>Settings</span>
+  </button>
+</div>
+<div id="gws-qstab-overlay"></div>
+<div id="gws-qstab-panel" role="dialog" aria-modal="true" aria-labelledby="gws-qstab-title">
+  <div class="gws-qstab-head">
+    <h3 id="gws-qstab-title">Quick settings</h3>
+    <button id="gws-qstab-close" type="button" aria-label="Close">&times;</button>
+  </div>
+  <p class="gws-qstab-sub">Change the site language or jump straight to your notification preferences.</p>
+  <div class="gws-qstab-section">
+    <p class="gws-qstab-label">Language</p>
+    <div class="gws-qstab-langrow">
+      <button id="gws-qstab-lang-en" type="button" class="gws-qstab-langbtn">English</button>
+      <button id="gws-qstab-lang-gd" type="button" class="gws-qstab-langbtn">Gàidhlig</button>
+    </div>
+  </div>
+  <div class="gws-qstab-section">
+    <p class="gws-qstab-label">Notifications</p>
+    <p class="gws-qstab-sub" style="margin-bottom:12px;">Manage your daily proverb and games email/push preferences on My Account.</p>
+    <a id="gws-qstab-notif-link" href="my-account.html#updates-card" class="gws-qstab-cta">Manage notifications &rarr;</a>
+  </div>
+</div>
+<style>
+#gws-qstab-launcher{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:9998;}
+#gws-qstab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;border:none;border-radius:10px 0 0 10px;padding:14px 8px;cursor:pointer;box-shadow:-2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
+#gws-qstab-btn:hover{padding-right:12px;}
+#gws-qstab-btn svg{transform:rotate(90deg);flex-shrink:0;}
+#gws-qstab-overlay{position:fixed;inset:0;background:rgba(5,7,15,0.55);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+#gws-qstab-overlay.gws-qstab-open{opacity:1;pointer-events:auto;}
+#gws-qstab-panel{position:fixed;top:0;right:0;height:100%;width:min(380px,92vw);background:#14172a;color:#e8e9f3;z-index:10000;box-shadow:-4px 0 24px rgba(0,0,0,0.45);transform:translateX(105%);transition:transform 0.25s ease;padding:24px 20px 20px;overflow-y:auto;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;}
+#gws-qstab-panel.gws-qstab-open{transform:translateX(0);}
+.gws-qstab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.gws-qstab-head h3{margin:0;font-size:20px;color:#fff;}
+#gws-qstab-close{background:none;border:none;color:#aaaabb;font-size:26px;line-height:1;cursor:pointer;padding:0 4px;}
+#gws-qstab-close:hover{color:#fff;}
+.gws-qstab-sub{font-size:13.5px;color:#b7bad0;line-height:1.5;margin:0 0 18px;}
+.gws-qstab-section{margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.08);}
+.gws-qstab-section:last-child{border-bottom:none;}
+.gws-qstab-label{font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#8e91b0;margin:0 0 10px;font-weight:700;}
+.gws-qstab-langrow{display:flex;gap:8px;}
+.gws-qstab-langbtn{flex:1;background:#1d2039;border:1px solid #33375a;border-radius:8px;color:#e8e9f3;padding:10px 8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.15s ease,border-color 0.15s ease;}
+.gws-qstab-langbtn:hover{border-color:#7c8cff;}
+.gws-qstab-langbtn.gws-qstab-active{background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));border-color:transparent;color:#fff;}
+.gws-qstab-cta{display:inline-block;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;text-decoration:none;border-radius:8px;padding:11px 16px;font-size:14.5px;font-weight:700;text-align:center;}
+.gws-qstab-cta:hover{opacity:0.92;}
+@media (max-width:480px){#gws-qstab-btn{font-size:12px;padding:12px 6px;}}
+</style>
+<script>
+(function(){
+  var btn = document.getElementById("gws-qstab-btn");
+  var overlay = document.getElementById("gws-qstab-overlay");
+  var panel = document.getElementById("gws-qstab-panel");
+  var closeBtn = document.getElementById("gws-qstab-close");
+  var langEnBtn = document.getElementById("gws-qstab-lang-en");
+  var langGdBtn = document.getElementById("gws-qstab-lang-gd");
+  var realEn = document.getElementById("ui-lang-en");
+  var realGd = document.getElementById("ui-lang-gd");
+  if (!btn || !panel) return;
+  function syncLangButtons(){
+    if (!realEn || !realGd) return;
+    var enActive = realEn.classList.contains("active");
+    langEnBtn.classList.toggle("gws-qstab-active", enActive);
+    langGdBtn.classList.toggle("gws-qstab-active", !enActive);
+  }
+  function openPanel(){
+    panel.classList.add("gws-qstab-open");
+    overlay.classList.add("gws-qstab-open");
+    btn.setAttribute("aria-expanded","true");
+    syncLangButtons();
+  }
+  function closePanel(){
+    panel.classList.remove("gws-qstab-open");
+    overlay.classList.remove("gws-qstab-open");
+    btn.setAttribute("aria-expanded","false");
+  }
+  btn.addEventListener("click", function(){
+    if (panel.classList.contains("gws-qstab-open")) closePanel(); else openPanel();
+  });
+  if (closeBtn) closeBtn.addEventListener("click", closePanel);
+  if (overlay) overlay.addEventListener("click", closePanel);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") closePanel(); });
+  if (langEnBtn && realEn) langEnBtn.addEventListener("click", function(){ realEn.click(); syncLangButtons(); });
+  if (langGdBtn && realGd) langGdBtn.addEventListener("click", function(){ realGd.click(); syncLangButtons(); });
+})();
+</script>
 </body>
 </html>
