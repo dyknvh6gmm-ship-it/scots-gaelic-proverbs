@@ -865,6 +865,12 @@ el.accountLogoutBtn.addEventListener('click', function () {
 sfClient.auth.signOut().then(function () { setStatus('', false); });
 });
 
+sfClient.auth.getSession().then(function (res) {
+var session = res && res.data ? res.data.session : null;
+currentUser = (session && session.user) ? session.user : null;
+updateAccountUI();
+});
+
 sfClient.auth.onAuthStateChange(function (event, session) {
 currentUser = (session && session.user) ? session.user : null;
 updateAccountUI();
