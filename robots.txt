@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /manager.html
+Disallow: /blog-admin.html
+Disallow: /suggestions-admin.html
+
+Sitemap: https://www.gaelicwithsteve.com/sitemap.xml
