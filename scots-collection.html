@@ -532,7 +532,7 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
 <div id="gws-qstab-launcher">
   <button id="gws-qstab-btn" type="button" aria-label="Quick settings" aria-expanded="false">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-    <span>Settings</span>
+    <span id="gws-qstab-label">Settings</span>
   </button>
 </div>
 <div id="gws-qstab-overlay"></div>
@@ -541,24 +541,37 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
     <h3 id="gws-qstab-title">Quick settings</h3>
     <button id="gws-qstab-close" type="button" aria-label="Close">&times;</button>
   </div>
-  <p class="gws-qstab-sub">Change the site language or jump straight to your notification preferences.</p>
+  <p class="gws-qstab-sub" id="gws-qstab-sub">Change the site language, switch to dark mode, or jump straight to your notification preferences.</p>
   <div class="gws-qstab-section">
-    <p class="gws-qstab-label">Language</p>
+    <div class="gws-qstab-label" id="gws-qstab-lang-label">LANGUAGE</div>
     <div class="gws-qstab-langrow">
-      <button id="gws-qstab-lang-en" type="button" class="gws-qstab-langbtn">English</button>
-      <button id="gws-qstab-lang-gd" type="button" class="gws-qstab-langbtn">Gàidhlig</button>
+      <button type="button" id="gws-qstab-lang-en" class="gws-qstab-langbtn">English</button>
+      <button type="button" id="gws-qstab-lang-gd" class="gws-qstab-langbtn">Gàidhlig</button>
     </div>
   </div>
   <div class="gws-qstab-section">
-    <p class="gws-qstab-label">Notifications</p>
-    <p class="gws-qstab-sub" style="margin-bottom:12px;">Manage your daily proverb and games email/push preferences on My Account.</p>
+    <div class="gws-qstab-label" id="gws-qstab-theme-label">APPEARANCE</div>
+    <div class="gws-qstab-langrow">
+      <button type="button" id="gws-qstab-theme-light" class="gws-qstab-langbtn gws-qstab-iconbtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        <span id="gws-qstab-theme-light-label">Light</span>
+      </button>
+      <button type="button" id="gws-qstab-theme-dark" class="gws-qstab-langbtn gws-qstab-iconbtn">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+        <span id="gws-qstab-theme-dark-label">Dark</span>
+      </button>
+    </div>
+  </div>
+  <div class="gws-qstab-section">
+    <div class="gws-qstab-label" id="gws-qstab-notif-label">NOTIFICATIONS</div>
+    <p class="gws-qstab-sub" id="gws-qstab-notif-desc" style="margin-bottom:12px;">Manage your daily proverb and games email/push preferences on My Account.</p>
     <a id="gws-qstab-notif-link" href="my-account.html#updates-card" class="gws-qstab-cta">Manage notifications &rarr;</a>
   </div>
 </div>
 <style>
-#gws-qstab-launcher{position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:9998;}
-#gws-qstab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;border:none;border-radius:10px 0 0 10px;padding:14px 8px;cursor:pointer;box-shadow:-2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
-#gws-qstab-btn:hover{padding-right:12px;}
+#gws-qstab-launcher{position:fixed;left:0;top:50%;z-index:9997;}
+#gws-qstab-btn{display:flex;flex-direction:column;align-items:center;gap:6px;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;border:none;border-radius:0 10px 10px 0;padding:14px 8px;cursor:pointer;box-shadow:2px 0 12px rgba(0,0,0,0.35);writing-mode:vertical-rl;text-orientation:mixed;font-family:inherit;font-size:13px;font-weight:600;letter-spacing:0.3px;transition:padding 0.15s ease,background 0.15s ease;}
+#gws-qstab-btn:hover{padding-left:12px;}
 #gws-qstab-btn svg{transform:rotate(90deg);flex-shrink:0;}
 #gws-qstab-overlay{position:fixed;inset:0;background:rgba(5,7,15,0.55);z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
 #gws-qstab-overlay.gws-qstab-open{opacity:1;pointer-events:auto;}
@@ -576,12 +589,44 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
 .gws-qstab-langbtn{flex:1;background:#1d2039;border:1px solid #33375a;border-radius:8px;color:#e8e9f3;padding:10px 8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.15s ease,border-color 0.15s ease;}
 .gws-qstab-langbtn:hover{border-color:#7c8cff;}
 .gws-qstab-langbtn.gws-qstab-active{background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));border-color:transparent;color:#fff;}
+.gws-qstab-iconbtn{display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.gws-qstab-iconbtn svg{flex-shrink:0;}
 .gws-qstab-cta{display:inline-block;background:linear-gradient(135deg,var(--saltire,#0065bd),var(--thistle,#5b2a86));color:#fff;text-decoration:none;border-radius:8px;padding:11px 16px;font-size:14.5px;font-weight:700;text-align:center;}
 .gws-qstab-cta:hover{opacity:0.92;}
 @media (max-width:480px){#gws-qstab-btn{font-size:12px;padding:12px 6px;}}
 </style>
 <script>
 (function(){
+  var LANG = {
+    en: {
+      title: "Quick settings",
+      sub: "Change the site language, switch to dark mode, or jump straight to your notification preferences.",
+      langLabel: "LANGUAGE",
+      english: "English",
+      gaelic: "Gàidhlig",
+      themeLabel: "APPEARANCE",
+      light: "Light",
+      dark: "Dark",
+      notifLabel: "NOTIFICATIONS",
+      notifDesc: "Manage your daily proverb and games email/push preferences on My Account.",
+      notifBtn: "Manage notifications →",
+      launcher: "Settings"
+    },
+    gd: {
+      title: "Roghainnean luath",
+      sub: "Atharraich cànan an làraich, gluais gu modh dorcha, no rach dìreach gu na roghainnean brath agad.",
+      langLabel: "CÀNAN",
+      english: "Beurla",
+      gaelic: "Gàidhlig",
+      themeLabel: "COLTAS",
+      light: "Soilleir",
+      dark: "Dorcha",
+      notifLabel: "BRATHAN",
+      notifDesc: "Stiùirich na roghainnean puist-d is putaidh agad airson an t-seanfhacail làitheil agus nan geamannan sa Chunntas Agam.",
+      notifBtn: "Stiùirich brathan →",
+      launcher: "Roghainnean"
+    }
+  };
   var btn = document.getElementById("gws-qstab-btn");
   var overlay = document.getElementById("gws-qstab-overlay");
   var panel = document.getElementById("gws-qstab-panel");
@@ -590,12 +635,33 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
   var langGdBtn = document.getElementById("gws-qstab-lang-gd");
   var realEn = document.getElementById("ui-lang-en");
   var realGd = document.getElementById("ui-lang-gd");
+  var themeLightBtn = document.getElementById("gws-qstab-theme-light");
+  var themeDarkBtn = document.getElementById("gws-qstab-theme-dark");
   if (!btn || !panel) return;
+
+  function currentLang(){ return (realGd && realGd.classList.contains("active")) ? "gd" : "en"; }
+  function setText(id, val){ var e = document.getElementById(id); if (e) e.textContent = val; }
+  function applyTexts(){
+    var L = LANG[currentLang()];
+    setText("gws-qstab-title", L.title);
+    setText("gws-qstab-sub", L.sub);
+    setText("gws-qstab-lang-label", L.langLabel);
+    setText("gws-qstab-theme-label", L.themeLabel);
+    setText("gws-qstab-notif-label", L.notifLabel);
+    setText("gws-qstab-notif-desc", L.notifDesc);
+    setText("gws-qstab-notif-link", L.notifBtn);
+    setText("gws-qstab-theme-light-label", L.light);
+    setText("gws-qstab-theme-dark-label", L.dark);
+    setText("gws-qstab-label", L.launcher);
+    if (langEnBtn) langEnBtn.textContent = L.english;
+    if (langGdBtn) langGdBtn.textContent = L.gaelic;
+  }
   function syncLangButtons(){
     if (!realEn || !realGd) return;
     var enActive = realEn.classList.contains("active");
     langEnBtn.classList.toggle("gws-qstab-active", enActive);
     langGdBtn.classList.toggle("gws-qstab-active", !enActive);
+    applyTexts();
   }
   function openPanel(){
     panel.classList.add("gws-qstab-open");
@@ -616,6 +682,109 @@ if (el.navGroupLearn) el.navGroupLearn.textContent = t('navGroupLearn');
   document.addEventListener("keydown", function(e){ if (e.key === "Escape") closePanel(); });
   if (langEnBtn && realEn) langEnBtn.addEventListener("click", function(){ realEn.click(); syncLangButtons(); });
   if (langGdBtn && realGd) langGdBtn.addEventListener("click", function(){ realGd.click(); syncLangButtons(); });
+  if (realEn && realGd && window.MutationObserver) {
+    var langMo = new MutationObserver(function(){ syncLangButtons(); });
+    langMo.observe(realEn, { attributes:true, attributeFilter:["class"] });
+    langMo.observe(realGd, { attributes:true, attributeFilter:["class"] });
+  }
+  applyTexts();
+
+  function positionUnderFeedback(){
+    var fb = document.getElementById("gws-fbtab-launcher");
+    var launcher = document.getElementById("gws-qstab-launcher");
+    if (!launcher) return;
+    if (!fb) { launcher.style.top = "62%"; return; }
+    var r = fb.getBoundingClientRect();
+    var overlapPx = 14;
+    launcher.style.transform = "none";
+    launcher.style.top = Math.max(8, r.bottom - overlapPx) + "px";
+  }
+  positionUnderFeedback();
+  window.addEventListener("resize", positionUnderFeedback);
+  window.addEventListener("orientationchange", positionUnderFeedback);
+  setTimeout(positionUnderFeedback, 300);
+
+  var THEME_KEY = "gwsTheme";
+  var darkTouched = [];
+  function brightness(r,g,b){ return (r*299+g*587+b*114)/1000; }
+  function parseColor(str){
+    if (!str) return null;
+    var m = str.match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    var p = m[1].split(",").map(function(s){ return parseFloat(s); });
+    return { r:p[0], g:p[1], b:p[2], a: p[3] === undefined ? 1 : p[3] };
+  }
+  function shouldSkip(el){
+    return !!el.closest("header.app-header, #gws-fbtab-launcher, #gws-fbtab-panel, #gws-fbtab-overlay, #gws-qstab-launcher, #gws-qstab-panel, #gws-qstab-overlay");
+  }
+  function darkenElement(el){
+    if (el.nodeType !== 1 || shouldSkip(el)) return;
+    var cs = getComputedStyle(el);
+    var rec = null;
+    var bg = parseColor(cs.backgroundColor);
+    if (bg && bg.a >= 0.5) {
+      var bri = brightness(bg.r, bg.g, bg.b);
+      if (bri > 244) { rec = rec || {}; rec.bg = el.style.backgroundColor; el.style.backgroundColor = "#22242b"; }
+      else if (bri > 195) { rec = rec || {}; rec.bg = el.style.backgroundColor; el.style.backgroundColor = "#15161b"; }
+    }
+    var fg = parseColor(cs.color);
+    if (fg) {
+      var briF = brightness(fg.r, fg.g, fg.b);
+      if (briF < 90) { rec = rec || {}; rec.fg = el.style.color; el.style.color = "#e9e9ee"; }
+    }
+    var bw = parseFloat(cs.borderTopWidth) || 0;
+    if (bw > 0) {
+      var bc = parseColor(cs.borderTopColor);
+      if (bc && bc.a >= 0.3) {
+        var briB = brightness(bc.r, bc.g, bc.b);
+        if (briB > 195) { rec = rec || {}; rec.border = el.style.borderColor; el.style.borderColor = "#34363f"; }
+      }
+    }
+    if (rec) { darkTouched.push({ el: el, rec: rec }); }
+  }
+  function applyDark(root){
+    darkenElement(root);
+    var all = root.querySelectorAll ? root.querySelectorAll("*") : [];
+    for (var i=0; i<all.length; i++) darkenElement(all[i]);
+  }
+  function removeDark(){
+    for (var i=0; i<darkTouched.length; i++) {
+      var t = darkTouched[i];
+      if (t.rec.bg !== undefined) { if (t.rec.bg) t.el.style.backgroundColor = t.rec.bg; else t.el.style.removeProperty("background-color"); }
+      if (t.rec.fg !== undefined) { if (t.rec.fg) t.el.style.color = t.rec.fg; else t.el.style.removeProperty("color"); }
+      if (t.rec.border !== undefined) { if (t.rec.border) t.el.style.borderColor = t.rec.border; else t.el.style.removeProperty("border-color"); }
+    }
+    darkTouched = [];
+  }
+  var isDark = false;
+  function syncThemeButtons(){
+    if (themeLightBtn) themeLightBtn.classList.toggle("gws-qstab-active", !isDark);
+    if (themeDarkBtn) themeDarkBtn.classList.toggle("gws-qstab-active", isDark);
+  }
+  function setTheme(dark){
+    isDark = dark;
+    document.documentElement.setAttribute("data-gws-theme", dark ? "dark" : "light");
+    try { localStorage.setItem(THEME_KEY, dark ? "dark" : "light"); } catch(e){}
+    if (dark) applyDark(document.body); else removeDark();
+    syncThemeButtons();
+  }
+  if (themeLightBtn) themeLightBtn.addEventListener("click", function(){ setTheme(false); });
+  if (themeDarkBtn) themeDarkBtn.addEventListener("click", function(){ setTheme(true); });
+  if (window.MutationObserver) {
+    var contentObserver = new MutationObserver(function(muts){
+      if (!isDark) return;
+      for (var i=0;i<muts.length;i++){
+        var added = muts[i].addedNodes;
+        for (var j=0;j<added.length;j++){ if (added[j].nodeType === 1) applyDark(added[j]); }
+      }
+    });
+    contentObserver.observe(document.body, { childList:true, subtree:true });
+  }
+  try {
+    var saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark") setTheme(true);
+    else syncThemeButtons();
+  } catch(e){ syncThemeButtons(); }
 })();
 </script>
 </body>
