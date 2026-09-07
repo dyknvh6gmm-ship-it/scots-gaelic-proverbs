@@ -390,17 +390,17 @@ navGroupLearn: document.getElementById('nav-group-learn')
     el.descListening.textContent = I18N.descListening[lang];
     el.headingOrgs.textContent = I18N.headingOrgs[lang];
     el.descOrgs.textContent = I18N.descOrgs[lang];
-    el.editNote.innerHTML = I18N.editNoteHtml[lang];
+    if (el.editNote) el.editNote.innerHTML = I18N.editNoteHtml[lang];
     el.footer.textContent = I18N.footer[lang];
     el.docTitle.textContent = I18N.docTitle[lang];
     el.navHome.textContent = I18N.navHome[lang];
-    (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[lang];
-    (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[lang];
-    (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[lang];
-    (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[lang];
+    if (el.navMyAccount) (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[lang];
+    if (el.navGrammar) (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[lang];
+    if (el.navGaelicCollection) (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[lang];
+    if (el.navScotsCollection) (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[lang];
     el.navGames.textContent = I18N.navGames[lang];
-    (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[lang];
-    (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[lang];
+    if (el.navResources) (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[lang];
+    if (el.navAbout) (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[lang];
   
 if (el.navBlog) el.navBlog.textContent = I18N.navBlog[lang];
 if (el.navSuggested) (el.navSuggested.querySelector('.label')||el.navSuggested).textContent = I18N.navSuggested[lang];
