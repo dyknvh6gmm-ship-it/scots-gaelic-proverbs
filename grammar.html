@@ -751,13 +751,13 @@ navGroupLearn: document.getElementById('nav-group-learn')
     el.footer.textContent = I18N.footer[state.uiLang];
     el.docTitle.textContent = I18N.docTitle[state.uiLang];
     el.navHome.textContent = I18N.navHome[state.uiLang];
-    (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[state.uiLang];
-    (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[state.uiLang];
-    (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[state.uiLang];
-    (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[state.uiLang];
+    if (el.navMyAccount) (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[state.uiLang];
+    if (el.navGrammar) (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[state.uiLang];
+    if (el.navGaelicCollection) (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[state.uiLang];
+    if (el.navScotsCollection) (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[state.uiLang];
     el.navGames.textContent = I18N.navGames[state.uiLang];
-    (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[state.uiLang];
-    (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[state.uiLang];
+    if (el.navResources) (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[state.uiLang];
+    if (el.navAbout) (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[state.uiLang];
   
 if (el.navBlog) el.navBlog.textContent = I18N.navBlog[state.uiLang];
 if (el.navSuggested) (el.navSuggested.querySelector('.label')||el.navSuggested).textContent = I18N.navSuggested[state.uiLang];
