@@ -485,14 +485,14 @@
     el.pageTitle.textContent = I18N.pageTitle[lang];
     el.footer.textContent = I18N.footer[lang];
     el.navHome.textContent = I18N.navHome[lang];
-    (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[lang];
-    (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[lang];
-    (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[lang];
-    (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[lang];
+    if (el.navMyAccount) (el.navMyAccount.querySelector('.label')||el.navMyAccount).textContent = I18N.navMyAccount[lang];
+    if (el.navGrammar) (el.navGrammar.querySelector('.label')||el.navGrammar).textContent = I18N.navGrammar[lang];
+    if (el.navGaelicCollection) (el.navGaelicCollection.querySelector('.label')||el.navGaelicCollection).textContent = I18N.navGaelicCollection[lang];
+    if (el.navScotsCollection) (el.navScotsCollection.querySelector('.label')||el.navScotsCollection).textContent = I18N.navScotsCollection[lang];
     el.navGames.textContent = I18N.navGames[lang];
-    (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[lang];
+    if (el.navResources) (el.navResources.querySelector('.label')||el.navResources).textContent = I18N.navResources[lang];
     el.navBlog.textContent = I18N.navBlog[lang];
-    (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[lang];
+    if (el.navAbout) (el.navAbout.querySelector('.label')||el.navAbout).textContent = I18N.navAbout[lang];
     el.writePostLink.textContent = I18N.writePost[lang];
     route();
   
