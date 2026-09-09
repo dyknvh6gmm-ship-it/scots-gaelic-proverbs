@@ -320,6 +320,28 @@
   #install-banner button.install { background: var(--thistle); color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; }
   #install-banner button.dismiss { background: none; border: none; color: rgba(43,35,32,0.4); font-size: 1.2rem; cursor: pointer; padding: 4px 6px; line-height: 1; }
 
+/* Install instructions modal (persistent, closes only via top-right Close button) */
+#install-instructions-overlay {
+display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+align-items: center; justify-content: center; padding: 16px; z-index: 70;
+}
+#install-instructions-overlay .modal {
+position: relative; background: #fff; border-radius: 12px; max-width: 420px; width: 100%;
+padding: 30px 24px 24px; max-height: 80vh; overflow-y: auto;
+}
+#install-instructions-overlay .modal h2 { margin: 0 0 16px; padding-right: 70px; font-size: 1.1rem; }
+#install-instructions-overlay .modal .install-steps { gap: 12px; margin-top: 0; }
+#install-instructions-overlay .modal .install-step { align-items: flex-start; gap: 10px; }
+#install-instructions-overlay .modal .install-step .step-num { width: 20px; height: 20px; font-size: 0.75rem; margin-top: 1px; }
+#install-instructions-overlay .modal .install-step span:last-child { font-size: 0.88rem; }
+#install-instructions-modal-close {
+position: absolute; top: 12px; right: 12px;
+background: var(--thistle); color: #fff; border: none;
+padding: 6px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
+cursor: pointer; letter-spacing: 0.02em;
+}
+#install-instructions-modal-close:hover { opacity: 0.9; }
+
   /* Featured section + expand/collapse */
   .featured-section { margin-bottom: 16px; }
   .featured-card {
@@ -576,6 +598,14 @@ OneSignal.init({ appId: '2640bf1b-a55c-4819-ba51-3acde7c4b430' });
       <button class="dismiss" id="install-banner-dismiss" aria-label="Dismiss">&times;</button>
     </div>
   </div>
+</div>
+
+<div id="install-instructions-overlay">
+<div class="modal">
+<button id="install-instructions-modal-close" data-i18n="aboutCloseBtn" aria-label="Close">Close</button>
+<h2 data-i18n="installBannerTitle">Install Sean-fhaclan</h2>
+<div id="install-instructions-body"></div>
+</div>
 </div>
 
 <div id="toast"></div>
@@ -1859,6 +1889,9 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
     var btnInstall = document.getElementById('install-banner-btn');
     var btnDismiss = document.getElementById('install-banner-dismiss');
     var bannerText = document.getElementById('install-banner-text');
+var instrOverlay = document.getElementById('install-instructions-overlay');
+var instrBody = document.getElementById('install-instructions-body');
+var instrClose = document.getElementById('install-instructions-modal-close');
     var DISMISS_KEY = 'sf-install-dismissed-at';
     var DISMISS_DAYS = 14;
 
@@ -1934,22 +1967,44 @@ accountUseDifferentEmail: { en: "Use a different email", gd: "Cleachd post-d eil
       });
     }
 
-    btnInstall.addEventListener('click', function () {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.finally(function () {
-          deferredPrompt = null;
-          banner.style.display = 'none';
-          offerPush();
-        });
-      } else {
-        // iOS, or Android/desktop without the native prompt: banner text
-        // already has manual instructions, so just acknowledge + dismiss.
-        banner.style.display = 'none';
-        localStorage.setItem(DISMISS_KEY, String(Date.now()));
-        offerPush();
-      }
-    });
+    function showInstallInstructions() {
+if (isIOS) {
+instrBody.innerHTML =
+'<div class="install-steps">' +
+'<div class="install-step"><span class="step-num">1</span><span>' + t('installStepShare') + '</span></div>' +
+'<div class="install-step"><span class="step-num">2</span><span>' + t('installStepAdd') + '</span></div>' +
+'</div>';
+} else {
+instrBody.innerHTML =
+'<div class="install-steps">' +
+'<div class="install-step"><span class="step-num">1</span><span>' + t('installTextAndroidManual') + '</span></div>' +
+'</div>';
+}
+instrOverlay.style.display = 'flex';
+}
+
+instrClose.addEventListener('click', function () {
+instrOverlay.style.display = 'none';
+});
+
+btnInstall.addEventListener('click', function () {
+if (deferredPrompt) {
+deferredPrompt.prompt();
+deferredPrompt.userChoice.finally(function () {
+deferredPrompt = null;
+banner.style.display = 'none';
+offerPush();
+});
+} else {
+// iOS, or Android/desktop without the native prompt: instead of
+// just dismissing, show a persistent instructions popup that can
+// only be closed with the explicit Close button (top right).
+banner.style.display = 'none';
+localStorage.setItem(DISMISS_KEY, String(Date.now()));
+showInstallInstructions();
+offerPush();
+}
+});
 
     btnDismiss.addEventListener('click', function () {
       banner.style.display = 'none';
