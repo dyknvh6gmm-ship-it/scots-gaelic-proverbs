@@ -134,6 +134,9 @@
   .like-btn.just-liked { animation: like-pop 0.35s ease; }
   @keyframes like-pop { 0% { transform: scale(1); } 40% { transform: scale(1.3); } 100% { transform: scale(1); } }
   .post-detail .like-btn { margin: 4px 0 18px; }
+  .view-count { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; color: rgba(43,35,32,0.5); font-weight: 600; }
+  .view-count svg { width: 14px; height: 14px; flex: 0 0 auto; }
+  .engagement-stats { display: inline-flex; align-items: center; gap: 12px; }
 
   .post-detail h2 { font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif; font-size: 1.5rem; }
   .post-detail .post-body p { line-height: 1.75; color: rgba(43,35,32,0.88); margin: 0 0 16px; }
@@ -321,6 +324,13 @@
     }).join('');
   }
 
+  function viewCountHtml(slug, views) {
+    return '<span class="view-count" title="Views">' +
+      '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>' +
+      '<span class="view-count-num" data-slug="' + escapeHtml(slug) + '">' + (views || 0) + '</span>' +
+    '</span>';
+  }
+
   function likeBtnHtml(slug, likes) {
     var liked = isLiked(slug);
     return '<button type="button" class="like-btn' + (liked ? ' liked' : '') + '" data-slug="' + escapeHtml(slug) + '" aria-pressed="' + (liked ? 'true' : 'false') + '">' +
@@ -374,6 +384,30 @@
     }
   }
 
+  function loadSession(key, fallback) {
+    try { var raw = sessionStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch (e) { return fallback; }
+  }
+  function saveSession(key, value) {
+    try { sessionStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  var viewedSlugsThisSession = loadSession('sf-viewed-posts-session', []);
+  function recordView(slug) {
+    if (viewedSlugsThisSession.indexOf(slug) !== -1) return;
+    viewedSlugsThisSession.push(slug);
+    saveSession('sf-viewed-posts-session', viewedSlugsThisSession);
+    var post = POSTS.filter(function (p) { return p.slug === slug; })[0];
+    if (post) post.views = (post.views || 0) + 1;
+    Array.prototype.forEach.call(document.querySelectorAll('.view-count-num[data-slug="' + slug.replace(/"/g, '') + '"]'), function (n) {
+      n.textContent = String(post ? post.views : n.textContent);
+    });
+    if (sfClient) {
+      sfClient.rpc('increment_post_views', { post_slug: slug }).then(function (res) {
+        if (res.error) return;
+        if (typeof res.data === 'number' && post) post.views = res.data;
+      });
+    }
+  }
+
   function renderList() {
     if (!postsLoaded) {
       el.blogList.innerHTML = '<p class="empty-state">' + I18N.loading[state.lang] + '</p>';
@@ -397,7 +431,7 @@
         '<p class="post-excerpt">' + escapeHtml(p.excerpt[state.lang]) + '</p>' +
         '<div class="post-card-footer">' +
         '<span class="read-more">' + I18N.readMore[state.lang] + '</span>' +
-        likeBtnHtml(p.slug, p.likes) +
+        '<div class="engagement-stats">' + viewCountHtml(p.slug, p.views) + likeBtnHtml(p.slug, p.likes) + '</div>' +
         '</div>' +
         '</div></div>';
     }).join('');
@@ -417,6 +451,7 @@
     var matches = POSTS.filter(function (p) { return p.slug === slug; });
     var post = matches.length ? matches[0] : null;
     if (!post) { location.hash = ''; return; }
+    recordView(slug);
     var paragraphs = post.body[state.lang].split('\n\n');
     var bodyHtml = paragraphs.map(function (para) { return '<p>' + escapeHtml(para) + '</p>'; }).join('');
     var imageHtml = post.image ? '<img class="post-detail-image" src="' + escapeHtml(post.image) + '" alt="" />' : '';
@@ -427,7 +462,7 @@
         '<div class="post-meta"><span class="post-date">' + fmtDate(post.date, state.lang) + '</span>' +
         '<span class="post-tags">' + tagPillsHtml(post.tags) + '</span></div>' +
         '<h2>' + escapeHtml(post.title[state.lang]) + '</h2>' +
-        likeBtnHtml(post.slug, post.likes) +
+        '<div class="engagement-stats">' + viewCountHtml(post.slug, post.views) + likeBtnHtml(post.slug, post.likes) + '</div>' +
         '<div class="post-body">' + bodyHtml + '</div>' +
       '</div>';
     document.getElementById('back-link').addEventListener('click', function (e) {
@@ -469,6 +504,7 @@
           tags: row.tags || [],
           image: row.image_url || null,
           likes: row.likes || 0,
+          views: row.views || 0,
           title: { en: row.title_en, gd: row.title_gd || row.title_en },
           excerpt: { en: row.excerpt_en, gd: row.excerpt_gd || row.excerpt_en },
           body: { en: row.body_en, gd: row.body_gd || row.body_en }
