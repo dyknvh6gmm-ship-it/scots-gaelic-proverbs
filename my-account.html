@@ -134,6 +134,9 @@ font-size: 0.92rem; font-weight: 500; transition: background 0.15s;
 }
 #browse-card .links-list a:hover { background: rgba(91,42,134,0.05); }
 
+#admin-card .links-list { display: grid; gap: 10px; margin-top: 4px; }
+#admin-card .links-list a { display: block; padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(91,42,134,0.35); background: rgba(91,42,134,0.06); text-decoration: none; color: var(--thistle); font-size: 0.98rem; font-weight: 700; }
+#admin-card .links-list a:hover { background: rgba(91,42,134,0.12); }
 .fav-list { display: grid; gap: 12px; margin-top: 4px; }
 .fav-card { border: 1px solid rgba(142,108,156,0.2); border-radius: 10px; padding: 14px 16px; }
 .fav-card .lang-row { margin-bottom: 8px; }
@@ -261,6 +264,15 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 <p class="account-status" id="account-status"></p>
 </div>
 
+<div class="card" id="admin-card" style="display:none">
+<h2 id="admin-heading">Quick access</h2>
+<div class="links-list">
+<a href="lessons.html" id="admin-lessons-link">📚 My Lessons (private study library)</a>
+<a href="blog-admin.html" id="admin-blog-link">Write a blog post</a>
+<a href="suggestions-admin.html" id="admin-suggestions-link">Review suggestions</a>
+</div>
+</div>
+
 <div class="card" id="favourites-card" style="display:none;">
 <h2 id="favourites-heading">My favourites</h2>
 <div class="fav-list" id="fav-list"><p class="empty" id="fav-loading">Loading…</p></div>
@@ -326,14 +338,6 @@ footer.app-footer { text-align: center; font-size: 0.75rem; color: rgba(43,35,32
 </form>
 </div>
 
-<div class="card" id="admin-card" style="display:none">
-<h2 id="admin-heading">Site Admin</h2>
-<div class="links-list">
-<a href="suggestions-admin.html" id="admin-suggestions-link">Review suggestions</a>
-<a href="blog-admin.html" id="admin-blog-link">Write a blog post</a>
-<a href="lessons.html" id="admin-lessons-link">My Lessons (private study library)</a>
-</div>
-</div>
 </main>
 
 <p class="social-follow" id="social-follow">
