@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<script>(function(){try{if(localStorage.getItem('gwsTheme')==='dark'){document.documentElement.setAttribute('data-gws-theme','dark');document.documentElement.style.background='#22242b';document.documentElement.style.colorScheme='dark';}}catch(e){}})();</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>My Lessons — Sean-fhaclan &amp; Auld Sayins</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#5b2a86" />
+<link rel="icon" href="icons/favicon-32.png" sizes="32x32" />
+<style>
+:root { --saltire:#0065bd; --thistle:#5b2a86; --amber:#a3691f; --heather:#8e6c9c; --parchment:#faf6ee; --ink:#2b2320;
+  --c-done:#0065bd; --c-good:#2e7d32; --c-work:#c0560f; }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--parchment); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; -webkit-text-size-adjust:100%; }
+html[data-gws-theme="dark"] body { background:#22242b; color:#e9e9ee; }
+header { background:linear-gradient(to right,var(--saltire),var(--thistle)); color:#fff; padding:22px 18px 20px; }
+header .inner { max-width:720px; margin:0 auto; }
+header .top { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+header .top a { color:rgba(255,255,255,.9); text-decoration:none; font-size:.82rem; font-weight:600; padding:5px 12px; border:1px solid rgba(255,255,255,.3); border-radius:999px; }
+header h1 { margin:0; font-size:1.7rem; font-family:Georgia,'Iowan Old Style',serif; }
+header p { margin:6px 0 0; opacity:.9; font-size:.92rem; }
+main { max-width:720px; margin:0 auto; padding:16px 14px 70px; }
+
+.card { background:#fff; border:1px solid rgba(142,108,156,.22); border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+html[data-gws-theme="dark"] .card { background:#2c2f38; border-color:rgba(255,255,255,.1); }
+.summary { padding:14px 16px; margin-bottom:12px; }
+.bar { display:flex; height:10px; border-radius:99px; overflow:hidden; background:rgba(142,108,156,.16); margin:8px 0 10px; }
+.bar span { display:block; height:100%; transition:width .25s; }
+.bar .b-done { background:var(--c-done); } .bar .b-good { background:var(--c-good); } .bar .b-work { background:var(--c-work); }
+.counts { display:flex; flex-wrap:wrap; gap:6px 14px; font-size:.82rem; }
+.counts b { font-weight:700; }
+.dot { display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; }
+.sync { font-size:.76rem; opacity:.65; margin-top:8px; line-height:1.4; }
+.sync a { color:var(--thistle); font-weight:600; }
+html[data-gws-theme="dark"] .sync a { color:#c9a8e6; }
+
+.cats { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px; }
+@media (min-width:560px) { .cats { grid-template-columns:repeat(4,1fr); } }
+.cat { font:inherit; font-weight:700; font-size:.9rem; padding:12px 8px; min-height:52px; border-radius:12px; border:1.5px solid rgba(142,108,156,.35); background:#fff; color:var(--thistle); cursor:pointer; line-height:1.25; }
+.cat small { display:block; font-weight:600; font-size:.72rem; opacity:.7; margin-top:2px; }
+.cat.on { background:var(--thistle); border-color:var(--thistle); color:#fff; }
+html[data-gws-theme="dark"] .cat { background:#2c2f38; color:#d9c2ee; }
+html[data-gws-theme="dark"] .cat.on { background:#7a4aa8; color:#fff; }
+.filters { display:flex; gap:6px; overflow-x:auto; padding:2px 0 12px; scrollbar-width:none; }
+.filters::-webkit-scrollbar { display:none; }
+.chip { flex:0 0 auto; border:1px solid rgba(142,108,156,.35); background:#fff; color:var(--thistle); font:inherit; font-size:.82rem; font-weight:600; padding:9px 14px; border-radius:999px; cursor:pointer; min-height:40px; }
+.chip.on { background:var(--thistle); color:#fff; border-color:var(--thistle); }
+html[data-gws-theme="dark"] .chip { background:#2c2f38; color:#d9c2ee; }
+html[data-gws-theme="dark"] .chip.on { background:#7a4aa8; color:#fff; }
+
+.section { margin-bottom:12px; }
+.section > button.sec-head { width:100%; display:flex; justify-content:space-between; align-items:center; gap:10px; background:none; border:0; font:inherit; color:inherit; text-align:left; padding:10px 4px; cursor:pointer; }
+.sec-head h2 { margin:0; font-size:1.02rem; font-family:Georgia,serif; }
+.sec-head small { display:block; font-size:.76rem; opacity:.6; font-family:-apple-system,sans-serif; margin-top:2px; }
+.sec-head .car { transition:transform .15s; opacity:.6; }
+.section.closed .car { transform:rotate(-90deg); }
+.section.closed .lessons { display:none; }
+
+.lesson { padding:14px; margin-bottom:10px; border-left:5px solid transparent; }
+.lesson[data-status="done"] { border-left-color:var(--c-done); }
+.lesson[data-status="good"] { border-left-color:var(--c-good); }
+.lesson[data-status="work"] { border-left-color:var(--c-work); }
+.l-top { display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+.l-title { margin:0; font-size:.98rem; line-height:1.35; font-weight:700; }
+.l-meta { font-size:.76rem; opacity:.6; margin-top:3px; }
+.open-btn { flex:0 0 auto; background:var(--thistle); color:#fff; border:0; font:inherit; font-size:.82rem; font-weight:700; padding:10px 16px; border-radius:999px; cursor:pointer; min-height:42px; }
+.open-btn:disabled { opacity:.55; }
+.seg { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:12px; }
+.seg button { font:inherit; font-size:.8rem; font-weight:700; padding:11px 4px; min-height:44px; border-radius:10px; border:1.5px solid rgba(142,108,156,.35); background:transparent; color:inherit; cursor:pointer; }
+.seg button[aria-pressed="true"][data-s="done"] { background:var(--c-done); border-color:var(--c-done); color:#fff; }
+.seg button[aria-pressed="true"][data-s="good"] { background:var(--c-good); border-color:var(--c-good); color:#fff; }
+.seg button[aria-pressed="true"][data-s="work"] { background:var(--c-work); border-color:var(--c-work); color:#fff; }
+.notes-toggle { background:none; border:0; font:inherit; font-size:.8rem; font-weight:600; color:var(--thistle); padding:12px 0 2px; cursor:pointer; }
+html[data-gws-theme="dark"] .notes-toggle { color:#c9a8e6; }
+.notes { display:none; margin-top:6px; }
+.lesson.notes-open .notes { display:block; }
+.notes textarea { width:100%; min-height:110px; font:inherit; font-size:16px; line-height:1.5; padding:10px 12px; border:1px solid rgba(142,108,156,.4); border-radius:10px; background:#fffdf8; color:var(--ink); resize:vertical; }
+html[data-gws-theme="dark"] .notes textarea { background:#22242b; color:#e9e9ee; }
+.saved { font-size:.72rem; opacity:.55; height:14px; margin-top:3px; }
+.empty { text-align:center; opacity:.6; padding:30px 10px; font-size:.9rem; }
+.toast { position:fixed; left:50%; bottom:22px; transform:translateX(-50%); background:#2b2320; color:#fff; padding:10px 16px; border-radius:10px; font-size:.84rem; opacity:0; pointer-events:none; transition:opacity .2s; z-index:50; max-width:90vw; text-align:center; }
+.toast.show { opacity:1; }
+</style>
+</head>
+<body>
+<header><div class="inner">
+  <div class="top"><a href="index.html">Home</a><a href="my-account.html">My Account</a><a href="resources.html">Resources</a></div>
+  <h1>My Lessons</h1>
+  <p>Gaelic noun &amp; adjective lessons — my private study library.</p>
+</div></header>
+
+<main>
+  <div class="card summary">
+    <div id="sum-text" style="font-weight:700;font-size:.95rem;"></div>
+    <div class="bar"><span class="b-done" id="bar-done"></span><span class="b-good" id="bar-good"></span><span class="b-work" id="bar-work"></span></div>
+    <div class="counts" id="counts"></div>
+    <div class="sync" id="sync"></div>
+  </div>
+
+  <div class="cats" id="cats"></div>
+  <div class="filters" id="filters"></div>
+  <div id="list"></div>
+  <div class="empty" id="empty" style="display:none;">Nothing here yet.</div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(function () {
+'use strict';
+
+/* ============================================================
+   ADD NEW LESSONS HERE. One line each:
+   id (unique, never change it), section, title, file (name in the
+   private Supabase 'lessons' bucket), pages.
+   ============================================================ */
+var CATS = [
+  { id:'lessons', title:'Lessons' },
+  { id:'boosts',  title:'Grammar boosts' },
+  { id:'ref',     title:'Reference' },
+  { id:'book',    title:'Book club' }
+];
+var SECTIONS = [
+  { id:'start',  cat:'lessons', title:'Start here',     sub:'Overview and grammar summary' },
+  { id:'easy',   cat:'lessons', title:'Easy nouns',     sub:'Lessons 1–7 · the regular patterns' },
+  { id:'adj',    cat:'lessons', title:'Adjectives',     sub:'Lessons 8–9' },
+  { id:'hard',   cat:'lessons', title:'Harder nouns',   sub:'Lessons 10–15 · slenderisation, suffixes and the rest' },
+  { id:'wrap',   cat:'lessons', title:'Wrap-up',        sub:'The most unpredictable nouns' },
+  { id:'boosts', cat:'boosts',  title:'Grammar boosts', sub:'Extra weekly lessons' },
+  { id:'cheats', cat:'ref',     title:'Cheat sheets & vocab', sub:'Quick lookups' },
+  { id:'books',  cat:'ref',     title:'Full course book',     sub:'Everything in one PDF' },
+  { id:'tales',  cat:'book',    title:'Folk tales',     sub:'Gaelic with English translation' }
+];
+var LESSONS = [
+  { id:'intro',   section:'start', title:'About the Lessons + grammar summary', file:'00-intro-and-grammar-summary.pdf', pages:7 },
+  { id:'l01', section:'easy', title:'Lesson 1: Easy nouns beginning C and G',                 file:'01-lesson-1.pdf',  pages:9 },
+  { id:'l02', section:'easy', title:'Lesson 2: Easy nouns beginning D, L, N, R and T',       file:'02-lesson-2.pdf',  pages:9 },
+  { id:'l03', section:'easy', title:'Lesson 3: Easy nouns beginning B, M and P',             file:'03-lesson-3.pdf',  pages:9 },
+  { id:'l04', section:'easy', title:'Lesson 4: Easy nouns beginning F',                      file:'04-lesson-4.pdf',  pages:9 },
+  { id:'l05', section:'easy', title:'Lesson 5: Easy nouns beginning with vowels',            file:'05-lesson-5.pdf',  pages:9 },
+  { id:'l06', section:'easy', title:'Lesson 6: Easy nouns beginning S+vowel, SN, SL, SR',    file:'06-lesson-6.pdf',  pages:10 },
+  { id:'l07', section:'easy', title:'Lesson 7: Easy nouns beginning SG, SM, SP, ST',         file:'07-lesson-7.pdf',  pages:8 },
+  { id:'l08', section:'adj',  title:'Lesson 8: Adjectives following singular nouns',         file:'08-lesson-8.pdf',  pages:10 },
+  { id:'l09', section:'adj',  title:'Lesson 9: Adjectives following plural nouns',           file:'09-lesson-9.pdf',  pages:9 },
+  { id:'b01', section:'boosts', title:'Ath, Deagh and other “special” adjectives', file:'boost-01-special-adjectives.pdf', pages:8 },
+  { id:'b02', section:'boosts', title:'The perfect and the passive with “air”',    file:'boost-02-perfect-and-passive-with-air.pdf', pages:7 },
+  { id:'b03', section:'boosts', title:'Do: a preposition, a leniting preposition…', file:'boost-03-do.pdf', pages:8 },
+  { id:'loose', section:'wrap', title:'Loose Ends: the most unpredictable Gaelic nouns', file:'99-loose-ends.pdf', pages:4 },
+  { id:'r01', section:'cheats', title:'Noun declension cheat sheet',      file:'ref-noun-declension-cheat-sheet.pdf', pages:1 },
+  { id:'r02', section:'cheats', title:'Vocabulary: Lessons 1 to 7',       file:'ref-vocab-lessons-1-to-7.pdf', pages:20 },
+  { id:'r03', section:'books',  title:'Mastering Gaelic Nouns and Adjectives: Level 1', file:'ref-mastering-nouns-and-adjectives-level-1.pdf', pages:76 },
+  { id:'k01', section:'tales',  title:'10 Scottish Gaelic Folk Tales (line-by-line English)', file:'bookclub-10-folk-tales-line-by-line.pdf', pages:171 },
+  { id:'k02', section:'tales',  title:'10 Folktales in Scottish Gaelic and English (J. F. Campbell) · EPUB', file:'bookclub-10-folktales-campbell.epub', kind:'epub' },
+  { id:'l10', section:'hard', title:'Lesson 10: Towards the scarier nouns',                  file:'10-lesson-10.pdf', pages:10 },
+  { id:'l11', section:'hard', title:'Lesson 11: Slenderisation with vowel change (Bòrd- and Falt-type)', file:'11-lesson-11.pdf', pages:9 },
+  { id:'l12', section:'hard', title:'Lesson 12: Slenderisation with vowel change (Beul- and Fiadh-type)', file:'12-lesson-12.pdf', pages:9 },
+  { id:'l13', section:'hard', title:'Lesson 13: Slenderisation with vowel change (miscellaneous)', file:'13-lesson-13.pdf', pages:8 },
+  { id:'l14', section:'hard', title:'Lesson 14: Masculine nouns taking a suffix in the genitive', file:'14-lesson-14.pdf', pages:9 },
+  { id:'l15', section:'hard', title:'Lesson 15: The remaining “hard” noun groups',           file:'15-lesson-15.pdf', pages:10 }
+];
+/* ============================================================ */
+
+var STATUS = { done:'Done', good:'Good at it', work:'Needs work' };
+var LS_KEY = 'gws-lessons-v1';
+var SB_URL = 'https://kgbmdazcupgyypfvvqbv.supabase.co';
+var SB_KEY = 'sb_publishable_wU4B6n7leK-r1kcrhuOzJw_pUAkC4Mm';
+var sb = (typeof window.supabase !== 'undefined') ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+var user = null;
+var filter = 'all';
+var cat = 'lessons';
+try { var sc = localStorage.getItem('gws-lessons-cat'); if (sc) cat = sc; } catch (e) {}
+var closed = {};
+var openNotes = {};
+
+function load() { try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { return {}; } }
+var prog = load();   // { lessonId: { s:'done'|'good'|'work'|null, n:'notes', t:epochMs } }
+function persist() { try { localStorage.setItem(LS_KEY, JSON.stringify(prog)); } catch (e) {} }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function $(id) { return document.getElementById(id); }
+function toast(msg) { var t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(function(){ t.classList.remove('show'); }, 2600); }
+function get(id) { return prog[id] || { s:null, n:'', t:0 }; }
+
+/* ---------- sync ---------- */
+function pushOne(id) {
+  if (!sb || !user) return;
+  var p = get(id);
+  if (!p.s && !p.n) {
+    sb.from('lesson_progress').delete().eq('lesson_id', id).then(function(){});
+    return;
+  }
+  sb.from('lesson_progress').upsert({ user_id:user.id, lesson_id:id, status:p.s, notes:p.n || '', updated_at:new Date(p.t || Date.now()).toISOString() })
+    .then(function (r) { if (r.error) setSync('Saved on this device only (sync table not set up yet).'); });
+}
+function pull() {
+  if (!sb || !user) return Promise.resolve();
+  return sb.from('lesson_progress').select('*').then(function (r) {
+    if (r.error) { setSync('Saved on this device only (sync table not set up yet — see lessons-setup.sql).'); return; }
+    var seen = {};
+    (r.data || []).forEach(function (row) {
+      seen[row.lesson_id] = true;
+      var t = new Date(row.updated_at).getTime();
+      var local = prog[row.lesson_id];
+      if (!local || (local.t || 0) < t) prog[row.lesson_id] = { s:row.status, n:row.notes || '', t:t };
+      else if ((local.t || 0) > t) pushOne(row.lesson_id);
+    });
+    Object.keys(prog).forEach(function (id) { if (!seen[id] && (prog[id].s || prog[id].n)) pushOne(id); });
+    persist();
+    setSync('Synced to your account.');
+  });
+}
+function setSync(msg) {
+  var el = $('sync');
+  if (!sb) { el.textContent = 'Saved on this device only.'; return; }
+  if (!user) { el.innerHTML = 'Saved on this device only. <a href="my-account.html">Sign in</a> to sync across devices and open the PDFs.'; return; }
+  el.textContent = msg || 'Synced to your account.';
+}
+
+/* ---------- render ---------- */
+function counts() {
+  var c = { done:0, good:0, work:0 };
+  LESSONS.forEach(function (l) { var s = get(l.id).s; if (s) c[s]++; });
+  return c;
+}
+function renderSummary() {
+  var c = counts(), n = LESSONS.length, started = c.done + c.good + c.work;
+  $('sum-text').textContent = started + ' of ' + n + ' items marked';
+  ['done','good','work'].forEach(function (k) { $('bar-' + k).style.width = (c[k] / n * 100) + '%'; });
+  $('counts').innerHTML =
+    '<span><span class="dot" style="background:var(--c-done)"></span><b>' + c.done + '</b> done</span>' +
+    '<span><span class="dot" style="background:var(--c-good)"></span><b>' + c.good + '</b> good at</span>' +
+    '<span><span class="dot" style="background:var(--c-work)"></span><b>' + c.work + '</b> need work</span>' +
+    '<span><b>' + (n - started) + '</b> not marked</span>';
+}
+function secCat(l) { var s = SECTIONS.filter(function (x) { return x.id === l.section; })[0]; return s ? s.cat : ''; }
+function inCat(l) { return secCat(l) === cat; }
+function renderCats() {
+  $('cats').innerHTML = CATS.map(function (c) {
+    var items = LESSONS.filter(function (l) { return secCat(l) === c.id; });
+    var marked = items.filter(function (l) { return get(l.id).s; }).length;
+    return '<button type="button" class="cat' + (cat === c.id ? ' on' : '') + '" data-cat="' + c.id + '">' + esc(c.title) +
+      '<small>' + marked + ' / ' + items.length + ' marked</small></button>';
+  }).join('');
+}
+function renderFilters() {
+  var c = {done:0, good:0, work:0}, tabItems = LESSONS.filter(inCat), n = tabItems.length;
+  tabItems.forEach(function (l) { var s = get(l.id).s; if (s) c[s]++; });
+  var started = c.done + c.good + c.work;
+  var defs = [['all','All ' + n],['work','Needs work ' + c.work],['done','Done ' + c.done],['good','Good at it ' + c.good],['none','Not marked ' + (n - started)]];
+  $('filters').innerHTML = defs.map(function (d) {
+    return '<button type="button" class="chip' + (filter === d[0] ? ' on' : '') + '" data-f="' + d[0] + '">' + d[1] + '</button>';
+  }).join('');
+}
+function matches(l) {
+  var s = get(l.id).s;
+  if (filter === 'all') return true;
+  if (filter === 'none') return !s;
+  return s === filter;
+}
+function lessonHtml(l) {
+  var p = get(l.id);
+  var seg = Object.keys(STATUS).map(function (k) {
+    return '<button type="button" data-act="status" data-id="' + l.id + '" data-s="' + k + '" aria-pressed="' + (p.s === k) + '">' + STATUS[k] + '</button>';
+  }).join('');
+  return '<div class="card lesson' + (openNotes[l.id] ? ' notes-open' : '') + '" data-status="' + (p.s || '') + '" data-lid="' + l.id + '">' +
+    '<div class="l-top"><div><h3 class="l-title">' + esc(l.title) + '</h3><div class="l-meta">' + (l.kind === 'epub' ? 'EPUB e-book' : (l.pages ? l.pages + (l.pages === 1 ? ' page' : ' pages') : '')) + '</div></div>' +
+    '<button type="button" class="open-btn" data-act="open" data-id="' + l.id + '">' + (l.kind === 'epub' ? 'Download' : 'Open PDF') + '</button></div>' +
+    '<div class="seg">' + seg + '</div>' +
+    '<button type="button" class="notes-toggle" data-act="notes" data-id="' + l.id + '">' + (p.n ? '✎ My notes' : '+ Add notes') + '</button>' +
+    '<div class="notes"><textarea data-id="' + l.id + '" placeholder="Tricky bits, my answers, things to revisit…">' + esc(p.n || '') + '</textarea><div class="saved" id="saved-' + l.id + '"></div></div>' +
+    '</div>';
+}
+function render() {
+  renderSummary(); renderCats(); renderFilters();
+  var html = '', shown = 0;
+  SECTIONS.filter(function (s) { return s.cat === cat; }).forEach(function (sec) {
+    var items = LESSONS.filter(function (l) { return l.section === sec.id && matches(l); });
+    if (!items.length) return;
+    shown += items.length;
+    html += '<div class="section' + (closed[sec.id] ? ' closed' : '') + '"><button type="button" class="sec-head" data-act="sec" data-id="' + sec.id + '">' +
+      '<div><h2>' + esc(sec.title) + '</h2><small>' + esc(sec.sub) + '</small></div><span class="car">▾</span></button>' +
+      '<div class="lessons">' + items.map(lessonHtml).join('') + '</div></div>';
+  });
+  $('list').innerHTML = html;
+  $('empty').style.display = shown ? 'none' : 'block';
+}
+
+/* ---------- actions ---------- */
+function setStatus(id, s) {
+  var p = get(id);
+  p.s = (p.s === s) ? null : s;
+  p.t = Date.now();
+  prog[id] = p; persist(); pushOne(id); render();
+}
+function openPdf(id, btn) {
+  var l = LESSONS.filter(function (x) { return x.id === id; })[0];
+  if (!l) return;
+  if (!sb || !user) { toast('Sign in on My Account first to open the PDFs.'); return; }
+  var w = window.open('', '_blank');           // open synchronously so iOS doesn't block it
+  btn.disabled = true; var old = btn.textContent; btn.textContent = 'Opening…';
+  sb.storage.from('lessons').createSignedUrl(l.file, 3600).then(function (r) {
+    btn.disabled = false; btn.textContent = old;
+    if (r.error || !r.data) { if (w) w.close(); toast('PDF not available yet — upload ' + l.file + ' to the lessons bucket.'); return; }
+    if (w) w.location = r.data.signedUrl; else window.location = r.data.signedUrl;
+  });
+}
+var saveTimers = {};
+function onNotes(ta) {
+  var id = ta.getAttribute('data-id');
+  var p = get(id); p.n = ta.value; p.t = Date.now(); prog[id] = p; persist();
+  var tag = $('saved-' + id); if (tag) tag.textContent = 'Saving…';
+  clearTimeout(saveTimers[id]);
+  saveTimers[id] = setTimeout(function () { pushOne(id); var t2 = $('saved-' + id); if (t2) t2.textContent = 'Saved'; }, 700);
+}
+
+document.addEventListener('click', function (e) {
+  var ct = e.target.closest('.cat');
+  if (ct) { cat = ct.getAttribute('data-cat'); try { localStorage.setItem('gws-lessons-cat', cat); } catch (er) {} filter = 'all'; render(); window.scrollTo(0, 0); return; }
+  var chip = e.target.closest('.chip');
+  if (chip) { filter = chip.getAttribute('data-f'); render(); return; }
+  var b = e.target.closest('[data-act]');
+  if (!b) return;
+  var act = b.getAttribute('data-act'), id = b.getAttribute('data-id');
+  if (act === 'status') setStatus(id, b.getAttribute('data-s'));
+  else if (act === 'open') openPdf(id, b);
+  else if (act === 'sec') { closed[id] = !closed[id]; render(); }
+  else if (act === 'notes') {
+    openNotes[id] = !openNotes[id];
+    var card = b.closest('.lesson'); card.classList.toggle('notes-open', !!openNotes[id]);
+    if (openNotes[id]) { var ta = card.querySelector('textarea'); if (ta) ta.focus(); }
+  }
+});
+document.addEventListener('input', function (e) { if (e.target.matches('.notes textarea')) onNotes(e.target); });
+
+/* ---------- boot / access gate ---------- */
+var OWNER_EMAIL = 'contact@gaelicwithsteve.com';
+function gate(html) {
+  document.querySelector('main').style.display = 'none';
+  var g = $('gate');
+  if (!g) { g = document.createElement('div'); g.id = 'gate'; g.className = 'card'; g.style.cssText = 'max-width:520px;margin:30px auto;padding:22px;text-align:center;line-height:1.5;'; document.body.insertBefore(g, document.querySelector('.toast')); }
+  g.innerHTML = html;
+}
+function unlock() { var g = $('gate'); if (g) g.remove(); document.querySelector('main').style.display = ''; }
+
+document.querySelector('main').style.display = 'none';   // hidden until we know who's here
+gate('Checking access…');
+if (!sb) {
+  gate('<b>Private page.</b><br>Couldn’t load the sign-in service. Please refresh.');
+} else {
+  sb.auth.getSession().then(function (r) {
+    user = r.data && r.data.session ? r.data.session.user : null;
+    if (!user) {
+      gate('<b>This page is private.</b><br>Please <a href="my-account.html" style="color:#5b2a86;font-weight:700;">sign in</a> with the owner account, then come back.');
+      return;
+    }
+    if ((user.email || '').toLowerCase() !== OWNER_EMAIL) {
+      gate('<b>This page is private.</b><br>You’re signed in with a different account, so there’s nothing to show here. <a href="index.html" style="color:#5b2a86;font-weight:700;">Back to the site</a>');
+      return;
+    }
+    unlock(); render(); setSync();
+    pull().then(render);
+  });
+}
+})();
+</script>
+</body>
+</html>
