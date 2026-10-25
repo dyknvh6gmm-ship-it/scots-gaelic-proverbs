@@ -5,3 +5,5 @@ Disallow: /blog-admin.html
 Disallow: /suggestions-admin.html
 
 Sitemap: https://www.gaelicwithsteve.com/sitemap.xml
+   User-agent: *
+   Disallow: /s-17d3aaaf45a7a559/
