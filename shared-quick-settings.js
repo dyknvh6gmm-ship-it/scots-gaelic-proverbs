@@ -188,3 +188,19 @@
     else syncThemeButtons();
   } catch(e){ syncThemeButtons(); }
 })();
+
+;(function(){
+  try{
+    var panel=document.querySelector('.nav-menu-panel'); if(!panel||panel.querySelector('[data-gws-proverbs]'))return;
+    var ref=panel.querySelector('a[href="gaelic-collection.html"]'); if(!ref)return;
+    var a=ref.cloneNode(true); a.setAttribute('href','proverbs.html'); a.setAttribute('data-gws-proverbs','1'); a.classList.remove('active');
+    var span=a.querySelector('span[data-i18n]'); if(span) span.removeAttribute('data-i18n');
+    var label=span||a;
+    function lang(){try{var r=localStorage.getItem('sf-ui-lang');return(r==='gd'||r==='"gd"')?'gd':'en';}catch(e){return 'en';}}
+    function setLabel(){label.textContent=lang()==='gd'?'Na Seanfhaclan Uile':'All Proverbs';}
+    setLabel();
+    if(/proverbs\.html$/.test(location.pathname)) a.classList.add('active');
+    ref.parentNode.insertBefore(a,ref);
+    document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('#ui-lang-en,#ui-lang-gd,[data-lang]');if(b)setTimeout(setLabel,60);});
+  }catch(e){}
+})();
