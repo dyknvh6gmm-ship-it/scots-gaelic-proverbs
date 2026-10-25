@@ -245,7 +245,7 @@
         INDEX.push({
           type: 'proverb',
           text: norm(text),
-          href: 'index.html',
+          href: 'proverbs.html',
           render: function(){
             return '<div class="sr-card"><div class="sr-type">Proverb' + (p.theme ? ' &middot; ' + esc(p.theme) : '') + '</div>' +
               (p.scots && p.scots.text ? '<div class="sr-line"><strong>Scots:</strong> ' + esc(p.scots.text) + '</div>' : '') +
@@ -314,7 +314,7 @@
     }
 
     function loadAll(){
-      var pages = ['index.html', 'grammar.html', 'gaelic-collection.html', 'scots-collection.html'];
+      var pages = ['proverbs.html', 'grammar.html', 'gaelic-collection.html', 'scots-collection.html'];
       Promise.all(pages.map(function(p){
         return fetch(p + '?cb=' + Date.now()).then(function(r){ return r.text(); }).catch(function(){ return ''; });
       })).then(function(htmls){
