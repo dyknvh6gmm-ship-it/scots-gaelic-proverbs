@@ -314,7 +314,7 @@
     }
 
     function loadAll(){
-      var pages = ['proverbs.html', 'grammar.html', 'gaelic-collection.html', 'scots-collection.html'];
+      var pages = ['proverbs.html', 'grammar.html', 'gaelic-collection.html', 'scots-collection.html', 'everyday-phrases.html'];
       Promise.all(pages.map(function(p){
         return fetch(p + '?cb=' + Date.now()).then(function(r){ return r.text(); }).catch(function(){ return ''; });
       })).then(function(htmls){
@@ -322,6 +322,7 @@
         addGrammar(extractJsonBlock(htmls[1], 'grammar-data'));
         addCollection(extractJsonBlock(htmls[2], 'collection-data'), 'gaelic', 'gaelic-collection.html', 'Gaelic Collection');
         addCollection(extractJsonBlock(htmls[3], 'collection-data'), 'scots', 'scots-collection.html', 'Scots Collection');
+        addCollection(extractJsonBlock(htmls[4], 'collection-data'), 'gaelic', 'everyday-phrases.html', 'Everyday Phrases');
         return sfClient ? sfClient.from('blog_posts').select('*').order('published_at', { ascending: false }) : Promise.resolve({ data: [] });
       }).then(function(res){
         addBlogPosts(res && res.data);
