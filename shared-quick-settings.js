@@ -204,3 +204,20 @@
     document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('#ui-lang-en,#ui-lang-gd,[data-lang]');if(b)setTimeout(setLabel,60);});
   }catch(e){}
 })();
+
+;(function(){
+  try{
+    var panel=document.querySelector('.nav-menu-panel'); if(!panel||panel.querySelector('[data-gws-phrases]'))return;
+    var ref=panel.querySelector('a[href="grammar.html"]'); if(!ref)return;
+    var a=ref.cloneNode(true); a.removeAttribute('id'); a.setAttribute('href','everyday-phrases.html'); a.setAttribute('data-gws-phrases','1'); a.classList.remove('active');
+    Array.prototype.forEach.call(a.querySelectorAll('[id]'),function(n){n.removeAttribute('id');});
+    var span=a.querySelector('.label, span[data-i18n]'); if(span) span.removeAttribute('data-i18n');
+    var label=span||a;
+    function lang(){try{var r=localStorage.getItem('sf-ui-lang');return(r&&r.indexOf('gd')>=0)?'gd':'en';}catch(e){return 'en';}}
+    function setLabel(){label.textContent=lang()==='gd'?'Abairtean Làitheil':'Everyday Phrases';}
+    setLabel();
+    if(/everyday-phrases\.html$/.test(location.pathname)) a.classList.add('active');
+    ref.parentNode.insertBefore(a,ref.nextSibling);
+    document.addEventListener('click',function(e){var b=e.target&&e.target.closest&&e.target.closest('#ui-lang-en,#ui-lang-gd,[data-lang]');if(b)setTimeout(setLabel,80);});
+  }catch(e){}
+})();
